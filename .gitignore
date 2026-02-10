@@ -24,10 +24,10 @@ pnpm-debug.log*
 .idea/
 
 # VS Code settings
-.vscode/
+.vscode/*
 
 # GitHub Copilot agents
-.agents/
+.agents/*
 
 # Vercel build output
-.vercel/
+.vercel/*
