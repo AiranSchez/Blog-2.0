@@ -2,7 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/layout/Header.astro';
 import Footer from '../../components/layout/Footer.astro';
-import ParallaxSection from '../../components/decorators/ParallaxSection.astro';
+import Parallax from '../../components/decorators/Parallax.tsx';
 import ScrollReveal from '../../components/decorators/ScrollReveal.tsx';
 import AuroraBackground from '../../components/decorators/AuroraBackground.tsx';
 import Card from '../../components/ui/Card.astro';
@@ -60,7 +60,7 @@ import aboutImageUrl from '../../assets/images/profile/DSC01235.jpg?url';
   
   <main id="main-content" class="relative">
     <!-- Hero Section with Parallax -->
-    <ParallaxSection delay={0}>
+    <Parallax speed={0.3} client:load>
       <AuroraBackground 
         className="min-h-[calc(100vh-5rem)]"
         client:load
@@ -128,10 +128,10 @@ import aboutImageUrl from '../../assets/images/profile/DSC01235.jpg?url';
         </div>
       </section>
       </AuroraBackground>
-    </ParallaxSection>
+    </Parallax>
 
     <!-- Projects Section -->
-    <ParallaxSection delay={100}>
+    <Parallax speed={-0.2} client:load>
       <section class="py-12 sm:py-20 bg-alabaster dark:bg-carbon transition-colors relative shadow-2xl" aria-labelledby="projects-heading">
       <div class="container mx-auto px-4 sm:px-6 max-w-7xl">
         <h2 id="projects-heading" class="text-4xl font-bold text-center mb-12 text-stormy dark:text-seaweed">
@@ -197,10 +197,10 @@ import aboutImageUrl from '../../assets/images/profile/DSC01235.jpg?url';
         </div>
       </div>
     </section>
-    </ParallaxSection>
+    </Parallax>
 
     <!-- Experience Section -->
-    <ParallaxSection delay={100}>
+    <Parallax speed={0.4} client:load>
     <AuroraBackground className="py-12 sm:py-20" client:load>
     <section class="py-12 sm:py-20 transition-colors relative" aria-labelledby="experience-heading">
       <div class="container mx-auto px-4 sm:px-6 max-w-7xl">
@@ -225,11 +225,11 @@ import aboutImageUrl from '../../assets/images/profile/DSC01235.jpg?url';
       </div>
     </section>
     </AuroraBackground>
-    </ParallaxSection>
+    </Parallax>
 
     <!-- About Section -->
     {AboutContent && (
-      <ParallaxSection delay={100}>
+      <Parallax speed={-0.2} client:load>
       <section class="py-12 sm:py-20 bg-alabaster dark:bg-carbon transition-colors relative shadow-2xl" aria-labelledby="about-heading">
         <div class="container mx-auto px-4 sm:px-6 max-w-7xl">
           <h2 id="about-heading" class="text-4xl font-bold text-center mb-12 text-stormy dark:text-seaweed">
@@ -255,11 +255,11 @@ import aboutImageUrl from '../../assets/images/profile/DSC01235.jpg?url';
           </div>
         </div>
       </section>
-      </ParallaxSection>
+      </Parallax>
     )}
 
     <!-- Recent Posts Section -->
-    <ParallaxSection delay={100}>
+    <Parallax speed={0.4} client:load>
       <AuroraBackground className="py-12 sm:py-20" client:load>
       <section class="py-12 sm:py-20 transition-colors relative" aria-labelledby="blog-heading">
       <div class="container mx-auto px-4 sm:px-6 max-w-7xl">
@@ -342,10 +342,10 @@ import aboutImageUrl from '../../assets/images/profile/DSC01235.jpg?url';
       </div>
     </section>
     </AuroraBackground>
-    </ParallaxSection>
+    </Parallax>
 
     <!-- Contact Section -->
-    <ParallaxSection delay={100}>
+    <Parallax speed={-0.1} client:load>
     <section id="contact" class="py-20 bg-alabaster dark:bg-carbon transition-colors relative shadow-2xl" aria-labelledby="contact-heading">
       <div class="container mx-auto px-4 max-w-4xl">
         <div class="max-w-2xl mx-auto">
@@ -411,7 +411,7 @@ import aboutImageUrl from '../../assets/images/profile/DSC01235.jpg?url';
         </div>
       </div>
     </section>
-    </ParallaxSection>
+    </Parallax>
   </main>
 
   <Footer />

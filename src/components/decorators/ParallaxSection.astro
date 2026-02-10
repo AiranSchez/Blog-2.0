@@ -1,14 +1,95 @@
 ---
-// ParallaxSection disabled for performance
-// Simply acts as a passthrough wrapper now
 interface Props {
   speed?: number;
   delay?: number;
+  class?: string;
 }
 
-const { speed = 0.3, delay = 0 } = Astro.props;
+const { speed = 0.3, delay = 0, class: className = '' } = Astro.props;
+const uniqueId = `parallax-${Math.random().toString(36).substr(2, 9)}`;
 ---
 
-<div>
+<div 
+  class={`parallax-section ${className}`}
+  data-parallax-id={uniqueId}
+  data-parallax-speed={speed}
+  data-parallax-delay={delay}
+  style="will-change: transform;"
+>
   <slot />
 </div>
+
+<script>
+  // Initialize parallax effect
+  function initParallax() {
+    const parallaxSections = document.querySelectorAll('.parallax-section');
+    
+    if (parallaxSections.length === 0) return;
+    
+    function updateParallax() {
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      
+      parallaxSections.forEach((section) => {
+        const element = section as HTMLElement;
+        const speed = parseFloat(element.dataset.parallaxSpeed || '0.3');
+        const delayOffset = parseFloat(element.dataset.parallaxDelay || '0');
+        
+        const rect = element.getBoundingClientRect();
+        const elementTop = rect.top + scrollY;
+        
+        // Check if element is in or near viewport
+        if (rect.top < windowHeight + 200 && rect.bottom > -200) {
+          // Calculate parallax offset based on scroll position
+          const distance = scrollY - elementTop + windowHeight / 2;
+          const offset = distance * speed + delayOffset;
+          
+          element.style.transform = `translate3d(0, ${offset}px, 0)`;
+        }
+      });
+    }
+    
+    // Throttle scroll events for better performance
+    let ticking = false;
+    function requestTick() {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          updateParallax();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }
+    
+    // Initial update
+    updateParallax();
+    
+    // Listen to scroll events with passive flag for better performance
+    window.addEventListener('scroll', requestTick, { passive: true });
+    
+    // Update on resize
+    let resizeTimer: number;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(() => {
+        updateParallax();
+      }, 100);
+    });
+  }
+  
+  // Run on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initParallax);
+  } else {
+    initParallax();
+  }
+  
+  // Re-initialize on view transitions if using Astro's view transitions
+  document.addEventListener('astro:page-load', initParallax);
+</script>
+
+<style>
+  .parallax-section {
+    transition: transform 0.05s linear;
+  }
+</style>
