@@ -18,17 +18,17 @@ El juntar a varios miembros del equipo **trae más beneficios que inconvenientes
 
 * Mientras 1 programa, la otra persona revisa por si me he despistado y he escrito algo mal que el IDE no me notifica
 * Se pueden debatir las ideas y escoger la que más se acerque a lo que buscamos
-* Se forja un compañerismo propio de un equipo y dejamos de lado el estereotipo de que l@s programdor@s nos aislamos. Además nos ayudar a comunicarnos mejor. 
-* Se pueden alternar roles de driver y navigator y así evitar poner el "piloto automático" 
+* Se forja un compañerismo propio de un equipo y dejamos de lado el estereotipo de que l@s programdor@s nos aislamos. Además nos ayudar a comunicarnos mejor.
+* Se pueden alternar roles de driver y navigator y así evitar poner el "piloto automático".
 * Se aprende recíprocamente y se complementan conocimientos (Lo que no sepas hacer tu podría saberlo yo y viceversa)
 * Reduce tiempo de feedback al preguntar directamente a la persona y no tener que levantarme a la mesa de mi compañero/a a preguntar cada 2 por 3 si lo comparamos con realizar tareas individuales.
 * Te aporta nuevas formas de pensar
 
-Todos hemos escuchado el dicho "4 ojos ven mejor que 2" o "2 cabezas piensan mejor que 1". Pues se aplica exactamente igual cuando practicamos Pair/Mob. **Podemos estar tranquilos** de no meter la pata e ir por un camino equivocado ya que se ponen **todas las ideas sobre la mesa** y escogen la más adecuada al problema que van a resolver. 
+Todos hemos escuchado el dicho "4 ojos ven mejor que 2" o "2 cabezas piensan mejor que 1". Pues se aplica exactamente igual cuando practicamos Pair/Mob. **Podemos estar tranquilos** de no meter la pata e ir por un camino equivocado ya que se ponen **todas las ideas sobre la mesa** y escogen la más adecuada al problema que van a resolver.
 
 De la mano al Pair/Mob va el **testing**, término muy importante que no todo el mundo aplica en sus desarrollos y que provoca que un programa sea un infierno mantenerlo y/o actualizarlo. Estas metodologías al practicarlas diariamente en grupo van evitando futuros dolores de cabeza y te avisan cuando algo que se ha modificado puede romperlo todo. **Ayuda mucho a localizar el problema** cuando fallan cosas y no sabes ni por donde empezar (Con un programa de 100 líneas no hay problema, pero cuando trabajas con 1 millón ya no nos reímos tanto :laughing: )
 
-Una cosa que comenta Carlos en los episodios y creo que es de vital importancia es que si tomas el rol de navigator, deja que el driver **termine de sacar la idea de su cabeza** y, a poder ser, **evita interrumpir su flujo de pensamiento**. Ya luego cuando haya una pausa le comentas la idea o la sugerencia que se te vino a la mente (anótala para que no se te olvide). 
+Una cosa que comenta Carlos en los episodios y creo que es de vital importancia es que si tomas el rol de navigator, deja que el driver **termine de sacar la idea de su cabeza** y, a poder ser, **evita interrumpir su flujo de pensamiento**. Ya luego cuando haya una pausa le comentas la idea o la sugerencia que se te vino a la mente (anótala para que no se te olvide).
 
 Si se da el caso en Mob programming, es mejor debatir primero la idea y no ir soltándolas de golpe porque el driver se va a saturar y llegará el punto en el que no sabrá qué escribir ni qué idea era la que tenía que implementar.
 

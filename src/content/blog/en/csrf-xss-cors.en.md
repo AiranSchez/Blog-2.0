@@ -21,9 +21,9 @@ CSRF stands for **Cross Site Request Forgery** and is also known as XSRF. **It�
 
 An example would be someone accessing your email from your browser and redirecting the inbox to another email address (potentially exposing personal messages).
 
-![](https://airanschez.files.wordpress.com/2020/07/1_wi0jgx4-dbt7mxupgatf7w.png?w=640 " ")
+![CSRF attack example diagram showing the flow from attacker creating malicious code to bank processing the fraudulent request](https://airanschez.files.wordpress.com/2020/07/1_wi0jgx4-dbt7mxupgatf7w.png?w=640 "CSRF attack example")
 
-**CSRF attack example**
+### CSRF attack example
 
 The image illustrates the attacker’s procedure:
 
@@ -46,9 +46,9 @@ It works like this: A client requests information from server A, which responds 
 
 Additionally, the HTTP headers mentioned above are usually set automatically, except for four that can be manually defined: Accept, Accept-Language, Content-Language, and Content-Type.
 
-![](https://airanschez.files.wordpress.com/2020/07/angular_nginx_cors.png?w=800 " ")
+![CORS example diagram showing a client requesting a CSS file from the same domain and a WOFF font from an external domain](https://airanschez.files.wordpress.com/2020/07/angular_nginx_cors.png?w=800 "CORS example")
 
-**CORS example**
+### CORS example
 
 The image clearly shows how CORS works: a client retrieves a .CSS file from its own server (same domain) without issue. However, it also tries to get a .WOFF font from **another domain**, and **CORS allows it** because the requesting domain is specified, the request header grants access to any origin, and it’s a GET request (which doesn’t conflict with CORS).
 

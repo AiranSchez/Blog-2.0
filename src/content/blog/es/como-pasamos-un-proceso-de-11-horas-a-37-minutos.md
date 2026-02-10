@@ -108,14 +108,16 @@ Esto en código no tiene mucho sentido ponerlo pero los resultados hablan por s�
 
 Y por si fuese de interés, este planteamiento lo extendimos a los procesos que preceden. Les dejo una tabla con las mejoras de tiempo:
 
-**Antes**
+### Antes
+
 |             | Proceso 1 | Proceso 2 | Proceso 3 | Tiempo total |
 |-------------|-----------|-----------|-----------|--------------|
 | Proveedor A | ~20 min   | ~8h50min  | ~11 horas | 20h10min     |
 | Proveedor B | ~20 min   | ~3h30min  | ~11 horas | 14h50min     |
 | Proveedor C | ~10 min   | ~7h       | ~11 horas | 11h17min     |
 
-**Después**
+### Después
+
 |             | Proceso 1 | Proceso 2 | Proceso 3 | Tiempo total |
 |-------------|-----------|-----------|-----------|--------------|
 | Proveedor A | ~20 min   | ~1h       | ~1-2h     | 3h20min      |

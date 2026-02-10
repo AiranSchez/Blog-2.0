@@ -20,7 +20,7 @@ Son las siglas de **Cross Site Request Forgery** (Falsificación de solicitud de
 
 Un ejemplo de este ataque sería que una persona puede entrar a tu correo desde tu navegador y redirigir la bandeja de entrada a otro correo (Filtrando así posibles mensajes con información personal).
 
-![](https://airanschez.files.wordpress.com/2020/07/1_wi0jgx4-dbt7mxupgatf7w.png?w=640 " ")
+![Ejemplo de ataque CSRF](https://airanschez.files.wordpress.com/2020/07/1_wi0jgx4-dbt7mxupgatf7w.png?w=640 "Ejemplo de ataque CSRF")
 
 Ejemplo de ataque CSRF
 
@@ -45,7 +45,7 @@ Su funcionamiento se basa en: Se quiere obtener información de un servidor A y 
 
 Además, las cabeceras HTTP nombradas anteriormente se establecen automáticamente salvo 4 que podemos fijar de forma manual: Accept, Accept-Language, Content-Language y Content-Type.
 
-![](https://airanschez.files.wordpress.com/2020/07/angular_nginx_cors.png?w=800 " ")
+![Ejemplo funcionamiento CORS](https://airanschez.files.wordpress.com/2020/07/angular_nginx_cors.png?w=800 "Ejemplo funcionamiento CORS")
 
 Ejemplo funcionamiento CORS
 

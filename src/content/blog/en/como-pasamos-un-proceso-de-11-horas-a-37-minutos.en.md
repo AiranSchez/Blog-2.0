@@ -75,8 +75,9 @@ result_dataframe = processed_dataset.repartition(partition_size=self._partition_
 ## Why set partition size instead of a fixed number of files?
 
 Good question. Dask allows two ways to partition: `npartitions` and `partition_size`.
-- `npartitions` fixes the exact number of partitions.
-- `partition_size` fixes the maximum size of each partition and forces processing of the Dask DataFrame. This may seem negative because it uses more resources and time, but in our case, processing was inevitable since saving transforms it to Pandas (Dask is built on Pandas).
+
+* `npartitions` fixes the exact number of partitions.
+* `partition_size` fixes the maximum size of each partition and forces processing of the Dask DataFrame. This may seem negative because it uses more resources and time, but in our case, processing was inevitable since saving transforms it to Pandas (Dask is built on Pandas).
 
 > TL;DR: Repartitioning was tricky, so we read a lot of documentation to choose the best approach.
 
@@ -89,7 +90,6 @@ Until we found this line of code:
 ```python
 dataframe.set_index(provider_priority_column)
 ```
-
 
 What does set_index do? -> It sorts the dataframe based on the parameter you specify. In this case, since we want to filter data based on providers, we want to sort them based on some numbers. For example:
 
@@ -109,14 +109,16 @@ As mentioned before, the process takes 3 datasets and combines them into 1 to pr
 
 And if you're interested, we extended this approach to the preceding processes. Here's a table with the time improvements:
 
-**Before**
+### Before
+
 |             | Process 1 | Process 2 | Process 3 | Total time   |
 |-------------|-----------|-----------|-----------|--------------|
 | Provider  A | ~20 min   | ~8h50min  | ~11 horas | 20h10min     |
 | Provider  B | ~20 min   | ~3h30min  | ~11 horas | 14h50min     |
 | Provider  C | ~10 min   | ~7h       | ~11 horas | 11h17min     |
 
-**After**
+### After
+
 |             | Process 1 | Process 2 | Process 3 | Total time   |
 |-------------|-----------|-----------|-----------|--------------|
 | Provider  A | ~20 min   | ~1h       | ~1-2h     | 3h20min      |

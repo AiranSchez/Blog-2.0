@@ -28,9 +28,9 @@ pd.write
 pd.merge  
 pd.concat
 
-## Operaciones básicas con Pandas 
+## Operaciones básicas con Pandas
 
-Las operaciones más comunes que se me vienen a la cabeza son: 
+Las operaciones más comunes que se me vienen a la cabeza son:
 
 * Checkear el DataFrame en busca de valores nulos
 * contar valores
@@ -53,6 +53,6 @@ Operaciones básicas
 \- df.rename  
 \- df.drop
 
-## 
+##
 
-## Testing con pandas 
+## Testing con pandas
