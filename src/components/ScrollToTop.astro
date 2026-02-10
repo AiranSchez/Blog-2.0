@@ -1,0 +1,48 @@
+---
+// Scroll to Top button - appears when user scrolls down
+---
+
+<button
+  id="scroll-to-top"
+  type="button"
+  aria-label="Scroll to top"
+  class="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full bg-stormy hover:bg-stormy-600 text-white shadow-lg hover:shadow-xl transition-all duration-300 opacity-0 pointer-events-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stormy focus-visible:ring-offset-2"
+>
+  <svg class="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
+  </svg>
+</button>
+
+<script>
+  const scrollToTopBtn = document.getElementById('scroll-to-top');
+  
+  if (scrollToTopBtn) {
+    // Show/hide button based on scroll position
+    const toggleVisibility = () => {
+      if (window.scrollY > 300) {
+        scrollToTopBtn.classList.remove('opacity-0', 'pointer-events-none');
+        scrollToTopBtn.classList.add('opacity-100', 'pointer-events-auto');
+      } else {
+        scrollToTopBtn.classList.remove('opacity-100', 'pointer-events-auto');
+        scrollToTopBtn.classList.add('opacity-0', 'pointer-events-none');
+      }
+    };
+
+    // Scroll to top smoothly
+    const scrollToTop = () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    };
+
+    // Listen for scroll events
+    window.addEventListener('scroll', toggleVisibility, { passive: true });
+    
+    // Listen for click
+    scrollToTopBtn.addEventListener('click', scrollToTop);
+
+    // Check initial scroll position
+    toggleVisibility();
+  }
+</script>

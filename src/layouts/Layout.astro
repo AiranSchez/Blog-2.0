@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import ScrollToTop from '../components/ScrollToTop.astro';
 // ViewTransitions disabled for performance
 // import { ViewTransitions } from 'astro:transitions';
 
@@ -92,5 +93,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   </head>
   <body class="bg-alabaster dark:bg-carbon text-carbon dark:text-alabaster transition-colors duration-300">
     <slot />
+    <ScrollToTop />
   </body>
 </html>
