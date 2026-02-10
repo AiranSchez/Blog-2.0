@@ -1,0 +1,9 @@
+{
+  "title": "プロジェクトアルファ",
+  "description": "最新技術で構築されたフルスタックウェブアプリケーション。これはプレースホルダープロジェクトです。",
+  "tech": ["React", "Node.js", "PostgreSQL", "TypeScript"],
+  "githubUrl": "https://github.com/yourusername/project-alpha",
+  "demoUrl": "https://project-alpha-demo.com",
+  "featured": true,
+  "locale": "ja"
+}

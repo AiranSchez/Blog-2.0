@@ -1,0 +1,75 @@
+---
+import '../styles/global.css';
+import { ViewTransitions } from 'astro:transitions';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  lang?: 'en' | 'es' | 'ja';
+}
+
+const { 
+  title, 
+  description = 'Full-Stack Web Developer Portfolio', 
+  image = '/og-image.jpg',
+  lang = 'en'
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang={lang} class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalURL} />
+    
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.url)} />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={Astro.url} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={new URL(image, Astro.url)} />
+    
+    <!-- Alternate languages -->
+    <link rel="alternate" hreflang="en" href={new URL('/en' + Astro.url.pathname.replace(/^\/(en|es|ja)/, ''), Astro.site)} />
+    <link rel="alternate" hreflang="es" href={new URL('/es' + Astro.url.pathname.replace(/^\/(en|es|ja)/, ''), Astro.site)} />
+    <link rel="alternate" hreflang="ja" href={new URL('/ja' + Astro.url.pathname.replace(/^\/(en|es|ja)/, ''), Astro.site)} />
+    
+    <ViewTransitions />
+    
+    <script is:inline>
+      // Initialize theme on load and after transitions
+      function initTheme() {
+        const theme = localStorage.getItem('theme') || 'light';
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      }
+      
+      // Run on initial load
+      initTheme();
+      
+      // Run after each view transition
+      document.addEventListener('astro:after-swap', initTheme);
+    </script>
+  </head>
+  <body class="bg-alabaster dark:bg-carbon text-carbon dark:text-alabaster transition-colors duration-300">
+    <slot />
+  </body>
+</html>

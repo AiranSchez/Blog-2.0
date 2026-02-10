@@ -1,0 +1,8 @@
+{
+  "title": "Proyecto Beta",
+  "description": "Una solución innovadora para desafíos modernos de desarrollo web. Este es un proyecto placeholder.",
+  "tech": ["Vue.js", "Express", "MongoDB", "TailwindCSS"],
+  "githubUrl": "https://github.com/yourusername/project-beta",
+  "featured": true,
+  "locale": "es"
+}

@@ -1,0 +1,130 @@
+export const languages = {
+  en: 'English',
+  es: 'Español',
+  ja: '日本語',
+} as const;
+
+export type Language = keyof typeof languages;
+
+export const defaultLang: Language = 'en';
+
+export function getLangFromUrl(url: URL): Language {
+  const [, lang] = url.pathname.split('/');
+  if (lang in languages) return lang as Language;
+  return defaultLang;
+}
+
+export function useTranslations(lang: Language) {
+  return function t(key: keyof typeof ui[Language]): string {
+    const translations = ui[lang];
+    return translations[key] || key;
+  };
+}
+
+export const ui = {
+  en: {
+    'nav.home': 'Home',
+    'nav.blog': 'Blog',
+    'nav.projects': 'Projects',
+    'nav.experience': 'Experience',
+    'nav.about': 'About',
+    'nav.contact': 'Contact',
+    'hero.greeting': 'Hi, I\'m',
+    'hero.subtitle': 'Full-Stack Web Developer',
+    'projects.title': 'Featured Projects',
+    'projects.viewGithub': 'View on GitHub',
+    'projects.viewDemo': 'Live Demo',
+    'experience.title': 'Experience',
+    'experience.present': 'Present',
+    'experience.collaborator': 'Collaborator',
+    'about.title': 'About Me',
+    'blog.title': 'Latest Posts',
+    'blog.readMore': 'Read More',
+    'blog.viewAll': 'View All Posts',
+    'blog.searchPlaceholder': 'Search posts...',
+    'contact.title': 'Get In Touch',
+    'contact.subtitle': 'Let\'s talk',
+    'contact.name': 'Name',
+    'contact.email': 'Email',
+    'contact.message': 'Message',
+    'contact.send': 'Send Message',
+    'contact.sending': 'Sending...',
+    'contact.success': 'Message sent successfully!',
+    'contact.error': 'Error sending message. Please try again.',
+    'footer.social': 'Follow Me',
+    'footer.madeIn': 'Made in Canary Islands and Japan',
+    '404.title': 'Page Not Found',
+    '404.description': 'The page you\'re looking for doesn\'t exist.',
+    '404.home': 'Go Home',
+  },
+  es: {
+    'nav.home': 'Inicio',
+    'nav.blog': 'Blog',
+    'nav.projects': 'Proyectos',
+    'nav.experience': 'Experiencia',
+    'nav.about': 'Sobre mí',
+    'nav.contact': 'Contacto',
+    'hero.greeting': 'Hola, soy',
+    'hero.subtitle': 'Desarrollador Web Full-Stack',
+    'projects.title': 'Proyectos Destacados',
+    'projects.viewGithub': 'Ver en GitHub',
+    'projects.viewDemo': 'Ver Demo',
+    'experience.title': 'Experiencia',
+    'experience.present': 'Actualidad',
+    'experience.collaborator': 'Colaborador',
+    'about.title': 'Sobre mí',
+    'blog.title': 'Últimos Posts',
+    'blog.readMore': 'Leer Más',
+    'blog.viewAll': 'Ver Todos los Posts',
+    'blog.searchPlaceholder': 'Buscar posts...',
+    'contact.title': 'Hablemos',
+    'contact.subtitle': 'Ponte en contacto',
+    'contact.name': 'Nombre',
+    'contact.email': 'Email',
+    'contact.message': 'Mensaje',
+    'contact.send': 'Enviar Mensaje',
+    'contact.sending': 'Enviando...',
+    'contact.success': '¡Mensaje enviado con éxito!',
+    'contact.error': 'Error al enviar el mensaje. Inténtalo de nuevo.',
+    'footer.social': 'Sígueme',
+    'footer.madeIn': 'Hecho en Canarias y Japón',
+    '404.title': 'Página No Encontrada',
+    '404.description': 'La página que buscas no existe.',
+    '404.home': 'Ir al Inicio',
+  },
+  ja: {
+    'nav.home': 'ホーム',
+    'nav.blog': 'ブログ',
+    'nav.projects': 'プロジェクト',
+    'nav.experience': '経験',
+    'nav.about': '私について',
+    'nav.contact': 'お問い合わせ',
+    'hero.greeting': 'こんにちは、',
+    'hero.subtitle': 'フルスタックウェブデベロッパー',
+    'projects.title': '注目のプロジェクト',
+    'projects.viewGithub': 'GitHubで見る',
+    'projects.viewDemo': 'デモを見る',
+    'experience.title': '経験',
+    'experience.present': '現在',
+    'experience.collaborator': 'コラボレーター',
+    'about.title': '私について',
+    'blog.title': '最新の投稿',
+    'blog.readMore': 'もっと読む',
+    'blog.viewAll': 'すべての投稿を見る',
+    'blog.searchPlaceholder': '投稿を検索...',
+    'contact.title': 'お問い合わせ',
+    'contact.subtitle': 'お話ししましょう',
+    'contact.name': '名前',
+    'contact.email': 'メール',
+    'contact.message': 'メッセージ',
+    'contact.send': 'メッセージを送信',
+    'contact.sending': '送信中...',
+    'contact.success': 'メッセージが正常に送信されました！',
+    'contact.error': 'メッセージの送信エラー。もう一度お試しください。',
+    'footer.social': 'フォローする',
+    'footer.madeIn': 'カナリア諸島と日本で作成',
+    '404.title': 'ページが見つかりません',
+    '404.description': 'お探しのページは存在しません。',
+    '404.home': 'ホームへ',
+  },
+} as const;

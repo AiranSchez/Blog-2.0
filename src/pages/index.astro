@@ -1,0 +1,21 @@
+---
+// Redirect to English by default in static mode
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content="0; url=/en/" />
+    <script>
+      // Client-side language detection
+      const browserLang = navigator.language.substring(0, 2);
+      const supportedLangs = ['en', 'es', 'ja'];
+      const targetLang = supportedLangs.includes(browserLang) ? browserLang : 'en';
+      window.location.href = `/${targetLang}/`;
+    </script>
+  </head>
+  <body>
+    <p>Redirecting...</p>
+  </body>
+</html>

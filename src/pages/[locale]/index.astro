@@ -1,0 +1,298 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import ParallaxSection from '../../components/ParallaxSection.astro';
+import { getCollection } from 'astro:content';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return [
+    { params: { locale: 'en' } },
+    { params: { locale: 'es' } },
+    { params: { locale: 'ja' } }
+  ];
+}
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// Get content
+const allExperiences = await getCollection('experience');
+const experiences = allExperiences
+  .filter(exp => exp.data.locale === lang)
+  .sort((a, b) => {
+    // Sort by startDate descending (most recent first)
+    return b.data.startDate.localeCompare(a.data.startDate);
+  });
+
+const allProjects = await getCollection('projects');
+const projects = allProjects.filter(proj => proj.data.locale === lang && proj.data.featured);
+
+const allPosts = await getCollection('blog');
+const recentPosts = allPosts
+  .filter(post => !post.data.draft && post.id.startsWith(`${lang}/`))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const aboutEntry = await getCollection('about');
+const about = aboutEntry.find(entry => entry.id === `${lang}.mdx`);
+const { Content: AboutContent } = about ? await about.render() : { Content: null };
+
+import profileImageUrl from '../../assets/images/profile/DSC01226.jpg?url';
+import aboutImageUrl from '../../assets/images/profile/DSC01235.jpg?url';
+---
+
+<Layout title={`Airán - ${t('hero.subtitle')}`} description={t('hero.subtitle')} lang={lang}>
+  <Header />
+  
+  <main class="relative">
+    <!-- Hero Section with Parallax -->
+    <ParallaxSection delay={0}>
+      <section class="min-h-[calc(100vh-5rem)] flex items-center justify-center relative bg-gradient-to-br from-stormy via-seaweed to-muted dark:from-carbon dark:via-stormy dark:to-seaweed">
+        <div class="container mx-auto px-4 max-w-4xl relative z-10">
+          <div class="grid md:grid-cols-2 gap-2 md:gap-4 items-center">
+            <!-- Text Content (Left) -->
+            <div class="text-center md:text-left">
+              <h1 class="text-5xl md:text-7xl font-bold text-white mb-4">
+                {t('hero.greeting')} <span class="text-alabaster">Airán</span>
+              </h1>
+              <p class="text-2xl md:text-3xl text-alabaster/90 mb-8">
+                {t('hero.subtitle')}
+              </p>
+              <div class="flex gap-4 justify-center md:justify-start">
+                <a href={`/${lang}/blog/`} class="px-6 py-3 bg-white text-stormy rounded-lg font-semibold hover:bg-alabaster transition-colors">
+                  {t('nav.blog')}
+                </a>
+                <a href="#contact" class="px-6 py-3 border-2 border-white text-white rounded-lg font-semibold hover:bg-white/10 transition-colors">
+                  {t('nav.contact')}
+                </a>
+              </div>
+            </div>
+            
+            <!-- Hero Image (Right) -->
+            <div class="flex justify-center md:justify-end">
+              <div class="relative">
+                <img 
+                  src={profileImageUrl} 
+                  alt="Airán Sanchez" 
+                  width="400" 
+                  height="400"
+                  class="rounded-full shadow-2xl ring-4 ring-white/20"
+                />
+                <!-- Decorative elements around image -->
+                <div class="absolute -z-10 top-4 left-4 w-full h-full rounded-full bg-seaweed/30 blur-xl"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Decorative SVG -->
+        <div class="absolute inset-0 opacity-10">
+          <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="1"/>
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#grid)" />
+          </svg>
+        </div>
+      </section>
+    </ParallaxSection>
+
+    <!-- Projects Section -->
+    <ParallaxSection delay={100}>
+      <section class="py-20 bg-alabaster dark:bg-carbon transition-colors">
+      <div class="container mx-auto px-4 max-w-7xl">
+        <h2 class="text-4xl font-bold text-center mb-12 text-stormy dark:text-seaweed">
+          {t('projects.title')}
+        </h2>
+        <div class="grid md:grid-cols-2 gap-8">
+          {projects.map((project) => (
+            <div class="bg-white dark:bg-stormy/20 rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow border border-muted/20 dark:border-stormy/40">
+              <h3 class="text-2xl font-bold mb-3 text-stormy dark:text-seaweed">{project.data.title}</h3>
+              <p class="text-carbon/80 dark:text-alabaster/80 mb-4">{project.data.description}</p>
+              <div class="flex flex-wrap gap-2 mb-4">
+                {project.data.tech.map((tech) => (
+                  <span class="px-3 py-1 bg-muted/30 dark:bg-seaweed/20 text-sm rounded-full text-carbon dark:text-alabaster">
+                    {tech}
+                  </span>
+                ))}
+              </div>
+              <div class="flex gap-4">
+                {project.data.githubUrl && (
+                  <a href={project.data.githubUrl} target="_blank" rel="noopener noreferrer" 
+                     class="text-stormy dark:text-seaweed hover:underline">
+                    {t('projects.viewGithub')}
+                  </a>
+                )}
+                {project.data.demoUrl && (
+                  <a href={project.data.demoUrl} target="_blank" rel="noopener noreferrer"
+                     class="text-stormy dark:text-seaweed hover:underline">
+                    {t('projects.viewDemo')}
+                  </a>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+    </ParallaxSection>
+
+    <!-- Experience Section -->
+    <ParallaxSection delay={100}>
+    <section class="py-20 bg-white dark:bg-stormy/10 transition-colors">
+      <div class="container mx-auto px-4 max-w-7xl">
+        <h2 class="text-4xl font-bold text-center mb-12 text-stormy dark:text-seaweed">
+          {t('experience.title')}
+        </h2>
+        <div class="max-w-3xl mx-auto space-y-8">
+          {experiences.map((exp, index) => (
+            <div class="relative pl-8 border-l-2 border-stormy dark:border-seaweed">
+              <div class="absolute -left-2 top-0 w-4 h-4 rounded-full bg-stormy dark:bg-seaweed"></div>
+              <h3 class="text-2xl font-bold text-stormy dark:text-seaweed mb-1">{exp.data.company}</h3>
+              <p class="text-lg font-semibold text-carbon/80 dark:text-alabaster/80 mb-1">{t('experience.collaborator')} · {exp.data.role}</p>
+              <p class="text-sm text-carbon/60 dark:text-alabaster/60 mb-2">
+                {exp.data.startDate} - {exp.data.endDate || t('experience.present')}
+              </p>
+              {exp.data.description && (
+                <p class="text-carbon/70 dark:text-alabaster/70">{exp.data.description}</p>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+    </ParallaxSection>
+
+    <!-- About Section -->
+    {AboutContent && (
+      <ParallaxSection delay={100}>
+      <section class="py-20 bg-alabaster dark:bg-carbon transition-colors">
+        <div class="container mx-auto px-4 max-w-7xl">
+          <div class="max-w-4xl mx-auto">
+            <div class="flex flex-col md:flex-row gap-8 items-start">
+              <div class="flex-shrink-0">
+                <img 
+                  src={aboutImageUrl} 
+                  alt="Airán" 
+                  width="200" 
+                  height="200"
+                  class="rounded-full shadow-lg"
+                />
+              </div>
+              <div class="prose prose-lg dark:prose-invert max-w-none">
+                <div class="[&_ul]:list-disc [&_ul>li]:text-carbon dark:[&_ul>li]:text-alabaster [&_ul>li]:marker:text-stormy dark:[&_ul>li]:marker:text-seaweed [&_ul>li]:marker:text-xl">
+                  <AboutContent />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      </ParallaxSection>
+    )}
+
+    <!-- Recent Posts Section -->
+    <ParallaxSection delay={100}>
+      <section class="py-20 bg-white dark:bg-stormy/10 transition-colors">
+      <div class="container mx-auto px-4 max-w-7xl">
+        <h2 class="text-4xl font-bold text-center mb-12 text-stormy dark:text-seaweed">
+          {t('blog.title')}
+        </h2>
+        <div class="grid md:grid-cols-3 gap-8">
+          {recentPosts.map((post) => (
+            <article class="bg-alabaster dark:bg-carbon/50 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow border border-muted/20 dark:border-stormy/40">
+              <div class="p-6">
+                <h3 class="text-xl font-bold mb-2 text-stormy dark:text-seaweed">
+                  <a href={`/${lang}/blog/${post.slug}/`} class="hover:underline">
+                    {post.data.title}
+                  </a>
+                </h3>
+                <p class="text-sm text-carbon/60 dark:text-alabaster/60 mb-3">
+                  {new Date(post.data.date).toLocaleDateString(lang)}
+                </p>
+                <p class="text-carbon/80 dark:text-alabaster/80 mb-4">
+                  {post.data.description}
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4">
+                  {post.data.tags.slice(0, 3).map((tag) => (
+                    <span class="text-xs px-2 py-1 bg-muted/30 dark:bg-seaweed/20 rounded text-carbon dark:text-alabaster">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <a href={`/${lang}/blog/${post.slug}/`} class="text-stormy dark:text-seaweed hover:underline font-semibold">
+                  {t('blog.readMore')} →
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+        <div class="text-center mt-8">
+          <a href={`/${lang}/blog/`} class="inline-block px-6 py-3 bg-stormy dark:bg-seaweed text-white rounded-lg font-semibold hover:bg-seaweed dark:hover:bg-muted transition-colors">
+            {t('blog.viewAll')}
+          </a>
+        </div>
+      </div>
+    </section>
+    </ParallaxSection>
+
+    <!-- Contact Section -->
+    <ParallaxSection delay={100}>
+    <section id="contact" class="py-20 bg-gradient-to-br from-stormy to-seaweed dark:from-carbon dark:to-stormy">
+      <div class="container mx-auto px-4 max-w-4xl">
+        <div class="max-w-2xl mx-auto text-center">
+          <h2 class="text-4xl font-bold mb-4 text-white">
+            {t('contact.title')}
+          </h2>
+          <p class="text-xl text-alabaster/90 mb-8">
+            {t('contact.subtitle')}
+          </p>
+          
+          <form action="https://api.web3forms.com/submit" method="POST" class="space-y-4">
+            <input type="hidden" name="access_key" value={import.meta.env.WEB3FORMS_ACCESS_KEY || 'your_key_here'} />
+            
+            <input 
+              type="text" 
+              name="name" 
+              placeholder={t('contact.name')}
+              required
+              class="w-full px-4 py-3 rounded-lg bg-white/90 dark:bg-carbon/90 text-carbon dark:text-alabaster placeholder-carbon/60 dark:placeholder-alabaster/60 border border-transparent focus:border-seaweed focus:outline-none"
+            />
+            
+            <input 
+              type="email" 
+              name="email" 
+              placeholder={t('contact.email')}
+              required
+              class="w-full px-4 py-3 rounded-lg bg-white/90 dark:bg-carbon/90 text-carbon dark:text-alabaster placeholder-carbon/60 dark:placeholder-alabaster/60 border border-transparent focus:border-seaweed focus:outline-none"
+            />
+            
+            <textarea 
+              name="message" 
+              rows="5"
+              placeholder={t('contact.message')}
+              required
+              class="w-full px-4 py-3 rounded-lg bg-white/90 dark:bg-carbon/90 text-carbon dark:text-alabaster placeholder-carbon/60 dark:placeholder-alabaster/60 border border-transparent focus:border-seaweed focus:outline-none resize-none"
+            ></textarea>
+            
+            <button 
+              type="submit"
+              class="w-full px-6 py-3 bg-white text-stormy rounded-lg font-semibold hover:bg-alabaster transition-colors"
+            >
+              {t('contact.send')}
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+    </ParallaxSection>
+  </main>
+
+  <Footer />
+</Layout>

@@ -1,0 +1,139 @@
+<!DOCTYPE html><html lang="es" class="scroll-smooth"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical" href="https://your-domain.com/es/blog/como-pasamos-un-proceso-de-11-horas-a-37-minutos/"><title>Como pasamos un proceso de 11 horas a 37 minutos - Airán</title><meta name="description" content="optimización de un proceso en data engineering"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://your-domain.com/es/blog/como-pasamos-un-proceso-de-11-horas-a-37-minutos/"><meta property="og:title" content="Como pasamos un proceso de 11 horas a 37 minutos - Airán"><meta property="og:description" content="optimización de un proceso en data engineering"><meta property="og:image" content="https://your-domain.com/og-image.jpg"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://your-domain.com/es/blog/como-pasamos-un-proceso-de-11-horas-a-37-minutos/"><meta property="twitter:title" content="Como pasamos un proceso de 11 horas a 37 minutos - Airán"><meta property="twitter:description" content="optimización de un proceso en data engineering"><meta property="twitter:image" content="https://your-domain.com/og-image.jpg"><!-- Alternate languages --><link rel="alternate" hreflang="en" href="https://your-domain.com/en/blog/como-pasamos-un-proceso-de-11-horas-a-37-minutos/"><link rel="alternate" hreflang="es" href="https://your-domain.com/es/blog/como-pasamos-un-proceso-de-11-horas-a-37-minutos/"><link rel="alternate" hreflang="ja" href="https://your-domain.com/ja/blog/como-pasamos-un-proceso-de-11-horas-a-37-minutos/"><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CDGfc0hd.js"></script><script>
+      // Initialize theme
+      const theme = localStorage.getItem('theme') || 'light';
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+    </script><link rel="stylesheet" href="/_astro/_slug_.FbXHszj9.css"></head> <body class="bg-alabaster dark:bg-carbon text-carbon dark:text-alabaster transition-colors duration-300">  <header class="sticky top-0 z-50 bg-alabaster/90 dark:bg-carbon/90 backdrop-blur-sm border-b border-muted/20 dark:border-stormy/20" data-astro-cid-3ef6ksr2> <nav class="container mx-auto px-4 py-4" data-astro-cid-3ef6ksr2> <div class="flex items-center justify-between" data-astro-cid-3ef6ksr2> <a href="/es/" class="text-2xl font-bold text-stormy dark:text-seaweed hover:text-seaweed dark:hover:text-muted transition-colors" data-astro-cid-3ef6ksr2> <span class="typewriter" data-astro-cid-3ef6ksr2>Airán Sanchez</span> </a> <div class="flex items-center gap-6" data-astro-cid-3ef6ksr2> <a href="/es/" class="hover:text-stormy dark:hover:text-seaweed transition-colors" data-astro-cid-3ef6ksr2> Inicio </a> <a href="/es/blog/" class="hover:text-stormy dark:hover:text-seaweed transition-colors" data-astro-cid-3ef6ksr2> Blog </a> <div class="flex items-center gap-2 ml-4" data-astro-cid-3ef6ksr2> <button id="theme-toggle" aria-label="Toggle theme" class="p-2 rounded-lg hover:bg-muted/20 dark:hover:bg-stormy/20 transition-colors" data-astro-cid-3ef6ksr2> <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" data-astro-cid-3ef6ksr2> <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" data-astro-cid-3ef6ksr2></path> </svg> <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" data-astro-cid-3ef6ksr2> <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd" data-astro-cid-3ef6ksr2></path> </svg> </button> <div class="relative group" data-astro-cid-3ef6ksr2> <button class="p-2 rounded-lg hover:bg-muted/20 dark:hover:bg-stormy/20 transition-colors" data-astro-cid-3ef6ksr2> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-3ef6ksr2> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" data-astro-cid-3ef6ksr2></path> </svg> </button> <div class="absolute right-0 mt-2 w-32 bg-white dark:bg-carbon border border-muted/20 dark:border-stormy/20 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all" data-astro-cid-3ef6ksr2> <a href="/en/blog/como-pasamos-un-proceso-de-11-horas-a-37-minutos/" class="block px-4 py-2 hover:bg-muted/10 dark:hover:bg-stormy/10" data-astro-cid-3ef6ksr2>English</a> <a href="/es/blog/como-pasamos-un-proceso-de-11-horas-a-37-minutos/" class="block px-4 py-2 hover:bg-muted/10 dark:hover:bg-stormy/10" data-astro-cid-3ef6ksr2>Español</a> <a href="/ja/blog/como-pasamos-un-proceso-de-11-horas-a-37-minutos/" class="block px-4 py-2 hover:bg-muted/10 dark:hover:bg-stormy/10" data-astro-cid-3ef6ksr2>日本語</a> </div> </div> </div> </div> </div> </nav> </header>  <script type="module">const o=document.getElementById("theme-toggle"),t=document.getElementById("theme-toggle-dark-icon"),n=document.getElementById("theme-toggle-light-icon");document.documentElement.classList.contains("dark")?n?.classList.remove("hidden"):t?.classList.remove("hidden");o?.addEventListener("click",()=>{t?.classList.toggle("hidden"),n?.classList.toggle("hidden"),document.documentElement.classList.contains("dark")?(document.documentElement.classList.remove("dark"),localStorage.setItem("theme","light")):(document.documentElement.classList.add("dark"),localStorage.setItem("theme","dark"))});const e=document.querySelector(".typewriter");e&&setTimeout(()=>{e.classList.add("animation-done")},3500);</script> <main class="min-h-screen bg-alabaster dark:bg-carbon py-12"> <article class="container mx-auto px-4 max-w-4xl"> <header class="mb-8"> <h1 class="text-5xl font-bold mb-4 text-stormy dark:text-seaweed"> Como pasamos un proceso de 11 horas a 37 minutos </h1> <p class="text-xl text-carbon/70 dark:text-alabaster/70 mb-4"> optimización de un proceso en data engineering </p> <div class="flex items-center gap-4 text-carbon/60 dark:text-alabaster/60"> <time datetime="2023-01-20T00:00:00.000Z"> 20 de enero de 2023 </time> </div> <div class="flex flex-wrap gap-2 mt-4"> <span class="px-3 py-1 bg-muted/30 dark:bg-seaweed/20 rounded-full text-sm text-carbon dark:text-alabaster"> BigData </span><span class="px-3 py-1 bg-muted/30 dark:bg-seaweed/20 rounded-full text-sm text-carbon dark:text-alabaster"> Aprendizaje </span><span class="px-3 py-1 bg-muted/30 dark:bg-seaweed/20 rounded-full text-sm text-carbon dark:text-alabaster"> LeanMind </span><span class="px-3 py-1 bg-muted/30 dark:bg-seaweed/20 rounded-full text-sm text-carbon dark:text-alabaster"> DataEngineering </span><span class="px-3 py-1 bg-muted/30 dark:bg-seaweed/20 rounded-full text-sm text-carbon dark:text-alabaster"> Blog </span> </div> </header> <div class="prose prose-lg dark:prose-invert max-w-none
+                  prose-headings:text-stormy dark:prose-headings:text-seaweed
+                  prose-a:text-stormy dark:prose-a:text-seaweed
+                  prose-code:text-seaweed dark:prose-code:text-muted
+                  prose-pre:bg-carbon dark:prose-pre:bg-stormy"> <h2 id="introducción">Introducción</h2>
+<p>Este artículo es muy similar al que Ulises escribió en su momento sobre <a href="https://ulisesantana.dev/blog/2022/como-pase-un-proceso-en-nodejs-de-5-horas-a-5-minutos/">como pasó un proceso de 5 horas a 5 minutos</a> pero en un contexto diferente ya que no se trata de optimizar el código en NodeJS sino que hablamos de Python aplicado a Ingeniería de datos y en este caso ha sido <strong>pasar un proceso de 11 horas a 37 min</strong>. Pero mejor dejadme que os pongo en contexto:</p>
+<h3 id="problemas-winter-is-coming">Problemas (Winter is coming)</h3>
+<p>Actualmente disponemos de una herramienta llamada <a href="https://airflow.apache.org/">Apache Airflow</a> para gestionar la automatización de procesos. A estos, se les puede asignar mediante un crontab la frecuencia con la que se van a ejecutar y con ello dejar que hagan por su cuenta el trabajo especificado mediante código en Python.</p>
+<p>Uno de los muchos procesos que tenemos es el de extracción de datos de proveedores y su posterior tratamiento para que sean adaptados al dominio. Este proceso normalmente tenía una <strong>duración media de 5 horas</strong> lo cual era mas o menos pasable por varios motivos:</p>
+<ul>
+<li>Es un proceso automático que lo dejamos ejecutando normalmente de madrugada y a primera hora de la mañana ya lo tenemos ejecutado</li>
+<li>Maneja un volumen de datos elevado y todas las operaciones que ejecutamos llevan tiempo</li>
+<li>No es necesario tenerlo al momento por lo que no es crítico para ningún otro equipo</li>
+</ul>
+<p>Aquí dejo una captura para que comprueben que es algo que de vez en cuando tiene sus fallos pero que se solucionan con alguna revisión y suele ser algo estable:</p>
+<p><img src="/assets/proceso11horas-1.png" alt="proceso11horas-1" title=" "></p>
+<h3 id="y-llegó-el-invierno">Y llegó el invierno</h3>
+<p>Por un motivo u otro, se añadieron a la cola de procesado unos pocos millones más de datos y eso terminó por incrementar en exceso los tiempos de ejecución. Concretamente se pasó de 5 horas a 11:</p>
+<p><img src="/assets/proceso11horas-2.png" alt="proceso11horas-2" title=" "></p>
+<p>Esto ya se estaba yendo de nuestras manos y no era sostenible que un proceso durase casi medio día y que se lanza 2 veces en 24 horas… Hagan sus cuentas.</p>
+<h2 id="por-qué-ocurrió-esto">¿Por qué ocurrió esto?</h2>
+<p>Es conocido que para tratamiento de Datos se usa una librería por excelencia que es <a href="https://pandas.pydata.org/">Pandas</a> y funciona muy bien la verdad. Sin embargo, para cantidades absurdas de datos tiene un pésimo rendimiento y ahí nació otra librería que usamos para optimizar grandes volúmenes que es <a href="https://www.dask.org/">Dask</a>.</p>
+<p>En cantidades grandes de datos Dask le pega un repaso interesante a Pandas. Pero hay veces que Dask puede ser un poco dolor de cabeza si no se usa bien y existen muchos libros al respecto con buenas prácticas. Entre ellos les recomiendo <a href="https://www.amazon.es/Data-Science-Scale-Python-Dask/dp/1617295604">Data Science at Scale with Python and Dask</a>.</p>
+<p>Entonces suponíamos que algo mal estábamos haciendo con Dask y nos dispusimos a revisar el código.</p>
+<h2 id="misterios-misteriosos">Misterios misteriosos</h2>
+<p>Primero revisamos qué hacía nuestro proceso:</p>
+<blockquote>
+<p>Recoge 3 datasets, los junta en 1 y procesa los datos aplicando una lista de prioridad en base al origen de los datos. Lo que llamamos una <strong><code>provider_rank_list</code></strong> (tengan esto presente porque volveremos aquí)</p>
+</blockquote>
+<p>Los 3 datasets de origen no vienen en 1 único fichero cada uno, sino que están particionados ya que Dask los divide para que le sea más fácil realizar las operaciones. Aquí nos dimos cuenta que las particiones eran minúsculas. Estamos hablando de <strong>1028 particiones de 1-2 Mb cada una</strong>… Efectivamente esto mata a Dask y todo lo bueno y óptimo que tiene termina por ser todo lo contrario.</p>
+<p>Por lo que una de las mejoras que implementamos fue reducir esas 1028 particiones a ficheros más grandes (pero manteniendo particiones para que Dask haga lo suyo).</p>
+<p>Así que aquí viene el super consejito del día:</p>
+<blockquote>
+<p>Si trabajas con Dask, asegúrate de particionar acorde al volumen de datos. No tengas demasiadas particiones pequeñas ni pocas particiones muy grandes. Según la documentación oficial se recomiendan <strong>particiones de ~100Mb</strong></p>
+</blockquote>
+<p>No me gustaría dejarles este ejemplo sin un pedacito de código para asegurar que se entiende el proceso:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#E1E4E8">input_dataset </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> dask.read_dask(path_to_file)</span></span>
+<span class="line"><span style="color:#E1E4E8">dataset_to_process </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> input_dataset.repartition(</span><span style="color:#FFAB70">partition_size</span><span style="color:#F97583">=</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">._partition_size) </span><span style="color:#6A737D"># Arreglamos la entrada para asegurarnos que lo que nos viene no nos rompe nada</span></span>
+<span class="line"><span style="color:#79B8FF">...</span></span>
+<span class="line"><span style="color:#E1E4E8">Mucho código que hace cosas</span><span style="color:#79B8FF">...</span></span>
+<span class="line"><span style="color:#79B8FF">...</span></span>
+<span class="line"><span style="color:#E1E4E8">result_dataframe </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> processed_dataset.repartition(</span><span style="color:#FFAB70">partition_size</span><span style="color:#F97583">=</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">._partition_size) </span><span style="color:#6A737D"># Fijamos en la salida el mismo tamaño por si durante el proceso ha crecido el volumen de datos</span></span></code></pre>
+<h2 id="por-qué-fijarle-un-tamaño-a-las-particiones-y-no-un-número-fijo-de-ficheros-y-que-haga-dask-todo-el-trabajo">¿Por qué fijarle un tamaño a las particiones y no un número fijo de ficheros y que haga Dask todo el trabajo?</h2>
+<p>Me alegra que te hagas esa pregunta. Dask puede ser un poco dolor de cabeza. Existen 2 formas de particionar: <code>npartitions</code> y <code>partition_size</code>. npartitions fija un número de particiones, ni más ni menos de las que tu le indicas. Por otro lado partition_size fija el tamaño máximo de cada partición y además provoca que el Dask Dataframe se procese, lo cual a priori es negativo porque consume más recursos y tarda más. Pero no estábamos teniendo en cuenta que el procesado se iba a realizar sí o sí, porque para guardarlo se transforma a Pandas (no lo había dicho antes pero Dask está construido sobre Pandas).</p>
+<blockquote>
+<p>TLDR; La repartición estaba funcionando regular y nos leímos mucha documentación para utilizar la opción que mejor nos venía</p>
+</blockquote>
+<h2 id="y-colorín-colorado-este-cuento-aún-no-se-ha-acabado">Y colorín colorado… Este cuento aún no se ha acabado :(</h2>
+<p>¿Mejoró el rendimiento? Sí. ¿Todo lo que nos gustaría? No. El proceso aún se tiraba unas cuantas horas buenas y seguía siendo inviable. Había que seguir buscando…</p>
+<p>Hasta que dimos con una línea de código</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#E1E4E8">dataframe.set_index(provider_priority_column)</span></span></code></pre>
+<p>¿Qué hace el set_index? -> Ordena el dataframe en base al parámetro que le indicas. En este caso como queremos filtrar datos en base a proveedores, pues queremos ordenarlos en base a unos numeritos. Por ejemplo:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E1E4E8">{</span><span style="color:#79B8FF">"proveedor_chachi"</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">"proveedor_guay"</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">"proveedor_no_tan_chachi"</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">2</span><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>Pues esto anteriormente, cuando se implementó nos parecía guay y una idea factible… Pero al final no escalable ni mucho menos. A medida que aumentaba el volumen de datos, peor era el rendimiento de Dask para ordenar.</p>
+<p>Seguro que si has llegado hasta aquí, esperarás una solución ultra compleja, casi como una receta mágica… Lamento decirte que la solución no tiene que ver con código sino con planteamiento del problema.</p>
+<h2 id="solución">Solución</h2>
+<p>Como bien se había dicho, el proceso coge 3 datasets y los junta en 1 para procesar los datos en base a una <strong>priority_rank_list</strong>. Pues se nos ocurrió concatenar (es una operación casi instantánea y que consume muy poco) en base a la lista de prioridad. Así nos olvidamos de ordenar el resultado porque ya nos vendrá ordenado y supondrá mucha menos carga de trabajo. Tan sencillo como eso.</p>
+<p>Esto en código no tiene mucho sentido ponerlo pero los resultados hablan por sí solos:</p>
+<p><img src="/assets/proceso11horas-3.jpeg" alt="proceso11horas-3" title=" "></p>
+<p>Y por si fuese de interés, este planteamiento lo extendimos a los procesos que preceden. Les dejo una tabla con las mejoras de tiempo:</p>
+<p><strong>Antes</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th></th><th>Proceso 1</th><th>Proceso 2</th><th>Proceso 3</th><th>Tiempo total</th></tr></thead><tbody><tr><td>Proveedor A</td><td>~20 min</td><td>~8h50min</td><td>~11 horas</td><td>20h10min</td></tr><tr><td>Proveedor B</td><td>~20 min</td><td>~3h30min</td><td>~11 horas</td><td>14h50min</td></tr><tr><td>Proveedor C</td><td>~10 min</td><td>~7h</td><td>~11 horas</td><td>11h17min</td></tr></tbody></table>
+<p><strong>Después</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th></th><th>Proceso 1</th><th>Proceso 2</th><th>Proceso 3</th><th>Tiempo total</th></tr></thead><tbody><tr><td>Proveedor A</td><td>~20 min</td><td>~1h</td><td>~1-2h</td><td>3h20min</td></tr><tr><td>Proveedor B</td><td>~20 min</td><td>~45min</td><td>~1-2h</td><td>3h5min</td></tr><tr><td>Proveedor C</td><td>~10 min</td><td>~7min</td><td>~1-2h</td><td>2h17min</td></tr></tbody></table>
+<p>Al final del día no solo hemos ahorrado tiempo de ejecución, sino también recursos de los Pods de Kubernetes que ejecutan esto y máquinas de AWS. Lo cual se traduce en menos dinero gastado</p>
+<p>Y como bien se suele decir: Una imagen vale más que mil palabras, por lo que les dejo una foto final de como la tormenta se calmó:
+<img src="/assets/proceso11horas-4.png" alt="proceso11horas-4" title=" "></p> </div> </article> </main> <footer class="bg-carbon dark:bg-stormy text-alabaster py-12 mt-20"> <div class="container mx-auto px-4"> <div class="flex flex-col md:flex-row justify-between items-center gap-8"> <!-- Social Links --> <div class="flex flex-col items-center md:items-start"> <h3 class="text-lg font-semibold mb-4">Sígueme</h3> <div class="flex gap-4"> <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 hover:text-seaweed transition-colors" aria-label="GitHub"> <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"> <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path> </svg> <span class="text-sm">GitHub</span> </a> <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 hover:text-seaweed transition-colors" aria-label="LinkedIn"> <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"> <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path> </svg> <span class="text-sm">LinkedIn</span> </a> <a href="https://twitter.com/yourusername" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 hover:text-seaweed transition-colors" aria-label="X (Twitter)"> <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"> <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path> </svg> <span class="text-sm">X</span> </a> <a href="https://t.me/yourusername" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 hover:text-seaweed transition-colors" aria-label="Telegram"> <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"> <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"></path> </svg> <span class="text-sm">Telegram</span> </a> <a href="mailto:your.email@example.com" class="flex items-center gap-2 hover:text-seaweed transition-colors" aria-label="Email"> <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path> </svg> <span class="text-sm">Mail</span> </a> </div> </div> <!-- Made in --> <div class="text-center"> <p class="text-sm text-muted dark:text-muted"> Hecho en Canarias y Japón - 2026 </p> </div> </div> </div> </footer>  </body></html>

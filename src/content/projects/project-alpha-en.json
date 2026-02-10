@@ -1,0 +1,9 @@
+{
+  "title": "Project Alpha",
+  "description": "A full-stack web application built with modern technologies. This is a placeholder project.",
+  "tech": ["React", "Node.js", "PostgreSQL", "TypeScript"],
+  "githubUrl": "https://github.com/yourusername/project-alpha",
+  "demoUrl": "https://project-alpha-demo.com",
+  "featured": true,
+  "locale": "en"
+}

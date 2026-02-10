@@ -1,0 +1,55 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+export const prerender = true;
+---
+
+<Layout title="404 - Page Not Found" description="Page not found">
+  <Header />
+  
+  <main class="min-h-screen flex items-center justify-center bg-alabaster dark:bg-carbon">
+    <div class="container mx-auto px-4 text-center">
+      <!-- Fun SVG illustration -->
+      <div class="mb-8 flex justify-center">
+        <svg class="w-64 h-64 text-stormy dark:text-seaweed" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Computer screen with sad face -->
+          <rect x="40" y="60" width="120" height="80" rx="4" stroke="currentColor" stroke-width="4" fill="none"/>
+          <line x1="70" y1="90" x2="85" y2="105" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+          <line x1="85" y1="90" x2="70" y2="105" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+          <line x1="115" y1="90" x2="130" y2="105" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+          <line x1="130" y1="90" x2="115" y2="105" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+          <path d="M 80 120 Q 100 115 120 120" stroke="currentColor" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <!-- Computer stand -->
+          <line x1="90" y1="140" x2="100" y2="160" stroke="currentColor" stroke-width="4"/>
+          <line x1="110" y1="140" x2="100" y2="160" stroke="currentColor" stroke-width="4"/>
+          <line x1="80" y1="160" x2="120" y2="160" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+          <!-- 404 text integrated -->
+          <text x="100" y="50" font-size="24" font-weight="bold" fill="currentColor" text-anchor="middle">404</text>
+        </svg>
+      </div>
+      
+      <h1 class="text-6xl font-bold mb-4 text-stormy dark:text-seaweed">
+        404
+      </h1>
+      <p class="text-2xl mb-2 text-carbon dark:text-alabaster">
+        Oops! This page took a coffee break
+      </p>
+      <p class="text-lg mb-8 text-carbon/70 dark:text-alabaster/70">
+        The page you're looking for doesn't exist or went on vacation without telling us
+      </p>
+      
+      <div class="flex gap-4 justify-center">
+        <a href="/en/" class="px-6 py-3 bg-stormy dark:bg-seaweed text-white rounded-lg font-semibold hover:bg-seaweed dark:hover:bg-muted transition-colors">
+          Go Home
+        </a>
+        <a href="/en/blog/" class="px-6 py-3 border-2 border-stormy dark:border-seaweed text-stormy dark:text-seaweed rounded-lg font-semibold hover:bg-stormy/10 dark:hover:bg-seaweed/10 transition-colors">
+          Read Blog
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

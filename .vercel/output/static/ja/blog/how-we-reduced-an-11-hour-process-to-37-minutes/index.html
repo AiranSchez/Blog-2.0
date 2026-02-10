@@ -1,0 +1,141 @@
+<!DOCTYPE html><html lang="ja" class="scroll-smooth"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical" href="https://your-domain.com/ja/blog/how-we-reduced-an-11-hour-process-to-37-minutes/"><title>11時間のプロセスを37分に短縮した方法 - Airán</title><meta name="description" content="データエンジニアリングにおけるプロセス最適化"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://your-domain.com/ja/blog/how-we-reduced-an-11-hour-process-to-37-minutes/"><meta property="og:title" content="11時間のプロセスを37分に短縮した方法 - Airán"><meta property="og:description" content="データエンジニアリングにおけるプロセス最適化"><meta property="og:image" content="https://your-domain.com/og-image.jpg"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://your-domain.com/ja/blog/how-we-reduced-an-11-hour-process-to-37-minutes/"><meta property="twitter:title" content="11時間のプロセスを37分に短縮した方法 - Airán"><meta property="twitter:description" content="データエンジニアリングにおけるプロセス最適化"><meta property="twitter:image" content="https://your-domain.com/og-image.jpg"><!-- Alternate languages --><link rel="alternate" hreflang="en" href="https://your-domain.com/en/blog/how-we-reduced-an-11-hour-process-to-37-minutes/"><link rel="alternate" hreflang="es" href="https://your-domain.com/es/blog/how-we-reduced-an-11-hour-process-to-37-minutes/"><link rel="alternate" hreflang="ja" href="https://your-domain.com/ja/blog/how-we-reduced-an-11-hour-process-to-37-minutes/"><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CDGfc0hd.js"></script><script>
+      // Initialize theme
+      const theme = localStorage.getItem('theme') || 'light';
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+    </script><link rel="stylesheet" href="/_astro/_slug_.FbXHszj9.css"></head> <body class="bg-alabaster dark:bg-carbon text-carbon dark:text-alabaster transition-colors duration-300">  <header class="sticky top-0 z-50 bg-alabaster/90 dark:bg-carbon/90 backdrop-blur-sm border-b border-muted/20 dark:border-stormy/20" data-astro-cid-3ef6ksr2> <nav class="container mx-auto px-4 py-4" data-astro-cid-3ef6ksr2> <div class="flex items-center justify-between" data-astro-cid-3ef6ksr2> <a href="/ja/" class="text-2xl font-bold text-stormy dark:text-seaweed hover:text-seaweed dark:hover:text-muted transition-colors" data-astro-cid-3ef6ksr2> <span class="typewriter" data-astro-cid-3ef6ksr2>Airán Sanchez</span> </a> <div class="flex items-center gap-6" data-astro-cid-3ef6ksr2> <a href="/ja/" class="hover:text-stormy dark:hover:text-seaweed transition-colors" data-astro-cid-3ef6ksr2> ホーム </a> <a href="/ja/blog/" class="hover:text-stormy dark:hover:text-seaweed transition-colors" data-astro-cid-3ef6ksr2> ブログ </a> <div class="flex items-center gap-2 ml-4" data-astro-cid-3ef6ksr2> <button id="theme-toggle" aria-label="Toggle theme" class="p-2 rounded-lg hover:bg-muted/20 dark:hover:bg-stormy/20 transition-colors" data-astro-cid-3ef6ksr2> <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" data-astro-cid-3ef6ksr2> <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" data-astro-cid-3ef6ksr2></path> </svg> <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" data-astro-cid-3ef6ksr2> <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd" data-astro-cid-3ef6ksr2></path> </svg> </button> <div class="relative group" data-astro-cid-3ef6ksr2> <button class="p-2 rounded-lg hover:bg-muted/20 dark:hover:bg-stormy/20 transition-colors" data-astro-cid-3ef6ksr2> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-3ef6ksr2> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" data-astro-cid-3ef6ksr2></path> </svg> </button> <div class="absolute right-0 mt-2 w-32 bg-white dark:bg-carbon border border-muted/20 dark:border-stormy/20 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all" data-astro-cid-3ef6ksr2> <a href="/en/blog/how-we-reduced-an-11-hour-process-to-37-minutes/" class="block px-4 py-2 hover:bg-muted/10 dark:hover:bg-stormy/10" data-astro-cid-3ef6ksr2>English</a> <a href="/es/blog/how-we-reduced-an-11-hour-process-to-37-minutes/" class="block px-4 py-2 hover:bg-muted/10 dark:hover:bg-stormy/10" data-astro-cid-3ef6ksr2>Español</a> <a href="/ja/blog/how-we-reduced-an-11-hour-process-to-37-minutes/" class="block px-4 py-2 hover:bg-muted/10 dark:hover:bg-stormy/10" data-astro-cid-3ef6ksr2>日本語</a> </div> </div> </div> </div> </div> </nav> </header>  <script type="module">const o=document.getElementById("theme-toggle"),t=document.getElementById("theme-toggle-dark-icon"),n=document.getElementById("theme-toggle-light-icon");document.documentElement.classList.contains("dark")?n?.classList.remove("hidden"):t?.classList.remove("hidden");o?.addEventListener("click",()=>{t?.classList.toggle("hidden"),n?.classList.toggle("hidden"),document.documentElement.classList.contains("dark")?(document.documentElement.classList.remove("dark"),localStorage.setItem("theme","light")):(document.documentElement.classList.add("dark"),localStorage.setItem("theme","dark"))});const e=document.querySelector(".typewriter");e&&setTimeout(()=>{e.classList.add("animation-done")},3500);</script> <main class="min-h-screen bg-alabaster dark:bg-carbon py-12"> <article class="container mx-auto px-4 max-w-4xl"> <header class="mb-8"> <h1 class="text-5xl font-bold mb-4 text-stormy dark:text-seaweed"> 11時間のプロセスを37分に短縮した方法 </h1> <p class="text-xl text-carbon/70 dark:text-alabaster/70 mb-4"> データエンジニアリングにおけるプロセス最適化 </p> <div class="flex items-center gap-4 text-carbon/60 dark:text-alabaster/60"> <time datetime="2023-01-20T00:00:00.000Z"> 2023年1月20日 </time> </div> <div class="flex flex-wrap gap-2 mt-4"> <span class="px-3 py-1 bg-muted/30 dark:bg-seaweed/20 rounded-full text-sm text-carbon dark:text-alabaster"> ビッグデータ </span><span class="px-3 py-1 bg-muted/30 dark:bg-seaweed/20 rounded-full text-sm text-carbon dark:text-alabaster"> 学習 </span><span class="px-3 py-1 bg-muted/30 dark:bg-seaweed/20 rounded-full text-sm text-carbon dark:text-alabaster"> リーンマインド </span><span class="px-3 py-1 bg-muted/30 dark:bg-seaweed/20 rounded-full text-sm text-carbon dark:text-alabaster"> データエンジニアリング </span><span class="px-3 py-1 bg-muted/30 dark:bg-seaweed/20 rounded-full text-sm text-carbon dark:text-alabaster"> ブログ </span> </div> </header> <div class="prose prose-lg dark:prose-invert max-w-none
+                  prose-headings:text-stormy dark:prose-headings:text-seaweed
+                  prose-a:text-stormy dark:prose-a:text-seaweed
+                  prose-code:text-seaweed dark:prose-code:text-muted
+                  prose-pre:bg-carbon dark:prose-pre:bg-stormy"> <h2 id="はじめに">はじめに</h2>
+<p>この記事は、ウリセスが書いた <a href="https://ulisesantana.dev/blog/2022/como-pase-un-proceso-en-nodejs-de-5-horas-a-5-minutos/">5時間のプロセスを5分に短縮した方法</a> に非常によく似ていますが、文脈が異なります。ここではNodeJSのコードを最適化するのではなく、データエンジニアリングにおけるPythonの適用について扱っており、今回は <strong>11時間かかっていたプロセスを37分に短縮</strong> しました。まずは少し背景を説明させてください。</p>
+<h3 id="問題点冬が来る">問題点（冬が来る）</h3>
+<p>現在、私たちは <a href="https://airflow.apache.org/">Apache Airflow</a> というツールを使用してプロセスの自動化を管理しています。これを使うと、crontabでプロセスの実行スケジュールを設定でき、自動的に実行され、Pythonコードで定義されたタスクを実行します。</p>
+<p>私たちの多くのプロセスのうちの1つは、プロバイダーからのデータ抽出と、その後ドメインに適応させるための変換です。このプロセスは通常 <strong>約5時間</strong> かかっており、いくつかの理由である程度許容できるものでした：</p>
+<ul>
+<li>通常は夜間に自動で実行され、翌朝には完了している</li>
+<li>大量のデータを扱うため、すべての操作に時間がかかる</li>
+<li>リアルタイムで必要なわけではないので、他のチームにとっては重要ではない</li>
+</ul>
+<p>以下のスクリーンショットは、プロセスが時々失敗することがあるものの、確認と修正で問題なく安定していることを示しています：</p>
+<p><img src="/assets/proceso11horas-1.png" alt="proceso11horas-1" title=" "></p>
+<h3 id="そして冬が到来">そして冬が到来</h3>
+<p>何らかの理由で、キューにさらに数百万件のレコードが追加され、実行時間が大幅に増加しました。具体的には、5時間から11時間に増加しました：</p>
+<p><img src="/assets/proceso11horas-2.png" alt="proceso11horas-2" title=" "></p>
+<p>これは管理不可能で持続不可能な状態になっていました。ほぼ半日かかるプロセスが、24時間で2回も実行されるのです…計算してみてください。</p>
+<h2 id="なぜこのようなことが起きたのか">なぜこのようなことが起きたのか？</h2>
+<p>データ処理において定番のライブラリは <a href="https://pandas.pydata.org/">Pandas</a> で、とてもよく機能します。しかし、大規模なデータセットに対してはパフォーマンスが悪くなります。そこで登場するのが <a href="https://www.dask.org/">Dask</a> です — 大量のデータを効率的に処理するために設計されています。</p>
+<p>Daskは大規模データセットでPandasを上回る性能を発揮しますが、正しく使わないと扱いが難しい場合があります。ベストプラクティスを扱った書籍も多数あり、例えば <a href="https://www.amazon.es/Data-Science-Scale-Python-Dask/dp/1617295604">Data Science at Scale with Python and Dask</a> があります。</p>
+<p>そのため、私たちはDaskの使い方に何か問題があるのではないかと考え、コードを見直すことにしました。</p>
+<h2 id="謎の謎">謎の謎</h2>
+<p>まず、プロセスが何をしているのかを確認しました：</p>
+<blockquote>
+<p>3つのデータセットを収集し、1つに統合して、データの出所に基づいた優先リストに従って処理します。これを <strong><code>provider_rank_list</code></strong> と呼びます（覚えておいてください、後で戻ってきます）。</p>
+</blockquote>
+<p>3つのソースデータセットは単一のファイルではなく、Daskが処理しやすいように分割されています。ここで気づいたのは、その分割が非常に小さいことです — <strong>各1〜2MBの1028パーティション</strong>。これはDaskにとって致命的で、すべての利点が逆効果になってしまいます。</p>
+<p>私たちが実装した改善の1つは、1028パーティションをより大きなファイルにまとめることでした（ただし、Daskが効率的に動作できるように分割は維持）。</p>
+<p>ここで今日の重要なアドバイス：</p>
+<blockquote>
+<p>Daskを使う場合、パーティションはデータ量に合わせて設定してください。あまりにも小さなパーティションが多すぎたり、大きすぎるパーティションが少なすぎたりしないようにしましょう。公式ドキュメントでは <strong>約100MBのパーティション</strong> を推奨しています。</p>
+</blockquote>
+<p>考え方を示すコード例は以下の通りです：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#E1E4E8">input_dataset </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> dask.read_dask(path_to_file)</span></span>
+<span class="line"><span style="color:#E1E4E8">dataset_to_process </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> input_dataset.repartition(</span><span style="color:#FFAB70">partition_size</span><span style="color:#F97583">=</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">._partition_size) </span><span style="color:#6A737D"># Fix input to ensure it doesn’t break anything</span></span>
+<span class="line"><span style="color:#79B8FF">...</span></span>
+<span class="line"><span style="color:#E1E4E8">Lots of code doing other things</span><span style="color:#79B8FF">...</span></span>
+<span class="line"><span style="color:#79B8FF">...</span></span>
+<span class="line"><span style="color:#E1E4E8">result_dataframe </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> processed_dataset.repartition(</span><span style="color:#FFAB70">partition_size</span><span style="color:#F97583">=</span><span style="color:#79B8FF">self</span><span style="color:#E1E4E8">._partition_size) </span><span style="color:#6A737D"># Fix output size in case it grew during processing</span></span></code></pre>
+<h2 id="なぜファイル数ではなくパーティションサイズを設定するのか">なぜファイル数ではなくパーティションサイズを設定するのか？</h2>
+<p>良い質問です。Daskには2つのパーティション方法があります：<code>npartitions</code> と <code>partition_size</code>。</p>
+<ul>
+<li><code>npartitions</code> はパーティションの数を正確に固定します。</li>
+<li><code>partition_size</code> は各パーティションの最大サイズを固定し、Dask DataFrameの処理を強制します。これは一見デメリットのように思えますが、リソースと時間を多く消費するからです。しかし私たちの場合、処理は避けられず、保存時にPandasに変換されるため（DaskはPandasの上に構築されています）。</li>
+</ul>
+<blockquote>
+<p>TL;DR: パーティションの再設定は難しかったので、多くのドキュメントを読み、最適な方法を選びました。</p>
+</blockquote>
+<h2 id="そしてこの話はまだ終わっていません">そして…この話はまだ終わっていません :(</h2>
+<p>パフォーマンスは改善したのでしょうか？はい。完璧だったのでしょうか？いいえ。プロセスはまだ数時間かかり、依然として実用的ではありませんでした。私たちはさらに解決策を探し続ける必要がありました…</p>
+<p>そして、次のコード行を発見しました：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#E1E4E8">dataframe.set_index(provider_priority_column)</span></span></code></pre>
+<p><code>set_index</code> は何をするのか？ -> 指定したパラメータに基づいてDataFrameをソートします。この場合、プロバイダーに基づいてデータをフィルタリングしたいので、いくつかの数値に基づいてソートしたいのです。例えば：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="json"><code><span class="line"><span style="color:#E1E4E8">{</span><span style="color:#79B8FF">"cool_provider"</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">"nice_provider"</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">"not_so_cool_provider"</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">2</span><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>以前、この方法を実装したときは、クールで実現可能に見えました…しかし、全くスケーラブルではありませんでした。データ量が増えるにつれて、Daskのソート性能は悪化しました。</p>
+<p>ここまで読んだあなたは、非常に複雑な解決策、まるで魔法のレシピのような方法を期待するかもしれません…残念ながら、この解決策はコードとは関係なく、問題へのアプローチの仕方にあります。</p>
+<h2 id="解決策">解決策</h2>
+<p>前述の通り、このプロセスは3つのデータセットを取得し、<strong>priority_rank_list</strong> に基づいてデータを処理するために1つに結合します。私たちは、優先リストに基づいて結合（ほとんど瞬時に行える操作で、ほとんどリソースを消費しません）することを考えました。こうすることで、結果をソートする必要がなくなり、すでにソートされた状態で取得できるため、作業量も大幅に減ります。とてもシンプルです。コードで示すのはあまり意味がありませんが、結果がすべてを物語っています：</p>
+<p><img src="/assets/proceso11horas-3.jpeg" alt="proceso11horas-3" title=" "></p>
+<p>さらに興味があれば、このアプローチを前のプロセスにも拡張しました。改善された時間を示す表は以下の通りです：</p>
+<p><strong>改善前</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th></th><th>プロセス1</th><th>プロセス2</th><th>プロセス3</th><th>合計時間</th></tr></thead><tbody><tr><td>プロバイダー A</td><td>約20分</td><td>約8時間50分</td><td>約11時間</td><td>20時間10分</td></tr><tr><td>プロバイダー B</td><td>約20分</td><td>約3時間30分</td><td>約11時間</td><td>14時間50分</td></tr><tr><td>プロバイダー C</td><td>約10分</td><td>約7時間</td><td>約11時間</td><td>11時間17分</td></tr></tbody></table>
+<p><strong>改善後</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th></th><th>プロセス1</th><th>プロセス2</th><th>プロセス3</th><th>合計時間</th></tr></thead><tbody><tr><td>プロバイダー A</td><td>約20分</td><td>約1時間</td><td>約1〜2時間</td><td>3時間20分</td></tr><tr><td>プロバイダー B</td><td>約20分</td><td>約45分</td><td>約1〜2時間</td><td>3時間5分</td></tr><tr><td>プロバイダー C</td><td>約10分</td><td>約7分</td><td>約1〜2時間</td><td>2時間17分</td></tr></tbody></table>
+<p>結局のところ、実行時間を節約できただけでなく、このプロセスを実行するKubernetesのPodやAWSマシンのリソースも節約できました。つまり、費用も削減されました。そしてよく言われるように、一枚の写真は千の言葉に勝ります。嵐が静まった様子を示す最後の写真はこちらです：
+<img src="/assets/proceso11horas-4.png" alt="proceso11horas-4" title=" "></p> </div> </article> </main> <footer class="bg-carbon dark:bg-stormy text-alabaster py-12 mt-20"> <div class="container mx-auto px-4"> <div class="flex flex-col md:flex-row justify-between items-center gap-8"> <!-- Social Links --> <div class="flex flex-col items-center md:items-start"> <h3 class="text-lg font-semibold mb-4">フォローする</h3> <div class="flex gap-4"> <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 hover:text-seaweed transition-colors" aria-label="GitHub"> <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"> <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path> </svg> <span class="text-sm">GitHub</span> </a> <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 hover:text-seaweed transition-colors" aria-label="LinkedIn"> <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"> <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path> </svg> <span class="text-sm">LinkedIn</span> </a> <a href="https://twitter.com/yourusername" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 hover:text-seaweed transition-colors" aria-label="X (Twitter)"> <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"> <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path> </svg> <span class="text-sm">X</span> </a> <a href="https://t.me/yourusername" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 hover:text-seaweed transition-colors" aria-label="Telegram"> <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"> <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"></path> </svg> <span class="text-sm">Telegram</span> </a> <a href="mailto:your.email@example.com" class="flex items-center gap-2 hover:text-seaweed transition-colors" aria-label="Email"> <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path> </svg> <span class="text-sm">Mail</span> </a> </div> </div> <!-- Made in --> <div class="text-center"> <p class="text-sm text-muted dark:text-muted"> カナリア諸島と日本で作成 - 2026 </p> </div> </div> </div> </footer>  </body></html>

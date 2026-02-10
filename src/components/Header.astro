@@ -1,0 +1,145 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<header class="sticky top-0 z-50 bg-alabaster/90 dark:bg-carbon/90 backdrop-blur-sm border-b border-muted/20 dark:border-stormy/20">
+  <nav class="container mx-auto px-4 py-4">
+    <div class="flex items-center justify-between">
+      <a href={`/${lang}/`} class="text-2xl font-bold text-stormy dark:text-seaweed hover:text-seaweed dark:hover:text-muted transition-colors">
+        <span class="typewriter">Airán Sanchez</span>
+      </a>
+      
+      <div class="flex items-center gap-6">
+        <a href={`/${lang}/`} class="hover:text-stormy dark:hover:text-seaweed transition-colors">
+          {t('nav.home')}
+        </a>
+        <a href={`/${lang}/blog/`} class="hover:text-stormy dark:hover:text-seaweed transition-colors">
+          {t('nav.blog')}
+        </a>
+        
+        <div class="flex items-center gap-2 ml-4">
+          <button id="theme-toggle" aria-label="Toggle theme" class="p-2 rounded-lg hover:bg-muted/20 dark:hover:bg-stormy/20 transition-colors">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+          
+          <div class="relative group">
+            <button class="p-2 rounded-lg hover:bg-muted/20 dark:hover:bg-stormy/20 transition-colors">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path>
+              </svg>
+            </button>
+            <div class="absolute right-0 mt-2 w-32 bg-white dark:bg-carbon border border-muted/20 dark:border-stormy/20 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
+              <a href={`/en${Astro.url.pathname.replace(/^\/(en|es|ja)/, '')}`} class="block px-4 py-2 hover:bg-muted/10 dark:hover:bg-stormy/10">English</a>
+              <a href={`/es${Astro.url.pathname.replace(/^\/(en|es|ja)/, '')}`} class="block px-4 py-2 hover:bg-muted/10 dark:hover:bg-stormy/10">Español</a>
+              <a href={`/ja${Astro.url.pathname.replace(/^\/(en|es|ja)/, '')}`} class="block px-4 py-2 hover:bg-muted/10 dark:hover:bg-stormy/10">日本語</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<style>
+  .typewriter {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 3px solid;
+    animation: 
+      typing 3.5s steps(13, end) forwards,
+      blink 0.75s step-end infinite;
+  }
+
+  @keyframes typing {
+    from {
+      width: 0;
+    }
+    to {
+      width: 13ch;
+    }
+  }
+
+  @keyframes blink {
+    0%, 50% {
+      border-color: currentColor;
+    }
+    51%, 100% {
+      border-color: transparent;
+    }
+  }
+
+  /* Stop cursor blinking and keep text visible after animation completes */
+  .typewriter.animation-done {
+    border-right-color: transparent;
+    animation: none;
+    width: fit-content;
+    overflow: visible;
+  }
+</style>
+
+<script>
+  function initThemeToggle() {
+    const themeToggle = document.getElementById('theme-toggle');
+    const darkIcon = document.getElementById('theme-toggle-dark-icon');
+    const lightIcon = document.getElementById('theme-toggle-light-icon');
+
+    if (!themeToggle || !darkIcon || !lightIcon) return;
+
+    // Show correct icon on load: moon icon in light mode, sun icon in dark mode
+    if (document.documentElement.classList.contains('dark')) {
+      lightIcon.classList.remove('hidden');
+      darkIcon.classList.add('hidden');
+    } else {
+      darkIcon.classList.remove('hidden');
+      lightIcon.classList.add('hidden');
+    }
+
+    // Remove old listeners by cloning
+    const newThemeToggle = themeToggle.cloneNode(true);
+    themeToggle.parentNode?.replaceChild(newThemeToggle, themeToggle);
+
+    newThemeToggle.addEventListener('click', () => {
+      const newDarkIcon = document.getElementById('theme-toggle-dark-icon');
+      const newLightIcon = document.getElementById('theme-toggle-light-icon');
+      
+      newDarkIcon?.classList.toggle('hidden');
+      newLightIcon?.classList.toggle('hidden');
+
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+  }
+
+  function initTypewriter() {
+    const typewriter = document.querySelector('.typewriter');
+    if (typewriter && !typewriter.classList.contains('animation-done')) {
+      setTimeout(() => {
+        typewriter.classList.add('animation-done');
+      }, 3600);
+    }
+  }
+
+  // Initialize on first load
+  initThemeToggle();
+  initTypewriter();
+
+  // Re-initialize after view transitions
+  document.addEventListener('astro:after-swap', () => {
+    initThemeToggle();
+    initTypewriter();
+  });
+</script>

@@ -1,0 +1,9 @@
+{
+  "title": "Proyecto Alpha",
+  "description": "Una aplicación web full-stack construida con tecnologías modernas. Este es un proyecto placeholder.",
+  "tech": ["React", "Node.js", "PostgreSQL", "TypeScript"],
+  "githubUrl": "https://github.com/yourusername/project-alpha",
+  "demoUrl": "https://project-alpha-demo.com",
+  "featured": true,
+  "locale": "es"
+}
