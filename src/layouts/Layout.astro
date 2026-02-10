@@ -27,8 +27,16 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonicalURL} />
     
+    <!-- Preconnect to external domains for better performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://api.web3forms.com" crossorigin />
+    
     <title>{title}</title>
     <meta name="description" content={description} />
+    
+    <!-- Theme color - will be updated by script based on dark mode -->
+    <meta name="theme-color" content="#F8F9FA" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1A1A1A" media="(prefers-color-scheme: dark)" />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
@@ -52,21 +60,43 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <ViewTransitions />
     
     <script is:inline>
-      // Initialize theme on load and after transitions
-      function initTheme() {
-        const theme = localStorage.getItem('theme') || 'light';
-        if (theme === 'dark') {
-          document.documentElement.classList.add('dark');
+      // Initialize theme with FOUC prevention and system preference detection
+      (function() {
+        const stored = localStorage.getItem('theme');
+        let theme;
+        
+        if (stored) {
+          // Use stored preference
+          theme = stored;
         } else {
-          document.documentElement.classList.remove('dark');
+          // Detect system preference on first visit
+          theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          localStorage.setItem('theme', theme);
         }
-      }
+        
+        // Apply theme immediately (before page renders)
+        const html = document.documentElement;
+        if (theme === 'dark') {
+          html.classList.add('dark');
+          html.style.colorScheme = 'dark';
+        } else {
+          html.classList.remove('dark');
+          html.style.colorScheme = 'light';
+        }
+      })();
       
-      // Run on initial load
-      initTheme();
-      
-      // Run after each view transition
-      document.addEventListener('astro:after-swap', initTheme);
+      // Re-apply theme after view transitions
+      document.addEventListener('astro:after-swap', function() {
+        const theme = localStorage.getItem('theme') || 'light';
+        const html = document.documentElement;
+        if (theme === 'dark') {
+          html.classList.add('dark');
+          html.style.colorScheme = 'dark';
+        } else {
+          html.classList.remove('dark');
+          html.style.colorScheme = 'light';
+        }
+      });
     </script>
   </head>
   <body class="bg-alabaster dark:bg-carbon text-carbon dark:text-alabaster transition-colors duration-300">
