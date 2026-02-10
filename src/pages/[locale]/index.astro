@@ -51,8 +51,9 @@ const aboutEntry = await getCollection('about');
 const about = aboutEntry.find(entry => entry.id === `${lang}.mdx`);
 const { Content: AboutContent } = about ? await about.render() : { Content: null };
 
-import profileImageUrl from '../../assets/images/profile/DSC01226.jpg?url';
-import aboutImageUrl from '../../assets/images/profile/DSC01235.jpg?url';
+import { Image } from 'astro:assets';
+import profileImage from '../../assets/images/profile/DSC01226.jpg';
+import aboutImage from '../../assets/images/profile/DSC01235.jpg';
 ---
 
 <Layout title={`Airán - ${t('hero.subtitle')}`} description={t('hero.subtitle')} lang={lang}>
@@ -114,13 +115,16 @@ import aboutImageUrl from '../../assets/images/profile/DSC01235.jpg?url';
             <!-- Hero Image (Right) -->
             <div class="flex justify-center md:justify-end mt-8 md:mt-0">
               <div class="relative">
-                <img 
-                  src={profileImageUrl} 
+                <Image 
+                  src={profileImage} 
                   alt="Airán Sanchez" 
-                  width="400" 
-                  height="400"
+                  width={400} 
+                  height={400}
+                  loading="eager"
+                  fetchpriority="high"
                   class="rounded-full shadow-2xl ring-4 ring-white/20 w-64 h-64 sm:w-80 sm:h-80 md:w-full md:h-full object-cover"
-                />                <!-- Decorative elements around image -->
+                />
+                <!-- Decorative elements around image -->
                 <div class="absolute top-4 left-4 w-full h-full rounded-full bg-seaweed/30 blur-xl -z-10"></div>
               </div>
             </div>
@@ -238,11 +242,11 @@ import aboutImageUrl from '../../assets/images/profile/DSC01235.jpg?url';
           <div class="max-w-4xl mx-auto">
             <div class="flex flex-col md:flex-row gap-8 items-start">
               <div class="flex-shrink-0">
-                <img 
-                  src={aboutImageUrl} 
+                <Image 
+                  src={aboutImage} 
                   alt="Airán" 
-                  width="200" 
-                  height="200"
+                  width={200} 
+                  height={200}
                   class="rounded-full shadow-lg"
                 />
               </div>
