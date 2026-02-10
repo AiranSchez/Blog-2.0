@@ -97,14 +97,13 @@ const posts = allPosts
                 )}
               </div>
               
-              <Link 
+              <a 
                 href={`/${lang}/blog/${post.slug}/`}
-                variant="button"
-                class="text-stormy dark:text-seaweed hover:underline font-semibold inline-flex items-center gap-1 group-hover:gap-2 transition-all"
+                class="inline-flex items-center gap-1 text-stormy dark:text-seaweed hover:underline font-semibold transition-all group-hover:gap-2"
               >
                 {t('blog.readMore')} 
                 <span aria-hidden="true">→</span>
-              </Link>
+              </a>
             </Card>
           </article>
         ))}
@@ -169,17 +168,11 @@ const posts = allPosts
 </script>
 
 <script>
-  import { staggerIn, fadeInOnScroll, hoverLift } from '@/lib/animations';
+  import { hoverLift } from '@/lib/animations';
 
-  // Initialize animations when DOM is ready
+  // Initialize animations when DOM is ready (simplified for performance)
   function initAnimations() {
-    // Stagger in blog cards
-    staggerIn('.grid', { stagger: 0.1, duration: 0.5 });
-    
-    // Fade in main heading
-    fadeInOnScroll('h1', { duration: 0.7 });
-    
-    // Add hover lift to cards
+    // Only add hover lift to cards - removed heavy stagger animations
     hoverLift('[data-blog-card]');
   }
 

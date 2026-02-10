@@ -286,14 +286,13 @@ import aboutImageUrl from '../../assets/images/profile/DSC01235.jpg?url';
                   )}
                 </div>
                 
-                <Link 
+                <a 
                   href={`/${lang}/blog/${post.slug}/`}
-                  variant="button"
-                  class="text-stormy dark:text-seaweed hover:underline font-semibold inline-flex items-center gap-1 group-hover:gap-2 transition-all"
+                  class="inline-flex items-center gap-1 text-stormy dark:text-seaweed hover:underline font-semibold transition-all group-hover:gap-2"
                 >
                   {t('blog.readMore')} 
                   <span aria-hidden="true">→</span>
-                </Link>
+                </a>
               </Card>
             </article>
           ))}
@@ -334,7 +333,8 @@ import aboutImageUrl from '../../assets/images/profile/DSC01235.jpg?url';
               placeholder={t('contact.name')}
               required={true}
               autocomplete="name"
-              class="bg-white/90 dark:bg-carbon/90 text-carbon dark:text-alabaster [&_label]:text-white [&_label]:font-semibold"
+              inputClass="bg-white/95 dark:bg-carbon-700/95 text-carbon dark:text-alabaster border-white/40 dark:border-carbon/40"
+              class="[&_label]:text-white [&_label]:font-semibold [&_label]:text-base drop-shadow-sm"
             />
             
             <Input
@@ -345,7 +345,8 @@ import aboutImageUrl from '../../assets/images/profile/DSC01235.jpg?url';
               placeholder={t('contact.email')}
               required={true}
               autocomplete="email"
-              class="bg-white/90 dark:bg-carbon/90 text-carbon dark:text-alabaster [&_label]:text-white [&_label]:font-semibold"
+              inputClass="bg-white/95 dark:bg-carbon-700/95 text-carbon dark:text-alabaster border-white/40 dark:border-carbon/40"
+              class="[&_label]:text-white [&_label]:font-semibold [&_label]:text-base drop-shadow-sm"
             />
             
             <Textarea
@@ -357,7 +358,8 @@ import aboutImageUrl from '../../assets/images/profile/DSC01235.jpg?url';
               rows={5}
               maxlength={1000}
               showCharCount={true}
-              class="bg-white/90 dark:bg-carbon/90 text-carbon dark:text-alabaster resize-y [&_label]:text-white [&_label]:font-semibold"
+              textareaClass="bg-white/95 dark:bg-carbon-700/95 text-carbon dark:text-alabaster border-white/40 dark:border-carbon/40"
+              class="[&_label]:text-white [&_label]:font-semibold [&_label]:text-base drop-shadow-sm [&_.text-xs]:text-white/80"
             />
             
             <!-- Status Messages -->
@@ -475,17 +477,11 @@ import aboutImageUrl from '../../assets/images/profile/DSC01235.jpg?url';
   </script>
 
   <script>
-    import { staggerIn, fadeInOnScroll, hoverLift } from '@/lib/animations';
+    import { hoverLift } from '@/lib/animations';
 
-    // Initialize animations when DOM is ready
+    // Initialize animations when DOM is ready (simplified for performance)
     function initAnimations() {
-      // Stagger in project and blog cards
-      staggerIn('.grid', { stagger: 0.12, duration: 0.6 });
-      
-      // Fade in sections
-      fadeInOnScroll('section', { duration: 0.8 });
-      
-      // Add hover lift to cards
+      // Only add hover lift to cards - removed heavy stagger/fade animations
       hoverLift('[data-blog-card]');
       hoverLift('[data-project-card]');
     }
