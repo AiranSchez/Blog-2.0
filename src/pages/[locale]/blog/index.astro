@@ -5,6 +5,7 @@ import Footer from '../../../components/layout/Footer.astro';
 import Card from '../../../components/ui/Card.astro';
 import Badge from '../../../components/ui/Badge.astro';
 import Link from '../../../components/ui/Link.astro';
+import ScrollReveal from '../../../components/decorators/ScrollReveal.tsx';
 import { getCollection } from 'astro:content';
 import { getLangFromUrl, useTranslations } from '../../../logic/i18n-engine';
 
@@ -45,11 +46,16 @@ const posts = allPosts
       
       <!-- Blog Posts Grid -->
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {posts.map((post) => (
-          <article 
-            class="group transition-transform duration-300 hover:-translate-y-1 focus-within:ring-2 focus-within:ring-stormy rounded-lg"
-            data-blog-card
+        {posts.map((post, index) => (
+          <ScrollReveal 
+            delay={index * 0.1}
+            direction="up"
+            client:load
           >
+            <article 
+              class="group transition-transform duration-300 hover:-translate-y-1 focus-within:ring-2 focus-within:ring-stormy rounded-lg"
+              data-blog-card
+            >
             <Card 
               variant="elevated" 
               padding="lg"
@@ -106,6 +112,7 @@ const posts = allPosts
               </a>
             </Card>
           </article>
+          </ScrollReveal>
         ))}
       </div>
     </div>

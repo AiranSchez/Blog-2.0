@@ -4,6 +4,7 @@ import Header from '../../components/layout/Header.astro';
 import Footer from '../../components/layout/Footer.astro';
 import ParallaxSection from '../../components/decorators/ParallaxSection.astro';
 import ScrollReveal from '../../components/decorators/ScrollReveal.tsx';
+import AuroraBackground from '../../components/decorators/AuroraBackground.tsx';
 import Card from '../../components/ui/Card.astro';
 import Badge from '../../components/ui/Badge.astro';
 import Link from '../../components/ui/Link.astro';
@@ -60,8 +61,12 @@ import aboutImageUrl from '../../assets/images/profile/DSC01235.jpg?url';
   <main id="main-content" class="relative">
     <!-- Hero Section with Parallax -->
     <ParallaxSection delay={0}>
-      <section class="min-h-[calc(100vh-5rem)] flex items-center justify-center relative bg-gradient-to-br from-stormy via-seaweed to-muted dark:from-carbon dark:via-stormy dark:to-seaweed">
-        <div class="container mx-auto px-4 sm:px-6 max-w-4xl relative z-10">
+      <AuroraBackground 
+        className="min-h-[calc(100vh-5rem)]"
+        client:load
+      >
+        <section class="min-h-[calc(100vh-5rem)] flex items-center justify-center relative">
+          <div class="container mx-auto px-4 sm:px-6 max-w-4xl relative">
           <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
             <!-- Text Content (Left) -->
             <div class="text-center md:text-left">
@@ -115,31 +120,19 @@ import aboutImageUrl from '../../assets/images/profile/DSC01235.jpg?url';
                   width="400" 
                   height="400"
                   class="rounded-full shadow-2xl ring-4 ring-white/20 w-64 h-64 sm:w-80 sm:h-80 md:w-full md:h-full object-cover"
-                />
-                <!-- Decorative elements around image -->
-                <div class="absolute -z-10 top-4 left-4 w-full h-full rounded-full bg-seaweed/30 blur-xl"></div>
+                />                <!-- Decorative elements around image -->
+                <div class="absolute top-4 left-4 w-full h-full rounded-full bg-seaweed/30 blur-xl -z-10"></div>
               </div>
             </div>
           </div>
         </div>
-        
-        <!-- Decorative SVG -->
-        <div class="absolute inset-0 opacity-10">
-          <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="1"/>
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#grid)" />
-          </svg>
-        </div>
       </section>
+      </AuroraBackground>
     </ParallaxSection>
 
     <!-- Projects Section -->
     <ParallaxSection delay={100}>
-      <section class="py-12 sm:py-20 bg-alabaster dark:bg-carbon transition-colors" aria-labelledby="projects-heading">
+      <section class="py-12 sm:py-20 bg-alabaster dark:bg-carbon transition-colors relative shadow-2xl" aria-labelledby="projects-heading">
       <div class="container mx-auto px-4 sm:px-6 max-w-7xl">
         <h2 id="projects-heading" class="text-4xl font-bold text-center mb-12 text-stormy dark:text-seaweed">
           {t('projects.title')}
@@ -208,34 +201,36 @@ import aboutImageUrl from '../../assets/images/profile/DSC01235.jpg?url';
 
     <!-- Experience Section -->
     <ParallaxSection delay={100}>
-    <section class="py-12 sm:py-20 bg-white dark:bg-stormy/10 transition-colors" aria-labelledby="experience-heading">
+    <AuroraBackground className="py-12 sm:py-20" client:load>
+    <section class="py-12 sm:py-20 transition-colors relative" aria-labelledby="experience-heading">
       <div class="container mx-auto px-4 sm:px-6 max-w-7xl">
-        <h2 id="experience-heading" class="text-4xl font-bold text-center mb-12 text-stormy dark:text-seaweed">
+        <h2 id="experience-heading" class="text-4xl font-bold text-center mb-12 text-white">
           {t('experience.title')}
         </h2>
         <div class="max-w-3xl mx-auto space-y-8">
           {experiences.map((exp, index) => (
-            <div class="relative pl-8 border-l-2 border-stormy dark:border-seaweed">
-              <div class="absolute -left-2 top-0 w-4 h-4 rounded-full bg-stormy dark:bg-seaweed"></div>
-              <h3 class="text-2xl font-bold text-stormy dark:text-seaweed mb-1">{exp.data.company}</h3>
-              <p class="text-lg font-semibold text-carbon/80 dark:text-alabaster/80 mb-1">{t('experience.collaborator')} · {exp.data.role}</p>
-              <p class="text-sm text-carbon/60 dark:text-alabaster/60 mb-2">
+            <div class="relative pl-8 border-l-2 border-alabaster/50">
+              <div class="absolute -left-2 top-0 w-4 h-4 rounded-full bg-alabaster"></div>
+              <h3 class="text-2xl font-bold text-alabaster mb-1">{exp.data.company}</h3>
+              <p class="text-lg font-semibold text-alabaster/90 mb-1">{t('experience.collaborator')} · {exp.data.role}</p>
+              <p class="text-sm text-alabaster/70 mb-2">
                 {exp.data.startDate} - {exp.data.endDate || t('experience.present')}
               </p>
               {exp.data.description && (
-                <p class="text-carbon/70 dark:text-alabaster/70">{exp.data.description}</p>
+                <p class="text-alabaster/80">{exp.data.description}</p>
               )}
             </div>
           ))}
         </div>
       </div>
     </section>
+    </AuroraBackground>
     </ParallaxSection>
 
     <!-- About Section -->
     {AboutContent && (
       <ParallaxSection delay={100}>
-      <section class="py-12 sm:py-20 bg-alabaster dark:bg-carbon transition-colors" aria-labelledby="about-heading">
+      <section class="py-12 sm:py-20 bg-alabaster dark:bg-carbon transition-colors relative shadow-2xl" aria-labelledby="about-heading">
         <div class="container mx-auto px-4 sm:px-6 max-w-7xl">
           <h2 id="about-heading" class="text-4xl font-bold text-center mb-12 text-stormy dark:text-seaweed">
             {t('about.title') || 'About Me'}
@@ -265,9 +260,10 @@ import aboutImageUrl from '../../assets/images/profile/DSC01235.jpg?url';
 
     <!-- Recent Posts Section -->
     <ParallaxSection delay={100}>
-      <section class="py-12 sm:py-20 bg-white dark:bg-stormy/10 transition-colors" aria-labelledby="blog-heading">
+      <AuroraBackground className="py-12 sm:py-20" client:load>
+      <section class="py-12 sm:py-20 transition-colors relative" aria-labelledby="blog-heading">
       <div class="container mx-auto px-4 sm:px-6 max-w-7xl">
-        <h2 id="blog-heading" class="text-4xl font-bold text-center mb-12 text-stormy dark:text-seaweed">
+        <h2 id="blog-heading" class="text-4xl font-bold text-center mb-12 text-white">
           {t('blog.title')}
         </h2>
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
@@ -345,17 +341,18 @@ import aboutImageUrl from '../../assets/images/profile/DSC01235.jpg?url';
         </div>
       </div>
     </section>
+    </AuroraBackground>
     </ParallaxSection>
 
     <!-- Contact Section -->
     <ParallaxSection delay={100}>
-    <section id="contact" class="py-20 bg-gradient-to-br from-stormy to-seaweed dark:from-carbon dark:to-stormy" aria-labelledby="contact-heading">
+    <section id="contact" class="py-20 bg-alabaster dark:bg-carbon transition-colors relative shadow-2xl" aria-labelledby="contact-heading">
       <div class="container mx-auto px-4 max-w-4xl">
         <div class="max-w-2xl mx-auto">
-          <h2 id="contact-heading" class="text-4xl font-bold mb-4 text-white text-center">
+          <h2 id="contact-heading" class="text-4xl font-bold mb-4 text-stormy dark:text-seaweed text-center">
             {t('contact.title')}
           </h2>
-          <p class="text-xl text-alabaster/90 mb-8 text-center">
+          <p class="text-xl text-carbon/80 dark:text-alabaster/80 mb-8 text-center">
             {t('contact.subtitle')}
           </p>
           
@@ -370,8 +367,8 @@ import aboutImageUrl from '../../assets/images/profile/DSC01235.jpg?url';
               placeholder={t('contact.name')}
               required={true}
               autocomplete="name"
-              inputClass="bg-white/95 dark:bg-carbon-700/95 text-carbon dark:text-alabaster border-white/40 dark:border-carbon/40"
-              class="[&_label]:text-white [&_label]:font-semibold [&_label]:text-base drop-shadow-sm"
+              inputClass="bg-white dark:bg-stormy/10 text-carbon dark:text-alabaster border-stormy/20 dark:border-seaweed/20"
+              class="[&_label]:text-stormy dark:[&_label]:text-seaweed [&_label]:font-semibold [&_label]:text-base"
             />
             
             <Input
@@ -382,8 +379,8 @@ import aboutImageUrl from '../../assets/images/profile/DSC01235.jpg?url';
               placeholder={t('contact.email')}
               required={true}
               autocomplete="email"
-              inputClass="bg-white/95 dark:bg-carbon-700/95 text-carbon dark:text-alabaster border-white/40 dark:border-carbon/40"
-              class="[&_label]:text-white [&_label]:font-semibold [&_label]:text-base drop-shadow-sm"
+              inputClass="bg-white dark:bg-stormy/10 text-carbon dark:text-alabaster border-stormy/20 dark:border-seaweed/20"
+              class="[&_label]:text-stormy dark:[&_label]:text-seaweed [&_label]:font-semibold [&_label]:text-base"
             />
             
             <Textarea
@@ -395,8 +392,8 @@ import aboutImageUrl from '../../assets/images/profile/DSC01235.jpg?url';
               rows={5}
               maxlength={1000}
               showCharCount={true}
-              textareaClass="bg-white/95 dark:bg-carbon-700/95 text-carbon dark:text-alabaster border-white/40 dark:border-carbon/40"
-              class="[&_label]:text-white [&_label]:font-semibold [&_label]:text-base drop-shadow-sm [&_.text-xs]:text-white/80"
+              textareaClass="bg-white dark:bg-stormy/10 text-carbon dark:text-alabaster border-stormy/20 dark:border-seaweed/20"
+              class="[&_label]:text-stormy dark:[&_label]:text-seaweed [&_label]:font-semibold [&_label]:text-base [&_.text-xs]:text-carbon/60 dark:[&_.text-xs]:text-alabaster/60"
             />
             
             <!-- Status Messages -->
