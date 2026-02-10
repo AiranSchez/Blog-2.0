@@ -2,6 +2,9 @@
 import Layout from '../../../layouts/Layout.astro';
 import Header from '../../../components/Header.astro';
 import Footer from '../../../components/Footer.astro';
+import Card from '../../../components/ui/Card.astro';
+import Badge from '../../../components/ui/Badge.astro';
+import Link from '../../../components/ui/Link.astro';
 import { getCollection } from 'astro:content';
 import { getLangFromUrl, useTranslations } from '../../../i18n/utils';
 
@@ -43,30 +46,66 @@ const posts = allPosts
       <!-- Blog Posts Grid -->
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {posts.map((post) => (
-          <article class="bg-white dark:bg-stormy/20 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow border border-muted/20 dark:border-stormy/40">
-            <div class="p-6">
+          <article 
+            class="group transition-transform duration-300 hover:-translate-y-1 focus-within:ring-2 focus-within:ring-stormy rounded-lg"
+            data-blog-card
+          >
+            <Card 
+              variant="elevated" 
+              padding="lg"
+              class="h-full flex flex-col"
+            >
               <h2 class="text-2xl font-bold mb-3 text-stormy dark:text-seaweed">
-                <a href={`/${lang}/blog/${post.slug}/`} class="hover:underline">
+                <Link 
+                  href={`/${lang}/blog/${post.slug}/`}
+                  variant="subtle"
+                  class="hover:underline focus-visible:underline"
+                >
                   {post.data.title}
-                </a>
+                </Link>
               </h2>
-              <p class="text-sm text-carbon/60 dark:text-alabaster/60 mb-3">
-                {new Date(post.data.date).toLocaleDateString(lang)}
-              </p>
-              <p class="text-carbon/80 dark:text-alabaster/80 mb-4">
+              
+              <time 
+                datetime={post.data.date.toISOString()}
+                class="text-sm text-carbon/60 dark:text-alabaster/60 mb-3 block"
+              >
+                {new Date(post.data.date).toLocaleDateString(lang, {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
+              </time>
+              
+              <p class="text-carbon/80 dark:text-alabaster/80 mb-4 line-clamp-3 flex-grow">
                 {post.data.description}
               </p>
-              <div class="flex flex-wrap gap-2 mb-4">
-                {post.data.tags.map((tag) => (
-                  <span class="text-xs px-2 py-1 bg-muted/30 dark:bg-seaweed/20 rounded text-carbon dark:text-alabaster">
+              
+              <div class="flex flex-wrap gap-2 mb-4" role="list" aria-label="Tags">
+                {post.data.tags.slice(0, 4).map((tag) => (
+                  <Badge 
+                    variant="muted" 
+                    size="sm"
+                    role="listitem"
+                  >
                     {tag}
-                  </span>
+                  </Badge>
                 ))}
+                {post.data.tags.length > 4 && (
+                  <Badge variant="outline" size="sm">
+                    +{post.data.tags.length - 4}
+                  </Badge>
+                )}
               </div>
-              <a href={`/${lang}/blog/${post.slug}/`} class="text-stormy dark:text-seaweed hover:underline font-semibold">
-                {t('blog.readMore')} →
-              </a>
-            </div>
+              
+              <Link 
+                href={`/${lang}/blog/${post.slug}/`}
+                variant="button"
+                class="text-stormy dark:text-seaweed hover:underline font-semibold inline-flex items-center gap-1 group-hover:gap-2 transition-all"
+              >
+                {t('blog.readMore')} 
+                <span aria-hidden="true">→</span>
+              </Link>
+            </Card>
           </article>
         ))}
       </div>

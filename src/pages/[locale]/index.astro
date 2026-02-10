@@ -3,6 +3,9 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import ParallaxSection from '../../components/ParallaxSection.astro';
+import Card from '../../components/ui/Card.astro';
+import Badge from '../../components/ui/Badge.astro';
+import Link from '../../components/ui/Link.astro';
 import Input from '../../components/ui/Input.astro';
 import Textarea from '../../components/ui/Textarea.astro';
 import Button from '../../components/ui/Button.astro';
@@ -209,37 +212,77 @@ import aboutImageUrl from '../../assets/images/profile/DSC01235.jpg?url';
         </h2>
         <div class="grid md:grid-cols-3 gap-8">
           {recentPosts.map((post) => (
-            <article class="bg-alabaster dark:bg-carbon/50 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow border border-muted/20 dark:border-stormy/40">
-              <div class="p-6">
+            <article 
+              class="group transition-transform duration-300 hover:-translate-y-1 focus-within:ring-2 focus-within:ring-stormy rounded-lg"
+              data-blog-card
+            >
+              <Card 
+                variant="elevated" 
+                padding="lg"
+                class="h-full flex flex-col"
+              >
                 <h3 class="text-xl font-bold mb-2 text-stormy dark:text-seaweed">
-                  <a href={`/${lang}/blog/${post.slug}/`} class="hover:underline">
+                  <Link 
+                    href={`/${lang}/blog/${post.slug}/`}
+                    variant="subtle"
+                    class="hover:underline focus-visible:underline"
+                  >
                     {post.data.title}
-                  </a>
+                  </Link>
                 </h3>
-                <p class="text-sm text-carbon/60 dark:text-alabaster/60 mb-3">
-                  {new Date(post.data.date).toLocaleDateString(lang)}
-                </p>
-                <p class="text-carbon/80 dark:text-alabaster/80 mb-4">
+                
+                <time 
+                  datetime={post.data.date.toISOString()}
+                  class="text-sm text-carbon/60 dark:text-alabaster/60 mb-3 block"
+                >
+                  {new Date(post.data.date).toLocaleDateString(lang, {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}
+                </time>
+                
+                <p class="text-carbon/80 dark:text-alabaster/80 mb-4 line-clamp-3 flex-grow">
                   {post.data.description}
                 </p>
-                <div class="flex flex-wrap gap-2 mb-4">
+                
+                <div class="flex flex-wrap gap-2 mb-4" role="list" aria-label="Tags">
                   {post.data.tags.slice(0, 3).map((tag) => (
-                    <span class="text-xs px-2 py-1 bg-muted/30 dark:bg-seaweed/20 rounded text-carbon dark:text-alabaster">
+                    <Badge 
+                      variant="muted" 
+                      size="sm"
+                      role="listitem"
+                    >
                       {tag}
-                    </span>
+                    </Badge>
                   ))}
+                  {post.data.tags.length > 3 && (
+                    <Badge variant="outline" size="sm">
+                      +{post.data.tags.length - 3}
+                    </Badge>
+                  )}
                 </div>
-                <a href={`/${lang}/blog/${post.slug}/`} class="text-stormy dark:text-seaweed hover:underline font-semibold">
-                  {t('blog.readMore')} →
-                </a>
-              </div>
+                
+                <Link 
+                  href={`/${lang}/blog/${post.slug}/`}
+                  variant="button"
+                  class="text-stormy dark:text-seaweed hover:underline font-semibold inline-flex items-center gap-1 group-hover:gap-2 transition-all"
+                >
+                  {t('blog.readMore')} 
+                  <span aria-hidden="true">→</span>
+                </Link>
+              </Card>
             </article>
           ))}
         </div>
         <div class="text-center mt-8">
-          <a href={`/${lang}/blog/`} class="inline-block px-6 py-3 bg-stormy dark:bg-seaweed text-white rounded-lg font-semibold hover:bg-seaweed dark:hover:bg-muted transition-colors">
+          <Button 
+            href={`/${lang}/blog/`}
+            size="lg"
+            variant="primary"
+          >
             {t('blog.viewAll')}
-          </a>
+          </Button>
         </div>
       </div>
     </section>

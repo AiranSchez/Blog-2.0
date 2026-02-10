@@ -37,18 +37,21 @@ const badgeVariants = cva(
 
 export interface Props extends VariantProps<typeof badgeVariants> {
   class?: string;
+  role?: string;
 }
 
 const {
   variant,
   size,
   class: className,
+  role,
   ...props
 } = Astro.props;
 ---
 
 <span
   class={cn(badgeVariants({ variant, size }), className)}
+  role={role}
   {...props}
 >
   <slot />
