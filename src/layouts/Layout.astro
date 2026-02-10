@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
-import { ViewTransitions } from 'astro:transitions';
+// ViewTransitions disabled for performance
+// import { ViewTransitions } from 'astro:transitions';
 
 interface Props {
   title: string;
@@ -57,7 +58,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <link rel="alternate" hreflang="es" href={new URL('/es' + Astro.url.pathname.replace(/^\/(en|es|ja)/, ''), Astro.site)} />
     <link rel="alternate" hreflang="ja" href={new URL('/ja' + Astro.url.pathname.replace(/^\/(en|es|ja)/, ''), Astro.site)} />
     
-    <ViewTransitions />
+    <!-- ViewTransitions disabled for performance -->
     
     <script is:inline>
       // Initialize theme with FOUC prevention and system preference detection
@@ -84,19 +85,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
           html.style.colorScheme = 'light';
         }
       })();
-      
-      // Re-apply theme after view transitions
-      document.addEventListener('astro:after-swap', function() {
-        const theme = localStorage.getItem('theme') || 'light';
-        const html = document.documentElement;
-        if (theme === 'dark') {
-          html.classList.add('dark');
-          html.style.colorScheme = 'dark';
-        } else {
-          html.classList.remove('dark');
-          html.style.colorScheme = 'light';
-        }
-      });
     </script>
   </head>
   <body class="bg-alabaster dark:bg-carbon text-carbon dark:text-alabaster transition-colors duration-300">

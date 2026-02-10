@@ -475,25 +475,4 @@ import aboutImageUrl from '../../assets/images/profile/DSC01235.jpg?url';
       });
     }
   </script>
-
-  <script>
-    import { hoverLift } from '@/lib/animations';
-
-    // Initialize animations when DOM is ready (simplified for performance)
-    function initAnimations() {
-      // Only add hover lift to cards - removed heavy stagger/fade animations
-      hoverLift('[data-blog-card]');
-      hoverLift('[data-project-card]');
-    }
-
-    // Run on page load
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initAnimations);
-    } else {
-      initAnimations();
-    }
-
-    // Re-run after view transitions
-    document.addEventListener('astro:after-swap', initAnimations);
-  </script>
 </Layout>
