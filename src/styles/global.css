@@ -71,12 +71,31 @@
     scroll-padding-top: 5rem;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Smooth theme transitions */
+    transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1);
   }
   
   body {
     @apply text-carbon dark:text-alabaster;
     @apply bg-alabaster dark:bg-carbon;
     @apply transition-colors duration-300;
+  }
+  
+  /* Apply smooth color transitions to theme-dependent properties */
+  * {
+    transition-property: background-color, border-color, color, fill, stroke, box-shadow;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 200ms;
+  }
+  
+  /* Disable transitions for reduced motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    html {
+      transition: none !important;
+      animation: none !important;
+      scroll-behavior: auto !important;
+    }
   }
   
   /* Typography improvements */

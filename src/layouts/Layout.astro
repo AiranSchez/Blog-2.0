@@ -36,8 +36,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="description" content={description} />
     
     <!-- Theme color - will be updated by script based on dark mode -->
-    <meta name="theme-color" content="#F8F9FA" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#1A1A1A" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#dce1de" id="theme-color-meta" />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
@@ -77,12 +76,16 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         
         // Apply theme immediately (before page renders)
         const html = document.documentElement;
+        const themeMeta = document.getElementById('theme-color-meta');
+        
         if (theme === 'dark') {
           html.classList.add('dark');
           html.style.colorScheme = 'dark';
+          if (themeMeta) themeMeta.setAttribute('content', '#1f2421');
         } else {
           html.classList.remove('dark');
           html.style.colorScheme = 'light';
+          if (themeMeta) themeMeta.setAttribute('content', '#dce1de');
         }
       })();
     </script>

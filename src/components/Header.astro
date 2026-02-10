@@ -203,14 +203,23 @@ const pathWithoutLocale = Astro.url.pathname.replace(/^\/(en|es|ja)/, '') || '/'
   }
 
   function toggleTheme() {
-    const isDark = document.documentElement.classList.contains('dark');
+    const html = document.documentElement;
+    const isDark = html.classList.contains('dark');
+    
     if (isDark) {
-      document.documentElement.classList.remove('dark');
+      html.classList.remove('dark');
+      html.style.colorScheme = 'light';
       localStorage.setItem('theme', 'light');
+      // Update meta theme-color for browser chrome
+      document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '#dce1de');
     } else {
-      document.documentElement.classList.add('dark');
+      html.classList.add('dark');
+      html.style.colorScheme = 'dark';
       localStorage.setItem('theme', 'dark');
+      // Update meta theme-color for browser chrome
+      document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '#1f2421');
     }
+    
     updateThemeText();
   }
 
