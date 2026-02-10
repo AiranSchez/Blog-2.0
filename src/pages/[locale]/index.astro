@@ -3,6 +3,9 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import ParallaxSection from '../../components/ParallaxSection.astro';
+import Input from '../../components/ui/Input.astro';
+import Textarea from '../../components/ui/Textarea.astro';
+import Button from '../../components/ui/Button.astro';
 import { getCollection } from 'astro:content';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 
@@ -246,47 +249,62 @@ import aboutImageUrl from '../../assets/images/profile/DSC01235.jpg?url';
     <ParallaxSection delay={100}>
     <section id="contact" class="py-20 bg-gradient-to-br from-stormy to-seaweed dark:from-carbon dark:to-stormy">
       <div class="container mx-auto px-4 max-w-4xl">
-        <div class="max-w-2xl mx-auto text-center">
-          <h2 class="text-4xl font-bold mb-4 text-white">
+        <div class="max-w-2xl mx-auto">
+          <h2 class="text-4xl font-bold mb-4 text-white text-center">
             {t('contact.title')}
           </h2>
-          <p class="text-xl text-alabaster/90 mb-8">
+          <p class="text-xl text-alabaster/90 mb-8 text-center">
             {t('contact.subtitle')}
           </p>
           
-          <form action="https://api.web3forms.com/submit" method="POST" class="space-y-4">
+          <form id="contact-form" class="space-y-6 text-left">
             <input type="hidden" name="access_key" value={import.meta.env.WEB3FORMS_ACCESS_KEY || 'your_key_here'} />
             
-            <input 
-              type="text" 
-              name="name" 
+            <Input
+              type="text"
+              name="name"
+              id="contact-name"
+              label={t('contact.name')}
               placeholder={t('contact.name')}
-              required
-              class="w-full px-4 py-3 rounded-lg bg-white/90 dark:bg-carbon/90 text-carbon dark:text-alabaster placeholder-carbon/60 dark:placeholder-alabaster/60 border border-transparent focus:border-seaweed focus:outline-none"
+              required={true}
+              autocomplete="name"
+              class="bg-white/90 dark:bg-carbon/90 text-carbon dark:text-alabaster [&_label]:text-white [&_label]:font-semibold"
             />
             
-            <input 
-              type="email" 
-              name="email" 
+            <Input
+              type="email"
+              name="email"
+              id="contact-email"
+              label={t('contact.email')}
               placeholder={t('contact.email')}
-              required
-              class="w-full px-4 py-3 rounded-lg bg-white/90 dark:bg-carbon/90 text-carbon dark:text-alabaster placeholder-carbon/60 dark:placeholder-alabaster/60 border border-transparent focus:border-seaweed focus:outline-none"
+              required={true}
+              autocomplete="email"
+              class="bg-white/90 dark:bg-carbon/90 text-carbon dark:text-alabaster [&_label]:text-white [&_label]:font-semibold"
             />
             
-            <textarea 
-              name="message" 
-              rows="5"
+            <Textarea
+              name="message"
+              id="contact-message"
+              label={t('contact.message')}
               placeholder={t('contact.message')}
-              required
-              class="w-full px-4 py-3 rounded-lg bg-white/90 dark:bg-carbon/90 text-carbon dark:text-alabaster placeholder-carbon/60 dark:placeholder-alabaster/60 border border-transparent focus:border-seaweed focus:outline-none resize-none"
-            ></textarea>
+              required={true}
+              rows={5}
+              maxlength={1000}
+              showCharCount={true}
+              class="bg-white/90 dark:bg-carbon/90 text-carbon dark:text-alabaster resize-y [&_label]:text-white [&_label]:font-semibold"
+            />
             
-            <button 
+            <!-- Status Messages -->
+            <div id="form-status" role="status" aria-live="polite" class="hidden p-4 rounded-lg text-center font-semibold"></div>
+            
+            <Button
               type="submit"
-              class="w-full px-6 py-3 bg-white text-stormy rounded-lg font-semibold hover:bg-alabaster transition-colors"
+              size="lg"
+              class="w-full"
+              id="submit-button"
             >
               {t('contact.send')}
-            </button>
+            </Button>
           </form>
         </div>
       </div>
@@ -295,4 +313,98 @@ import aboutImageUrl from '../../assets/images/profile/DSC01235.jpg?url';
   </main>
 
   <Footer />
+
+  <script define:vars={{ lang, translations: { 
+    sending: t('contact.sending'),
+    success: t('contact.success'),
+    error: t('contact.error')
+  }}}>
+    const form = document.getElementById('contact-form');
+    const submitButton = document.getElementById('submit-button');
+    const formStatus = document.getElementById('form-status');
+
+    if (form && submitButton && formStatus) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Get form data
+        const formData = new FormData(form);
+
+        // Show loading state
+        submitButton.disabled = true;
+        submitButton.setAttribute('aria-busy', 'true');
+        const originalText = submitButton.textContent;
+        submitButton.textContent = translations.sending;
+
+        // Hide previous status
+        formStatus.classList.add('hidden');
+
+        try {
+          // Submit to Web3Forms
+          const response = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            body: formData
+          });
+
+          const data = await response.json();
+
+          if (response.ok && data.success) {
+            // Show success message
+            formStatus.textContent = translations.success;
+            formStatus.className = 'p-4 rounded-lg text-center font-semibold bg-seaweed/20 text-white border border-seaweed/40';
+            formStatus.classList.remove('hidden');
+
+            // Reset form
+            form.reset();
+
+            // Remove char count if exists
+            const charCountEl = document.querySelector('[id^="char-count-"]');
+            if (charCountEl) {
+              charCountEl.textContent = '0';
+            }
+          } else {
+            throw new Error(data.message || 'Submission failed');
+          }
+        } catch (error) {
+          // Show error message
+          formStatus.textContent = translations.error;
+          formStatus.className = 'p-4 rounded-lg text-center font-semibold bg-red-500/20 text-white border border-red-500/40';
+          formStatus.classList.remove('hidden');
+          
+          console.error('Form submission error:', error);
+        } finally {
+          // Reset button state
+          submitButton.disabled = false;
+          submitButton.removeAttribute('aria-busy');
+          submitButton.textContent = originalText;
+
+          // Auto-hide status after 5 seconds
+          setTimeout(() => {
+            formStatus.classList.add('hidden');
+          }, 5000);
+        }
+      });
+
+      // Warn before leaving if form has unsaved changes
+      let formChanged = false;
+      const formInputs = form.querySelectorAll('input:not([type="hidden"]), textarea');
+      
+      formInputs.forEach(input => {
+        input.addEventListener('input', () => {
+          formChanged = true;
+        });
+      });
+
+      form.addEventListener('submit', () => {
+        formChanged = false;
+      });
+
+      window.addEventListener('beforeunload', (e) => {
+        if (formChanged) {
+          e.preventDefault();
+          e.returnValue = '';
+        }
+      });
+    }
+  </script>
 </Layout>
