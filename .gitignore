@@ -22,3 +22,12 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# VS Code settings
+.vscode/
+
+# GitHub Copilot agents
+.agents/
+
+# Vercel build output
+.vercel/
