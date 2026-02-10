@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion, easeInOut } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
 interface AnimatedTextProps {
@@ -40,7 +40,7 @@ export default function AnimatedText({
         transition: {
           duration: 0.8,
           delay,
-          ease: [0.25, 0.1, 0.25, 1]
+          ease: easeInOut
         }
       }
     },
@@ -52,7 +52,7 @@ export default function AnimatedText({
         transition: {
           duration: 0.6,
           delay,
-          ease: [0.25, 0.1, 0.25, 1]
+          ease: easeInOut
         }
       }
     },

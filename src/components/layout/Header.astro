@@ -1,5 +1,6 @@
 ---
 import { getLangFromUrl, useTranslations } from '../../logic/i18n-engine';
+import AnimatedText from '../ui/AnimatedText.tsx';
 // import { Sun, Moon, Languages, Menu, X } from '@lucide/astro';
 
 const lang = getLangFromUrl(Astro.url);
@@ -22,7 +23,11 @@ const pathWithoutLocale = Astro.url.pathname.replace(/^\/(en|es|ja)/, '') || '/'
         href={`/${lang}/`} 
         class="text-2xl font-bold text-stormy dark:text-seaweed hover:text-seaweed dark:hover:text-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stormy rounded px-2 py-1"
       >
-        Airán Sanchez
+        <AnimatedText 
+          text="Airán Sanchez"
+          variant="typewriter"
+          client:load
+        />
       </a>
       
       <!-- Desktop Navigation -->
