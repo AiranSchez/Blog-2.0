@@ -48,8 +48,13 @@ const pathWithoutLocale = Astro.url.pathname.replace(/^\/(en|es|ja)/, '') || '/'
             aria-label="Toggle theme"
             class="p-2 sm:p-2.5 min-w-[44px] min-h-[44px] rounded-lg hover:bg-muted/20 dark:hover:bg-stormy/20 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stormy touch-manipulation"
           >
-            <span id="theme-icon-light" class="hidden dark:block text-xl" aria-hidden="true">☀️</span>
-            <span id="theme-icon-dark" class="block dark:hidden text-xl" aria-hidden="true">🌙</span>
+            <svg id="theme-icon-light" class="w-6 h-6 hidden dark:block" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="4"/>
+              <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+            </svg>
+            <svg id="theme-icon-dark" class="w-6 h-6 block dark:hidden" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
           </button>
           
           <!-- Language Switcher -->
@@ -58,13 +63,15 @@ const pathWithoutLocale = Astro.url.pathname.replace(/^\/(en|es|ja)/, '') || '/'
               id="language-toggle"
               type="button"
               aria-label="Change language"
-              class="min-w-[44px] min-h-[44px]"
               aria-haspopup="true"
               aria-expanded="false"
               aria-controls="language-dropdown"
-              class="p-2 rounded-lg hover:bg-muted/20 dark:hover:bg-stormy/20 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stormy touch-manipulation"
+              class="p-2 sm:p-2.5 min-w-[44px] min-h-[44px] rounded-lg hover:bg-muted/20 dark:hover:bg-stormy/20 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stormy touch-manipulation"
             >
-              <span class="text-xl" aria-hidden="true">🌐</span>
+              <svg class="w-6 h-6" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
             </button>
             
             <div
@@ -117,8 +124,12 @@ const pathWithoutLocale = Astro.url.pathname.replace(/^\/(en|es|ja)/, '') || '/'
         aria-controls="mobile-menu"
         class="md:hidden p-2.5 min-w-[48px] min-h-[48px] rounded-lg hover:bg-muted/20 dark:hover:bg-stormy/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stormy touch-manipulation"
       >
-        <span id="mobile-menu-icon-open" class="text-2xl" aria-hidden="true">☰</span>
-        <span id="mobile-menu-icon-close" class="text-2xl hidden" aria-hidden="true">✕</span>
+        <svg id="mobile-menu-icon-open" class="w-7 h-7" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        <svg id="mobile-menu-icon-close" class="w-7 h-7 hidden" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
       </button>
     </div>
     
@@ -151,8 +162,13 @@ const pathWithoutLocale = Astro.url.pathname.replace(/^\/(en|es|ja)/, '') || '/'
             type="button"
             class="flex items-center gap-3 text-carbon dark:text-alabaster hover:text-stormy dark:hover:text-seaweed transition-colors font-medium px-3 py-3 min-h-[48px] rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stormy text-left touch-manipulation"
           >
-            <span class="hidden dark:block text-xl" aria-hidden="true">☀️</span>
-            <span class="block dark:hidden text-xl" aria-hidden="true">🌙</span>
+            <svg class="w-6 h-6 hidden dark:block" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="4"/>
+              <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+            </svg>
+            <svg class="w-6 h-6 block dark:hidden" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
             <span id="mobile-theme-text">
               {t('nav.lightMode')}
             </span>
