@@ -1,5 +1,5 @@
 ---
-import { cn } from '@/lib/utils';
+import { cn } from '@/logic/styles-merger';
 
 export interface Props {
   variant?: 'elevated' | 'outlined' | 'ghost';
@@ -16,7 +16,7 @@ const {
   as: Element = 'div',
   class: className,
   ...props
-} = Astro.props;
+} = Astro.props as Props;
 
 // Simplified variant classes (no CVA overhead)
 const variantClasses = {

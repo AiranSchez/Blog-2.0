@@ -1,5 +1,5 @@
 import { defineMiddleware } from 'astro:middleware';
-import { defaultLang, type Language } from './i18n/utils';
+import { defaultLang, type Language } from './logic/i18n-engine';
 
 const locales = ['en', 'es', 'ja'];
 
