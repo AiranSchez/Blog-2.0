@@ -1,7 +1,7 @@
 ---
 template: blog-post
 title: How We Reduced an 11-Hour Process to 37 Minutes
-slug: /how-we-reduced-an-11-hour-process-to-37-minutes
+slug: /en/how-we-reduced-an-11-hour-process-to-37-minutes
 date: 2023-01-20T00:00:00.000Z
 description: optimization of a process in data engineering
 featuredImage: /assets/Optimizacion.webp

@@ -2,7 +2,7 @@
 template: blog-post
 title: CSRF, XSS & CORS
 date: 2020-07-01 13:37:00+00:00
-slug: /CSRF /XSS /CORS
+slug: /en/csrf-xss-cors
 description: Description of the security terms CSRF, XSS, and CORS
 featuredImage: /assets/website-security.jpg
 tags: ['CSRF', 'CORS', 'XSS', 'Learning', 'Security', 'Blog']

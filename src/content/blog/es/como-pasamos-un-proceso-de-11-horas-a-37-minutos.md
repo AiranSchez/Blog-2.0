@@ -1,7 +1,7 @@
 ---
 template: blog-post
 title: Como pasamos un proceso de 11 horas a 37 minutos
-slug: /como-pasamos-un-proceso-de-11-horas-a-37-minutos
+slug: /es/como-pasamos-un-proceso-de-11-horas-a-37-minutos
 date: 2023-01-20T00:00:00.000Z
 description: optimización de un proceso en data engineering
 featuredImage: /assets/Optimizacion.webp

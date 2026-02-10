@@ -129,11 +129,11 @@ const posts = allPosts
           // Production: try to load PageFind
           const link = document.createElement('link');
           link.rel = 'stylesheet';
-          link.href = '/_pagefind/pagefind-ui.css';
+          link.href = '/pagefind/pagefind-ui.css';
           document.head.appendChild(link);
           
           const script = document.createElement('script');
-          script.src = '/_pagefind/pagefind-ui.js';
+          script.src = '/pagefind/pagefind-ui.js';
           script.type = 'text/javascript';
           script.onload = () => {
             if (window.PagefindUI) {
