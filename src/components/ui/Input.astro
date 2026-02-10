@@ -1,0 +1,134 @@
+---
+import { cn } from '@/lib/utils';
+
+export interface Props {
+  type?: 'text' | 'email' | 'tel' | 'url' | 'password' | 'number' | 'search' | 'date' | 'time';
+  name: string;
+  id?: string;
+  label: string;
+  placeholder?: string;
+  value?: string;
+  required?: boolean;
+  disabled?: boolean;
+  error?: string;
+  success?: string;
+  helpText?: string;
+  autocomplete?: string;
+  inputmode?: 'text' | 'email' | 'tel' | 'url' | 'numeric' | 'decimal' | 'search';
+  spellcheck?: boolean;
+  class?: string;
+  inputClass?: string;
+  showLabel?: boolean;
+}
+
+const {
+  type = 'text',
+  name,
+  id = name,
+  label,
+  placeholder,
+  value,
+  required = false,
+  disabled = false,
+  error,
+  success,
+  helpText,
+  autocomplete,
+  inputmode,
+  spellcheck,
+  class: className,
+  inputClass,
+  showLabel = true,
+  ...props
+} = Astro.props;
+
+// Auto-disable spellcheck for emails, codes, usernames
+const shouldDisableSpellcheck = spellcheck !== undefined 
+  ? !spellcheck 
+  : ['email', 'tel', 'url'].includes(type) || name.includes('code') || name.includes('username');
+
+// Auto-set inputmode based on type if not provided
+const computedInputmode = inputmode || (type === 'email' ? 'email' : type === 'tel' ? 'tel' : type === 'url' ? 'url' : type === 'number' ? 'numeric' : undefined);
+
+const hasError = !!error;
+const hasSuccess = !!success;
+---
+
+<div class={cn('flex flex-col gap-1.5', className)}>
+  <label
+    for={id}
+    class={cn(
+      'text-sm font-medium text-carbon dark:text-alabaster transition-colors',
+      required && 'after:content-["*"] after:ml-0.5 after:text-red-600',
+      disabled && 'opacity-50 cursor-not-allowed',
+      !showLabel && 'sr-only'
+    )}
+  >
+    {label}
+  </label>
+  
+  <input
+    type={type}
+    name={name}
+    id={id}
+    placeholder={placeholder}
+    value={value}
+    required={required}
+    disabled={disabled}
+    autocomplete={autocomplete}
+    inputmode={computedInputmode}
+    spellcheck={!shouldDisableSpellcheck}
+    aria-invalid={hasError}
+    aria-describedby={cn(
+      helpText && `${id}-help`,
+      hasError && `${id}-error`,
+      hasSuccess && `${id}-success`
+    )}
+    class={cn(
+      // Base styles
+      'w-full px-4 py-2.5 rounded-lg',
+      'text-base text-carbon dark:text-alabaster',
+      'bg-white dark:bg-carbon-700',
+      'border-2 transition-all duration-300',
+      
+      // Focus states
+      'focus:outline-none focus:ring-2 focus:ring-stormy focus:ring-offset-2',
+      
+      // States
+      'disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-alabaster-100 dark:disabled:bg-carbon-800',
+      'placeholder:text-alabaster-500 dark:placeholder:text-carbon-400',
+      
+      // Error/Success states
+      hasError && 'border-red-500 focus:border-red-500 focus:ring-red-500',
+      hasSuccess && 'border-green-500 focus:border-green-500 focus:ring-green-500',
+      !hasError && !hasSuccess && 'border-alabaster-300 dark:border-carbon-600 hover:border-stormy focus:border-stormy',
+      
+      inputClass
+    )}
+    {...props}
+  />
+  
+  {helpText && !hasError && !hasSuccess && (
+    <p id={`${id}-help`} class="text-xs text-alabaster-600 dark:text-carbon-400">
+      {helpText}
+    </p>
+  )}
+  
+  {hasError && (
+    <p id={`${id}-error`} class="text-xs text-red-600 dark:text-red-400 flex items-center gap-1" role="alert" aria-live="polite">
+      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+      </svg>
+      {error}
+    </p>
+  )}
+  
+  {hasSuccess && (
+    <p id={`${id}-success`} class="text-xs text-green-600 dark:text-green-400 flex items-center gap-1">
+      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+      </svg>
+      {success}
+    </p>
+  )}
+</div>

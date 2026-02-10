@@ -1,0 +1,116 @@
+---
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
+
+const buttonVariants = cva(
+  // Base styles - following Web Interface Guidelines
+  'inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stormy focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none touch-manipulation',
+  {
+    variants: {
+      variant: {
+        primary: 
+          'bg-stormy text-white hover:bg-stormy-600 active:bg-stormy-700 shadow-md hover:shadow-lg',
+        secondary:
+          'bg-seaweed text-white hover:bg-seaweed-600 active:bg-seaweed-700 shadow-md hover:shadow-lg',
+        outline:
+          'border-2 border-stormy text-stormy hover:bg-stormy hover:text-white active:bg-stormy-700',
+        ghost:
+          'hover:bg-stormy/10 text-stormy hover:text-stormy-700 active:bg-stormy/20',
+        danger:
+          'bg-red-600 text-white hover:bg-red-700 active:bg-red-800 shadow-md hover:shadow-lg',
+        link:
+          'text-stormy underline-offset-4 hover:underline px-0',
+      },
+      size: {
+        sm: 'text-sm px-3 py-1.5 min-h-[2rem]',
+        md: 'text-base px-4 py-2 min-h-[2.5rem]',
+        lg: 'text-lg px-6 py-3 min-h-[3rem]',
+        icon: 'p-2 min-h-[2.5rem] min-w-[2.5rem]',
+      },
+      fullWidth: {
+        true: 'w-full',
+        false: '',
+      },
+    },
+    defaultVariants: {
+      variant: 'primary',
+      size: 'md',
+      fullWidth: false,
+    },
+  }
+);
+
+export interface Props extends VariantProps<typeof buttonVariants> {
+  type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
+  loading?: boolean;
+  href?: string;
+  target?: '_blank' | '_self' | '_parent' | '_top';
+  rel?: string;
+  class?: string;
+  'aria-label'?: string;
+}
+
+const {
+  type = 'button',
+  variant,
+  size,
+  fullWidth,
+  disabled = false,
+  loading = false,
+  href,
+  target,
+  rel,
+  class: className,
+  'aria-label': ariaLabel,
+  ...props
+} = Astro.props;
+
+const isIconOnly = size === 'icon';
+const Element = href ? 'a' : 'button';
+
+// Warning for icon-only buttons without aria-label
+if (isIconOnly && !ariaLabel && import.meta.env.DEV) {
+  console.warn('⚠️ Icon-only buttons need aria-label for accessibility');
+}
+
+// Auto add rel for external links
+const computedRel = href && target === '_blank' ? rel || 'noopener noreferrer' : rel;
+---
+
+<Element
+  type={href ? undefined : type}
+  href={href}
+  target={target}
+  rel={computedRel}
+  disabled={disabled || loading}
+  aria-label={ariaLabel}
+  aria-busy={loading}
+  class={cn(buttonVariants({ variant, size, fullWidth }), className)}
+  {...props}
+>
+  {loading && (
+    <svg
+      class="animate-spin h-4 w-4"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <circle
+        class="opacity-25"
+        cx="12"
+        cy="12"
+        r="10"
+        stroke="currentColor"
+        stroke-width="4"
+      ></circle>
+      <path
+        class="opacity-75"
+        fill="currentColor"
+        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+      ></path>
+    </svg>
+  )}
+  <slot />
+</Element>

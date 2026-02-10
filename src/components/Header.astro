@@ -1,145 +1,349 @@
 ---
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { Sun, Moon, Languages, Menu, X } from '@lucide/astro';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+
+// Get current path without locale for language switching
+const pathWithoutLocale = Astro.url.pathname.replace(/^\/(en|es|ja)/, '') || '/';
 ---
 
-<header class="sticky top-0 z-50 bg-alabaster/90 dark:bg-carbon/90 backdrop-blur-sm border-b border-muted/20 dark:border-stormy/20">
-  <nav class="container mx-auto px-4 py-4">
+<!-- Skip to main content link for keyboard navigation -->
+<a href="#main-content" class="skip-to-main">
+  {t('nav.skipToContent') || 'Skip to main content'}
+</a>
+
+<header class="sticky top-0 z-[var(--z-sticky)] bg-alabaster/90 dark:bg-carbon/90 backdrop-blur-sm border-b border-muted/20 dark:border-stormy/20 transition-colors duration-300">
+  <nav class="container-custom py-4" aria-label="Main navigation">
     <div class="flex items-center justify-between">
-      <a href={`/${lang}/`} class="text-2xl font-bold text-stormy dark:text-seaweed hover:text-seaweed dark:hover:text-muted transition-colors">
-        <span class="typewriter">Airán Sanchez</span>
+      <!-- Logo / Brand -->
+      <a 
+        href={`/${lang}/`} 
+        class="text-2xl font-bold text-stormy dark:text-seaweed hover:text-seaweed dark:hover:text-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stormy rounded px-2 py-1"
+      >
+        Airán Sanchez
       </a>
       
-      <div class="flex items-center gap-6">
-        <a href={`/${lang}/`} class="hover:text-stormy dark:hover:text-seaweed transition-colors">
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center gap-6">
+        <a 
+          href={`/${lang}/`} 
+          class="text-carbon dark:text-alabaster hover:text-stormy dark:hover:text-seaweed transition-colors font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stormy rounded px-2 py-1"
+        >
           {t('nav.home')}
         </a>
-        <a href={`/${lang}/blog/`} class="hover:text-stormy dark:hover:text-seaweed transition-colors">
+        <a 
+          href={`/${lang}/blog/`}
+          class="text-carbon dark:text-alabaster hover:text-stormy dark:hover:text-seaweed transition-colors font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stormy rounded px-2 py-1"
+        >
           {t('nav.blog')}
         </a>
         
-        <div class="flex items-center gap-2 ml-4">
-          <button id="theme-toggle" aria-label="Toggle theme" class="p-2 rounded-lg hover:bg-muted/20 dark:hover:bg-stormy/20 transition-colors">
-            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-            </svg>
-            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
-            </svg>
+        <div class="flex items-center gap-2 ml-4 border-l border-muted/20 dark:border-stormy/20 pl-4">
+          <!-- Theme Toggle -->
+          <button 
+            id="theme-toggle" 
+            type="button"
+            aria-label="Toggle theme"
+            class="p-2 rounded-lg hover:bg-muted/20 dark:hover:bg-stormy/20 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stormy touch-manipulation"
+          >
+            <Sun id="theme-icon-light" class="w-5 h-5 hidden dark:block" aria-hidden="true" />
+            <Moon id="theme-icon-dark" class="w-5 h-5 block dark:hidden" aria-hidden="true" />
           </button>
           
-          <div class="relative group">
-            <button class="p-2 rounded-lg hover:bg-muted/20 dark:hover:bg-stormy/20 transition-colors">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path>
-              </svg>
+          <!-- Language Switcher -->
+          <div class="relative">
+            <button
+              id="language-toggle"
+              type="button"
+              aria-label="Change language"
+              aria-haspopup="true"
+              aria-expanded="false"
+              aria-controls="language-dropdown"
+              class="p-2 rounded-lg hover:bg-muted/20 dark:hover:bg-stormy/20 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stormy touch-manipulation"
+            >
+              <Languages class="w-5 h-5" aria-hidden="true" />
             </button>
-            <div class="absolute right-0 mt-2 w-32 bg-white dark:bg-carbon border border-muted/20 dark:border-stormy/20 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-              <a href={`/en${Astro.url.pathname.replace(/^\/(en|es|ja)/, '')}`} class="block px-4 py-2 hover:bg-muted/10 dark:hover:bg-stormy/10">English</a>
-              <a href={`/es${Astro.url.pathname.replace(/^\/(en|es|ja)/, '')}`} class="block px-4 py-2 hover:bg-muted/10 dark:hover:bg-stormy/10">Español</a>
-              <a href={`/ja${Astro.url.pathname.replace(/^\/(en|es|ja)/, '')}`} class="block px-4 py-2 hover:bg-muted/10 dark:hover:bg-stormy/10">日本語</a>
+            
+            <div
+              id="language-dropdown"
+              role="menu"
+              aria-labelledby="language-toggle"
+              class="absolute right-0 mt-2 w-40 bg-white dark:bg-carbon-700 border border-alabaster-300 dark:border-carbon-600 rounded-lg shadow-strong opacity-0 invisible scale-95 transition-all duration-200 origin-top-right"
+            >
+              <a 
+                href={`/en${pathWithoutLocale}`}
+                role="menuitem"
+                lang="en"
+                hreflang="en"
+                class="block px-4 py-2.5 hover:bg-muted/10 dark:hover:bg-stormy/10 transition-colors first:rounded-t-lg last:rounded-b-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-stormy"
+                data-lang="en"
+              >
+                🇬🇧 English
+              </a>
+              <a 
+                href={`/es${pathWithoutLocale}`}
+                role="menuitem"
+                lang="es"
+                hreflang="es"
+                class="block px-4 py-2.5 hover:bg-muted/10 dark:hover:bg-stormy/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-stormy"
+                data-lang="es"
+              >
+                🇪🇸 Español
+              </a>
+              <a 
+                href={`/ja${pathWithoutLocale}`}
+                role="menuitem"
+                lang="ja"
+                hreflang="ja"
+                class="block px-4 py-2.5 hover:bg-muted/10 dark:hover:bg-stormy/10 transition-colors last:rounded-b-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-stormy"
+                data-lang="ja"
+              >
+                🇯🇵 日本語
+              </a>
             </div>
           </div>
         </div>
       </div>
+      
+      <!-- Mobile Menu Button -->
+      <button
+        id="mobile-menu-toggle"
+        type="button"
+        aria-label="Toggle mobile menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        class="md:hidden p-2 rounded-lg hover:bg-muted/20 dark:hover:bg-stormy/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stormy touch-manipulation"
+      >
+        <Menu id="mobile-menu-icon-open" class="w-6 h-6" aria-hidden="true" />
+        <X id="mobile-menu-icon-close" class="w-6 h-6 hidden" aria-hidden="true" />
+      </button>
+    </div>
+    
+    <!-- Mobile Menu -->
+    <div
+      id="mobile-menu"
+      class="md:hidden hidden mt-4 pt-4 border-t border-muted/20 dark:border-stormy/20"
+    >
+      <nav class="flex flex-col gap-3" aria-label="Mobile navigation">
+        <a 
+          href={`/${lang}/`}
+          class="text-carbon dark:text-alabaster hover:text-stormy dark:hover:text-seaweed transition-colors font-medium px-2 py-2 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stormy"
+        >
+          {t('nav.home')}
+        </a>
+        <a 
+          href={`/${lang}/blog/`}
+          class="text-carbon dark:text-alabaster hover:text-stormy dark:hover:text-seaweed transition-colors font-medium px-2 py-2 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stormy"
+        >
+          {t('nav.blog')}
+        </a>
+        
+        <div class="pt-3 mt-3 border-t border-muted/20 dark:border-stormy/20 flex flex-col gap-2">
+          <span class="text-xs uppercase text-alabaster-600 dark:text-carbon-400 font-semibold px-2">
+            {t('nav.settings') || 'Settings'}
+          </span>
+          
+          <button
+            id="mobile-theme-toggle"
+            type="button"
+            class="flex items-center gap-3 text-carbon dark:text-alabaster hover:text-stormy dark:hover:text-seaweed transition-colors font-medium px-2 py-2 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stormy text-left touch-manipulation"
+          >
+            <Sun class="w-5 h-5 hidden dark:block" aria-hidden="true" />
+            <Moon class="w-5 h-5 block dark:hidden" aria-hidden="true" />
+            <span id="mobile-theme-text">
+              {t('nav.theme') || 'Theme'}
+            </span>
+          </button>
+          
+          <div class="flex flex-col gap-1">
+            <span class="text-xs uppercase text-alabaster-600 dark:text-carbon-400 font-semibold px-2 mb-1">
+              {t('nav.language') || 'Language'}
+            </span>
+            <a 
+              href={`/en${pathWithoutLocale}`}
+              class="flex items-center gap-3 text-carbon dark:text-alabaster hover:text-stormy dark:hover:text-seaweed transition-colors px-2 py-2 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stormy"
+            >
+              🇬🇧 English
+            </a>
+            <a 
+              href={`/es${pathWithoutLocale}`}
+              class="flex items-center gap-3 text-carbon dark:text-alabaster hover:text-stormy dark:hover:text-seaweed transition-colors px-2 py-2 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stormy"
+            >
+              🇪🇸 Español
+            </a>
+            <a 
+              href={`/ja${pathWithoutLocale}`}
+              class="flex items-center gap-3 text-carbon dark:text-alabaster hover:text-stormy dark:hover:text-seaweed transition-colors px-2 py-2 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stormy"
+            >
+              🇯🇵 日本語
+            </a>
+          </div>
+        </div>
+      </nav>
     </div>
   </nav>
 </header>
 
-<style>
-  .typewriter {
-    display: inline-block;
-    overflow: hidden;
-    white-space: nowrap;
-    border-right: 3px solid;
-    animation: 
-      typing 3.5s steps(13, end) forwards,
-      blink 0.75s step-end infinite;
-  }
-
-  @keyframes typing {
-    from {
-      width: 0;
-    }
-    to {
-      width: 13ch;
-    }
-  }
-
-  @keyframes blink {
-    0%, 50% {
-      border-color: currentColor;
-    }
-    51%, 100% {
-      border-color: transparent;
-    }
-  }
-
-  /* Stop cursor blinking and keep text visible after animation completes */
-  .typewriter.animation-done {
-    border-right-color: transparent;
-    animation: none;
-    width: fit-content;
-    overflow: visible;
-  }
-</style>
-
 <script>
+  // Theme toggle functionality
   function initThemeToggle() {
     const themeToggle = document.getElementById('theme-toggle');
-    const darkIcon = document.getElementById('theme-toggle-dark-icon');
-    const lightIcon = document.getElementById('theme-toggle-light-icon');
+    const mobileThemeToggle = document.getElementById('mobile-theme-toggle');
+    const mobileThemeText = document.getElementById('mobile-theme-text');
+    
+    if (!themeToggle) return;
 
-    if (!themeToggle || !darkIcon || !lightIcon) return;
-
-    // Show correct icon on load: moon icon in light mode, sun icon in dark mode
-    if (document.documentElement.classList.contains('dark')) {
-      lightIcon.classList.remove('hidden');
-      darkIcon.classList.add('hidden');
-    } else {
-      darkIcon.classList.remove('hidden');
-      lightIcon.classList.add('hidden');
+    // Set initial theme text
+    function updateThemeText() {
+      if (mobileThemeText) {
+        const isDark = document.documentElement.classList.contains('dark');
+        mobileThemeText.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+      }
     }
 
-    // Remove old listeners by cloning
-    const newThemeToggle = themeToggle.cloneNode(true);
-    themeToggle.parentNode?.replaceChild(newThemeToggle, themeToggle);
-
-    newThemeToggle.addEventListener('click', () => {
-      const newDarkIcon = document.getElementById('theme-toggle-dark-icon');
-      const newLightIcon = document.getElementById('theme-toggle-light-icon');
+    function toggleTheme() {
+      const isDark = document.documentElement.classList.contains('dark');
       
-      newDarkIcon?.classList.toggle('hidden');
-      newLightIcon?.classList.toggle('hidden');
-
-      if (document.documentElement.classList.contains('dark')) {
+      if (isDark) {
         document.documentElement.classList.remove('dark');
         localStorage.setItem('theme', 'light');
       } else {
         document.documentElement.classList.add('dark');
         localStorage.setItem('theme', 'dark');
       }
-    });
-  }
+      
+      // Update mobile theme text
+      updateThemeText();
+    }
 
-  function initTypewriter() {
-    const typewriter = document.querySelector('.typewriter');
-    if (typewriter && !typewriter.classList.contains('animation-done')) {
-      setTimeout(() => {
-        typewriter.classList.add('animation-done');
-      }, 3600);
+    // Initialize theme text on load
+    updateThemeText();
+
+    // Remove old listeners by cloning
+    const newThemeToggle = themeToggle.cloneNode(true);
+    themeToggle.parentNode?.replaceChild(newThemeToggle, themeToggle);
+    newThemeToggle.addEventListener('click', toggleTheme);
+    
+    if (mobileThemeToggle) {
+      const newMobileToggle = mobileThemeToggle.cloneNode(true);
+      mobileThemeToggle.parentNode?.replaceChild(newMobileToggle, mobileThemeToggle);
+      newMobileToggle.addEventListener('click', toggleTheme);
     }
   }
 
-  // Initialize on first load
+  // Language dropdown functionality
+  function initLanguageDropdown() {
+    const languageToggle = document.getElementById('language-toggle');
+    const languageDropdown = document.getElementById('language-dropdown');
+    
+    if (!languageToggle || !languageDropdown) return;
+
+    let isOpen = false;
+
+    function openDropdown() {
+      isOpen = true;
+      languageToggle?.setAttribute('aria-expanded', 'true');
+      languageDropdown?.classList.remove('opacity-0', 'invisible', 'scale-95');
+      languageDropdown?.classList.add('opacity-100', 'visible', 'scale-100');
+    }
+
+    function closeDropdown() {
+      isOpen = false;
+      languageToggle?.setAttribute('aria-expanded', 'false');
+      languageDropdown?.classList.add('opacity-0', 'invisible', 'scale-95');
+      languageDropdown?.classList.remove('opacity-100', 'visible', 'scale-100');
+    }
+
+    // Toggle on button click
+    const newLanguageToggle = languageToggle.cloneNode(true);
+    languageToggle.parentNode?.replaceChild(newLanguageToggle, languageToggle);
+    
+    newLanguageToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      isOpen ? closeDropdown() : openDropdown();
+    });
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (isOpen && !newLanguageToggle.contains(e.target as Node) && !languageDropdown?.contains(e.target as Node)) {
+        closeDropdown();
+      }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isOpen) {
+        closeDropdown();
+        newLanguageToggle.focus();
+      }
+    });
+
+    // Handle keyboard navigation in dropdown
+    const menuItems = languageDropdown?.querySelectorAll('[role="menuitem"]');
+    menuItems?.forEach((item, index) => {
+      item.addEventListener('keydown', (e) => {
+        const key = (e as KeyboardEvent).key;
+        
+        if (key === 'ArrowDown') {
+          e.preventDefault();
+          const nextItem = menuItems[index + 1] as HTMLElement;
+          if (nextItem) nextItem.focus();
+        } else if (key === 'ArrowUp') {
+          e.preventDefault();
+          const prevItem = menuItems[index - 1] as HTMLElement;
+          if (prevItem) {
+            prevItem.focus();
+          } else {
+            closeDropdown();
+            newLanguageToggle.focus();
+          }
+        }
+      });
+    });
+  }
+
+  // Mobile menu functionality
+  function initMobileMenu() {
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const iconOpen = document.getElementById('mobile-menu-icon-open');
+    const iconClose = document.getElementById('mobile-menu-icon-close');
+    
+    if (!mobileMenuToggle || !mobileMenu) return;
+
+    let isOpen = false;
+
+    function toggleMobileMenu() {
+      isOpen = !isOpen;
+      mobileMenuToggle?.setAttribute('aria-expanded', String(isOpen));
+      
+      if (isOpen) {
+        mobileMenu?.classList.remove('hidden');
+        iconOpen?.classList.add('hidden');
+        iconClose?.classList.remove('hidden');
+      } else {
+        mobileMenu?.classList.add('hidden');
+        iconOpen?.classList.remove('hidden');
+        iconClose?.classList.add('hidden');
+      }
+    }
+
+    const newMobileToggle = mobileMenuToggle.cloneNode(true);
+    mobileMenuToggle.parentNode?.replaceChild(newMobileToggle, mobileMenuToggle);
+    newMobileToggle.addEventListener('click', toggleMobileMenu);
+  }
+
+  // Initialize all on first load
   initThemeToggle();
-  initTypewriter();
+  initLanguageDropdown();
+  initMobileMenu();
 
   // Re-initialize after view transitions
   document.addEventListener('astro:after-swap', () => {
     initThemeToggle();
-    initTypewriter();
+    initLanguageDropdown();
+    initMobileMenu();
   });
 </script>
