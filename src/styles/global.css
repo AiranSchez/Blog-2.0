@@ -81,9 +81,10 @@
     @apply transition-colors duration-300;
   }
   
-  /* Apply smooth color transitions to theme-dependent properties */
-  * {
-    transition-property: background-color, border-color, color, fill, stroke, box-shadow;
+  /* Apply smooth color transitions to specific elements only (performance optimization) */
+  a, button, input, textarea, select,
+  [class*="bg-"], [class*="text-"], [class*="border-"] {
+    transition-property: background-color, border-color, color, fill, stroke;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 200ms;
   }

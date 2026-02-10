@@ -1,56 +1,46 @@
 ---
-import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 
-const cardVariants = cva(
-  // Base styles with focus-within for interactive cards
-  'rounded-lg transition-all duration-300',
-  {
-    variants: {
-      variant: {
-        elevated: 
-          'bg-white dark:bg-carbon-700 shadow-md hover:shadow-lg border border-alabaster-200 dark:border-carbon-600',
-        outlined:
-          'bg-transparent border-2 border-alabaster-300 dark:border-carbon-600 hover:border-stormy dark:hover:border-stormy',
-        ghost:
-          'bg-transparent hover:bg-alabaster-100 dark:hover:bg-carbon-800',
-      },
-      padding: {
-        none: '',
-        sm: 'p-4',
-        md: 'p-6',
-        lg: 'p-8',
-      },
-      interactive: {
-        true: 'cursor-pointer focus-within:ring-2 focus-within:ring-stormy focus-within:ring-offset-2',
-        false: '',
-      },
-    },
-    defaultVariants: {
-      variant: 'elevated',
-      padding: 'md',
-      interactive: false,
-    },
-  }
-);
-
-export interface Props extends VariantProps<typeof cardVariants> {
+export interface Props {
+  variant?: 'elevated' | 'outlined' | 'ghost';
+  padding?: 'none' | 'sm' | 'md' | 'lg';
+  interactive?: boolean;
   as?: 'div' | 'article' | 'section';
   class?: string;
 }
 
 const {
-  variant,
-  padding,
-  interactive,
+  variant = 'elevated',
+  padding = 'md',
+  interactive = false,
   as: Element = 'div',
   class: className,
   ...props
 } = Astro.props;
+
+// Simplified variant classes (no CVA overhead)
+const variantClasses = {
+  elevated: 'bg-white dark:bg-carbon-700 shadow-md hover:shadow-lg border border-alabaster-200 dark:border-carbon-600',
+  outlined: 'bg-transparent border-2 border-alabaster-300 dark:border-carbon-600 hover:border-stormy dark:hover:border-stormy',
+  ghost: 'bg-transparent hover:bg-alabaster-100 dark:hover:bg-carbon-800',
+};
+
+const paddingClasses = {
+  none: '',
+  sm: 'p-4',
+  md: 'p-6',
+  lg: 'p-8',
+};
 ---
 
 <Element
-  class={cn(cardVariants({ variant, padding, interactive }), className)}
+  class={cn(
+    'rounded-lg transition-all duration-300',
+    variantClasses[variant],
+    paddingClasses[padding],
+    interactive && 'cursor-pointer focus-within:ring-2 focus-within:ring-stormy focus-within:ring-offset-2',
+    className
+  )}
   {...props}
 >
   <slot />
