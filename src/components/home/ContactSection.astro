@@ -1,0 +1,174 @@
+---
+import Parallax from '../decorators/Parallax.tsx';
+import Input from '../ui/Input.astro';
+import Textarea from '../ui/Textarea.astro';
+import Button from '../ui/Button.astro';
+
+interface Props {
+  t: (key: any) => string;
+}
+
+const { t } = Astro.props;
+---
+
+<Parallax speed={-0.1} client:load>
+  <section id="contact" class="py-20 bg-alabaster dark:bg-carbon transition-colors relative shadow-2xl" aria-labelledby="contact-heading">
+    <div class="container mx-auto px-4 max-w-4xl">
+      <div class="max-w-2xl mx-auto">
+        <h2 id="contact-heading" class="text-4xl font-bold mb-4 text-stormy dark:text-seaweed text-center">
+          {t('contact.title')}
+        </h2>
+        <p class="text-xl text-carbon/80 dark:text-alabaster/80 mb-8 text-center">
+          {t('contact.subtitle')}
+        </p>
+        
+        <form id="contact-form" class="space-y-6 text-left">
+          <input type="hidden" name="access_key" value={import.meta.env.WEB3FORMS_ACCESS_KEY || 'your_key_here'} />
+          
+          <Input
+            type="text"
+            name="name"
+            id="contact-name"
+            label={t('contact.name')}
+            placeholder={t('contact.name')}
+            required={true}
+            autocomplete="name"
+            inputClass="bg-white dark:bg-stormy/10 text-carbon dark:text-alabaster border-stormy/20 dark:border-seaweed/20"
+            class="[&_label]:text-stormy dark:[&_label]:text-seaweed [&_label]:font-semibold [&_label]:text-base"
+          />
+          
+          <Input
+            type="email"
+            name="email"
+            id="contact-email"
+            label={t('contact.email')}
+            placeholder={t('contact.email')}
+            required={true}
+            autocomplete="email"
+            inputClass="bg-white dark:bg-stormy/10 text-carbon dark:text-alabaster border-stormy/20 dark:border-seaweed/20"
+            class="[&_label]:text-stormy dark:[&_label]:text-seaweed [&_label]:font-semibold [&_label]:text-base"
+          />
+          
+          <Textarea
+            name="message"
+            id="contact-message"
+            label={t('contact.message')}
+            placeholder={t('contact.message')}
+            required={true}
+            rows={5}
+            maxlength={1000}
+            showCharCount={true}
+            textareaClass="bg-white dark:bg-stormy/10 text-carbon dark:text-alabaster border-stormy/20 dark:border-seaweed/20"
+            class="[&_label]:text-stormy dark:[&_label]:text-seaweed [&_label]:font-semibold [&_label]:text-base [&_.text-xs]:text-carbon/60 dark:[&_.text-xs]:text-alabaster/60"
+          />
+          
+          <!-- Status Messages -->
+          <div id="form-status" role="status" aria-live="polite" class="hidden p-4 rounded-lg text-center font-semibold"></div>
+          
+          <Button
+            type="submit"
+            size="lg"
+            class="w-full"
+            id="submit-button"
+          >
+            {t('contact.send')}
+          </Button>
+        </form>
+      </div>
+    </div>
+  </section>
+</Parallax>
+
+<script define:vars={{ translations: { 
+  sending: t('contact.sending'),
+  success: t('contact.success'),
+  error: t('contact.error')
+}}}>
+  const form = document.getElementById('contact-form');
+  const submitButton = document.getElementById('submit-button');
+  const formStatus = document.getElementById('form-status');
+
+  if (form && submitButton && formStatus) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Get form data
+      const formData = new FormData(form);
+
+      // Show loading state
+      submitButton.disabled = true;
+      submitButton.setAttribute('aria-busy', 'true');
+      const originalText = submitButton.textContent;
+      submitButton.textContent = translations.sending;
+
+      // Hide previous status
+      formStatus.classList.add('hidden');
+
+      try {
+        // Submit to Web3Forms
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          // Show success message
+          formStatus.textContent = translations.success;
+          formStatus.className = 'p-4 rounded-lg text-center font-semibold bg-seaweed/20 text-white border border-seaweed/40';
+          formStatus.classList.remove('hidden');
+
+          // Reset form
+          form.reset();
+
+          // Remove char count if exists
+          const charCountEl = document.querySelector('[id^="char-count-"]');
+          if (charCountEl) {
+            charCountEl.textContent = '0';
+          }
+        } else {
+          throw new Error(data.message || 'Submission failed');
+        }
+      } catch (error) {
+        // Show error message
+        formStatus.textContent = translations.error;
+        formStatus.className = 'p-4 rounded-lg text-center font-semibold bg-red-500/20 text-white border border-red-500/40';
+        formStatus.classList.remove('hidden');
+        
+        console.error('Form submission error:', error);
+      } finally {
+        // Reset button state
+        submitButton.disabled = false;
+        submitButton.removeAttribute('aria-busy');
+        submitButton.textContent = originalText;
+
+        // Auto-hide status after 5 seconds
+        setTimeout(() => {
+          formStatus.classList.add('hidden');
+        }, 5000);
+      }
+    });
+
+    // Warn before leaving if form has unsaved changes
+    let formChanged = false;
+    const formInputs = form.querySelectorAll('input:not([type="hidden"]), textarea');
+    
+    formInputs.forEach(input => {
+      input.addEventListener('input', () => {
+        formChanged = true;
+      });
+    });
+
+    form.addEventListener('submit', () => {
+      formChanged = false;
+    });
+
+    window.addEventListener('beforeunload', (e) => {
+      if (formChanged) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    });
+  }
+</script>

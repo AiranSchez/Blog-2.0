@@ -1,0 +1,83 @@
+---
+import Parallax from '../decorators/Parallax.tsx';
+import ScrollReveal from '../decorators/ScrollReveal.tsx';
+import Card from '../ui/Card.astro';
+import Badge from '../ui/Badge.astro';
+import Link from '../ui/Link.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  projects: CollectionEntry<'projects'>[];
+  t: (key: any) => string;
+}
+
+const { projects, t } = Astro.props;
+---
+
+<Parallax speed={-0.2} client:load>
+  <section class="py-12 sm:py-20 bg-alabaster dark:bg-carbon transition-colors relative shadow-2xl" aria-labelledby="projects-heading">
+    <div class="container mx-auto px-4 sm:px-6 max-w-7xl">
+      <h2 id="projects-heading" class="text-4xl font-bold text-center mb-12 text-stormy dark:text-seaweed">
+        {t('projects.title')}
+      </h2>
+      <div class="grid md:grid-cols-2 gap-6 sm:gap-8">
+        {projects.map((project, index) => (
+          <ScrollReveal 
+            delay={index * 0.2}
+            direction="up"
+            client:load
+          >
+            <article 
+              class="group transition-transform duration-300 hover:-translate-y-1 focus-within:ring-2 focus-within:ring-stormy rounded-lg"
+              data-project-card
+            >
+              <Card 
+                variant="elevated" 
+                padding="lg"
+                class="h-full flex flex-col"
+              >
+                <h3 class="text-2xl font-bold mb-3 text-stormy dark:text-seaweed">
+                  {project.data.title}
+                </h3>
+                <p class="text-carbon/80 dark:text-alabaster/80 mb-4 flex-grow">
+                  {project.data.description}
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4" role="list" aria-label="Technologies">
+                  {project.data.tech.map((tech) => (
+                    <Badge 
+                      variant="secondary" 
+                      size="sm"
+                      role="listitem"
+                    >
+                      {tech}
+                    </Badge>
+                  ))}
+                </div>
+                <div class="flex gap-4">
+                  {project.data.githubUrl && (
+                    <Link 
+                      href={project.data.githubUrl}
+                      variant="default"
+                      class="hover:underline"
+                    >
+                      {t('projects.viewGithub')}
+                    </Link>
+                  )}
+                  {project.data.demoUrl && (
+                    <Link 
+                      href={project.data.demoUrl}
+                      variant="default"
+                      class="hover:underline"
+                    >
+                      {t('projects.viewDemo')}
+                    </Link>
+                  )}
+                </div>
+              </Card>
+            </article>
+          </ScrollReveal>
+        ))}
+      </div>
+    </div>
+  </section>
+</Parallax>

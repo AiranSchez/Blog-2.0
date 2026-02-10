@@ -1,0 +1,39 @@
+---
+import Parallax from '../decorators/Parallax.tsx';
+import AuroraBackground from '../decorators/AuroraBackground.tsx';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  experiences: CollectionEntry<'experience'>[];
+  t: (key: any) => string;
+}
+
+const { experiences, t } = Astro.props;
+---
+
+<Parallax speed={0.4} client:load>
+  <AuroraBackground className="py-12 sm:py-20" client:load>
+    <section class="py-12 sm:py-20 transition-colors relative" aria-labelledby="experience-heading">
+      <div class="container mx-auto px-4 sm:px-6 max-w-7xl">
+        <h2 id="experience-heading" class="text-4xl font-bold text-center mb-12 text-white">
+          {t('experience.title')}
+        </h2>
+        <div class="max-w-3xl mx-auto space-y-8">
+          {experiences.map((exp) => (
+            <div class="relative pl-8 border-l-2 border-alabaster/50">
+              <div class="absolute -left-2 top-0 w-4 h-4 rounded-full bg-alabaster"></div>
+              <h3 class="text-2xl font-bold text-alabaster mb-1">{exp.data.company}</h3>
+              <p class="text-lg font-semibold text-alabaster/90 mb-1">{t('experience.collaborator')} · {exp.data.role}</p>
+              <p class="text-sm text-alabaster/70 mb-2">
+                {exp.data.startDate} - {exp.data.endDate || t('experience.present')}
+              </p>
+              {exp.data.description && (
+                <p class="text-alabaster/80">{exp.data.description}</p>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  </AuroraBackground>
+</Parallax>

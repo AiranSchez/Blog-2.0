@@ -1,0 +1,41 @@
+---
+import { Image } from 'astro:assets';
+import Parallax from '../decorators/Parallax.tsx';
+import aboutImage from '../../assets/images/profile/DSC01235.jpg';
+import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
+
+interface Props {
+  Content: AstroComponentFactory;
+  t: (key: any) => string;
+}
+
+const { Content, t } = Astro.props;
+---
+
+<Parallax speed={-0.2} client:load>
+  <section class="py-12 sm:py-20 bg-alabaster dark:bg-carbon transition-colors relative shadow-2xl" aria-labelledby="about-heading">
+    <div class="container mx-auto px-4 sm:px-6 max-w-7xl">
+      <h2 id="about-heading" class="text-4xl font-bold text-center mb-12 text-stormy dark:text-seaweed">
+        {t('about.title') || 'About Me'}
+      </h2>
+      <div class="max-w-4xl mx-auto">
+        <div class="flex flex-col md:flex-row gap-8 items-start">
+          <div class="flex-shrink-0">
+            <Image 
+              src={aboutImage} 
+              alt="Airán" 
+              width={200} 
+              height={200}
+              class="rounded-full shadow-lg"
+            />
+          </div>
+          <div class="prose prose-lg dark:prose-invert max-w-none">
+            <div class="[&_ul]:list-disc [&_ul>li]:text-carbon dark:[&_ul>li]:text-alabaster [&_ul>li]:marker:text-stormy dark:[&_ul>li]:marker:text-seaweed [&_ul>li]:marker:text-xl">
+              <Content />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Parallax>

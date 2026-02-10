@@ -1,0 +1,102 @@
+---
+import Parallax from '../decorators/Parallax.tsx';
+import AuroraBackground from '../decorators/AuroraBackground.tsx';
+import Card from '../ui/Card.astro';
+import Badge from '../ui/Badge.astro';
+import Link from '../ui/Link.astro';
+import Button from '../ui/Button.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  posts: CollectionEntry<'blog'>[];
+  t: (key: any) => string;
+  lang: string;
+}
+
+const { posts, t, lang } = Astro.props;
+---
+
+<Parallax speed={0.4} client:load>
+  <AuroraBackground className="py-12 sm:py-20" client:load>
+    <section class="py-12 sm:py-20 transition-colors relative" aria-labelledby="blog-heading">
+      <div class="container mx-auto px-4 sm:px-6 max-w-7xl">
+        <h2 id="blog-heading" class="text-4xl font-bold text-center mb-12 text-white">
+          {t('blog.title')}
+        </h2>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          {posts.map((post) => (
+            <article 
+              class="group transition-transform duration-300 hover:-translate-y-1 focus-within:ring-2 focus-within:ring-stormy rounded-lg"
+              data-blog-card
+            >
+              <Card 
+                variant="elevated" 
+                padding="lg"
+                class="h-full flex flex-col"
+              >
+                <h3 class="text-xl font-bold mb-2 text-stormy dark:text-seaweed">
+                  <Link 
+                    href={`/${lang}/blog/${post.slug}/`}
+                    variant="subtle"
+                    class="hover:underline focus-visible:underline"
+                  >
+                    {post.data.title}
+                  </Link>
+                </h3>
+                
+                <time 
+                  datetime={post.data.date.toISOString()}
+                  class="text-sm text-carbon/60 dark:text-alabaster/60 mb-3 block"
+                >
+                  {new Date(post.data.date).toLocaleDateString(lang, {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}
+                </time>
+                
+                <p class="text-carbon/80 dark:text-alabaster/80 mb-4 line-clamp-3 flex-grow">
+                  {post.data.description}
+                </p>
+                
+                <div class="flex flex-wrap gap-2 mb-4" role="list" aria-label="Tags">
+                  {post.data.tags.slice(0, 3).map((tag) => (
+                    <Badge 
+                      variant="muted" 
+                      size="sm"
+                      role="listitem"
+                    >
+                      {tag}
+                    </Badge>
+                  ))}
+                  {post.data.tags.length > 3 && (
+                    <Badge variant="outline" size="sm">
+                      +{post.data.tags.length - 3}
+                    </Badge>
+                  )}
+                </div>
+                
+                <a 
+                  href={`/${lang}/blog/${post.slug}/`}
+                  class="inline-flex items-center gap-1 text-stormy dark:text-seaweed hover:underline font-semibold transition-all group-hover:gap-2"
+                >
+                  {t('blog.readMore')} 
+                  <span aria-hidden="true">→</span>
+                </a>
+              </Card>
+            </article>
+          ))}
+        </div>
+        <div class="text-center mt-8">
+          <Button 
+            href={`/${lang}/blog/`}
+            size="lg"
+            variant="primary"
+          >
+            {t('blog.viewAll')}
+          </Button>
+        </div>
+      </div>
+    </section>
+  </AuroraBackground>
+</Parallax>

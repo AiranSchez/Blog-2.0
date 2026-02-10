@@ -32,10 +32,9 @@ export default function FuzzyText({
       opacity: 1,
       filter: 'blur(0px)',
       transition: {
-        type: 'spring',
         damping: 12,
         stiffness: 200,
-      },
+      } as const,
     },
     hidden: {
       opacity: 0,
