@@ -1,6 +1,6 @@
 ---
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
-import { Sun, Moon, Languages, Menu, X } from '@lucide/astro';
+// import { Sun, Moon, Languages, Menu, X } from '@lucide/astro';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -48,8 +48,8 @@ const pathWithoutLocale = Astro.url.pathname.replace(/^\/(en|es|ja)/, '') || '/'
             aria-label="Toggle theme"
             class="p-2 sm:p-2.5 min-w-[44px] min-h-[44px] rounded-lg hover:bg-muted/20 dark:hover:bg-stormy/20 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stormy touch-manipulation"
           >
-            <Sun id="theme-icon-light" class="w-6 h-6 hidden dark:block" aria-hidden="true" />
-            <Moon id="theme-icon-dark" class="w-6 h-6 block dark:hidden" aria-hidden="true" />
+            <span id="theme-icon-light" class="hidden dark:block text-xl" aria-hidden="true">☀️</span>
+            <span id="theme-icon-dark" class="block dark:hidden text-xl" aria-hidden="true">🌙</span>
           </button>
           
           <!-- Language Switcher -->
@@ -64,7 +64,7 @@ const pathWithoutLocale = Astro.url.pathname.replace(/^\/(en|es|ja)/, '') || '/'
               aria-controls="language-dropdown"
               class="p-2 rounded-lg hover:bg-muted/20 dark:hover:bg-stormy/20 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stormy touch-manipulation"
             >
-              <Languages class="w-5 h-5" aria-hidden="true" />
+              <span class="text-xl" aria-hidden="true">🌐</span>
             </button>
             
             <div
@@ -117,8 +117,8 @@ const pathWithoutLocale = Astro.url.pathname.replace(/^\/(en|es|ja)/, '') || '/'
         aria-controls="mobile-menu"
         class="md:hidden p-2.5 min-w-[48px] min-h-[48px] rounded-lg hover:bg-muted/20 dark:hover:bg-stormy/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stormy touch-manipulation"
       >
-        <Menu id="mobile-menu-icon-open" class="w-7 h-7" aria-hidden="true" />
-        <X id="mobile-menu-icon-close" class="w-7 h-7 hidden" aria-hidden="true" />
+        <span id="mobile-menu-icon-open" class="text-2xl" aria-hidden="true">☰</span>
+        <span id="mobile-menu-icon-close" class="text-2xl hidden" aria-hidden="true">✕</span>
       </button>
     </div>
     
@@ -151,8 +151,8 @@ const pathWithoutLocale = Astro.url.pathname.replace(/^\/(en|es|ja)/, '') || '/'
             type="button"
             class="flex items-center gap-3 text-carbon dark:text-alabaster hover:text-stormy dark:hover:text-seaweed transition-colors font-medium px-3 py-3 min-h-[48px] rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stormy text-left touch-manipulation"
           >
-            <Sun class="w-6 h-6 hidden dark:block" aria-hidden="true" />
-            <Moon class="w-6 h-6 block dark:hidden" aria-hidden="true" />
+            <span class="hidden dark:block text-xl" aria-hidden="true">☀️</span>
+            <span class="block dark:hidden text-xl" aria-hidden="true">🌙</span>
             <span id="mobile-theme-text">
               {t('nav.lightMode')}
             </span>

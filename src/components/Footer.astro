@@ -1,6 +1,6 @@
 ---
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
-import { Github, Linkedin, Twitter, Send, Mail } from '@lucide/astro';
+// import { Github, Linkedin, Twitter, Send, Mail } from '@lucide/astro';
 import Link from './ui/Link.astro';
 
 const lang = getLangFromUrl(Astro.url);
@@ -12,31 +12,31 @@ const socialLinks = [
   {
     name: 'GitHub',
     href: 'https://github.com/yourusername',
-    icon: Github,
+    icon: '⚙️',
     label: t('footer.social.github') || 'Visit GitHub profile',
   },
   {
     name: 'LinkedIn',
     href: 'https://linkedin.com/in/yourusername',
-    icon: Linkedin,
+    icon: '💼',
     label: t('footer.social.linkedin') || 'Visit LinkedIn profile',
   },
   {
     name: 'X',
     href: 'https://twitter.com/yourusername',
-    icon: Twitter,
+    icon: '🐦',
     label: t('footer.social.twitter') || 'Visit X (Twitter) profile',
   },
   {
     name: 'Telegram',
     href: 'https://t.me/yourusername',
-    icon: Send,
+    icon: '📤',
     label: t('footer.social.telegram') || 'Contact via Telegram',
   },
   {
     name: 'Email',
     href: 'mailto:your.email@example.com',
-    icon: Mail,
+    icon: '✉️',
     label: t('footer.social.email') || 'Send an email',
   },
 ];
@@ -108,7 +108,7 @@ const navigationSections = [
                   aria-label={social.label}
                   class="flex items-center justify-center w-10 h-10 rounded-lg bg-carbon-700 hover:bg-stormy dark:bg-carbon-800 dark:hover:bg-stormy text-alabaster hover:text-white transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stormy ring-offset-2 ring-offset-carbon touch-manipulation group"
                 >
-                  <social.icon class="w-5 h-5 group-hover:scale-110 transition-transform" aria-hidden="true" />
+                  <span class="text-xl group-hover:scale-110 transition-transform" aria-hidden="true">{social.icon}</span>
                 </a>
               </li>
             ))}
