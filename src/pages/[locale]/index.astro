@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/layout/Header.astro';
 import Footer from '../../components/layout/Footer.astro';
 import ParallaxSection from '../../components/decorators/ParallaxSection.astro';
+import ScrollReveal from '../../components/decorators/ScrollReveal.tsx';
 import Card from '../../components/ui/Card.astro';
 import Badge from '../../components/ui/Badge.astro';
 import Link from '../../components/ui/Link.astro';
@@ -144,55 +145,61 @@ import aboutImageUrl from '../../assets/images/profile/DSC01235.jpg?url';
           {t('projects.title')}
         </h2>
         <div class="grid md:grid-cols-2 gap-6 sm:gap-8">
-          {projects.map((project) => (
-            <article 
-              class="group transition-transform duration-300 hover:-translate-y-1 focus-within:ring-2 focus-within:ring-stormy rounded-lg"
-              data-project-card
+          {projects.map((project, index) => (
+            <ScrollReveal 
+              delay={index * 0.2}
+              direction="up"
+              client:load
             >
-              <Card 
-                variant="elevated" 
-                padding="lg"
-                class="h-full flex flex-col"
+              <article 
+                class="group transition-transform duration-300 hover:-translate-y-1 focus-within:ring-2 focus-within:ring-stormy rounded-lg"
+                data-project-card
               >
-                <h3 class="text-2xl font-bold mb-3 text-stormy dark:text-seaweed">
-                  {project.data.title}
-                </h3>
-                <p class="text-carbon/80 dark:text-alabaster/80 mb-4 flex-grow">
-                  {project.data.description}
-                </p>
-                <div class="flex flex-wrap gap-2 mb-4" role="list" aria-label="Technologies">
-                  {project.data.tech.map((tech) => (
-                    <Badge 
-                      variant="secondary" 
-                      size="sm"
-                      role="listitem"
-                    >
-                      {tech}
-                    </Badge>
-                  ))}
-                </div>
-                <div class="flex gap-4">
-                  {project.data.githubUrl && (
-                    <Link 
-                      href={project.data.githubUrl}
-                      variant="default"
-                      class="hover:underline"
-                    >
-                      {t('projects.viewGithub')}
-                    </Link>
-                  )}
-                  {project.data.demoUrl && (
-                    <Link 
-                      href={project.data.demoUrl}
-                      variant="default"
-                      class="hover:underline"
-                    >
-                      {t('projects.viewDemo')}
-                    </Link>
-                  )}
-                </div>
-              </Card>
-            </article>
+                <Card 
+                  variant="elevated" 
+                  padding="lg"
+                  class="h-full flex flex-col"
+                >
+                  <h3 class="text-2xl font-bold mb-3 text-stormy dark:text-seaweed">
+                    {project.data.title}
+                  </h3>
+                  <p class="text-carbon/80 dark:text-alabaster/80 mb-4 flex-grow">
+                    {project.data.description}
+                  </p>
+                  <div class="flex flex-wrap gap-2 mb-4" role="list" aria-label="Technologies">
+                    {project.data.tech.map((tech) => (
+                      <Badge 
+                        variant="secondary" 
+                        size="sm"
+                        role="listitem"
+                      >
+                        {tech}
+                      </Badge>
+                    ))}
+                  </div>
+                  <div class="flex gap-4">
+                    {project.data.githubUrl && (
+                      <Link 
+                        href={project.data.githubUrl}
+                        variant="default"
+                        class="hover:underline"
+                      >
+                        {t('projects.viewGithub')}
+                      </Link>
+                    )}
+                    {project.data.demoUrl && (
+                      <Link 
+                        href={project.data.demoUrl}
+                        variant="default"
+                        class="hover:underline"
+                      >
+                        {t('projects.viewDemo')}
+                      </Link>
+                    )}
+                  </div>
+                </Card>
+              </article>
+            </ScrollReveal>
           ))}
         </div>
       </div>
