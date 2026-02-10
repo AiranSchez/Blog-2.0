@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
+import FuzzyText from '../components/ui/FuzzyText.tsx';
 
 export const prerender = true;
 ---
@@ -31,10 +32,19 @@ export const prerender = true;
       </div>
       
       <h1 class="text-6xl font-bold mb-4 text-stormy dark:text-seaweed">
-        404
+        <FuzzyText 
+          text="404"
+          duration={1.5}
+          client:load
+        />
       </h1>
       <p class="text-2xl mb-2 text-carbon dark:text-alabaster">
-        Oops! This page took a coffee break
+        <FuzzyText 
+          text="Oops! This page took a coffee break"
+          delay={0.5}
+          duration={2.5}
+          client:load
+        />
       </p>
       <p class="text-lg mb-8 text-carbon/70 dark:text-alabaster/70">
         The page you're looking for doesn't exist or went on vacation without telling us
