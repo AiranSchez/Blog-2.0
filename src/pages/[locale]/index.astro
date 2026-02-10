@@ -118,31 +118,54 @@ import aboutImageUrl from '../../assets/images/profile/DSC01235.jpg?url';
         </h2>
         <div class="grid md:grid-cols-2 gap-8">
           {projects.map((project) => (
-            <div class="bg-white dark:bg-stormy/20 rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow border border-muted/20 dark:border-stormy/40">
-              <h3 class="text-2xl font-bold mb-3 text-stormy dark:text-seaweed">{project.data.title}</h3>
-              <p class="text-carbon/80 dark:text-alabaster/80 mb-4">{project.data.description}</p>
-              <div class="flex flex-wrap gap-2 mb-4">
-                {project.data.tech.map((tech) => (
-                  <span class="px-3 py-1 bg-muted/30 dark:bg-seaweed/20 text-sm rounded-full text-carbon dark:text-alabaster">
-                    {tech}
-                  </span>
-                ))}
-              </div>
-              <div class="flex gap-4">
-                {project.data.githubUrl && (
-                  <a href={project.data.githubUrl} target="_blank" rel="noopener noreferrer" 
-                     class="text-stormy dark:text-seaweed hover:underline">
-                    {t('projects.viewGithub')}
-                  </a>
-                )}
-                {project.data.demoUrl && (
-                  <a href={project.data.demoUrl} target="_blank" rel="noopener noreferrer"
-                     class="text-stormy dark:text-seaweed hover:underline">
-                    {t('projects.viewDemo')}
-                  </a>
-                )}
-              </div>
-            </div>
+            <article 
+              class="group transition-transform duration-300 hover:-translate-y-1 focus-within:ring-2 focus-within:ring-stormy rounded-lg"
+              data-project-card
+            >
+              <Card 
+                variant="elevated" 
+                padding="lg"
+                class="h-full flex flex-col"
+              >
+                <h3 class="text-2xl font-bold mb-3 text-stormy dark:text-seaweed">
+                  {project.data.title}
+                </h3>
+                <p class="text-carbon/80 dark:text-alabaster/80 mb-4 flex-grow">
+                  {project.data.description}
+                </p>
+                <div class="flex flex-wrap gap-2 mb-4" role="list" aria-label="Technologies">
+                  {project.data.tech.map((tech) => (
+                    <Badge 
+                      variant="secondary" 
+                      size="sm"
+                      role="listitem"
+                    >
+                      {tech}
+                    </Badge>
+                  ))}
+                </div>
+                <div class="flex gap-4">
+                  {project.data.githubUrl && (
+                    <Link 
+                      href={project.data.githubUrl}
+                      variant="default"
+                      class="hover:underline"
+                    >
+                      {t('projects.viewGithub')}
+                    </Link>
+                  )}
+                  {project.data.demoUrl && (
+                    <Link 
+                      href={project.data.demoUrl}
+                      variant="default"
+                      class="hover:underline"
+                    >
+                      {t('projects.viewDemo')}
+                    </Link>
+                  )}
+                </div>
+              </Card>
+            </article>
           ))}
         </div>
       </div>
@@ -449,5 +472,32 @@ import aboutImageUrl from '../../assets/images/profile/DSC01235.jpg?url';
         }
       });
     }
+  </script>
+
+  <script>
+    import { staggerIn, fadeInOnScroll, hoverLift } from '@/lib/animations';
+
+    // Initialize animations when DOM is ready
+    function initAnimations() {
+      // Stagger in project and blog cards
+      staggerIn('.grid', { stagger: 0.12, duration: 0.6 });
+      
+      // Fade in sections
+      fadeInOnScroll('section', { duration: 0.8 });
+      
+      // Add hover lift to cards
+      hoverLift('[data-blog-card]');
+      hoverLift('[data-project-card]');
+    }
+
+    // Run on page load
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAnimations);
+    } else {
+      initAnimations();
+    }
+
+    // Re-run after view transitions
+    document.addEventListener('astro:after-swap', initAnimations);
   </script>
 </Layout>
