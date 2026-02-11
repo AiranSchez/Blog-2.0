@@ -3,12 +3,14 @@ import { useState } from 'react';
 
 interface DualLogoProps {
   leanmindLogo: string;
+  leanmindUrl?: string;
   companyLogo?: string;
+  companyUrl?: string;
   companyName: string;
   isLeanMindOnly?: boolean;
 }
 
-export default function DualLogo({ leanmindLogo, companyLogo, companyName, isLeanMindOnly }: DualLogoProps) {
+export default function DualLogo({ leanmindLogo, leanmindUrl, companyLogo, companyUrl, companyName, isLeanMindOnly }: DualLogoProps) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -20,7 +22,7 @@ export default function DualLogo({ leanmindLogo, companyLogo, companyName, isLea
   };
 
   if (isLeanMindOnly) {
-    return (
+    const LogoContent = (
       <motion.div
         className="flex justify-center mb-6"
         initial={{ scale: 0, rotate: -180 }}
@@ -28,7 +30,7 @@ export default function DualLogo({ leanmindLogo, companyLogo, companyName, isLea
         viewport={{ once: true }}
         transition={{ type: 'spring', damping: 15, stiffness: 100 }}
       >
-        <div className="relative w-20 h-20 rounded-full overflow-hidden ring-4 ring-seaweed/30 shadow-lg">
+        <div className="relative w-24 h-24 rounded-full overflow-hidden ring-4 ring-seaweed/30 shadow-lg cursor-pointer">
           <img
             src={leanmindLogo}
             alt="LeanMind"
@@ -37,39 +39,59 @@ export default function DualLogo({ leanmindLogo, companyLogo, companyName, isLea
         </div>
       </motion.div>
     );
+
+    return leanmindUrl ? (
+      <a href={leanmindUrl} target="_blank" rel="noopener noreferrer" className="block">
+        {LogoContent}
+      </a>
+    ) : LogoContent;
   }
 
   return (
-    <div className="flex items-center justify-center gap-4 mb-6">
-      {/* LeanMind Logo (Left) */}
+    <div className="flex items-center justify-center gap-6 mb-6">
+      {/* LeanMind Logo (Left) - 80px */}
       <motion.div
-        className="relative w-16 h-16 rounded-full overflow-hidden ring-2 ring-seaweed/30 shadow-lg"
+        className="relative w-20 h-20 rounded-full overflow-hidden ring-2 ring-seaweed/30 shadow-lg"
         initial={{ x: -50, opacity: 0 }}
         whileInView={{ x: 0, opacity: 1 }}
         viewport={{ once: true }}
         transition={{ type: 'spring', damping: 20, delay: 0.1 }}
         whileHover={{ scale: 1.1, rotate: 5 }}
       >
-        <img
-          src={leanmindLogo}
-          alt="LeanMind"
-          className="w-full h-full object-cover"
-        />
+        {leanmindUrl ? (
+          <a href={leanmindUrl} target="_blank" rel="noopener noreferrer" className="block w-full h-full cursor-pointer">
+            <img
+              src={leanmindLogo}
+              alt="LeanMind"
+              className="w-full h-full object-cover"
+            />
+          </a>
+        ) : (
+          <img
+            src={leanmindLogo}
+            alt="LeanMind"
+            className="w-full h-full object-cover"
+          />
+        )}
       </motion.div>
 
-      {/* Connecting Line */}
+      {/* Connecting Line with Perfectly Centered Pulsing Dot */}
       <motion.div
-        className="relative h-0.5 w-12 bg-gradient-to-r from-seaweed via-alabaster to-stormy"
+        className="relative flex items-center justify-center h-0.5 w-16 bg-gradient-to-r from-seaweed via-alabaster to-stormy"
         initial={{ scaleX: 0 }}
         whileInView={{ scaleX: 1 }}
         viewport={{ once: true }}
         transition={{ delay: 0.3, duration: 0.5 }}
       >
         <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-alabaster"
+          className="absolute w-3 h-3 rounded-full bg-alabaster shadow-lg ring-2 ring-white/50"
           animate={{
-            scale: [1, 1.5, 1],
-            opacity: [1, 0.5, 1],
+            scale: [1, 1.4, 1],
+            boxShadow: [
+              '0 0 0 0 rgba(255, 255, 255, 0.7)',
+              '0 0 0 8px rgba(255, 255, 255, 0)',
+              '0 0 0 0 rgba(255, 255, 255, 0)',
+            ],
           }}
           transition={{
             duration: 2,
@@ -79,9 +101,9 @@ export default function DualLogo({ leanmindLogo, companyLogo, companyName, isLea
         />
       </motion.div>
 
-      {/* Company Logo (Right) with Magnetic Effect */}
+      {/* Company Logo (Right) - 80px with Magnetic Effect */}
       <motion.div
-        className="relative w-16 h-16 rounded-full overflow-hidden ring-2 ring-stormy/30 shadow-lg cursor-pointer"
+        className="relative w-20 h-20 rounded-full overflow-hidden ring-2 ring-stormy/30 shadow-lg cursor-pointer"
         initial={{ x: 50, opacity: 0 }}
         whileInView={{ x: 0, opacity: 1 }}
         viewport={{ once: true }}
@@ -94,11 +116,21 @@ export default function DualLogo({ leanmindLogo, companyLogo, companyName, isLea
         }}
         whileHover={{ scale: 1.1, rotate: -5 }}
       >
-        <img
-          src={companyLogo}
-          alt={companyName}
-          className="w-full h-full object-cover bg-white"
-        />
+        {companyUrl ? (
+          <a href={companyUrl} target="_blank" rel="noopener noreferrer" className="block w-full h-full">
+            <img
+              src={companyLogo}
+              alt={companyName}
+              className="w-full h-full object-cover bg-white"
+            />
+          </a>
+        ) : (
+          <img
+            src={companyLogo}
+            alt={companyName}
+            className="w-full h-full object-cover bg-white"
+          />
+        )}
       </motion.div>
     </div>
   );

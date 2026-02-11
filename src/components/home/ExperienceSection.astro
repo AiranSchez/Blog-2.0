@@ -4,7 +4,6 @@ import AuroraBackground from '../decorators/AuroraBackground.tsx';
 import AnimatedTimeline from '../ui/AnimatedTimeline.tsx';
 import ExperienceCard from '../ui/ExperienceCard.tsx';
 import DualLogo from '../ui/DualLogo.tsx';
-import type { CollectionEntry } from 'astro:content';
 
 // Import logos
 import leanmindLogo from '../../assets/images/leanmind-logo.jpg';
@@ -12,12 +11,24 @@ import clarityLogo from '../../assets/images/clarity-logo.png';
 import tiiLogo from '../../assets/images/TII-logo.jpg';
 import voxelLogo from '../../assets/images/voxelgroup-logo.jpeg';
 
-interface Props {
-  experiences: CollectionEntry<'experience'>[];
-  t: (key: any) => string;
+interface ExperienceData {
+  company: string;
+  role: string;
+  startDate: string;
+  endDate: string | null;
+  description?: string;
+  skills?: string[];
+  technologies?: string[];
+  locale: string;
 }
 
-const { experiences, t } = Astro.props;
+interface Props {
+  experiences: { id: string; data: ExperienceData }[];
+  t: (key: any) => string;
+  lang: string;
+}
+
+const { experiences, t, lang } = Astro.props;
 
 // Logo mapping
 const companyLogos: Record<string, string> = {
@@ -28,8 +39,17 @@ const companyLogos: Record<string, string> = {
   'leanmind': leanmindLogo.src,
 };
 
-// Calculate duration between two dates
-function calculateDuration(startDate: string, endDate: string | null, presentText: string): string {
+// Company URL mapping
+const companyUrls: Record<string, string> = {
+  'clarity': 'https://clarity.ai',
+  'tii': 'https://www.tii.ae',
+  'technology innovation institute': 'https://www.tii.ae',
+  'voxel': 'https://voxelgroup.net',
+  'leanmind': 'https://leanmind.es',
+};
+
+// Calculate duration between two dates with i18n
+function calculateDuration(startDate: string, endDate: string | null, t: any): string {
   const start = new Date(startDate + '-01');
   const end = endDate ? new Date(endDate + '-01') : new Date();
   
@@ -38,11 +58,23 @@ function calculateDuration(startDate: string, endDate: string | null, presentTex
   const remainingMonths = months % 12;
   
   if (years === 0) {
-    return `${remainingMonths} ${remainingMonths === 1 ? 'mes' : 'meses'}`;
+    const monthWord = remainingMonths === 1 
+      ? t('experience.duration.month') 
+      : t('experience.duration.months');
+    return `${remainingMonths} ${monthWord}`;
   } else if (remainingMonths === 0) {
-    return `${years} ${years === 1 ? 'año' : 'años'}`;
+    const yearWord = years === 1 
+      ? t('experience.duration.year') 
+      : t('experience.duration.years');
+    return `${years} ${yearWord}`;
   } else {
-    return `${years} ${years === 1 ? 'año' : 'años'} y ${remainingMonths} ${remainingMonths === 1 ? 'mes' : 'meses'}`;
+    const yearWord = years === 1  
+      ? t('experience.duration.year') 
+      : t('experience.duration.years');
+    const monthWord = remainingMonths === 1 
+      ? t('experience.duration.month') 
+      : t('experience.duration.months');
+    return `${years} ${yearWord} ${t('experience.duration.and')} ${remainingMonths} ${monthWord}`;
   }
 }
 
@@ -75,6 +107,32 @@ function getCompanyLogo(companyName: string): string | undefined {
   return undefined;
 }
 
+// Get company URL
+function getCompanyUrl(companyName: string): string | undefined {
+  const normalized = companyName.toLowerCase();
+  
+  // If company name contains a dash, extract the part after "leanmind -"
+  if (normalized.includes('leanmind -')) {
+    const companyPart = normalized.split('leanmind -')[1].trim();
+    
+    // Search for URL using the company part first
+    for (const [key, url] of Object.entries(companyUrls)) {
+      if (key !== 'leanmind' && companyPart.includes(key)) {
+        return url;
+      }
+    }
+  }
+  
+  // Fallback: search in full name
+  for (const [key, url] of Object.entries(companyUrls)) {
+    if (normalized.includes(key)) {
+      return url;
+    }
+  }
+  
+  return undefined;
+}
+
 // Check if it's LeanMind only
 function isLeanMindOnly(companyName: string): boolean {
   const normalized = companyName.toLowerCase();
@@ -84,10 +142,12 @@ function isLeanMindOnly(companyName: string): boolean {
 // Prepare experience data
 const experiencesWithData = experiences.map((exp, index) => ({
   ...exp.data,
-  duration: calculateDuration(exp.data.startDate, exp.data.endDate, t('experience.present')),
+  duration: calculateDuration(exp.data.startDate, exp.data.endDate, t),
   companyLogo: getCompanyLogo(exp.data.company),
+  companyUrl: getCompanyUrl(exp.data.company),
   isLeanMindOnly: isLeanMindOnly(exp.data.company),
   skills: exp.data.skills || [],
+  technologies: exp.data.technologies || [],
   index,
 }));
 ---
@@ -107,7 +167,9 @@ const experiencesWithData = experiences.map((exp, index) => ({
                 {/* Logo Section */}
                 <DualLogo
                   leanmindLogo={leanmindLogo.src}
+                  leanmindUrl={companyUrls.leanmind}
                   companyLogo={exp.companyLogo}
+                  companyUrl={exp.companyUrl}
                   companyName={exp.company}
                   isLeanMindOnly={exp.isLeanMindOnly}
                   client:load
@@ -122,7 +184,10 @@ const experiencesWithData = experiences.map((exp, index) => ({
                   duration={exp.duration}
                   description={exp.description}
                   skills={exp.skills}
+                  technologies={exp.technologies}
                   index={exp.index}
+                  lang={lang}
+                  presentText={t('experience.present')}
                   client:load
                 />
               </div>

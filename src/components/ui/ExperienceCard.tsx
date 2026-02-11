@@ -1,6 +1,7 @@
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { motion } from 'framer-motion';
+import { useState } from 'react';
 import SkillBadge from './SkillBadge';
+import TechLoopSlider from './TechLoopSlider';
 
 interface ExperienceCardProps {
   company: string;
@@ -10,7 +11,10 @@ interface ExperienceCardProps {
   duration: string;
   description?: string;
   skills?: string[];
+  technologies?: string[];
   index: number;
+  lang?: string;
+  presentText?: string;
 }
 
 export default function ExperienceCard({
@@ -21,48 +25,23 @@ export default function ExperienceCard({
   duration,
   description,
   skills = [],
+  technologies = [],
   index,
+  lang = 'en',
+  presentText = 'Present',
 }: ExperienceCardProps) {
-  const ref = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
 
-  // Tilt effect
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-
-  const mouseXSpring = useSpring(x, { damping: 15, stiffness: 100 });
-  const mouseYSpring = useSpring(y, { damping: 15, stiffness: 100 });
-
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ['7.5deg', '-7.5deg']);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-7.5deg', '7.5deg']);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!ref.current) return;
-
-    const rect = ref.current.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-
-    const xPct = mouseX / width - 0.5;
-    const yPct = mouseY / height - 0.5;
-
-    x.set(xPct);
-    y.set(yPct);
-  };
-
-  const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
-    setIsHovered(false);
+  // Format date according to locale
+  const formatDate = (dateStr: string) => {
+    const [year, month] = dateStr.split('-');
+    const date = new Date(parseInt(year), parseInt(month) - 1);
+    return new Intl.DateTimeFormat(lang, { year: 'numeric', month: 'short' }).format(date);
   };
 
   return (
     <motion.div
-      ref={ref}
-      className="relative group perspective-1000"
+      className="relative group"
       initial={{ opacity: 0, x: -50 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
@@ -72,14 +51,8 @@ export default function ExperienceCard({
         damping: 20,
         stiffness: 100,
       }}
-      onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={handleMouseLeave}
-      style={{
-        rotateX,
-        rotateY,
-        transformStyle: 'preserve-3d',
-      }}
+      onMouseLeave={() => setIsHovered(false)}
     >
       {/* Timeline Dot */}
       <motion.div
@@ -141,7 +114,7 @@ export default function ExperienceCard({
             transition={{ delay: index * 0.1 + 0.4 }}
           >
             <span className="text-sm text-carbon/60 dark:text-alabaster/60">
-              {startDate} - {endDate || 'Present'}
+              {formatDate(startDate)} - {endDate ? formatDate(endDate) : presentText}
             </span>
             <span className="text-sm text-carbon/40 dark:text-alabaster/40">•</span>
             <motion.span
@@ -163,6 +136,18 @@ export default function ExperienceCard({
             >
               {description}
             </motion.p>
+          )}
+
+          {/* Technologies Loop Slider */}
+          {technologies.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 + 0.48 }}
+            >
+              <TechLoopSlider technologies={technologies} speed={25} />
+            </motion.div>
           )}
 
           {/* Skills */}

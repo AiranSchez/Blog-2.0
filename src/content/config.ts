@@ -28,6 +28,7 @@ const experience = defineCollection({
     endDate: z.string().nullable(), // YYYY-MM format or null for present
     description: z.string().optional(),
     skills: z.array(z.string()).optional().default([]),
+    technologies: z.array(z.string()).optional().default([]),
     locale: z.enum(['en', 'es', 'ja']),
   }),
 });

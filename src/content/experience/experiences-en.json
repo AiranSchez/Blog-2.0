@@ -1,0 +1,47 @@
+[
+  {
+    "company": "LeanMind",
+    "role": "Internship",
+    "startDate": "2020-06",
+    "endDate": "2021-06",
+    "description": "I started my professional career as an intern, learning software development best practices, reading books, learning TDD methodology and agile principles. I contributed to internal projects while developing fundamental skills in modern web development.",
+    "technologies": ["TypeScript", "JavaScript", "Git", "Docker", "MySQL", "React", "Html5", "CSS3", "Bootstrap", "Firebase", "Github", "Gulp", "Java", "Jest", "Sass", "Vue.js"],
+    "locale": "en"
+  },
+  {
+    "company": "LeanMind - ClarityAI",
+    "role": "Collaborator",
+    "startDate": "2021-06",
+    "endDate": "2023-09",
+    "description": "I developed and maintained ETL data processing pipelines for data analysis. I worked with large-scale data systems, implemented automated testing strategies, and contributed to platform scalability improvements.",
+    "technologies": ["Python", "Pytest", "Pandas", "MongoDB", "Docker", "JavaScript", "Jupyter Notebooks", "AWS", "Jenkins", "GitLab"],
+    "locale": "en"
+  },
+  {
+    "company": "LeanMind - Technology Innovation Institute",
+    "role": "Collaborator",
+    "startDate": "2023-10",
+    "endDate": "2024-03",
+    "description": "I collaborated on software projects focused on mathematical research. I contributed to a cutting-edge technology initiative, focusing on clean architecture and maintainable code practices.",
+    "technologies": ["Docker", "TypeScript", "Node.js", "MongoDB", "ArgoCD", "AWS", "Bash", "CSS3", "Html5", "Figma", "Github", "Jenkins", "Jest", "Kubernetes", "Linux", "Next.js", "React"],
+    "locale": "en"
+  },
+  {
+    "company": "LeanMind - Voxel",
+    "role": "Collaborator",
+    "startDate": "2024-11",
+    "endDate": "2025-12",
+    "description": "I participated in the development of a greenfield project for invoice management between hotels and travel agencies. I implemented improvements in different processes for various internal-use projects and, above all, helped with the renewal of a large legacy codebase.",
+    "technologies": ["Dotnet", "Bash", "CSS3", "Html5", "Git", "Figma", "GitHub", "JavaScript", "PostgreSQL"],
+    "locale": "en"
+  },
+  {
+    "company": "LeanMind",
+    "role": "Internal Management",
+    "startDate": "2026-01",
+    "endDate": null,
+    "description": "Leading internal initiatives, mentoring team members, and contributing to company growth strategies. Strongly focused on the use of AI tools and on sharing knowledge, improving processes, and fostering a collaborative engineering culture.",
+    "technologies": ["Astro", "CSS3", "Docker", "Figma", "Git", "GitHub", "Html5", "JavaScript", "Jest", "Next.js", "Node.js", "React", "Tailwind CSS", "TypeScript"],
+    "locale": "en"
+  }
+]
