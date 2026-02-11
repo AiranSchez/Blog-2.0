@@ -1,21 +1,50 @@
 ---
-// Redirect to English by default in static mode
+// Root page with instant client-side redirect
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta http-equiv="refresh" content="0; url=/en/" />
-    <script>
-      // Client-side language detection
-      const browserLang = navigator.language.substring(0, 2);
-      const supportedLangs = ['en', 'es', 'ja'];
-      const targetLang = supportedLangs.includes(browserLang) ? browserLang : 'en';
-      window.location.href = `/${targetLang}/`;
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Redirecting...</title>
+    <style>
+      body { 
+        margin: 0; 
+        padding: 0; 
+        background: #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        font-family: system-ui, -apple-system, sans-serif;
+      }
+      .loader {
+        width: 48px;
+        height: 48px;
+        border: 5px solid #FFF;
+        border-bottom-color: transparent;
+        border-radius: 50%;
+        display: inline-block;
+        box-sizing: border-box;
+        animation: rotation 1s linear infinite;
+      }
+      @keyframes rotation {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    </style>
+    <script is:inline>
+      // Instant redirect - executes before page renders
+      (function() {
+        const browserLang = navigator.language.substring(0, 2);
+        const supportedLangs = ['en', 'es', 'ja'];
+        const targetLang = supportedLangs.includes(browserLang) ? browserLang : 'en';
+        window.location.replace(`/${targetLang}/`);
+      })();
     </script>
   </head>
   <body>
-    <p>Redirecting...</p>
+    <span class="loader"></span>
   </body>
 </html>
