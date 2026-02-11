@@ -1,6 +1,37 @@
 {
   "buildCommand": "bun run build",
   "framework": "astro",
+  "redirects": [
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept-language",
+          "value": "es.*"
+        }
+      ],
+      "destination": "/es/",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "header",
+          "key": "accept-language",
+          "value": "ja.*"
+        }
+      ],
+      "destination": "/ja/",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "destination": "/en/",
+      "permanent": false
+    }
+  ],
   "headers": [
     {
       "source": "/fonts/(.*)",
