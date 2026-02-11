@@ -1,7 +1,16 @@
 ---
 import Parallax from '../decorators/Parallax.tsx';
 import AuroraBackground from '../decorators/AuroraBackground.tsx';
+import AnimatedTimeline from '../ui/AnimatedTimeline.tsx';
+import ExperienceCard from '../ui/ExperienceCard.tsx';
+import DualLogo from '../ui/DualLogo.tsx';
 import type { CollectionEntry } from 'astro:content';
+
+// Import logos
+import leanmindLogo from '../../assets/images/leanmind-logo.jpg';
+import clarityLogo from '../../assets/images/clarity-logo.png';
+import tiiLogo from '../../assets/images/TII-logo.jpg';
+import voxelLogo from '../../assets/images/voxelgroup-logo.jpeg';
 
 interface Props {
   experiences: CollectionEntry<'experience'>[];
@@ -9,29 +18,116 @@ interface Props {
 }
 
 const { experiences, t } = Astro.props;
+
+// Logo mapping
+const companyLogos: Record<string, string> = {
+  'clarity': clarityLogo.src,
+  'tii': tiiLogo.src,
+  'technology innovation institute': tiiLogo.src,
+  'voxel': voxelLogo.src,
+  'leanmind': leanmindLogo.src,
+};
+
+// Calculate duration between two dates
+function calculateDuration(startDate: string, endDate: string | null, presentText: string): string {
+  const start = new Date(startDate + '-01');
+  const end = endDate ? new Date(endDate + '-01') : new Date();
+  
+  const months = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
+  const years = Math.floor(months / 12);
+  const remainingMonths = months % 12;
+  
+  if (years === 0) {
+    return `${remainingMonths} ${remainingMonths === 1 ? 'mes' : 'meses'}`;
+  } else if (remainingMonths === 0) {
+    return `${years} ${years === 1 ? 'año' : 'años'}`;
+  } else {
+    return `${years} ${years === 1 ? 'año' : 'años'} y ${remainingMonths} ${remainingMonths === 1 ? 'mes' : 'meses'}`;
+  }
+}
+
+// Get company logo
+function getCompanyLogo(companyName: string): string | undefined {
+  const normalized = companyName.toLowerCase();
+  
+  // If company name contains a dash, extract the part after "leanmind -"
+  if (normalized.includes('leanmind -')) {
+    const companyPart = normalized.split('leanmind -')[1].trim();
+    
+    // Search for logo using the company part first
+    for (const [key, logo] of Object.entries(companyLogos)) {
+      if (key !== 'leanmind' && companyPart.includes(key)) {
+        return logo;
+      }
+    }
+  }
+  
+  // Fallback: search in full name (but skip 'leanmind' key if it's a collaboration)
+  for (const [key, logo] of Object.entries(companyLogos)) {
+    if (normalized.includes('-') && key === 'leanmind') {
+      continue; // Skip leanmind logo for collaborations
+    }
+    if (normalized.includes(key)) {
+      return logo;
+    }
+  }
+  
+  return undefined;
+}
+
+// Check if it's LeanMind only
+function isLeanMindOnly(companyName: string): boolean {
+  const normalized = companyName.toLowerCase();
+  return normalized === 'leanmind' || !normalized.includes('-');
+}
+
+// Prepare experience data
+const experiencesWithData = experiences.map((exp, index) => ({
+  ...exp.data,
+  duration: calculateDuration(exp.data.startDate, exp.data.endDate, t('experience.present')),
+  companyLogo: getCompanyLogo(exp.data.company),
+  isLeanMindOnly: isLeanMindOnly(exp.data.company),
+  skills: exp.data.skills || [],
+  index,
+}));
 ---
 
 <Parallax speed={0.4} client:load>
   <AuroraBackground className="py-12 sm:py-20" client:load>
     <section class="py-12 sm:py-20 transition-colors relative" aria-labelledby="experience-heading">
       <div class="container mx-auto px-4 sm:px-6 max-w-7xl">
-        <h2 id="experience-heading" class="text-4xl font-bold text-center mb-12 text-white">
+        <h2 id="experience-heading" class="text-4xl font-bold text-center mb-16 text-white">
           {t('experience.title')}
         </h2>
-        <div class="max-w-3xl mx-auto space-y-8">
-          {experiences.map((exp) => (
-            <div class="relative pl-8 border-l-2 border-alabaster/50">
-              <div class="absolute -left-2 top-0 w-4 h-4 rounded-full bg-alabaster"></div>
-              <h3 class="text-2xl font-bold text-alabaster mb-1">{exp.data.company}</h3>
-              <p class="text-lg font-semibold text-alabaster/90 mb-1">{t('experience.collaborator')} · {exp.data.role}</p>
-              <p class="text-sm text-alabaster/70 mb-2">
-                {exp.data.startDate} - {exp.data.endDate || t('experience.present')}
-              </p>
-              {exp.data.description && (
-                <p class="text-alabaster/80">{exp.data.description}</p>
-              )}
-            </div>
-          ))}
+        
+        <div class="max-w-4xl mx-auto">
+          <AnimatedTimeline client:load>
+            {experiencesWithData.map((exp) => (
+              <div class="mb-12">
+                {/* Logo Section */}
+                <DualLogo
+                  leanmindLogo={leanmindLogo.src}
+                  companyLogo={exp.companyLogo}
+                  companyName={exp.company}
+                  isLeanMindOnly={exp.isLeanMindOnly}
+                  client:load
+                />
+                
+                {/* Experience Card */}
+                <ExperienceCard
+                  company={exp.company}
+                  role={exp.role}
+                  startDate={exp.startDate}
+                  endDate={exp.endDate}
+                  duration={exp.duration}
+                  description={exp.description}
+                  skills={exp.skills}
+                  index={exp.index}
+                  client:load
+                />
+              </div>
+            ))}
+          </AnimatedTimeline>
         </div>
       </div>
     </section>
