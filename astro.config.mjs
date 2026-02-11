@@ -8,7 +8,7 @@ import react from '@astrojs/react';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://your-domain.com', // Update with your actual domain
+  site: 'https://airanschez.tech', // Update with your actual domain
   integrations: [
     tailwind({
       applyBaseStyles: false, // We're using our own global.css
