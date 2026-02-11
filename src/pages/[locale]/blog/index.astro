@@ -1,13 +1,13 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
-import Header from '../../../components/layout/Header.astro';
-import Footer from '../../../components/layout/Footer.astro';
-import Card from '../../../components/ui/Card.astro';
-import Badge from '../../../components/ui/Badge.astro';
-import Link from '../../../components/ui/Link.astro';
-import ScrollReveal from '../../../components/decorators/ScrollReveal.tsx';
+import Header from '../../../layouts/Header.astro';
+import Footer from '../../../layouts/Footer.astro';
+import Card from '../../../components/shared/ui/Card.astro';
+import Badge from '../../../components/shared/ui/Badge.astro';
+import Link from '../../../components/shared/ui/Link.astro';
+import ScrollReveal from '../../../components/shared/decorators/ScrollReveal.tsx';
 import { getCollection } from 'astro:content';
-import { getLangFromUrl, useTranslations } from '../../../logic/i18n-engine';
+import { getLangFromUrl, useTranslations } from '../../../services/i18n';
 
 export const prerender = true;
 

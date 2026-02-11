@@ -1,6 +1,6 @@
 import { motion, useMotionValue, useAnimation } from 'framer-motion';
 import { useRef, useEffect } from 'react';
-import techLogos from '../../config/tech-logos.json';
+import techLogos from '@/content/tech-logos.json';
 
 interface TechLoopSliderProps {
   technologies: string[];

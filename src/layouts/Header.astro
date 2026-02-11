@@ -1,6 +1,6 @@
 ---
-import { getLangFromUrl, useTranslations } from '../../logic/i18n-engine';
-import AnimatedText from '../ui/react/common/AnimatedText.tsx';
+import { getLangFromUrl, useTranslations } from '../services/i18n';
+import AnimatedText from '../components/shared/react/common/AnimatedText.tsx';
 // import { Sun, Moon, Languages, Menu, X } from '@lucide/astro';
 
 const lang = getLangFromUrl(Astro.url);

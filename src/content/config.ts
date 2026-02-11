@@ -19,20 +19,6 @@ const about = defineCollection({
   }),
 });
 
-const experience = defineCollection({
-  type: 'data',
-  schema: z.object({
-    company: z.string(),
-    role: z.string(),
-    startDate: z.string(), // YYYY-MM format
-    endDate: z.string().nullable(), // YYYY-MM format or null for present
-    description: z.string().optional(),
-    skills: z.array(z.string()).optional().default([]),
-    technologies: z.array(z.string()).optional().default([]),
-    locale: z.enum(['en', 'es', 'ja']),
-  }),
-});
-
 const projects = defineCollection({
   type: 'data',
   schema: z.object({
@@ -50,6 +36,5 @@ const projects = defineCollection({
 export const collections = {
   blog,
   about,
-  experience,
   projects,
 };

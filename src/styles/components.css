@@ -1,0 +1,197 @@
+/* Component utilities */
+@layer components {
+  /* Fluid Typography Utilities */
+  .text-fluid-xs { font-size: var(--text-xs); }
+  .text-fluid-sm { font-size: var(--text-sm); }
+  .text-fluid-base { font-size: var(--text-base); }
+  .text-fluid-lg { font-size: var(--text-lg); }
+  .text-fluid-xl { font-size: var(--text-xl); }
+  .text-fluid-2xl { font-size: var(--text-2xl); }
+  .text-fluid-3xl { font-size: var(--text-3xl); }
+  .text-fluid-4xl { font-size: var(--text-4xl); }
+  .text-fluid-5xl { font-size: var(--text-5xl); }
+  .text-fluid-6xl { font-size: var(--text-6xl); }
+  .text-fluid-7xl { font-size: var(--text-7xl); }
+  
+  /* Heading styles with consistent spacing and line-height */
+  .heading-hero {
+    font-size: var(--text-6xl);
+    line-height: var(--leading-tight);
+    @apply font-bold tracking-tight;
+  }
+  
+  .heading-1 {
+    font-size: var(--text-5xl);
+    line-height: var(--leading-tight);
+    @apply font-bold tracking-tight;
+  }
+  
+  .heading-2 {
+    font-size: var(--text-4xl);
+    line-height: var(--leading-snug);
+    @apply font-bold tracking-tight;
+  }
+  
+  .heading-3 {
+    font-size: var(--text-2xl);
+    line-height: var(--leading-snug);
+    @apply font-semibold;
+  }
+  
+  .heading-4 {
+    font-size: var(--text-xl);
+    line-height: var(--leading-normal);
+    @apply font-semibold;
+  }
+  
+  .body-lg {
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+  }
+  
+  .body-base {
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+  }
+  
+  .body-sm {
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+  }
+
+  /* Container with consistent padding */
+  .container-custom {
+    @apply container mx-auto px-4 md:px-6 lg:px-8;
+  }
+  
+  /* Card base styles */
+  .card-base {
+    @apply bg-white dark:bg-carbon-700;
+    @apply rounded-lg shadow-md;
+    @apply border border-alabaster-200 dark:border-carbon-600;
+    @apply transition-all duration-300;
+  }
+  
+  /* Button base styles */
+  .btn-base {
+    @apply inline-flex items-center justify-center;
+    @apply px-4 py-2 rounded-lg;
+    @apply font-medium text-sm;
+    @apply transition-all duration-300;
+    @apply focus-visible:ring-2 focus-visible:ring-offset-2;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  /* Link styles with proper underline */
+  .link-base {
+    @apply underline decoration-stormy/30;
+    @apply hover:decoration-stormy;
+    @apply transition-colors duration-200;
+  }
+  
+  /* Prose improvements for blog content */
+  .prose-custom {
+    @apply prose prose-lg;
+    @apply dark:prose-invert;
+    @apply max-w-none;
+    
+    /* Better typography scale */
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    
+    /* Headings with fluid typography */
+    & h1 { 
+      font-size: var(--text-4xl); 
+      line-height: var(--leading-tight);
+      margin-top: 2em;
+      margin-bottom: 0.75em;
+    }
+    & h2 { 
+      font-size: var(--text-3xl); 
+      line-height: var(--leading-tight);
+      margin-top: 1.75em;
+      margin-bottom: 0.65em;
+    }
+    & h3 { 
+      font-size: var(--text-2xl); 
+      line-height: var(--leading-snug);
+      margin-top: 1.5em;
+      margin-bottom: 0.6em;
+    }
+    & h4 { 
+      font-size: var(--text-xl); 
+      line-height: var(--leading-normal);
+      margin-top: 1.5em;
+      margin-bottom: 0.5em;
+    }
+    
+    /* Paragraph spacing */
+    & p {
+      margin-bottom: 1.25em;
+      text-wrap: pretty;
+    }
+    
+    /* List improvements */
+    & ul, & ol {
+      margin-bottom: 1.25em;
+      & li {
+        margin-bottom: 0.5em;
+        line-height: var(--leading-relaxed);
+      }
+    }
+    
+    /* Code blocks */
+    & pre {
+      @apply rounded-lg;
+      @apply bg-carbon-900 dark:bg-carbon-800;
+      padding: 1.25rem;
+      overflow-x: auto;
+      margin-bottom: 1.5em;
+    }
+    
+    & code {
+      @apply px-1.5 py-0.5 rounded;
+      @apply bg-muted/10 dark:bg-carbon-800;
+      font-size: 0.875em;
+    }
+    
+    /* Links */ 
+    & a {
+      @apply text-stormy dark:text-seaweed;
+      @apply no-underline hover:underline;
+      @apply decoration-2 underline-offset-2;
+      @apply transition-colors;
+    }
+    
+    /* Blockquotes */
+    & blockquote {
+      @apply border-l-4 border-stormy dark:border-seaweed;
+      @apply pl-4 italic;
+      @apply text-carbon/80 dark:text-alabaster/80;
+      margin: 1.5em 0;
+    }
+    
+    /* Tables */
+    & table {
+      @apply w-full border-collapse;
+      margin: 1.5em 0;
+      
+      & th {
+        @apply bg-muted/10 dark:bg-carbon-800;
+        @apply font-semibold text-left;
+        padding: 0.75rem;
+      }
+      
+      & td {
+        padding: 0.75rem;
+        @apply border-t border-muted/20 dark:border-carbon-700;
+      }
+    }
+    
+    /* Images */
+    & img {
+      @apply rounded-lg;
+      margin: 1.5em 0;
+    }
+  }
+}

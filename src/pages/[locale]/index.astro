@@ -1,7 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import Header from '../../components/layout/Header.astro';
-import Footer from '../../components/layout/Footer.astro';
+import Header from '../../layouts/Header.astro';
+import Footer from '../../layouts/Footer.astro';
 import HeroSection from '../../components/home/HeroSection.astro';
 import ProjectsSection from '../../components/home/ProjectsSection.astro';
 import ExperienceSection from '../../components/home/ExperienceSection.astro';
@@ -9,7 +9,7 @@ import AboutSection from '../../components/home/AboutSection.astro';
 import BlogSection from '../../components/home/BlogSection.astro';
 import ContactSection from '../../components/home/ContactSection.astro';
 import { getCollection } from 'astro:content';
-import { getLangFromUrl, useTranslations } from '../../logic/i18n-engine';
+import { getLangFromUrl, useTranslations } from '../../services/i18n';
 
 // Import consolidated experience files
 import experiencesEn from '../../data/experience/experiences-en.json';

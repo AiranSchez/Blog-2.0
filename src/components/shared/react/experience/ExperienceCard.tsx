@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import SkillBadge from './SkillBadge';
+import SkillBadge from '../common/SkillBadge';
 import TechLoopSlider from './TechLoopSlider';
 
 interface ExperienceCardProps {
