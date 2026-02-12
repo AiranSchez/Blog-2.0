@@ -1,0 +1,28 @@
+---
+/**
+ * BlogSection Component
+ * Main orchestrator for blog listing with filters and grid
+ */
+import BlogGrid from './BlogGrid';
+
+interface Props {
+  posts: any[];
+  locale: string;
+}
+
+const { posts, locale } = Astro.props;
+---
+
+<section class="blog-section">
+  <BlogGrid 
+    posts={posts} 
+    locale={locale}
+    client:load
+  />
+</section>
+
+<style>
+  .blog-section {
+    width: 100%;
+  }
+</style>

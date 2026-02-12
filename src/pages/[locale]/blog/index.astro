@@ -2,10 +2,7 @@
 import Layout from '../../../layouts/Layout.astro';
 import Header from '../../../layouts/Header.astro';
 import Footer from '../../../layouts/Footer.astro';
-import Card from '../../../components/shared/ui/Card.astro';
-import Badge from '../../../components/shared/ui/Badge.astro';
-import Link from '../../../components/shared/ui/Link.astro';
-import ScrollReveal from '../../../components/shared/decorators/ScrollReveal.tsx';
+import BlogSection from '../../../components/blog/BlogSection.astro';
 import { getCollection } from 'astro:content';
 import { getLangFromUrl, useTranslations } from '../../../services/i18n';
 
@@ -31,145 +28,27 @@ const posts = allPosts
 <Layout title={`${t('nav.blog')} - Airán`} description="Blog posts about web development" lang={lang}>
   <Header />
   
-  <main class="min-h-screen bg-alabaster dark:bg-carbon py-12">
-    <div class="container mx-auto px-4">
-      <h1 class="text-5xl font-bold text-center mb-12 text-stormy dark:text-seaweed">
-        {t('nav.blog')}
-      </h1>
-      
-      <!-- Search Bar (placeholder for PageFind) -->
-      <div class="max-w-2xl mx-auto mb-12">
-        <div id="search" class="w-full min-h-[60px] flex items-center justify-center bg-white dark:bg-stormy/20 rounded-lg border-2 border-muted/30 dark:border-stormy/40 p-4">
-          <p class="text-carbon/40 dark:text-alabaster/40 text-sm">Loading search...</p>
-        </div>
+  <main class="min-h-screen bg-gradient-to-br from-alabaster via-alabaster-100 to-alabaster-200 dark:from-carbon dark:via-carbon-800 dark:to-carbon-900 py-16">
+    <div class="container mx-auto px-4 max-w-7xl">
+      <!-- Header Section -->
+      <div class="text-center mb-16">
+        <h1 class="text-5xl md:text-6xl font-bold mb-4 text-stormy dark:text-seaweed">
+          {t('nav.blog')}
+        </h1>
+        <p class="text-lg text-carbon/70 dark:text-alabaster/70 max-w-2xl mx-auto">
+          {lang === 'es' 
+            ? 'Artículos sobre desarrollo web, programación y tecnología' 
+            : lang === 'ja'
+            ? 'ウェブ開発、プログラミング、テクノロジーに関する記事'
+            : 'Articles about web development, programming, and technology'
+          }
+        </p>
       </div>
       
-      <!-- Blog Posts Grid -->
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {posts.map((post, index) => (
-          <ScrollReveal 
-            delay={index * 0.1}
-            direction="up"
-            client:load
-          >
-            <article 
-              class="group transition-transform duration-300 hover:-translate-y-1 focus-within:ring-2 focus-within:ring-stormy rounded-lg"
-              data-blog-card
-            >
-            <Card 
-              variant="elevated" 
-              padding="lg"
-              class="h-full flex flex-col"
-            >
-              <h2 class="text-2xl font-bold mb-3 text-stormy dark:text-seaweed">
-                <Link 
-                  href={`/${lang}/blog/${post.slug}/`}
-                  variant="subtle"
-                  class="hover:underline focus-visible:underline"
-                >
-                  {post.data.title}
-                </Link>
-              </h2>
-              
-              <time 
-                datetime={post.data.date.toISOString()}
-                class="text-sm text-carbon/60 dark:text-alabaster/60 mb-3 block"
-              >
-                {new Date(post.data.date).toLocaleDateString(lang, {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })}
-              </time>
-              
-              <p class="text-carbon/80 dark:text-alabaster/80 mb-4 line-clamp-3 flex-grow">
-                {post.data.description}
-              </p>
-              
-              <div class="flex flex-wrap gap-2 mb-4" role="list" aria-label="Tags">
-                {post.data.tags.slice(0, 4).map((tag) => (
-                  <Badge 
-                    variant="muted" 
-                    size="sm"
-                    role="listitem"
-                  >
-                    {tag}
-                  </Badge>
-                ))}
-                {post.data.tags.length > 4 && (
-                  <Badge variant="outline" size="sm">
-                    +{post.data.tags.length - 4}
-                  </Badge>
-                )}
-              </div>
-              
-              <a 
-                href={`/${lang}/blog/${post.slug}/`}
-                class="inline-flex items-center gap-1 text-stormy dark:text-seaweed hover:underline font-semibold transition-all group-hover:gap-2"
-              >
-                {t('blog.readMore')} 
-                <span aria-hidden="true">→</span>
-              </a>
-            </Card>
-          </article>
-          </ScrollReveal>
-        ))}
-      </div>
+      <!-- Blog Section with Filters and Grid -->
+      <BlogSection posts={posts} locale={lang} />
     </div>
   </main>
 
   <Footer />
 </Layout>
-
-<script is:inline>
-  // PageFind initialization
-  if (typeof window !== 'undefined') {
-    window.addEventListener('DOMContentLoaded', () => {
-      const searchDiv = document.getElementById('search');
-      if (searchDiv) {
-        const isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-        
-        if (isDev) {
-          // Show development message without trying to load PageFind
-          searchDiv.innerHTML = '<div class="text-center p-4 bg-muted/20 dark:bg-stormy/20 rounded-lg"><p class="text-carbon/60 dark:text-alabaster/60 text-sm">🔍 Search will be available after building the site.<br/><small class="text-xs">Run <code class="px-2 py-1 bg-carbon/10 dark:bg-alabaster/10 rounded font-mono">bun run build</code> to enable search.</small></p></div>';
-        } else {
-          // Production: try to load PageFind
-          const link = document.createElement('link');
-          link.rel = 'stylesheet';
-          link.href = '/pagefind/pagefind-ui.css';
-          document.head.appendChild(link);
-          
-          const script = document.createElement('script');
-          script.src = '/pagefind/pagefind-ui.js';
-          script.type = 'text/javascript';
-          script.onload = () => {
-            if (window.PagefindUI) {
-              new window.PagefindUI({ 
-                element: '#search',
-                showSubResults: true,
-                showImages: false,
-                translations: {
-                  placeholder: "Search posts...",
-                  clear_search: "Clear",
-                  load_more: "Load more results",
-                  search_label: "Search this site",
-                  filters_label: "Filters",
-                  zero_results: "No results for [SEARCH_TERM]",
-                  many_results: "[COUNT] results for [SEARCH_TERM]",
-                  one_result: "[COUNT] result for [SEARCH_TERM]",
-                  alt_search: "No results for [SEARCH_TERM]. Showing results for [DIFFERENT_TERM] instead",
-                  search_suggestion: "No results for [SEARCH_TERM]. Try one of the following searches:",
-                  searching: "Searching for [SEARCH_TERM]..."
-                }
-              });
-            }
-          };
-          script.onerror = () => {
-            searchDiv.innerHTML = '<div class="text-center p-4 bg-muted/20 dark:bg-stormy/20 rounded-lg"><p class="text-carbon/60 dark:text-alabaster/60 text-sm">Search not available</p></div>';
-          };
-          document.body.appendChild(script);
-        }
-      }
-    });
-  }
-</script>

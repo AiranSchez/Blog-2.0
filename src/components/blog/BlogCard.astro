@@ -1,0 +1,167 @@
+---
+/**
+ * BlogCard Component
+ * Individual blog post card with electric border effect
+ */
+import Badge from '../shared/ui/Badge.astro';
+import Link from '../shared/ui/Link.astro';
+
+interface Props {
+  title: string;
+  slug: string;
+  description: string;
+  date: Date;
+  tags: string[];
+  locale: string;
+  variant?: 'default' | 'electric';
+}
+
+const {
+  title,
+  slug,
+  description,
+  date,
+  tags,
+  locale,
+  variant = 'electric'
+} = Astro.props;
+
+// Translations for "Read More"
+const readMoreText = {
+  en: 'Read More',
+  es: 'Leer Más',
+  ja: '続きを読む'
+};
+---
+
+<article 
+  class="blog-card group relative h-full flex flex-col overflow-hidden"
+  data-variant={variant}
+>
+  <!-- Electric border effect -->
+  {variant === 'electric' && (
+    <div class="electric-border" aria-hidden="true"></div>
+  )}
+  
+  <!-- Card content -->
+  <div class="card-content relative z-10 flex flex-col h-full">
+    <h2 class="text-2xl font-bold mb-3 text-stormy dark:text-seaweed">
+      <Link 
+        href={`/${locale}/blog/${slug}/`}
+        variant="subtle"
+        class="hover:underline focus-visible:underline line-clamp-2"
+      >
+        {title}
+      </Link>
+    </h2>
+    
+    <time 
+      datetime={date.toISOString()}
+      class="text-sm text-carbon/60 dark:text-alabaster/60 mb-3 block"
+    >
+      {new Date(date).toLocaleDateString(locale, {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      })}
+    </time>
+    
+    <p class="text-carbon/80 dark:text-alabaster/80 mb-4 line-clamp-3 flex-grow">
+      {description}
+    </p>
+    
+    <div class="flex flex-wrap gap-2 mb-4" role="list" aria-label="Tags">
+      {tags.slice(0, 4).map((tag) => (
+        <Badge 
+          variant="muted" 
+          size="sm"
+          role="listitem"
+        >
+          {tag}
+        </Badge>
+      ))}
+      {tags.length > 4 && (
+        <Badge variant="outline" size="sm">
+          +{tags.length - 4}
+        </Badge>
+      )}
+    </div>
+    
+    <a 
+      href={`/${locale}/blog/${slug}/`}
+      class="inline-flex items-center gap-1 text-stormy dark:text-seaweed hover:underline font-semibold transition-all group-hover:gap-2 mt-auto"
+    >
+      {readMoreText[locale as keyof typeof readMoreText] || readMoreText.en}
+      <span aria-hidden="true">→</span>
+    </a>
+  </div>
+</article>
+
+<style>
+  .blog-card {
+    position: relative;
+    background: white;
+    border-radius: 0.75rem;
+    transition: all 0.3s ease;
+  }
+  
+  :global(.dark) .blog-card {
+    background: rgb(36 41 46);
+  }
+  
+  .blog-card:hover {
+    transform: translateY(-4px);
+  }
+  
+  .blog-card:focus-within {
+    outline: 2px solid rgb(33 104 105);
+    outline-offset: 2px;
+  }
+  
+  /* Electric border effect */
+  .electric-border {
+    position: absolute;
+    inset: 0;
+    border-radius: 0.75rem;
+    padding: 2px;
+    background: linear-gradient(
+      135deg,
+      rgb(33 104 105) 0%,
+      rgb(73 160 120) 25%,
+      rgb(33 104 105) 50%,
+      rgb(73 160 120) 75%,
+      rgb(33 104 105) 100%
+    );
+    background-size: 200% 200%;
+    animation: electricGlow 3s ease-in-out infinite;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+  
+  .blog-card:hover .electric-border {
+    opacity: 1;
+    animation: electricGlow 1.5s ease-in-out infinite;
+  }
+  
+  @keyframes electricGlow {
+    0%, 100% {
+      background-position: 0% 50%;
+      opacity: 0.6;
+    }
+    50% {
+      background-position: 100% 50%;
+      opacity: 1;
+    }
+  }
+  
+  .card-content {
+    background: white;
+    border-radius: 0.65rem;
+    padding: 1.5rem;
+    height: 100%;
+  }
+  
+  :global(.dark) .card-content {
+    background: rgb(36 41 46);
+  }
+</style>

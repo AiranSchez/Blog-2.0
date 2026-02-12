@@ -194,4 +194,39 @@
       margin: 1.5em 0;
     }
   }
+
+  /* Blog Electric Card - Animated border effect */
+  .blog-electric-card {
+    position: relative;
+    padding: 3px;
+    border-radius: 12px;
+    background: linear-gradient(
+      135deg,
+      #216869 0%,
+      #49a078 25%,
+      #216869 50%,
+      #49a078 75%,
+      #216869 100%
+    );
+    background-size: 300% 300%;
+    animation: electricPulse 4s ease-in-out infinite;
+    transition: all 0.3s ease;
+  }
+
+  .blog-electric-card:hover {
+    transform: translateY(-4px);
+    padding: 4px;
+    animation: electricPulse 2s ease-in-out infinite;
+    box-shadow: 0 10px 30px -5px rgba(33, 104, 105, 0.4);
+  }
+
+  @keyframes electricPulse {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
 }
+
