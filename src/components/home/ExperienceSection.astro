@@ -8,7 +8,7 @@ import DualLogo from '../shared/react/experience/DualLogo.tsx';
 // Import logos
 import leanmindLogo from '../../assets/images/logos/leanmind-logo.jpg';
 import clarityLogo from '../../assets/images/logos/clarity-logo.png';
-import tiiLogo from '../../assets/images/logos/TII-logo.jpg';
+import secretProjectLogo from '../../assets/images/logos/secret-project-logo.png';
 import voxelLogo from '../../assets/images/logos/voxelgroup-logo.jpeg';
 
 interface ExperienceData {
@@ -33,8 +33,7 @@ const { experiences, t, lang } = Astro.props;
 // Logo mapping
 const companyLogos: Record<string, string> = {
   'clarity': clarityLogo.src,
-  'tii': tiiLogo.src,
-  'technology innovation institute': tiiLogo.src,
+  'secret-project': secretProjectLogo.src,
   'voxel': voxelLogo.src,
   'leanmind': leanmindLogo.src,
 };
@@ -42,8 +41,7 @@ const companyLogos: Record<string, string> = {
 // Company URL mapping
 const companyUrls: Record<string, string> = {
   'clarity': 'https://clarity.ai',
-  'tii': 'https://www.tii.ae',
-  'technology innovation institute': 'https://www.tii.ae',
+  'secret-project': 'https://www.LeanMind.es',
   'voxel': 'https://voxelgroup.net',
   'leanmind': 'https://leanmind.es',
 };
@@ -82,24 +80,29 @@ function calculateDuration(startDate: string, endDate: string | null, t: any): s
 function getCompanyLogo(companyName: string): string | undefined {
   const normalized = companyName.toLowerCase();
   
+  // Helper function to normalize strings for comparison (removes spaces and dashes)
+  const normalizeForComparison = (str: string) => str.replace(/[\s-]/g, '');
+  
   // If company name contains a dash, extract the part after "leanmind -"
   if (normalized.includes('leanmind -')) {
     const companyPart = normalized.split('leanmind -')[1].trim();
+    const normalizedCompanyPart = normalizeForComparison(companyPart);
     
     // Search for logo using the company part first
     for (const [key, logo] of Object.entries(companyLogos)) {
-      if (key !== 'leanmind' && companyPart.includes(key)) {
+      if (key !== 'leanmind' && normalizedCompanyPart.includes(normalizeForComparison(key))) {
         return logo;
       }
     }
   }
   
   // Fallback: search in full name (but skip 'leanmind' key if it's a collaboration)
+  const normalizedName = normalizeForComparison(normalized);
   for (const [key, logo] of Object.entries(companyLogos)) {
     if (normalized.includes('-') && key === 'leanmind') {
       continue; // Skip leanmind logo for collaborations
     }
-    if (normalized.includes(key)) {
+    if (normalizedName.includes(normalizeForComparison(key))) {
       return logo;
     }
   }
@@ -111,21 +114,26 @@ function getCompanyLogo(companyName: string): string | undefined {
 function getCompanyUrl(companyName: string): string | undefined {
   const normalized = companyName.toLowerCase();
   
+  // Helper function to normalize strings for comparison (removes spaces and dashes)
+  const normalizeForComparison = (str: string) => str.replace(/[\s-]/g, '');
+  
   // If company name contains a dash, extract the part after "leanmind -"
   if (normalized.includes('leanmind -')) {
     const companyPart = normalized.split('leanmind -')[1].trim();
+    const normalizedCompanyPart = normalizeForComparison(companyPart);
     
     // Search for URL using the company part first
     for (const [key, url] of Object.entries(companyUrls)) {
-      if (key !== 'leanmind' && companyPart.includes(key)) {
+      if (key !== 'leanmind' && normalizedCompanyPart.includes(normalizeForComparison(key))) {
         return url;
       }
     }
   }
   
   // Fallback: search in full name
+  const normalizedName = normalizeForComparison(normalized);
   for (const [key, url] of Object.entries(companyUrls)) {
-    if (normalized.includes(key)) {
+    if (normalizedName.includes(normalizeForComparison(key))) {
       return url;
     }
   }

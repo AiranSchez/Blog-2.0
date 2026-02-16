@@ -10,7 +10,7 @@
   },
   {
     "company": "LeanMind - ClarityAI",
-    "role": "Ingeniero de software",
+    "role": "Ingeniero de datos",
     "startDate": "2021-06",
     "endDate": "2023-09",
     "description": "Desarrollé y mantuve pipelines de procesamiento de datos ETL para análisis de datos. Trabajé con sistemas de datos a gran escala, implementé estrategias de testing automatizado y contribuí a mejoras de escalabilidad de la plataforma.",
@@ -18,8 +18,8 @@
     "locale": "es"
   },
   {
-    "company": "LeanMind - Technology Innovation Institute",
-    "role": "Full Stack Developer",
+    "company": "LeanMind - Secret Project",
+    "role": "Desarrollador Full Stack",
     "startDate": "2023-10",
     "endDate": "2024-03",
     "description": "Colaboré en proyectos de software orientados a investigación matemática. Contribuí a un proyecto de iniciativas tecnológicas de vanguardia, enfocándome en arquitectura limpia y prácticas de código mantenible.",
@@ -28,7 +28,7 @@
   },
   {
     "company": "LeanMind - Voxel",
-    "role": "Backend Developer",
+    "role": "Desarrollador Backend",
     "startDate": "2024-11",
     "endDate": "2025-12",
     "description": "Participé en el desarrollo de un proyecto greenfield para gestion de facturas entre hoteles y agencias de viajes. Implementé mejoras en diferentes procesos para varios proyectos de uso interno y sobretodo ayudé con la renovación de una gran base de código legacy",
@@ -37,7 +37,7 @@
   },
   {
     "company": "LeanMind",
-    "role": "Desarrollador de software - Gestión Interna",
+    "role": "Desarrollador de software de Gestión Interna",
     "startDate": "2026-01",
     "endDate": null,
     "description": "Liderando iniciativas internas, mentorizando miembros del equipo y contribuyendo a estrategias de crecimiento de la empresa. Enfocado fuertemente en uso de herramientas de IA y en compartir conocimiento, mejorar procesos y fomentar una cultura de ingeniería colaborativa.",

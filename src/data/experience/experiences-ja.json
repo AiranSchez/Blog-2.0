@@ -1,7 +1,7 @@
 [
   {
     "company": "LeanMind",
-    "role": "Prácticas",
+    "role": "インターン",
     "startDate": "2020-06",
     "endDate": "2021-06",
     "description": "インターンとしてキャリアをスタートし、ソフトウェア開発のベストプラクティスを学び、本を読み、TDD手法やアジャイル原則を習得しました。社内プロジェクトに貢献しながら、モダンなWeb開発の基礎スキルを身につけました。",
@@ -10,7 +10,7 @@
   },
   {
     "company": "LeanMind - ClarityAI",
-    "role": "Colaborador",
+    "role": "データエンジニア",
     "startDate": "2021-06",
     "endDate": "2023-09",
     "description": "データ分析のためのETLデータ処理パイプラインを開発・保守しました。大規模データシステムで作業し、自動テスト戦略を実装し、プラットフォームのスケーラビリティ向上に貢献しました。",
@@ -18,8 +18,8 @@
     "locale": "ja"
   },
   {
-    "company": "LeanMind - Technology Innovation Institute",
-    "role": "Colaborador",
+    "company": "LeanMind - Secret Project",
+    "role": "フルスタック開発者",
     "startDate": "2023-10",
     "endDate": "2024-03",
     "description": "数学研究に特化したソフトウェアプロジェクトに協力しました。最先端技術のイニシアチブに貢献し、クリーンアーキテクチャと保守性の高いコードプラクティスに注力しました。",
@@ -28,7 +28,7 @@
   },
   {
     "company": "LeanMind - Voxel",
-    "role": "Colaborador",
+    "role": "バックエンド開発者",
     "startDate": "2024-11",
     "endDate": "2025-12",
     "description": "ホテルと旅行代理店間の請求書管理のためのグリーンフィールドプロジェクトの開発に参加しました。さまざまな社内プロジェクトのプロセス改善を実施し、特に大規模なレガシーコードベースの刷新を支援しました。",
@@ -37,7 +37,7 @@
   },
   {
     "company": "LeanMind",
-    "role": "Gestión Interna",
+    "role": "内部管理",
     "startDate": "2026-01",
     "endDate": null,
     "description": "社内イニシアチブを主導し、チームメンバーを指導し、会社の成長戦略に貢献しています。AIツールの活用に強く注力し、知識共有、プロセス改善、協調的なエンジニア文化の醸成に努めています。",

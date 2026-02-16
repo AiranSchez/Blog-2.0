@@ -10,7 +10,7 @@
   },
   {
     "company": "LeanMind - ClarityAI",
-    "role": "Collaborator",
+    "role": "Data Engineer",
     "startDate": "2021-06",
     "endDate": "2023-09",
     "description": "I developed and maintained ETL data processing pipelines for data analysis. I worked with large-scale data systems, implemented automated testing strategies, and contributed to platform scalability improvements.",
@@ -18,8 +18,8 @@
     "locale": "en"
   },
   {
-    "company": "LeanMind - Technology Innovation Institute",
-    "role": "Collaborator",
+    "company": "LeanMind - Secret Project",
+    "role": "Full Stack Developer",
     "startDate": "2023-10",
     "endDate": "2024-03",
     "description": "I collaborated on software projects focused on mathematical research. I contributed to a cutting-edge technology initiative, focusing on clean architecture and maintainable code practices.",
@@ -28,7 +28,7 @@
   },
   {
     "company": "LeanMind - Voxel",
-    "role": "Collaborator",
+    "role": "Backend Developer",
     "startDate": "2024-11",
     "endDate": "2025-12",
     "description": "I participated in the development of a greenfield project for invoice management between hotels and travel agencies. I implemented improvements in different processes for various internal-use projects and, above all, helped with the renewal of a large legacy codebase.",
