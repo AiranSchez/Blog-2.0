@@ -4,7 +4,7 @@ title: CSRF, XSS & CORS
 date: 2020-07-01 13:37:00+00:00
 slug: /es/csrf-xss-cors
 description: Descripción de cada uno de los términos CSRF, XSS y CORS
-featuredImage: /assets/website-security.jpg
+featuredImage: /assets/images/posts/website-security.jpg
 tags: ['CSRF', 'CORS', 'XSS', 'Aprendizaje', 'Seguridad', 'Blog']
 
 ---

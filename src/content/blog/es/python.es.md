@@ -4,7 +4,7 @@ title: Python
 slug: /python-dataframes
 date: 2021-05-04 13:26:00+00:00
 description: Aprendiendo Python con Numpy y Pandas
-featuredImage: /assets/1_vumfscsppzmna48uu0cina.png
+featuredImage: /assets/images/posts/1_vumfscsppzmna48uu0cina.png
 tags: ['Python', 'Aprendizaje', 'Pandas', 'Numpy', 'Blog']
 
 ---
@@ -57,7 +57,7 @@ df_vacio = pandas.DataFrame(columns = ['Nombre', 'Cantidad', 'es_FB', 'Año']) #
 df_vacio = df_vacio.append({'Nombre': 'Facebook', 'Cantidad': 2449, 'es_FB': True, 'Año': 2006},ignore_index=True)
 ```
 
-![Dataframe](/assets/captura-de-pantalla-2021-05-04-132459.png " ")
+![Dataframe](/assets/images/posts/captura-de-pantalla-2021-05-04-132459.png " ")
 
 ## Numpy
 
@@ -155,7 +155,7 @@ pandas.read_csv('finanzas.csv')
 dataframe
 ```
 
-![DataFrame leído de csv](/assets/este.png " ")
+![DataFrame leído de csv](/assets/images/posts/este.png " ")
 
 ```python
 import pandas 
@@ -164,4 +164,4 @@ dataframe = pandas.read_csv('finanzas.csv', header = None, names = ['Concepto', 
 dataframe.iloc[2]
 ```
 
-![DataFrame filtrado](/assets/ahora-este.png " ")
+![DataFrame filtrado](/assets/images/posts/ahora-este.png " ")

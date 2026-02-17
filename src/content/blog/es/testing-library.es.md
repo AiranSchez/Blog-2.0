@@ -4,7 +4,7 @@ title: Testing Library
 slug: /test
 date: 2020-06-16 13:24:00+00:00
 description: Ejemplos de casos de uso de React Testing Library
-featuredImage: /assets/cover-3.png
+featuredImage: /assets/images/posts/cover-3.png
 tags: ['Comunidad', 'Aprendizaje', 'Guía', 'Blog', 'Testing', 'Library', 'React']
 
 ---

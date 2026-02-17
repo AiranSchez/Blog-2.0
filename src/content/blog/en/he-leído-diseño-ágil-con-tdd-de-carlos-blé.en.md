@@ -4,7 +4,7 @@ title: I read "Agile Design with TDD" by Carlos Blé
 date: 2020-05-05 11:00:00+00:00
 slug: /en/tdd-agile-design-book
 description: Summary and opinions about Carlos Blé Jurado's book "Agile Design with TDD"
-featuredImage: /assets/books-in-black-wooden-book-shelf-159711.jpg
+featuredImage: /assets/images/posts/books-in-black-wooden-book-shelf-159711.jpg
 tags: ['Community', 'Learning', 'LeanMind', 'TDD', 'Books', 'Blog']
 
 ---

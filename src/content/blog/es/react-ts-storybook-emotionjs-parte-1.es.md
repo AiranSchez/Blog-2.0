@@ -4,7 +4,7 @@ title: React + TS + StoryBook + EmotionJS (Parte 1)
 slug: /React /TS
 date: 2020-05-14 13:32:00+00:00
 description: "Descripción de ejercicio conjunto sobre TS con React "
-featuredImage: /assets/1_nnoyq9qfitsvnlh7rcrpfq.png
+featuredImage: /assets/images/posts/1_nnoyq9qfitsvnlh7rcrpfq.png
 tags: ['Comunidad', 'Aprendizaje', 'Kata', 'Coding-dojo', 'Blog']
 
 ---

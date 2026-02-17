@@ -4,7 +4,7 @@ title: Mob and Pair programming
 slug: /es/mob-and-pair-programming
 date: 2021-03-18 14:21:00+00:00
 description: Opinión de pair y mob programming como metodologías de trabajo
-featuredImage: /assets/751331-637471889771844499-16x9.jpg
+featuredImage: /assets/images/posts/751331-637471889771844499-16x9.jpg
 tags: ['Comunidad', 'Aprendizaje', 'Mob/Pair', 'Testing', 'Blog']
 
 ---

@@ -4,7 +4,7 @@ title: Introducción a Pandas
 slug: /es/pandas-python
 date: 2021-12-03T00:00:00.000Z
 description: Breve introducción a la librería Pandas
-featuredImage: /assets/1200px-pandas_logo-svg_.png
+featuredImage: /assets/images/posts/1200px-pandas_logo-svg_.png
 tags:
   - Python
   - Pandas

@@ -4,7 +4,7 @@ title: He leído Diseño ágil con TDD de Carlos Blé
 date: 2020-05-05 11:00:00+00:00
 slug: /es/tdd-diseno-agil-libro
 description: Resumen y opiniones acerca del libro de Carlos Blé Jurado, Diseño ágil con TDD
-featuredImage: /assets/books-in-black-wooden-book-shelf-159711.jpg
+featuredImage: /assets/images/posts/books-in-black-wooden-book-shelf-159711.jpg
 tags: ['Comunidad', 'Aprendizaje', 'LeanMind', 'TDD', 'Libros', 'Blog']
 
 ---

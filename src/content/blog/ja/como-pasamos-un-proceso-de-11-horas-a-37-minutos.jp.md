@@ -4,7 +4,7 @@ title: 11時間のプロセスを37分に短縮した方法
 slug: /how-we-reduced-an-11-hour-process-to-37-minutes
 date: 2023-01-20T00:00:00.000Z
 description: データエンジニアリングにおけるプロセス最適化
-featuredImage: /assets/Optimizacion.webp
+featuredImage: /assets/images/posts/Optimizacion.webp
 tags:
 - ビッグデータ
 - 学習
@@ -28,13 +28,13 @@ tags:
 
 以下のスクリーンショットは、プロセスが時々失敗することがあるものの、確認と修正で問題なく安定していることを示しています：
 
-![proceso11horas-1](/assets/proceso11horas-1.png " ")
+![proceso11horas-1](/assets/images/posts/proceso11horas-1.png " ")
 
 ### そして冬が到来
 
 何らかの理由で、キューにさらに数百万件のレコードが追加され、実行時間が大幅に増加しました。具体的には、5時間から11時間に増加しました：
 
-![proceso11horas-2](/assets/proceso11horas-2.png " ")
+![proceso11horas-2](/assets/images/posts/proceso11horas-2.png " ")
 
 これは管理不可能で持続不可能な状態になっていました。ほぼ半日かかるプロセスが、24時間で2回も実行されるのです…計算してみてください。
 
@@ -103,7 +103,7 @@ dataframe.set_index(provider_priority_column)
 
 前述の通り、このプロセスは3つのデータセットを取得し、**priority_rank_list** に基づいてデータを処理するために1つに結合します。私たちは、優先リストに基づいて結合（ほとんど瞬時に行える操作で、ほとんどリソースを消費しません）することを考えました。こうすることで、結果をソートする必要がなくなり、すでにソートされた状態で取得できるため、作業量も大幅に減ります。とてもシンプルです。コードで示すのはあまり意味がありませんが、結果がすべてを物語っています：
 
-![proceso11horas-3](/assets/proceso11horas-3.jpeg " ")
+![proceso11horas-3](/assets/images/posts/proceso11horas-3.jpeg " ")
 
 さらに興味があれば、このアプローチを前のプロセスにも拡張しました。改善された時間を示す表は以下の通りです：
 
@@ -122,4 +122,4 @@ dataframe.set_index(provider_priority_column)
 | プロバイダー C | 約10分    | 約7分     | 約1〜2時間 | 2時間17分  |
 
 結局のところ、実行時間を節約できただけでなく、このプロセスを実行するKubernetesのPodやAWSマシンのリソースも節約できました。つまり、費用も削減されました。そしてよく言われるように、一枚の写真は千の言葉に勝ります。嵐が静まった様子を示す最後の写真はこちらです：
-![proceso11horas-4](/assets/proceso11horas-4.png " ")
+![proceso11horas-4](/assets/images/posts/proceso11horas-4.png " ")

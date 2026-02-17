@@ -4,7 +4,7 @@ title: String Calculator Kata
 slug: /Kata
 date: 2020-05-12 13:11:00+00:00
 description: "Descripcción de la Kata realizada "
-featuredImage: /assets/architecture-3362794_1920.jpg
+featuredImage: /assets/images/posts/architecture-3362794_1920.jpg
 tags: ['Comunidad', 'Aprendizaje', 'Kata', 'Coding-dojo', 'TDD', 'Java', 'Blog']
 
 ---
@@ -28,11 +28,11 @@ Para comenzar con el kata, hicimos un to-do list con unas pocas entradas posible
 \
 Para cada caso realizamos un test en cuestión siguiendo la metodología TDD de rojo-verde-refactor. Generalmente los test no tienen complejidad y son todos muy similares aunque con la variante de las entradas-salidas.
 
-![Primer caso](/assets/anotacic3b3n-2020-05-12-171736.png " ")
+![Primer caso](/assets/images/posts/anotacic3b3n-2020-05-12-171736.png " ")
 
-![Segundo caso](/assets/anotacic3b3n-2020-05-12-171749.png " ")
+![Segundo caso](/assets/images/posts/anotacic3b3n-2020-05-12-171749.png " ")
 
-![Tercer caso](/assets/anotacic3b3n-2020-05-12-171802-1.png " ")
+![Tercer caso](/assets/images/posts/anotacic3b3n-2020-05-12-171802-1.png " ")
 
 Tras crear los tests y ver que nos fallan, toca poner el **mínimo codigo para que funcione**n (Muy importante que sea lo más simple posible, cosa que debido a la inexperiencia me salté muchas veces queriendo ir a por el algoritmo más optimo). Gracias a mi primer compañero de Kata Borja, aprendí que debo bajar una marcha cuando estoy haciendo TDD y pensar las cosas paso a paso sin querer construir la casa por el tejado.
 

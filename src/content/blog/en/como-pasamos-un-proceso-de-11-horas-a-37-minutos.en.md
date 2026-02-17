@@ -4,7 +4,7 @@ title: How We Reduced an 11-Hour Process to 37 Minutes
 slug: /en/how-we-reduced-an-11-hour-process-to-37-minutes
 date: 2023-01-20T00:00:00.000Z
 description: optimization of a process in data engineering
-featuredImage: /assets/Optimizacion.webp
+featuredImage: /assets/images/posts/Optimizacion.webp
 tags:
 - BigData
 - Learning
@@ -29,13 +29,13 @@ One of the many processes we have is data extraction from providers and its subs
 
 Here’s a screenshot showing that while the process occasionally fails, it can be fixed with some review and is generally stable:
 
-![proceso11horas-1](/assets/proceso11horas-1.png " ")
+![proceso11horas-1](/assets/images/posts/proceso11horas-1.png " ")
 
 ### And winter arrived
 
 For one reason or another, a few more million records were added to the queue, which ended up drastically increasing execution times — specifically, from 5 hours to 11:
 
-![proceso11horas-2](/assets/proceso11horas-2.png " ")
+![proceso11horas-2](/assets/images/posts/proceso11horas-2.png " ")
 
 This was becoming unmanageable and unsustainable: a process taking almost half a day, run twice in 24 hours… do the math.
 
@@ -105,7 +105,7 @@ If you've made it this far, you might expect an ultra-complex solution, almost l
 
 As mentioned before, the process takes 3 datasets and combines them into 1 to process the data based on a priority_rank_list. We thought of concatenating (it's an almost instant operation that consumes very little) based on the priority list. This way, we forget about sorting the result because it will already come sorted and involve much less workload. As simple as that.  Showing this in code doesn't make much sense, but the results speak for themselves:
 
-![proceso11horas-3](/assets/proceso11horas-3.jpeg " ")
+![proceso11horas-3](/assets/images/posts/proceso11horas-3.jpeg " ")
 
 And if you're interested, we extended this approach to the preceding processes. Here's a table with the time improvements:
 
@@ -126,4 +126,4 @@ And if you're interested, we extended this approach to the preceding processes. 
 | Provider  C | ~10 min   | ~7min     | ~1-2h     | 2h17min      |
 
 At the end of the day, we not only saved execution time but also resources from the Kubernetes Pods that run this and AWS machines. Which translates into less money spent.  And as they say: A picture is worth a thousand words, so here's a final photo showing how the storm calmed down:
-![proceso11horas-4](/assets/proceso11horas-4.png " ")
+![proceso11horas-4](/assets/images/posts/proceso11horas-4.png " ")

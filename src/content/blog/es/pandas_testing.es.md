@@ -4,7 +4,7 @@ title: Utilidades para testing con pandas y pytest
 slug: /es/pandas-testing-pytest
 date: 2021-12-10T00:00:00.000Z
 description: Pequeña introducción a snapshot testing y a cómo testear pandas con pytest
-featuredImage: /assets/x3610482-1280x640-jpg-pagespeed-ic-mdnf4d5jg.jpeg
+featuredImage: /assets/images/posts/x3610482-1280x640-jpg-pagespeed-ic-mdnf4d5jg.jpeg
 tags:
   - python
   - pytest
@@ -26,7 +26,7 @@ Pandas es una librería de python con la que podemos crear **estructuras de dato
     
     dataframe = pd.DataFrame({"animal": animales, "accion": acciones })
 
-![tabla de datos sobre animales y sus acciones](/assets/2021-12-17_13-48.png "DataFrame de ejemplo")
+![tabla de datos sobre animales y sus acciones](/assets/images/posts/2021-12-17_13-48.png "DataFrame de ejemplo")
 
 Con esto ya tenemos definida una estructura de columnas y filas con las que podemos hacer cálculos, estadísticas y mucha otras operaciones.
 

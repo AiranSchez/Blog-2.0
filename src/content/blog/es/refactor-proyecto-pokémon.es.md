@@ -4,7 +4,7 @@ title: Refactor proyecto Pokémon
 slug: /refactor /petproject
 date: 2020-08-05 13:45:00+00:00
 description: Refactorización de un proyecto basado en hacer una pokedex
-featuredImage: /assets/1_wil81xxe3a5aubujdlmapw.png
+featuredImage: /assets/images/posts/1_wil81xxe3a5aubujdlmapw.png
 tags: ['Refactor', 'React', 'TypeScript', 'Proyecto', 'Aprendizaje', 'Blog']
 
 ---
@@ -110,11 +110,11 @@ El useEffect no es necesario para la implementación, únicamente el método get
 
 También se pueden refactorizar los métodos para obtener todos los tipos de pokemons y generaciones:
 
-![](/assets/anotacion-2020-08-05-122812-1-.png " ")
+![](/assets/images/posts/anotacion-2020-08-05-122812-1-.png " ")
 
-![](/assets/anotacion-2020-08-05-122833.png " ")
+![](/assets/images/posts/anotacion-2020-08-05-122833.png " ")
 
-![](/assets/anotacion-2020-08-05-122921.png " ")
+![](/assets/images/posts/anotacion-2020-08-05-122921.png " ")
 
 ## Resultado final
 

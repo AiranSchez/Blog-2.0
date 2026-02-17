@@ -4,7 +4,7 @@ title: Instalación WSL
 slug: /install-wsl
 date: 2020-09-22 13:50:00+00:00
 description: Descripción para la instalación de WSL2
-featuredImage: /assets/1_hv7hbkxposnyzt5-pv8fjq.png
+featuredImage: /assets/images/posts/1_hv7hbkxposnyzt5-pv8fjq.png
 tags: ['Aprendizaje', 'WSL', 'Ubuntu', 'Windows', 'Guía', 'Blog']
 
 ---

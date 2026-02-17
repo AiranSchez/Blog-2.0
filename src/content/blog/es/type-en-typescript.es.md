@@ -4,7 +4,7 @@ title: Type en TypeScript
 slug: /TS /TypeScript
 date: 2020-07-15 13:40:00+00:00
 description: Explicación del type en TypeScript
-featuredImage: /assets/ts-1.png
+featuredImage: /assets/images/posts/ts-1.png
 tags: ['React', 'TypeScript', 'Aprendizaje', 'Guía', 'Blog']
 
 ---

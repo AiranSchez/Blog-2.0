@@ -4,7 +4,7 @@ title: Mi experiencia en un bootcamp FullStack
 slug: /bootcamp
 date: 2020-12-31 13:52:00+00:00
 description: Experiencias en un bootcamp fullstack
-featuredImage: /assets/1_pkijwopgflnqogwe9lzttw-1-.jpeg
+featuredImage: /assets/images/posts/1_pkijwopgflnqogwe9lzttw-1-.jpeg
 tags: ['Bootcamp', 'Aprendizaje', 'Proyectos', 'Blog']
 
 ---

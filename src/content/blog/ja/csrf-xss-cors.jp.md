@@ -4,7 +4,7 @@ title: CSRF、XSS & CORS
 date: 2020-07-01 13:37:00+00:00
 slug: /CSRF /XSS /CORS
 description: CSRF、XSS、CORS のセキュリティ用語の説明
-featuredImage: /assets/website-security.jpg
+featuredImage: /assets/images/posts/website-security.jpg
 tags: ['CSRF', 'CORS', 'XSS', '学習', 'セキュリティ', 'ブログ']
 
 ---

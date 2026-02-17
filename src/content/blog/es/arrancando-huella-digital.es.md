@@ -4,7 +4,7 @@ date: 2020-06-06 13:22:00+00:00
 title: Arrancando el proyecto Huella Digital
 slug: /OpenSource /HuellaDigital
 description: Instrucciones para empezar con el proyecto Huella Digital
-featuredImage: /assets/teamwork-2499638_1920.jpg
+featuredImage: /assets/images/posts/teamwork-2499638_1920.jpg
 draft: false
 tags: ['Comunidad', 'Aprendizaje', 'LeanMind', 'Guía', 'Blog', 'Docker', 'IntelliJ', 'OpenSource']
 
