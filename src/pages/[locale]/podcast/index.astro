@@ -1,0 +1,67 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Header from '../../../layouts/Header.astro';
+import Footer from '../../../layouts/Footer.astro';
+import PodcastSection from '../../../components/home/PodcastSection.astro';
+import { getLangFromUrl, useTranslations } from '../../../services/i18n';
+import { loadPodcastEpisodes } from '../../../services/podcast';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return [
+    { params: { locale: 'en' } },
+    { params: { locale: 'es' } },
+    { params: { locale: 'ja' } }
+  ];
+}
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// Load podcast episodes for the current locale
+const episodes = await loadPodcastEpisodes(lang);
+
+// Sort episodes by date (newest first)
+const sortedEpisodes = episodes.sort((a, b) => 
+  new Date(b.date).valueOf() - new Date(a.date).valueOf()
+);
+---
+
+<Layout 
+  title={`${t('nav.podcast')} - Airán`} 
+  description={t('podcast.description')} 
+  lang={lang}
+>
+  <Header />
+  
+  <main class="min-h-screen bg-gradient-to-br from-alabaster via-alabaster-100 to-alabaster-200 dark:from-carbon dark:via-carbon-800 dark:to-carbon-900 py-16">
+    <div class="container mx-auto px-4 max-w-7xl">
+      <!-- Header Section -->
+      <h1 class="text-5xl md:text-6xl font-bold mb-12 text-center text-stormy dark:text-seaweed">
+        {t('nav.podcast')}
+      </h1>
+      
+      <!-- Podcast Episodes Grid -->
+      <PodcastSection episodes={sortedEpisodes} t={t} lang={lang} />
+    </div>
+  </main>
+  
+  <Footer />
+</Layout>
+
+<style>
+  /* Custom styles for podcast page if needed */
+  main {
+    animation: fadeIn 0.5s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+</style>

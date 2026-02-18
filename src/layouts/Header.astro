@@ -44,6 +44,12 @@ const pathWithoutLocale = Astro.url.pathname.replace(/^\/(en|es|ja)/, '') || '/'
         >
           {t('nav.blog')}
         </a>
+        <a 
+          href={`/${lang}/podcast/`}
+          class="text-carbon dark:text-alabaster hover:text-stormy dark:hover:text-seaweed transition-colors font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stormy rounded px-2 py-1"
+        >
+          {t('nav.podcast')}
+        </a>
         
         <div class="flex items-center gap-2 ml-4 border-l border-muted/20 dark:border-stormy/20 pl-4">
           <!-- Theme Toggle -->
@@ -155,6 +161,12 @@ const pathWithoutLocale = Astro.url.pathname.replace(/^\/(en|es|ja)/, '') || '/'
           class="text-carbon dark:text-alabaster hover:text-stormy dark:hover:text-seaweed transition-colors font-medium px-2 py-2 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stormy"
         >
           {t('nav.blog')}
+        </a>
+        <a 
+          href={`/${lang}/podcast/`}
+          class="text-carbon dark:text-alabaster hover:text-stormy dark:hover:text-seaweed transition-colors font-medium px-2 py-2 rounded focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-stormy"
+        >
+          {t('nav.podcast')}
         </a>
         
         <div class="pt-3 mt-3 border-t border-muted/20 dark:border-stormy/20 flex flex-col gap-2">
