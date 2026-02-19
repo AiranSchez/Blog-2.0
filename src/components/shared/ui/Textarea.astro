@@ -64,7 +64,7 @@ const currentLength = value?.length || 0;
     </label>
     
     {showCharCount && maxlength && (
-      <span class={cn(
+      <span id={`char-count-${id}`} class={cn(
         'text-xs transition-colors',
         currentLength > maxlength * 0.9 ? 'text-red-600' : 'text-alabaster-600 dark:text-carbon-400'
       )}>
