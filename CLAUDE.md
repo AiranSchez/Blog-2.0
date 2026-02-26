@@ -11,14 +11,83 @@ Eres un Senior Staff Engineer. Te guías por el **Protocolo de Revisión Exhaust
 
 ## INSTALLED AGENT SKILLS
 
-Se han instalado herramientas de vercel-labs en la carpeta `.ai/skills/.claude/skills`. Tienes acceso a:
+Las skills están en `.claude/skills/`. Claude Code las carga automáticamente.
 
-1. **`find-skills`**: Descubre y instala agent skills para extender capacidades.
-2. **`vercel-react-best-practices`**: Úsala **obligatoriamente** en la fase de 'Architecture review'. Estándares React/Astro de Vercel.
-3. **`vercel-composition-patterns`**: Úsala en 'Code quality review' para validar patrones de composición de componentes.
-4. **`web-design-guidelines`**: Úsala para validar el 'Code quality review'. Guías de diseño web.
+### Framework Specialists
 
-**INSTRUCCIÓN**: Antes de empezar cualquier fase de revisión, consulta las skills relevantes para alinear tus recomendaciones con los estándares de Vercel.
+- **`astro-framework`**: Componentes Astro, islands architecture, content collections, client directives, SSR adapters, view transitions.
+  **CUÁNDO**: Trabajar con archivos `.astro`, content collections, hidratación selectiva.
+
+- **`react-19`**: React 19 + React Compiler. No usar `useMemo`/`useCallback` innecesarios.
+  **CUÁNDO**: Escribir componentes React.
+
+- **`vercel-react-best-practices`**: 57 reglas de optimización React/Next.js de Vercel Engineering. Performance patterns, bundle optimization, data fetching.
+  **CUÁNDO**: Revisar o refactorizar componentes React, optimización de performance.
+
+- **`vercel-composition-patterns`**: Compound components, render props, context providers, arquitectura de componentes React 19.
+  **CUÁNDO**: Refactorizar componentes con boolean prop proliferation, diseñar APIs reutilizables.
+
+- **`web-design-guidelines`**: Audit de UI, accesibilidad y UX según Web Interface Guidelines.
+  **CUÁNDO**: Revisar UI, auditar accesibilidad, validar diseño.
+
+### Testing
+
+- **`playwright`**: E2E tests, Page Objects, selectores, MCP workflow.
+  **CUÁNDO**: Escribir tests E2E con Playwright.
+
+### Lenguajes & Validación
+
+- **`typescript`**: Patrones TypeScript strict, interfaces, generics.
+  **CUÁNDO**: Escribir código TypeScript.
+
+- **`typescript-advanced-types`**: Generics avanzados, conditional types, mapped types, utility types.
+  **CUÁNDO**: TypeScript complejo — tipos genéricos, type inference, TypeScript 5.x.
+
+- **`zod-4`**: Zod 4 schema validation. Breaking changes desde v3.
+  **CUÁNDO**: Usar Zod para validación de schemas (especialmente en content collections).
+
+### State Management
+
+- **`zustand-5`**: State management React con Zustand 5.
+  **CUÁNDO**: Gestionar estado global React con Zustand (si se añade al proyecto).
+
+### AI
+
+- **`ai-sdk-5`**: Vercel AI SDK 5. Breaking changes desde v4.
+  **CUÁNDO**: Construir features de AI/chat con Vercel AI SDK.
+
+### Skill Management
+
+- **`skill-creator`**: Crear nuevas skills siguiendo el spec de Agent Skills.
+  **CUÁNDO**: El usuario pide crear una nueva skill o documentar patrones para AI.
+
+### Automation (Optimización de Tokens)
+
+- **`bash-defensive-patterns`**: Scripts bash production-ready con strict mode, trap, validación.
+  **CUÁNDO**: Escribir/revisar scripts bash complejos.
+
+- **`bash-pro`**: Operaciones file-heavy con `sed`, `grep`, `awk`, `find -print0 | xargs`.
+  **CUÁNDO**: En lugar de Read → Edit → Write, usar comandos bash directos.
+  **EJEMPLO**: `sed -i 's/old/new/g' file.ts` en lugar de 3 operaciones de I/O.
+
+### INSTRUCCIONES de Uso
+
+- **Para componentes Astro**: Aplica `astro-framework` automáticamente
+- **Para React**: Aplica `react-19`
+- **Para revisar/refactorizar React**: Aplica `vercel-react-best-practices`
+- **Para arquitectura de componentes**: Aplica `vercel-composition-patterns`
+- **Para auditar UI/UX/accesibilidad**: Aplica `web-design-guidelines`
+- **Para TypeScript complejo**: Aplica `typescript-advanced-types`
+- **Para TypeScript general**: Aplica `typescript`
+- **Para tests E2E**: Aplica `playwright`
+- **Para Zod**: Aplica `zod-4`
+- **Para Zustand**: Aplica `zustand-5`
+- **Para AI SDK**: Aplica `ai-sdk-5`
+- **Para crear skills**: Aplica `skill-creator`
+- **Para scripts bash**: Aplica `bash-defensive-patterns`
+- **Para operaciones file-heavy**: Usa `bash-pro`
+  - **NO usar**: Read → Edit → Write para cambios simples
+  - **USAR**: Comandos bash directos cuando sean seguros
 
 ## Protocolo de Revisión
 
@@ -111,11 +180,19 @@ Para cada etapa:
 
 ## External Skills & Knowledge Base
 
-Para el desarrollo de este proyecto, utiliza obligatoriamente los estándares definidos en:
+Las skills en `.claude/skills/` tienen prioridad absoluta sobre mis recomendaciones. Si una sugerencia contradice una skill, aplica la skill.
 
-- **Find Skills:** Para descubrir y extender capacidades con nuevas skills.
-- **React/Astro Best Practices:** Estándares de desarrollo React y Astro según Vercel.
-- **Composition Patterns:** Patrones de composición de componentes.
-- **Design Guidelines:** Guías de diseño web.
+**Referencia rápida por área:**
 
-Si una sugerencia tuya contradice estas guías, la guía externa tiene prioridad absoluta.
+- **Framework**: `astro-framework`, `react-19`, `vercel-react-best-practices`, `vercel-composition-patterns`, `web-design-guidelines`
+- **Testing**: `playwright`
+- **Lenguajes**: `typescript`, `typescript-advanced-types`, `zod-4`
+- **State/AI**: `zustand-5`, `ai-sdk-5`
+- **Automation**: `bash-defensive-patterns`, `bash-pro`
+
+## Memory
+
+You have access to Engram persistent memory via MCP tools (mem_save, mem_search, mem_session_summary, etc.).
+
+- Save proactively after significant work — don't wait to be asked.
+- After any compaction or context reset, call `mem_context` to recover session state before continuing.

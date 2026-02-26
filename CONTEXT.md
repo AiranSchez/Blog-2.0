@@ -21,7 +21,7 @@ Para cualquier tarea de desarrollo, utiliza obligatoriamente estos estándares:
 1. **Types over Comments:** TypeScript estricto. Define interfaces claras.
 2. **Performance:** Prioriza componentes de Astro (Islands Architecture). Solo usa 'client:load' o similares cuando sea estrictamente necesario para la interactividad.
 3. **Naming:** `camelCase` para variables, `PascalCase` para componentes. Archivos de componentes en `.tsx`.
-4. **Skills Locales:** Tienes scripts en `./ai/skills/` (`check_project.sh`, `test_feature.sh`). Ejecútalos mentalmente o pídeme que los corra si dudas de una implementación.
+4. **Skills Locales:** Tienes scripts en `.claude/scripts/` (`check_project.sh`, `test_feature.sh`, `analyze_bundle.sh`). Ejecútalos mentalmente o pídeme que los corra si dudas de una implementación.
 
 ## Flujo de Trabajo
 
