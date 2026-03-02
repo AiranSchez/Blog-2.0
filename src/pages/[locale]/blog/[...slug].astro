@@ -5,6 +5,7 @@ import Footer from '../../../layouts/Footer.astro';
 import { getCollection } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import { getLangFromUrl, useTranslations } from '../../../services/i18n';
+import CommentsSection from '../../../components/blog/comments/CommentsSection';
 
 export const prerender = true;
 
@@ -24,6 +25,13 @@ const { entry } = Astro.props;
 const { Content } = await entry.render();
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+
+const canonicalSlug = entry.id
+  .replace(/^(en|es|ja)\//, '')
+  .replace(/\.(en|es|ja)$/, '');
+
+const supabaseUrl = import.meta.env.SUPABASE_URL ?? '';
+const supabaseAnonKey = import.meta.env.SUPABASE_ANON_KEY ?? '';
 
 // Translations for back button
 const backText = {
@@ -113,6 +121,15 @@ const homeText = {
                       prose-blockquote:border-l-stormy dark:prose-blockquote:border-l-seaweed">
             <Content />
           </div>
+
+          <!-- Comments Section -->
+          <CommentsSection
+            client:load
+            articleSlug={canonicalSlug}
+            locale={lang}
+            supabaseUrl={supabaseUrl}
+            supabaseAnonKey={supabaseAnonKey}
+          />
         </div>
 
         <!-- Back to top button -->
