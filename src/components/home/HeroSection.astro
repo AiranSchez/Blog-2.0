@@ -1,6 +1,5 @@
 ---
 import { Image } from 'astro:assets';
-import Parallax from '../shared/decorators/Parallax.tsx';
 import AuroraBackground from '../shared/decorators/AuroraBackground.tsx';
 import AnimatedText from '../shared/react/common/AnimatedText.tsx';
 import MagneticButton from '../shared/react/common/MagneticButton.tsx';
@@ -14,75 +13,94 @@ interface Props {
 const { t, lang } = Astro.props;
 ---
 
-<Parallax speed={0.3} client:load>
-  <AuroraBackground 
-    className="min-h-[calc(100vh-5rem)]"
-    client:load
-  >
-    <section class="min-h-[calc(100vh-5rem)] flex items-center justify-center relative">
-      <div class="container mx-auto px-4 sm:px-6 max-w-4xl relative">
-        <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-          <!-- Text Content (Left) -->
-          <div class="text-center md:text-left">
-            <h1 class="text-4xl sm:text-5xl md:text-7xl font-bold text-white mb-4 break-keep">
-              <AnimatedText 
-                text={t('hero.greeting')} 
-                variant="fade"
-                client:load
-              />
-              {' '}
-              <AnimatedText 
-                text={t('hero.name')} 
-                variant="slideUp"
-                delay={0.3}
-                className="text-alabaster"
-                client:load
-              />
-            </h1>
-            <p class="text-xl sm:text-2xl md:text-3xl text-alabaster/90 mb-8">
-              <AnimatedText 
-                text={t('hero.subtitle')}
-                variant="fade"
-                delay={0.6}
-                client:load
-              />
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-              <MagneticButton 
-                href={`/${lang}/blog/`}
-                className="px-6 py-4 min-h-[48px] bg-white text-stormy rounded-lg font-semibold hover:bg-alabaster transition-colors text-center"
-                client:load
-              >
-                {t('nav.blog')}
-              </MagneticButton>
-              <MagneticButton 
-                href="#contact"
-                className="px-6 py-4 min-h-[48px] border-2 border-white text-white rounded-lg font-semibold hover:bg-white/10 transition-colors text-center"
-                client:load
-              >
-                {t('nav.contact')}
-              </MagneticButton>
-            </div>
-          </div>
-          
-          <!-- Hero Image (Right) -->
-          <div class="flex justify-center md:justify-end mt-8 md:mt-0">
-            <div class="relative">
-              <Image 
-                src={profileImage} 
-                alt="Airán Sanchez" 
-                width={800} 
-                height={800}
-                loading="eager"
-                fetchpriority="high"
-                class="rounded-full shadow-2xl ring-4 ring-white/20 w-64 h-64 sm:w-80 sm:h-80 md:w-full md:h-full object-cover"
-              />
-              <!-- Decorative elements around image -->
-              <div class="absolute top-4 left-4 w-full h-full rounded-full bg-seaweed/30 blur-xl -z-10"></div>
-            </div>
+<div id="hero-section" class="relative min-h-[calc(100vh-5rem)] bg-stormy dark:bg-carbon">
+  <!-- Aurora WebGL background — island standalone, sin children con client:* -->
+  <div class="absolute inset-0 z-0" aria-hidden="true">
+    <AuroraBackground className="h-full" client:load />
+  </div>
+
+  <!-- Contenido — fuera de AuroraBackground, sin conflicto de React roots -->
+  <section class="relative z-10 min-h-[calc(100vh-5rem)] flex items-center justify-center">
+    <div class="container mx-auto px-4 sm:px-6 max-w-4xl">
+      <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+
+        <!-- Text Content (Left) -->
+        <div class="text-center md:text-left">
+          <h1 class="text-4xl sm:text-5xl md:text-7xl font-bold text-white mb-4 break-keep">
+            <AnimatedText
+              text={t('hero.greeting')}
+              variant="fade"
+              client:load
+            />
+            <AnimatedText
+              text={t('hero.name')}
+              variant="slideUp"
+              delay={0.3}
+              className="text-alabaster"
+              client:load
+            />
+          </h1>
+          <p class="text-xl sm:text-2xl md:text-3xl text-alabaster/90 mb-8">
+            <AnimatedText
+              text={t('hero.subtitle')}
+              variant="fade"
+              delay={0.6}
+              client:load
+            />
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+            <MagneticButton
+              href={`/${lang}/blog/`}
+              className="px-6 py-4 min-h-[48px] bg-white text-stormy rounded-lg font-semibold hover:bg-alabaster transition-colors text-center"
+              client:load
+            >
+              {t('nav.blog')}
+            </MagneticButton>
+            <MagneticButton
+              href="#contact"
+              className="px-6 py-4 min-h-[48px] border-2 border-white text-white rounded-lg font-semibold hover:bg-white/10 transition-colors text-center"
+              client:load
+            >
+              {t('nav.contact')}
+            </MagneticButton>
           </div>
         </div>
+
+        <!-- Hero Image (Right) -->
+        <div class="flex justify-center md:justify-end mt-8 md:mt-0">
+          <div class="relative">
+            <Image
+              src={profileImage}
+              alt="Airán Sanchez"
+              width={800}
+              height={800}
+              loading="eager"
+              fetchpriority="high"
+              class="rounded-full shadow-2xl ring-4 ring-white/20 w-64 h-64 sm:w-80 sm:h-80 md:w-full md:h-full object-cover"
+            />
+            <!-- Decorative glow behind image -->
+            <div class="absolute top-4 left-4 w-full h-full rounded-full bg-seaweed/30 blur-xl -z-10"></div>
+          </div>
+        </div>
+
       </div>
-    </section>
-  </AuroraBackground>
-</Parallax>
+    </div>
+  </section>
+</div>
+
+<script>
+  const hero = document.getElementById('hero-section') as HTMLElement | null;
+  if (hero) {
+    const speed = 0.3;
+    function updateParallax() {
+      const rect = hero!.getBoundingClientRect();
+      const progress = Math.max(0, Math.min(1,
+        (window.innerHeight - rect.top) / (hero!.offsetHeight + window.innerHeight)
+      ));
+      const y = (-100 * speed) + (progress * 200 * speed);
+      hero!.style.transform = `translateY(${y}px)`;
+    }
+    window.addEventListener('scroll', updateParallax, { passive: true });
+    updateParallax();
+  }
+</script>
