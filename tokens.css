@@ -1,0 +1,152 @@
+/* Hallmark · pre-emit critique: P5 H5 E4 S5 R4 V5
+ * theme: studied-DNA (source: https://www.aitorevi.dev/)
+ * studied: yes · DNA-source: url
+ * observed: Outfit · JetBrains Mono · #f8fafc · #020617 · #0b1120 · #4727cc · #ac91fc · #60a5fa
+ */
+:root {
+  /* Colour */
+  --color-paper: #f8fafc;
+  --color-paper-2: #ffffff;
+  --color-paper-3: #eef2ff;
+  --color-surface-glass: rgba(255, 255, 255, 0.74);
+  --color-surface-soft: rgba(71, 39, 204, 0.06);
+  --color-ink: #0f172a;
+  --color-ink-2: #526078;
+  --color-rule: #dce3f0;
+  --color-rule-strong: #c6d0e1;
+  --color-accent: #4727cc;
+  --color-accent-hover: #3518ad;
+  --color-accent-ink: #ffffff;
+  --color-on-image: #ffffff;
+  --color-accent-soft: rgba(71, 39, 204, 0.13);
+  --color-signal: #2563eb;
+  --color-signal-soft: rgba(37, 99, 235, 0.12);
+  --color-focus: #7c3aed;
+  --color-danger: #dc2626;
+  --color-success: #059669;
+  --color-overlay: rgba(2, 6, 23, 0.78);
+  --color-shadow: rgba(37, 31, 84, 0.16);
+  --color-dots: rgba(71, 39, 204, 0.18);
+  --color-code-bg: #24292e;
+  --color-code-text: #e1e4e8;
+  --color-code-label: #9fb3c8;
+  --gradient-accent: linear-gradient(135deg, var(--color-accent), var(--color-signal));
+  --gradient-atmosphere:
+    radial-gradient(circle at 20% 18%, var(--color-accent-soft), transparent 36%),
+    radial-gradient(circle at 84% 30%, var(--color-signal-soft), transparent 34%);
+
+  /* Legacy aliases kept for functional Tailwind components */
+  --color-carbon: var(--color-ink);
+  --color-stormy: var(--color-accent);
+  --color-seaweed: var(--color-signal);
+  --color-muted: var(--color-rule);
+  --color-alabaster: var(--color-paper);
+
+  /* Typography */
+  --font-display: 'Outfit', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Outfit', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --font-outlier: var(--font-mono);
+  --font-sans: var(--font-body);
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-md: clamp(1.1rem, 1.4vw, 1.25rem);
+  --text-lg: clamp(1.3rem, 2vw, 1.6rem);
+  --text-xl: clamp(1.75rem, 3vw, 2.35rem);
+  --text-2xl: clamp(2.2rem, 4.5vw, 3.6rem);
+  --text-3xl: clamp(2.8rem, 6vw, 5.4rem);
+  --text-4xl: clamp(3.4rem, 9vw, 8.5rem);
+  --text-display: var(--text-4xl);
+
+  --leading-tight: 0.94;
+  --leading-snug: 1.12;
+  --leading-normal: 1.55;
+  --leading-relaxed: 1.72;
+  --leading-loose: 1.9;
+
+  /* Spacing */
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 4.5rem;
+  --space-3xl: clamp(5.5rem, 11vw, 9rem);
+  --space-page: clamp(1rem, 4vw, 3rem);
+
+  --spacing-xs: var(--space-2xs);
+  --spacing-sm: var(--space-xs);
+  --spacing-md: var(--space-sm);
+  --spacing-lg: var(--space-md);
+  --spacing-xl: var(--space-lg);
+  --spacing-2xl: var(--space-xl);
+  --spacing-3xl: var(--space-2xl);
+
+  /* Geometry */
+  --radius-sm: 0.625rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.875rem;
+  --radius-card: var(--radius-xl);
+  --radius-input: var(--radius-md);
+  --radius-pill: 999px;
+  --rule-hair: 1px;
+  --rule-fine: 2px;
+  --container: 80rem;
+  --reading: 70ch;
+
+  /* Motion and elevation */
+  --duration-fast: 140ms;
+  --duration-normal: 260ms;
+  --duration-slow: 620ms;
+  --dur-micro: var(--duration-fast);
+  --dur-short: var(--duration-normal);
+  --dur-long: var(--duration-slow);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --shadow-nav: 0 12px 42px var(--color-shadow);
+  --shadow-card: 0 28px 80px var(--color-shadow);
+  --shadow-accent: 0 20px 70px var(--color-accent-soft);
+
+  /* Z-index */
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+}
+
+html.dark {
+  --color-paper: #020617;
+  --color-paper-2: #0b1120;
+  --color-paper-3: #111a30;
+  --color-surface-glass: rgba(11, 17, 32, 0.76);
+  --color-surface-soft: rgba(172, 145, 252, 0.08);
+  --color-ink: #f8fafc;
+  --color-ink-2: #a8b2c7;
+  --color-rule: #24314d;
+  --color-rule-strong: #354564;
+  --color-accent: #ac91fc;
+  --color-accent-hover: #c4b2ff;
+  --color-accent-ink: #020617;
+  --color-on-image: #ffffff;
+  --color-accent-soft: rgba(172, 145, 252, 0.18);
+  --color-signal: #60a5fa;
+  --color-signal-soft: rgba(96, 165, 250, 0.16);
+  --color-focus: #60a5fa;
+  --color-danger: #f87171;
+  --color-success: #34d399;
+  --color-overlay: rgba(2, 6, 23, 0.9);
+  --color-shadow: rgba(0, 0, 0, 0.34);
+  --color-dots: rgba(172, 145, 252, 0.2);
+  --color-code-bg: #0b1020;
+  --color-code-text: #dbeafe;
+  --color-code-label: #93a4bd;
+}

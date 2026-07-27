@@ -1,0 +1,9 @@
+{
+  "scannedAt": "2026-07-26",
+  "framework": "Astro 5 with React 19",
+  "fontStack": "system-ui before redesign",
+  "palette": "teal, green, alabaster, carbon",
+  "motion": "framer-motion, gsap and ogl installed",
+  "spacing": "named CSS properties plus Tailwind extensions",
+  "designSystem": "design.md"
+}

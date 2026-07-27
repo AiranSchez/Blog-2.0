@@ -1,0 +1,62 @@
+[
+  {
+    "date": "2026-07-26",
+    "scope": "app",
+    "genre": "editorial",
+    "macrostructure": "Index-First / Long Document / Quote-Led",
+    "theme": "custom",
+    "theme_axes": "teal paper / high-contrast serif / blue-green accent",
+    "vibe": "authored technical field notes",
+    "enrichment": "one real editorial portrait",
+    "brief": "Redesign the personal portfolio, blog and podcast as one coherent editorial system.",
+    "pages": {
+      "home": "Index-First",
+      "blog": "Long Document",
+      "article": "Long Document",
+      "podcast": "Quote-Led"
+    },
+    "designSystem": "design.md"
+  },
+  {
+    "date": "2026-07-26",
+    "scope": "app",
+    "genre": "atmospheric + modern-minimal",
+    "macrostructure": "Marquee Hero / Ecosystem Index / Listening room / Long Document",
+    "theme": "studied-DNA",
+    "DNA-source": "https://www.aitorevi.dev/",
+    "studied": true,
+    "theme_axes": "deep navy / clean white / indigo-violet-blue / geometric display",
+    "vibe": "cinematic technical portfolio with a human center",
+    "enrichment": "two real portraits, existing article imagery, CSS sound artwork",
+    "brief": "Replace the rustic editorial redesign with a modern original adaptation of the public reference's visual DNA.",
+    "pages": {
+      "home": "Marquee Hero + irregular ecosystem",
+      "blog": "Ecosystem Index",
+      "article": "Elevated Long Document",
+      "podcast": "Listening room"
+    },
+    "nav": "N10 Floating morph",
+    "footer": "Ft5 Statement close",
+    "designSystem": "design.md"
+  },
+  {
+    "date": "2026-07-26",
+    "scope": "home + cv",
+    "genre": "atmospheric + modern-minimal",
+    "macrostructure": "Proof strip / Capability constellation / Stage feature / Long-form CV",
+    "theme": "studied-DNA",
+    "DNA-source": "https://www.aitorevi.dev/",
+    "studied": true,
+    "theme_axes": "deep navy / clean white / indigo-violet-blue / geometric display",
+    "vibe": "proof-first public profile for technical and non-technical hiring audiences",
+    "enrichment": "verified statistics, real conference video, localized PDF and JSON CV",
+    "brief": "Increase hiring impact with evidence, a tech constellation, public speaking, editable testimonials, hidden case studies, and a downloadable CV.",
+    "pages": {
+      "home": "Proof-first ecosystem",
+      "cv": "Localized long-form profile"
+    },
+    "nav": "N10 Floating morph",
+    "footer": "Ft5 Statement close",
+    "designSystem": "design.md"
+  }
+]

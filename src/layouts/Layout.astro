@@ -29,15 +29,20 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonicalURL} />
     
-    <!-- Preconnect to external domains for better performance -->
+    <!-- Locked typography from the studied-DNA design system -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@400;500;600;700;900&display=swap"
+    />
     <link rel="preconnect" href="https://api.web3forms.com" crossorigin />
     
     <title>{title}</title>
     <meta name="description" content={description} />
     
     <!-- Theme color - will be updated by script based on dark mode -->
-    <meta name="theme-color" content="#dce1de" id="theme-color-meta" />
+    <meta name="theme-color" content="#f8fafc" id="theme-color-meta" />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
@@ -82,16 +87,16 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         if (theme === 'dark') {
           html.classList.add('dark');
           html.style.colorScheme = 'dark';
-          if (themeMeta) themeMeta.setAttribute('content', '#1f2421');
+          if (themeMeta) themeMeta.setAttribute('content', '#020617');
         } else {
           html.classList.remove('dark');
           html.style.colorScheme = 'light';
-          if (themeMeta) themeMeta.setAttribute('content', '#dce1de');
+          if (themeMeta) themeMeta.setAttribute('content', '#f8fafc');
         }
       })();
     </script>
   </head>
-  <body data-pagefind-body class="bg-alabaster dark:bg-carbon text-carbon dark:text-alabaster transition-colors duration-300">
+  <body data-pagefind-body>
     <slot />
     <ScrollToTop />
   </body>

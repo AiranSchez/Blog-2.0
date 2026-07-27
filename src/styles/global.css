@@ -3,6 +3,7 @@
 @import './base.css';
 @import './components.css';
 @import './utilities.css';
+@import './editorial.css';
 
 /* Tailwind CSS */
 @tailwind base;

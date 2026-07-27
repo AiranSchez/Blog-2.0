@@ -213,7 +213,7 @@ export default function AuroraBackground({
   }, [amplitude, blend]);
 
   return (
-    <div className={`relative bg-stormy dark:bg-carbon ${className}`}>
+    <div className={`bg-stormy dark:bg-carbon ${className}`}>
       <div ref={ctnDom} className="absolute inset-0 w-full h-full z-0" />
       <div className="relative z-10">
         {children}
