@@ -33,7 +33,7 @@ const PodcastCard: React.FC<PodcastCardProps> = ({
 
   return (
     <div
-      className={`podcast-card group relative overflow-hidden rounded-xl bg-gradient-to-br from-alabaster to-alabaster-50 dark:from-carbon-700 dark:to-carbon-800 border border-carbon/10 dark:border-seaweed/10 transition-all duration-300 hover:shadow-xl hover:shadow-seaweed/20 hover:-translate-y-2 cursor-pointer ${className}`}
+      className={`podcast-card group relative overflow-hidden rounded-xl bg-gradient-to-br from-alabaster to-alabaster-50 dark:from-carbon-700 dark:to-carbon-800 border border-carbon/10 dark:border-seaweed/10 transition-[border-color,box-shadow,transform] duration-300 hover:shadow-xl hover:shadow-seaweed/20 hover:-translate-y-2 cursor-pointer ${className}`}
       data-podcast-card={id}
       data-index={index}
       onClick={handleCardClick}

@@ -1,115 +1,107 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { gsap } from 'gsap';
-import PodcastCard from './PodcastCard';
+/**
+ * Hallmark · genre: atmospheric · macrostructure: Listening room
+ * design-system: studied-DNA · designed-as-app
+ */
+import { useState } from 'react';
 import PodcastModal from './PodcastModal';
 import type { PodcastEpisode } from '../../types/podcast';
 
 interface PodcastGridProps {
   episodes: PodcastEpisode[];
-  className?: string;
+  locale: string;
 }
 
-const PodcastGrid: React.FC<PodcastGridProps> = ({ episodes, className = '' }) => {
-  const gridRef = useRef<HTMLDivElement>(null);
+const copy = {
+  en: {
+    listen: 'Listen',
+    archive: 'Episode archive',
+    latest: 'Latest episode',
+    coverAlt: 'La Techtulia podcast cover',
+  },
+  es: {
+    listen: 'Escuchar',
+    archive: 'Archivo de episodios',
+    latest: 'Último episodio',
+    coverAlt: 'Portada del podcast La Techtulia',
+  },
+  ja: {
+    listen: '聴く',
+    archive: 'エピソード一覧',
+    latest: '最新エピソード',
+    coverAlt: 'La Techtulia ポッドキャストのカバー',
+  },
+} as const;
+
+export default function PodcastGrid({ episodes, locale }: PodcastGridProps) {
   const [selectedEpisode, setSelectedEpisode] = useState<PodcastEpisode | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const strings = copy[locale as keyof typeof copy] || copy.en;
+  const [latestEpisode, ...archiveEpisodes] = episodes;
 
-  const handleCardClick = (episode: PodcastEpisode) => {
-    setSelectedEpisode(episode);
-    setIsModalOpen(true);
-  };
+  const formatDate = (date: string) =>
+    new Intl.DateTimeFormat(locale, {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    }).format(new Date(date));
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    // Delay clearing the episode to allow exit animation
-    setTimeout(() => setSelectedEpisode(null), 300);
-  };
-
-  useEffect(() => {
-    if (!gridRef.current) return;
-
-    const cards = gridRef.current.querySelectorAll('[data-podcast-card]');
-    
-    // Animate cards on mount
-    gsap.fromTo(
-      cards,
-      {
-        opacity: 0,
-        y: 30,
-      },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        stagger: 0.1,
-        ease: 'power3.out',
-      }
-    );
-
-    // Hover animations
-    cards.forEach((card) => {
-      const cardElement = card as HTMLElement;
-
-      const handleMouseEnter = () => {
-        gsap.to(cardElement, {
-          y: -8,
-          duration: 0.3,
-          ease: 'power2.out',
-        });
-      };
-
-      const handleMouseLeave = () => {
-        gsap.to(cardElement, {
-          y: 0,
-          duration: 0.3,
-          ease: 'power2.out',
-        });
-      };
-
-      cardElement.addEventListener('mouseenter', handleMouseEnter);
-      cardElement.addEventListener('mouseleave', handleMouseLeave);
-
-      return () => {
-        cardElement.removeEventListener('mouseenter', handleMouseEnter);
-        cardElement.removeEventListener('mouseleave', handleMouseLeave);
-      };
-    });
-  }, [episodes]);
-
-  if (!episodes || episodes.length === 0) {
-    return (
-      <div className="text-center py-12">
-        <p className="text-carbon/60 dark:text-alabaster/60">
-          No hay episodios disponibles
-        </p>
-      </div>
-    );
+  if (!latestEpisode) {
+    return <p className="empty-state">No episodes available.</p>;
   }
 
   return (
     <>
-      <div
-        ref={gridRef}
-        className={`podcast-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ${className}`}
-      >
-        {episodes.map((episode, index) => (
-          <PodcastCard
-            key={episode.id}
-            {...episode}
-            index={index}
-            onClick={() => handleCardClick(episode)}
+      <article className="podcast-feature">
+        <div className="podcast-feature__art">
+          <img
+            src="/images/la-techtulia-cover.webp"
+            alt={strings.coverAlt}
+            loading="eager"
           />
-        ))}
-      </div>
+        </div>
+        <div className="podcast-feature__copy">
+          <span className="episode-meta">
+            {strings.latest} · {formatDate(latestEpisode.date)} · {latestEpisode.duration}
+          </span>
+          <p className="podcast-feature__show">La Techtulia</p>
+          <h2>{latestEpisode.title}</h2>
+          {latestEpisode.description && <p>{latestEpisode.description}</p>}
+          <button
+            className="primary-action podcast-feature__action"
+            type="button"
+            onClick={() => setSelectedEpisode(latestEpisode)}
+          >
+            <span aria-hidden="true">▶</span> {strings.listen}
+          </button>
+        </div>
+      </article>
 
-      {/* Modal */}
+      <section className="podcast-archive" aria-labelledby="episode-archive-title">
+        <h2 id="episode-archive-title" className="podcast-archive__title">
+          {strings.archive}
+        </h2>
+        <ol className="episode-list">
+          {archiveEpisodes.map((episode) => (
+            <li className="episode-list__item" key={episode.id}>
+              <button className="episode-row" type="button" onClick={() => setSelectedEpisode(episode)}>
+                <span className="episode-row__content">
+                  <span className="episode-meta">
+                    {formatDate(episode.date)} · {episode.duration}
+                  </span>
+                  <span className="episode-row__title">{episode.title}</span>
+                </span>
+                <span className="episode-row__action"><span aria-hidden="true">▶</span> {strings.listen}</span>
+              </button>
+            </li>
+          ))}
+        </ol>
+      </section>
+
       <PodcastModal
         episode={selectedEpisode}
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
+        isOpen={selectedEpisode !== null}
+        locale={locale}
+        onClose={() => setSelectedEpisode(null)}
       />
     </>
   );
-};
-
-export default PodcastGrid;
+}

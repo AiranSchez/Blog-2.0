@@ -2,7 +2,7 @@
 import Layout from '../../../layouts/Layout.astro';
 import Header from '../../../layouts/Header.astro';
 import Footer from '../../../layouts/Footer.astro';
-import PodcastSection from '../../../components/home/PodcastSection.astro';
+import PodcastGrid from '../../../components/podcast/PodcastGrid';
 import { getLangFromUrl, useTranslations } from '../../../services/i18n';
 import { loadPodcastEpisodes } from '../../../services/podcast';
 
@@ -12,56 +12,42 @@ export function getStaticPaths() {
   return [
     { params: { locale: 'en' } },
     { params: { locale: 'es' } },
-    { params: { locale: 'ja' } }
+    { params: { locale: 'ja' } },
   ];
 }
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-
-// Load podcast episodes for the current locale
-const episodes = await loadPodcastEpisodes(lang);
-
-// Sort episodes by date (newest first)
-const sortedEpisodes = episodes.sort((a, b) => 
-  new Date(b.date).valueOf() - new Date(a.date).valueOf()
+const episodes = (await loadPodcastEpisodes(lang)).sort(
+  (a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf(),
 );
+
+const description = {
+  en: 'La Techtulia: long conversations about technology, work, and the stories that appear between both.',
+  es: 'La Techtulia: conversaciones sin prisas sobre tecnología, trabajo y las historias que aparecen entre ambos.',
+  ja: 'La Techtulia：テクノロジー、仕事、そしてその間に生まれる物語についての長い対話。',
+}[lang];
 ---
 
-<Layout 
-  title={`${t('nav.podcast')} - Airán`} 
-  description={t('podcast.description')} 
-  lang={lang}
->
+<Layout title={`${t('nav.podcast')} - Airán`} description={description} lang={lang}>
   <Header />
-  
-  <main class="min-h-screen bg-gradient-to-br from-alabaster via-alabaster-100 to-alabaster-200 dark:from-carbon dark:via-carbon-800 dark:to-carbon-900 py-16">
-    <div class="container mx-auto px-4 max-w-7xl">
-      <!-- Header Section -->
-      <h1 class="text-5xl md:text-6xl font-bold mb-12 text-center text-stormy dark:text-seaweed">
-        {t('nav.podcast')}
-      </h1>
-      
-      <!-- Podcast Episodes Grid -->
-      <PodcastSection episodes={sortedEpisodes} t={t} lang={lang} />
+
+  <!-- Hallmark · genre: atmospheric · macrostructure: Listening room · design-system: studied-DNA -->
+  <main id="main-content" class="page-shell">
+    <header class="page-hero page-hero--podcast">
+      <div class="site-container page-hero__grid">
+        <div>
+          <span class="section-kicker">Conversations · Technology · Stories</span>
+          <h1 class="page-title">{t('nav.podcast')}</h1>
+        </div>
+        <p class="page-description">{description}</p>
+      </div>
+    </header>
+
+    <div class="site-container archive-shell">
+      <PodcastGrid episodes={episodes} locale={lang} client:load />
     </div>
   </main>
-  
+
   <Footer />
 </Layout>
-
-<style>
-  /* Custom styles for podcast page if needed */
-  main {
-    animation: fadeIn 0.5s ease-out;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-</style>
