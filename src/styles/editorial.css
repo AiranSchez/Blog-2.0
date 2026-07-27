@@ -247,6 +247,10 @@
     color: var(--color-accent);
   }
 
+  .menu-control {
+    position: relative;
+  }
+
   .icon-control svg {
     width: 1.15rem;
     height: 1.15rem;
@@ -322,28 +326,31 @@
 
   .menu-control span {
     position: absolute;
+    top: 50%;
+    left: 50%;
     width: 1rem;
     height: 1px;
     background: var(--color-ink);
+    transform-origin: center;
     transition-property: transform;
     transition-duration: var(--duration-fast);
     transition-timing-function: var(--ease-out);
   }
 
   .menu-control span:first-child {
-    transform: translateY(-3px);
+    transform: translate(-50%, calc(-50% - 3px));
   }
 
   .menu-control span:last-child {
-    transform: translateY(3px);
+    transform: translate(-50%, calc(-50% + 3px));
   }
 
   .site-menu[open] .menu-control span:first-child {
-    transform: rotate(45deg);
+    transform: translate(-50%, -50%) rotate(45deg);
   }
 
   .site-menu[open] .menu-control span:last-child {
-    transform: rotate(-45deg);
+    transform: translate(-50%, -50%) rotate(-45deg);
   }
 
   .site-menu__divider {
