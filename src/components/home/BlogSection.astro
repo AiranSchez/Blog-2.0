@@ -1,10 +1,4 @@
 ---
-import Parallax from '../shared/decorators/Parallax.tsx';
-import AuroraBackground from '../shared/decorators/AuroraBackground.tsx';
-import Card from '../shared/ui/Card.astro';
-import Badge from '../shared/ui/Badge.astro';
-import Link from '../shared/ui/Link.astro';
-import Button from '../shared/ui/Button.astro';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
@@ -14,89 +8,107 @@ interface Props {
 }
 
 const { posts, t, lang } = Astro.props;
+const [leadPost, ...archivePosts] = posts;
+
+const intro = {
+  en: 'Notes on software, testing, teamwork, and the decisions hidden inside everyday engineering.',
+  es: 'Notas sobre software, testing, trabajo en equipo y las decisiones que se esconden en la ingeniería cotidiana.',
+  ja: 'ソフトウェア、テスト、チームワーク、そして日々の開発にある判断についての記録です。',
+}[lang as 'en' | 'es' | 'ja'];
+
+const latestLabel = {
+  en: 'Latest article',
+  es: 'Último artículo',
+  ja: '最新の記事',
+}[lang as 'en' | 'es' | 'ja'];
+
+const kicker = {
+  en: '05 · Writing',
+  es: '05 · Escritura',
+  ja: '05 · 執筆',
+}[lang as 'en' | 'es' | 'ja'];
+
+const formatDate = (date: Date) =>
+  new Intl.DateTimeFormat(lang, { year: 'numeric', month: 'short', day: 'numeric' }).format(date);
+
+const articleHref = (slug: string) =>
+  `/${lang}/blog/${slug.replace(/^\/+|\/+$/g, '')}/`;
 ---
 
-<Parallax speed={0.4} client:load>
-  <AuroraBackground className="py-12 sm:py-20" client:load>
-    <section class="py-12 sm:py-20 transition-colors relative" aria-labelledby="blog-heading">
-      <div class="container mx-auto px-4 sm:px-6 max-w-7xl">
-        <h2 id="blog-heading" class="text-4xl font-bold text-center mb-12 text-white">
-          {t('blog.title')}
-        </h2>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {posts.map((post) => (
-            <article 
-              class="group transition-transform duration-300 hover:-translate-y-1 focus-within:ring-2 focus-within:ring-stormy rounded-lg"
-              data-blog-card
-            >
-              <Card 
-                variant="elevated" 
-                padding="lg"
-                class="h-full flex flex-col"
-              >
-                <h3 class="text-xl font-bold mb-2 text-stormy dark:text-seaweed">
-                  <Link 
-                    href={`/${lang}/blog/${post.slug}/`}
-                    variant="subtle"
-                    class="hover:underline focus-visible:underline"
-                  >
-                    {post.data.title}
-                  </Link>
-                </h3>
-                
-                <time 
-                  datetime={post.data.date.toISOString()}
-                  class="text-sm text-carbon/60 dark:text-alabaster/60 mb-3 block"
-                >
-                  {new Date(post.data.date).toLocaleDateString(lang, {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}
-                </time>
-                
-                <p class="text-carbon/80 dark:text-alabaster/80 mb-4 line-clamp-3 flex-grow">
-                  {post.data.description}
-                </p>
-                
-                <div class="flex flex-wrap gap-2 mb-4" role="list" aria-label="Tags">
-                  {post.data.tags.slice(0, 3).map((tag) => (
-                    <Badge 
-                      variant="muted" 
-                      size="sm"
-                      role="listitem"
-                    >
-                      {tag}
-                    </Badge>
-                  ))}
-                  {post.data.tags.length > 3 && (
-                    <Badge variant="outline" size="sm">
-                      +{post.data.tags.length - 3}
-                    </Badge>
-                  )}
-                </div>
-                
-                <a 
-                  href={`/${lang}/blog/${post.slug}/`}
-                  class="inline-flex items-center gap-1 text-stormy dark:text-seaweed hover:underline font-semibold transition-all group-hover:gap-2"
-                >
-                  {t('blog.readMore')} 
-                  <span aria-hidden="true">→</span>
-                </a>
-              </Card>
-            </article>
-          ))}
-        </div>
-        <div class="text-center mt-8">
-          <Button 
-            href={`/${lang}/blog/`}
-            size="lg"
-            variant="primary"
-          >
-            {t('blog.viewAll')}
-          </Button>
-        </div>
+<section class="content-section content-section--writing" aria-labelledby="writing-heading">
+  <div class="site-container">
+    <header class="section-head">
+      <div>
+        <span class="section-kicker">{kicker}</span>
+        <h2 id="writing-heading" class="section-heading">{t('blog.title')}</h2>
       </div>
-    </section>
-  </AuroraBackground>
-</Parallax>
+      <p class="section-intro">{intro}</p>
+    </header>
+
+    <div class="writing-stage">
+      {leadPost ? (
+        <>
+          <article class="story-feature">
+            <a class="story-feature__link" href={articleHref(leadPost.slug)}>
+              {leadPost.data.featuredImage ? (
+                <img
+                  class="story-feature__image"
+                  src={leadPost.data.featuredImage}
+                  alt=""
+                  loading="lazy"
+                />
+              ) : (
+                <div class="story-feature__image story-feature__image--fallback" aria-hidden="true"></div>
+              )}
+              <div class="story-feature__copy">
+                <span class="meta">{latestLabel} · {formatDate(leadPost.data.date)}</span>
+                <h3 class="story-feature__title">{leadPost.data.title}</h3>
+                <p class="story-feature__description">{leadPost.data.description}</p>
+                <div class="archive-action">
+                  <span class="text-link">{t('blog.readMore')}</span>
+                </div>
+              </div>
+            </a>
+          </article>
+
+          {archivePosts.length > 0 && (
+            <ul class="story-rail">
+              {archivePosts.map((post, index) => (
+                <li class:list={['story-card', { 'story-card--signal': index === 1 }]}>
+                  <a href={articleHref(post.slug)}>
+                    {post.data.featuredImage ? (
+                      <img
+                        class="story-card__image"
+                        src={post.data.featuredImage}
+                        alt=""
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div class="story-card__image story-card__image--fallback" aria-hidden="true"></div>
+                    )}
+                    <div class="story-card__copy">
+                      <div class="story-card__top">
+                        <time class="article-date" datetime={post.data.date.toISOString()}>
+                          {formatDate(post.data.date)}
+                        </time>
+                        <span aria-hidden="true">↗</span>
+                      </div>
+                      <h3>{post.data.title}</h3>
+                      <p>{post.data.description}</p>
+                    </div>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          <div class="archive-action archive-action--end">
+            <a class="text-link" href={`/${lang}/blog/`}>{t('blog.viewAll')}</a>
+          </div>
+        </>
+      ) : (
+        <p class="empty-state">{t('podcast.noEpisodes')}</p>
+      )}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,79 @@
+---
+interface Props {
+  lang: string;
+}
+
+const { lang } = Astro.props;
+
+const copy = {
+  en: {
+    kicker: '02 · Range',
+    title: 'Capabilities',
+    intro: 'I do not define myself by one stack. I connect product, systems, data, and delivery depending on the problem.',
+    note: 'From idea to maintainable software',
+    groups: [
+      { title: 'Product engineering', description: 'Interfaces and products that make complex workflows understandable.', tech: ['React', 'Next.js', 'Astro', 'TypeScript', 'JavaScript', 'CSS'] },
+      { title: 'Backend & systems', description: 'Services, integrations, and business processes built to evolve.', tech: ['C#', '.NET', 'Node.js', 'PostgreSQL', 'MQTT'] },
+      { title: 'Data & automation', description: 'Pipelines and transformations with an emphasis on reliability and testing.', tech: ['Python', 'Pandas', 'Pytest', 'ETL', 'AWS'] },
+      { title: 'Delivery & platform', description: 'The infrastructure and feedback loops needed to ship with confidence.', tech: ['Docker', 'Kubernetes', 'ArgoCD', 'Jenkins', 'GitHub Actions'] },
+      { title: 'Software craft', description: 'Practices that make code easier to understand, test, and share.', tech: ['TDD', 'Testing', 'Pairing', 'Clean Architecture', 'Mentoring'] },
+    ],
+  },
+  es: {
+    kicker: '02 · Capacidades',
+    title: 'Capacidades',
+    intro: 'No me defino por un único stack. Conecto producto, sistemas, datos y entrega según lo que necesite el problema.',
+    note: 'De la idea al software mantenible',
+    groups: [
+      { title: 'Ingeniería de producto', description: 'Interfaces y productos que hacen comprensibles los flujos complejos.', tech: ['React', 'Next.js', 'Astro', 'TypeScript', 'JavaScript', 'CSS'] },
+      { title: 'Backend y sistemas', description: 'Servicios, integraciones y procesos de negocio preparados para evolucionar.', tech: ['C#', '.NET', 'Node.js', 'PostgreSQL', 'MQTT'] },
+      { title: 'Datos y automatización', description: 'Pipelines y transformaciones con especial atención a fiabilidad y testing.', tech: ['Python', 'Pandas', 'Pytest', 'ETL', 'AWS'] },
+      { title: 'Entrega y plataforma', description: 'Infraestructura y ciclos de feedback para entregar con confianza.', tech: ['Docker', 'Kubernetes', 'ArgoCD', 'Jenkins', 'GitHub Actions'] },
+      { title: 'Software craft', description: 'Prácticas que hacen el código más comprensible, comprobable y compartido.', tech: ['TDD', 'Testing', 'Pairing', 'Clean Architecture', 'Mentoría'] },
+    ],
+  },
+  ja: {
+    kicker: '02 · 得意領域',
+    title: '得意領域',
+    intro: '一つの技術スタックに自分を限定せず、課題に応じてプロダクト、システム、データ、デリバリーをつなぎます。',
+    note: 'アイデアから保守しやすいソフトウェアへ',
+    groups: [
+      { title: 'プロダクト開発', description: '複雑な業務を理解しやすくするインターフェースとプロダクト。', tech: ['React', 'Next.js', 'Astro', 'TypeScript', 'JavaScript', 'CSS'] },
+      { title: 'バックエンドとシステム', description: '変化に対応できるサービス、連携、業務プロセス。', tech: ['C#', '.NET', 'Node.js', 'PostgreSQL', 'MQTT'] },
+      { title: 'データと自動化', description: '信頼性とテストを重視したパイプラインとデータ変換。', tech: ['Python', 'Pandas', 'Pytest', 'ETL', 'AWS'] },
+      { title: 'デリバリーと基盤', description: '自信を持って届けるためのインフラとフィードバックループ。', tech: ['Docker', 'Kubernetes', 'ArgoCD', 'Jenkins', 'GitHub Actions'] },
+      { title: 'ソフトウェアクラフト', description: '理解、テスト、共有をしやすくする開発プラクティス。', tech: ['TDD', 'Testing', 'Pairing', 'Clean Architecture', 'Mentoring'] },
+    ],
+  },
+}[lang as 'en' | 'es' | 'ja'];
+---
+
+<!-- Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 -->
+<section id="capabilities" class="content-section content-section--capabilities" aria-labelledby="capabilities-heading">
+  <div class="site-container">
+    <header class="section-head">
+      <div>
+        <span class="section-kicker">{copy.kicker}</span>
+        <h2 id="capabilities-heading" class="section-heading">{copy.title}</h2>
+      </div>
+      <p class="section-intro">{copy.intro}</p>
+    </header>
+
+    <div class="capability-deck">
+      <p class="capability-deck__note">{copy.note}</p>
+      <ul class="capability-list">
+        {copy.groups.map((group) => (
+          <li class="capability-cluster">
+            <div>
+              <h3>{group.title}</h3>
+              <p>{group.description}</p>
+              <div class="capability-cluster__tech" aria-label={group.title}>
+                {group.tech.map((technology) => <span>{technology}</span>)}
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>

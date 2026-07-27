@@ -1,0 +1,43 @@
+---
+import type { SelectedWork } from '../../data/portfolio-content';
+
+interface Props {
+  projects: SelectedWork[];
+  lang: string;
+}
+
+const { projects, lang } = Astro.props;
+const copy = {
+  en: { kicker: '02 · Work', title: 'Selected work', context: 'Context', contribution: 'Contribution', outcome: 'Outcome' },
+  es: { kicker: '02 · Proyectos', title: 'Trabajo seleccionado', context: 'Contexto', contribution: 'Aportación', outcome: 'Resultado' },
+  ja: { kicker: '02 · 仕事', title: '主な仕事', context: '背景', contribution: '貢献', outcome: '成果' },
+}[lang as 'en' | 'es' | 'ja'];
+---
+
+<!-- This section is intentionally rendered only when at least one case study has published=true. -->
+<section id="work" class="content-section content-section--work" aria-labelledby="work-heading">
+  <div class="site-container">
+    <header class="section-head">
+      <div>
+        <span class="section-kicker">{copy.kicker}</span>
+        <h2 id="work-heading" class="section-heading">{copy.title}</h2>
+      </div>
+    </header>
+    <div class="selected-work-stage">
+      {projects.map((project, index) => (
+        <article class="selected-work-card">
+          <span class="selected-work-card__index">{String(index + 1).padStart(2, '0')}</span>
+          <h3>{project.title}</h3>
+          <dl>
+            <div><dt>{copy.context}</dt><dd>{project.context}</dd></div>
+            <div><dt>{copy.contribution}</dt><dd>{project.contribution}</dd></div>
+            <div><dt>{copy.outcome}</dt><dd>{project.outcome}</dd></div>
+          </dl>
+          {project.technologies.length > 0 && (
+            <div class="tag-list">{project.technologies.map((technology) => <span class="tag">{technology}</span>)}</div>
+          )}
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

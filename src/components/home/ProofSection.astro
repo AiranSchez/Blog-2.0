@@ -1,0 +1,117 @@
+---
+interface Props {
+  lang: string;
+  years: number;
+  postCount: number;
+  episodeCount: number;
+}
+
+const { lang, years, postCount, episodeCount } = Astro.props;
+
+const copy = {
+  en: {
+    kicker: '01 · Proof',
+    label: 'A career in public',
+    title: 'Software, explained with evidence.',
+    intro: 'A cross-disciplinary path supported by writing, conversations, and a public talk.',
+    years: 'years building software',
+    posts: 'published articles',
+    episodes: 'podcast episodes',
+    talks: 'public conference talk',
+  },
+  es: {
+    kicker: '01 · Pruebas',
+    label: 'Una carrera en público',
+    title: 'Software contado con pruebas.',
+    intro: 'Un recorrido multidisciplinar acompañado de escritura, conversaciones y una charla pública.',
+    years: 'años construyendo software',
+    posts: 'artículos publicados',
+    episodes: 'episodios de podcast',
+    talks: 'charla pública',
+  },
+  ja: {
+    kicker: '01 · 実績',
+    label: '公開してきた歩み',
+    title: '実績から伝えるソフトウェア。',
+    intro: '文章、対話、登壇を通じて積み重ねてきた領域横断のキャリアです。',
+    years: 'ソフトウェア開発年数',
+    posts: '公開記事',
+    episodes: 'ポッドキャスト',
+    talks: 'カンファレンス登壇',
+  },
+}[lang as 'en' | 'es' | 'ja'];
+
+const stats = [
+  { value: years, suffix: '+', label: copy.years },
+  { value: postCount, suffix: '', label: copy.posts },
+  { value: episodeCount, suffix: '', label: copy.episodes },
+  { value: 1, suffix: '', label: copy.talks },
+];
+---
+
+<!-- Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4 -->
+<section class="proof-section" aria-labelledby="proof-heading">
+  <div class="site-container">
+    <span class="section-kicker proof-section__kicker">{copy.kicker}</span>
+    <div class="proof-stage">
+      <div class="proof-stage__intro">
+        <h2 id="proof-heading">{copy.title}</h2>
+        <p>{copy.intro}</p>
+      </div>
+      <dl class="proof-grid" aria-label={copy.label}>
+        {stats.map((stat) => (
+          <div class="proof-stat">
+            <dt>{stat.label}</dt>
+            <dd aria-label={`${stat.value}${stat.suffix}`}>
+              <span data-proof-counter data-target={stat.value}>{stat.value}</span>{stat.suffix}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </div>
+</section>
+
+<script>
+  const counters = document.querySelectorAll<HTMLElement>('[data-proof-counter]');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const showFinalValue = (counter: HTMLElement) => {
+    counter.textContent = counter.dataset.target || '0';
+  };
+
+  if (reducedMotion || !('IntersectionObserver' in window)) {
+    counters.forEach(showFinalValue);
+  } else {
+    const observer = new IntersectionObserver((entries, currentObserver) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        const counter = entry.target as HTMLElement;
+        const target = Number(counter.dataset.target || 0);
+        const duration = 900;
+        const startedAt = performance.now();
+
+        const tick = (time: number) => {
+          const progress = Math.min((time - startedAt) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          counter.textContent = String(Math.floor(target * eased));
+
+          if (progress < 1) {
+            requestAnimationFrame(tick);
+          } else {
+            showFinalValue(counter);
+          }
+        };
+
+        requestAnimationFrame(tick);
+        currentObserver.unobserve(counter);
+      });
+    }, { threshold: 0.65 });
+
+    counters.forEach((counter) => {
+      counter.textContent = '0';
+      observer.observe(counter);
+    });
+  }
+</script>

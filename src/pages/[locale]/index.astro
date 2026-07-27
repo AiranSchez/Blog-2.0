@@ -3,18 +3,25 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../layouts/Header.astro';
 import Footer from '../../layouts/Footer.astro';
 import HeroSection from '../../components/home/HeroSection.astro';
-import ProjectsSection from '../../components/home/ProjectsSection.astro';
 import ExperienceSection from '../../components/home/ExperienceSection.astro';
 import AboutSection from '../../components/home/AboutSection.astro';
 import BlogSection from '../../components/home/BlogSection.astro';
+import PodcastSection from '../../components/home/PodcastSection.astro';
 import ContactSection from '../../components/home/ContactSection.astro';
+import ProofSection from '../../components/home/ProofSection.astro';
+import CapabilitiesSection from '../../components/home/CapabilitiesSection.astro';
+import TalkSection from '../../components/home/TalkSection.astro';
+import TestimonialsSection from '../../components/home/TestimonialsSection.astro';
+import SelectedWorkSection from '../../components/home/SelectedWorkSection.astro';
 import { getCollection } from 'astro:content';
 import { getLangFromUrl, useTranslations } from '../../services/i18n';
+import { loadPodcastEpisodes } from '../../services/podcast';
 
 // Import consolidated experience files
 import experiencesEn from '../../data/experience/experiences-en.json';
 import experiencesEs from '../../data/experience/experiences-es.json';
 import experiencesJa from '../../data/experience/experiences-ja.json';
+import { selectedWorkByLocale, type PortfolioLocale } from '../../data/portfolio-content';
 
 export const prerender = true;
 
@@ -43,31 +50,62 @@ const experiences = experiencesMap[lang]
     id: `experience-${index}`
   }));
 
-const allProjects = await getCollection('projects');
-const projects = allProjects.filter(proj => proj.data.locale === lang && proj.data.featured);
-
 const allPosts = await getCollection('blog');
-const recentPosts = allPosts
-  .filter(post => !post.data.draft && post.id.startsWith(`${lang}/`))
+const localePosts = allPosts
+  .filter(post => !post.data.draft && post.id.startsWith(`${lang}/`));
+const recentPosts = localePosts
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 3);
+const availableTags = [...new Set(localePosts.flatMap((post) => post.data.tags))];
 
 const aboutEntry = await getCollection('about');
 const about = aboutEntry.find(entry => entry.id === `${lang}.mdx`);
 const { Content: AboutContent } = about ? await about.render() : { Content: null };
+const episodes = (await loadPodcastEpisodes(lang))
+  .sort((a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf());
+const earliestCareerYear = Math.min(...experiences.map((experience) => Number(experience.data.startDate.slice(0, 4))));
+const careerYears = new Date().getFullYear() - earliestCareerYear;
+const visibleProjects = selectedWorkByLocale[lang as PortfolioLocale].filter((project) => project.published);
 ---
 
 <Layout title={`Airán - ${t('hero.subtitle')}`} description={t('hero.subtitle')} lang={lang}>
   <Header />
   
-  <main id="main-content" class="relative">
+  <main id="main-content">
     <HeroSection t={t} lang={lang} />
-    <ProjectsSection projects={projects} t={t} />
+    <ProofSection lang={lang} years={careerYears} postCount={localePosts.length} episodeCount={episodes.length} />
+    {visibleProjects.length > 0 && <SelectedWorkSection projects={visibleProjects} lang={lang} />}
+    <CapabilitiesSection lang={lang} />
+    <TalkSection lang={lang} availableTags={availableTags} />
     <ExperienceSection experiences={experiences} t={t} lang={lang} />
-    {AboutContent && <AboutSection Content={AboutContent} t={t} />}
     <BlogSection posts={recentPosts} t={t} lang={lang} />
-    <ContactSection t={t} />
+    <TestimonialsSection lang={lang} />
+    <PodcastSection episodes={episodes} t={t} lang={lang} />
+    {AboutContent && <AboutSection Content={AboutContent} t={t} lang={lang} />}
+    <ContactSection t={t} lang={lang} />
   </main>
+
+  <script>
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!reducedMotion && 'IntersectionObserver' in window) {
+      const sections = document.querySelectorAll<HTMLElement>(
+        '#main-content > .content-section, #main-content > .proof-section',
+      );
+      const observer = new IntersectionObserver((entries, currentObserver) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-revealed');
+          currentObserver.unobserve(entry.target);
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+
+      sections.forEach((section) => {
+        section.classList.add('home-reveal');
+        observer.observe(section);
+      });
+    }
+  </script>
 
   <Footer />
 </Layout>

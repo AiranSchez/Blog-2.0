@@ -1,41 +1,79 @@
 ---
 import { Image } from 'astro:assets';
-import Parallax from '../shared/decorators/Parallax.tsx';
 import aboutImage from '../../assets/images/profile/DSC01235.jpg';
 import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
 
 interface Props {
   Content: AstroComponentFactory;
   t: (key: any) => string;
+  lang: string;
 }
 
-const { Content, t } = Astro.props;
+const { Content, t, lang } = Astro.props;
+
+const copy = {
+  en: {
+    kicker: '08 · Profile',
+    note: 'Ideas · Systems · People',
+    portrait: 'Portrait of Airán Sánchez',
+    caption: 'Airán Sánchez · Software developer',
+    cv: 'View CV',
+    pdf: 'Download PDF',
+    json: 'Download JSON',
+  },
+  es: {
+    kicker: '08 · Perfil',
+    note: 'Ideas · Sistemas · Personas',
+    portrait: 'Retrato de Airán Sánchez',
+    caption: 'Airán Sánchez · Desarrollador de software',
+    cv: 'Ver CV',
+    pdf: 'Descargar PDF',
+    json: 'Descargar JSON',
+  },
+  ja: {
+    kicker: '08 · 自己紹介',
+    note: 'アイデア · システム · 人',
+    portrait: 'Airán Sánchezのポートレート',
+    caption: 'Airán Sánchez · ソフトウェア開発者',
+    cv: 'CVを見る',
+    pdf: 'PDFをダウンロード',
+    json: 'JSONをダウンロード',
+  },
+}[lang as 'en' | 'es' | 'ja'];
 ---
 
-<Parallax speed={-0.2} client:load>
-  <section class="py-12 sm:py-20 bg-alabaster dark:bg-carbon transition-colors relative shadow-2xl" aria-labelledby="about-heading">
-    <div class="container mx-auto px-4 sm:px-6 max-w-7xl">
-      <h2 id="about-heading" class="text-4xl font-bold text-center mb-12 text-stormy dark:text-seaweed">
-        {t('about.title') || 'About Me'}
-      </h2>
-      <div class="max-w-4xl mx-auto">
-        <div class="flex flex-col md:flex-row gap-8 items-start">
-          <div class="flex-shrink-0">
-            <Image 
-              src={aboutImage} 
-              alt="Airán" 
-              width={200} 
-              height={200}
-              class="rounded-full shadow-lg"
-            />
-          </div>
-          <div class="prose prose-lg dark:prose-invert max-w-none">
-            <div class="[&_ul]:list-disc [&_ul>li]:text-carbon dark:[&_ul>li]:text-alabaster [&_ul>li]:marker:text-stormy dark:[&_ul>li]:marker:text-seaweed [&_ul>li]:marker:text-xl">
-              <Content />
-            </div>
-          </div>
+<section class="content-section content-section--about" aria-labelledby="about-heading">
+  <div class="site-container">
+    <header class="section-head">
+      <div>
+        <span class="section-kicker">{copy.kicker}</span>
+        <h2 id="about-heading" class="section-heading">{t('about.title')}</h2>
+      </div>
+      <p class="section-head__note">{copy.note}</p>
+    </header>
+
+    <div class="about-stage">
+      <figure class="about-stage__portrait">
+        <Image
+          src={aboutImage}
+          alt={copy.portrait}
+          width={640}
+          height={800}
+          loading="lazy"
+        />
+        <figcaption>{copy.caption}</figcaption>
+      </figure>
+      <div class="about-stage__copy">
+        <div class="about-stage__monogram" aria-hidden="true">A/S</div>
+        <div class="editorial-prose">
+          <Content />
+        </div>
+        <div class="about-stage__actions">
+          <a class="primary-action" href={`/${lang}/cv/`}>{copy.cv}</a>
+          <a class="secondary-action" href={`/cv/airan-sanchez-cv-${lang}.pdf`} download>{copy.pdf}<span aria-hidden="true">↓</span></a>
+          <a class="secondary-action" href={`/cv/airan-sanchez-resume-${lang}.json`} download>{copy.json}<span aria-hidden="true">↓</span></a>
         </div>
       </div>
     </div>
-  </section>
-</Parallax>
+  </div>
+</section>

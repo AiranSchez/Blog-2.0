@@ -1,5 +1,4 @@
 ---
-import PodcastGrid from '../podcast/PodcastGrid.tsx';
 import type { PodcastEpisode } from '../../types/podcast';
 
 interface Props {
@@ -9,35 +8,58 @@ interface Props {
 }
 
 const { episodes, t, lang } = Astro.props;
+const latestEpisode = episodes[0];
+
+const intro = {
+  en: 'La Techtulia is a long-form conversation about technology, work, and everything that happens around both.',
+  es: 'La Techtulia es una conversación sin prisas sobre tecnología, trabajo y todo lo que ocurre alrededor.',
+  ja: 'La Techtulia は、テクノロジー、仕事、そしてその周辺についてじっくり話すポッドキャストです。',
+}[lang as 'en' | 'es' | 'ja'];
+
+const listen = {
+  en: 'Explore the podcast',
+  es: 'Explorar el podcast',
+  ja: 'ポッドキャストを見る',
+}[lang as 'en' | 'es' | 'ja'];
+
+const kicker = {
+  en: '07 · On air',
+  es: '07 · En antena',
+  ja: '07 · 配信中',
+}[lang as 'en' | 'es' | 'ja'];
+
+const coverAlt = {
+  en: 'La Techtulia podcast cover',
+  es: 'Portada del podcast La Techtulia',
+  ja: 'La Techtuliaポッドキャストのカバー',
+}[lang as 'en' | 'es' | 'ja'];
 ---
 
-<section class="podcast-section py-12 sm:py-20">
-  <div class="container mx-auto px-4 sm:px-6 max-w-7xl transition-colors relative">
-    <PodcastGrid episodes={episodes} client:load />
+<section class="content-section content-section--podcast" aria-labelledby="podcast-heading">
+  <div class="site-container">
+    <header class="section-head">
+      <div>
+        <span class="section-kicker">{kicker}</span>
+        <h2 id="podcast-heading" class="section-heading">{t('nav.podcast')}</h2>
+      </div>
+      <p class="section-intro">{intro}</p>
+    </header>
+
+    {latestEpisode ? (
+      <article class="podcast-showcase">
+        <div class="podcast-showcase__art">
+          <img src="/images/la-techtulia-cover.webp" alt={coverAlt} loading="lazy" />
+        </div>
+        <div class="podcast-showcase__copy">
+          <span class="episode-meta">{latestEpisode.date} · {latestEpisode.duration}</span>
+          <p class="podcast-showcase__name">La Techtulia</p>
+          <h3>{latestEpisode.title}</h3>
+          {latestEpisode.description && <p>{latestEpisode.description}</p>}
+          <a class="primary-action" href={`/${lang}/podcast/`}>{listen}<span aria-hidden="true">▶</span></a>
+        </div>
+      </article>
+    ) : (
+      <p class="empty-state">{t('podcast.noEpisodes')}</p>
+    )}
   </div>
 </section>
-
-<style>
-  .podcast-section {
-    background: linear-gradient(to bottom, transparent, rgba(var(--color-carbon-900-rgb, 17, 17, 19), 0.03), transparent);
-  }
-  
-  :global(.dark) .podcast-section {
-    background: linear-gradient(to bottom, transparent, rgba(var(--color-seaweed-rgb, 132, 204, 191), 0.02), transparent);
-  }
-
-  :global(.podcast-grid) {
-    animation: fadeInUp 0.6s ease-out;
-  }
-
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-</style>

@@ -1,0 +1,107 @@
+---
+interface Props {
+  lang: string;
+  availableTags: string[];
+}
+
+const { lang, availableTags } = Astro.props;
+const videoId = '5xT-qo6aocQ';
+
+const copy = {
+  en: {
+    kicker: '03 · Stage',
+    title: 'Fantastic data and where to find it',
+    eyebrow: 'Software Crafters Barcelona · 2023',
+    summary: 'A tour through data roles, sustainable code, and real ETL examples with Python, Pandas, Dask, and Airflow.',
+    note: 'Public speaking',
+    watch: 'Watch on YouTube',
+    frame: 'Video of Airán Sánchez’s talk: Fantastic data and where to find it',
+  },
+  es: {
+    kicker: '03 · Ponencias',
+    title: 'Datos fantásticos y dónde encontrarlos',
+    eyebrow: 'Software Crafters Barcelona · 2023',
+    summary: 'Un recorrido por los roles del mundo de los datos, el código sostenible y ejemplos reales de ETL con Python, Pandas, Dask y Airflow.',
+    note: 'Charlas y comunidad',
+    watch: 'Ver en YouTube',
+    frame: 'Vídeo de la charla de Airán Sánchez: Datos fantásticos y dónde encontrarlos',
+  },
+  ja: {
+    kicker: '03 · 登壇',
+    title: '素晴らしいデータとその見つけ方',
+    eyebrow: 'Software Crafters Barcelona · 2023',
+    summary: 'データ分野の役割、持続可能なコード、Python・Pandas・Dask・Airflowを使ったETLの実例を紹介した登壇です。',
+    note: '登壇とコミュニティ',
+    watch: 'YouTubeで見る',
+    frame: 'Airán Sánchezの講演「Datos fantásticos y dónde encontrarlos」',
+  },
+}[lang as 'en' | 'es' | 'ja'];
+
+const talkTags = ['Python', 'Pandas', 'Dask', 'Airflow', 'ETL'].map((label) => {
+  const matchingTag = availableTags.find((tag) => tag.toLocaleLowerCase() === label.toLocaleLowerCase());
+  return {
+    label,
+    href: matchingTag ? `/${lang}/blog/?tag=${encodeURIComponent(matchingTag)}` : null,
+  };
+});
+---
+
+<!-- Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 -->
+<section id="talk" class="content-section content-section--talk" aria-labelledby="talk-heading">
+  <div class="site-container">
+    <header class="section-head">
+      <div>
+        <span class="section-kicker">{copy.kicker}</span>
+        <h2 id="talk-heading" class="section-heading">
+          {lang === 'ja' ? (
+            <>
+              <span class="talk-title-part">登壇と</span><wbr />
+              <span class="talk-title-part">コミュニティ</span>
+            </>
+          ) : copy.note}
+        </h2>
+      </div>
+      <p class="section-head__note">SCBCN · Data · Craft</p>
+    </header>
+
+    <article class="talk-stage">
+      <div class="talk-stage__video">
+        <iframe
+          src={`https://www.youtube-nocookie.com/embed/${videoId}`}
+          title={copy.frame}
+          loading="lazy"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        ></iframe>
+      </div>
+      <div class="talk-stage__copy">
+        <span class="episode-meta">{copy.eyebrow}</span>
+        <h3>
+          {lang === 'ja' ? (
+            <>
+              <span class="talk-title-part">素晴らしいデータ</span><wbr />
+              <span class="talk-title-part">とその見つけ方</span>
+            </>
+          ) : copy.title}
+        </h3>
+        <p>{copy.summary}</p>
+        <div class="tag-list" aria-label="Technologies">
+          {talkTags.map((tag) => tag.href ? (
+            <a class="tag tag--link" href={tag.href}>{tag.label}<span aria-hidden="true">↗</span></a>
+          ) : (
+            <span class="tag">{tag.label}</span>
+          ))}
+        </div>
+        <a
+          class="secondary-action"
+          href={`https://www.youtube.com/watch?v=${videoId}`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {copy.watch}<span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </article>
+  </div>
+</section>

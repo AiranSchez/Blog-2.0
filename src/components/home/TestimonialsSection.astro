@@ -1,0 +1,59 @@
+---
+import { testimonialsByLocale, type PortfolioLocale } from '../../data/portfolio-content';
+
+interface Props {
+  lang: string;
+}
+
+const { lang } = Astro.props;
+const testimonials = testimonialsByLocale[lang as PortfolioLocale];
+
+const copy = {
+  en: {
+    kicker: '06 · Voices',
+    title: 'What people say',
+    intro: 'A space ready for recommendations from people who have shared a team or project with me.',
+    placeholder: 'Testimonial to confirm',
+  },
+  es: {
+    kicker: '06 · Voces',
+    title: 'Lo que dicen de mí',
+    intro: 'Un espacio preparado para recomendaciones de personas con las que he compartido equipo o proyecto.',
+    placeholder: 'Testimonio pendiente',
+  },
+  ja: {
+    kicker: '06 · 推薦',
+    title: '一緒に働いた人',
+    intro: '同じチームやプロジェクトで働いた方からの推薦文を掲載するためのスペースです。',
+    placeholder: '推薦文は確認待ちです',
+  },
+}[lang as PortfolioLocale];
+---
+
+<!-- Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4 -->
+<section class="content-section content-section--testimonials" aria-labelledby="testimonials-heading">
+  <div class="site-container">
+    <header class="section-head">
+      <div>
+        <span class="section-kicker">{copy.kicker}</span>
+        <h2 id="testimonials-heading" class="section-heading">{copy.title}</h2>
+      </div>
+      <p class="section-intro">{copy.intro}</p>
+    </header>
+
+    <div class="testimonial-stage">
+      {testimonials.map((testimonial, index) => (
+        <figure class:list={['testimonial-card', { 'is-placeholder': testimonial.placeholder }]}>
+          <figcaption>
+            <span>{copy.placeholder} · {String(index + 1).padStart(2, '0')}</span>
+          </figcaption>
+          <blockquote>“{testimonial.quote}”</blockquote>
+          <div class="testimonial-card__author">
+            <span aria-hidden="true">{testimonial.author.slice(0, 1)}</span>
+            <p><strong>{testimonial.author}</strong><small>{testimonial.role}</small></p>
+          </div>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>

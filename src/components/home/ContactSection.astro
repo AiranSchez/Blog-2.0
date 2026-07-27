@@ -1,108 +1,87 @@
 ---
-import Parallax from '../shared/decorators/Parallax.tsx';
-import Input from '../shared/ui/Input.astro';
-import Textarea from '../shared/ui/Textarea.astro';
-import Button from '../shared/ui/Button.astro';
-
 interface Props {
   t: (key: string) => string;
+  lang: string;
 }
 
-const { t } = Astro.props;
+const { t, lang } = Astro.props;
 
-// Form field styles
-const inputStyles = {
-  input: 'bg-white dark:bg-stormy/10 text-carbon dark:text-alabaster border-stormy/20 dark:border-seaweed/20',
-  label: '[&_label]:text-stormy dark:[&_label]:text-seaweed [&_label]:font-semibold [&_label]:text-base',
-};
-
-const textareaStyles = {
-  textarea: 'bg-white dark:bg-stormy/10 text-carbon dark:text-alabaster border-stormy/20 dark:border-seaweed/20',
-  label: '[&_label]:text-stormy dark:[&_label]:text-seaweed [&_label]:font-semibold [&_label]:text-base',
-  charCount: '[&_.text-xs]:text-carbon/60 dark:[&_.text-xs]:text-alabaster/60',
-};
+const kicker = {
+  en: '09 · Contact',
+  es: '09 · Contacto',
+  ja: '09 · お問い合わせ',
+}[lang as 'en' | 'es' | 'ja'];
 
 const statusClasses = {
-  success: 'p-4 rounded-lg text-center font-semibold bg-seaweed/20 text-white border border-seaweed/40',
-  error: 'p-4 rounded-lg text-center font-semibold bg-red-500/20 text-white border border-red-500/40',
+  success: 'p-4 text-center font-semibold',
+  error: 'p-4 text-center font-semibold',
 };
 ---
 
-<Parallax speed={-0.1} client:visible>
-  <section id="contact" class="py-20 bg-alabaster dark:bg-carbon transition-colors relative shadow-2xl" aria-labelledby="contact-heading">
-    <div class="container mx-auto px-4 max-w-4xl">
-      <div class="max-w-2xl mx-auto">
-        <h2 id="contact-heading" class="text-4xl font-bold mb-4 text-stormy dark:text-seaweed text-center">
-          {t('contact.title')}
-        </h2>
-        <p class="text-xl text-carbon/80 dark:text-alabaster/80 mb-8 text-center">
-          {t('contact.subtitle')}
-        </p>
-        
-        <form
-          id="contact-form"
-          class="space-y-6 text-left"
-          data-sending={t('contact.sending')}
-          data-success={t('contact.success')}
-          data-error={t('contact.error')}
-          data-class-success={statusClasses.success}
-          data-class-error={statusClasses.error}
-        >
-          <input type="hidden" name="access_key" value={import.meta.env.WEB3FORMS_ACCESS_KEY || 'your_key_here'} />
-          
-          <Input
-            type="text"
-            name="name"
-            id="contact-name"
-            label={t('contact.name')}
-            placeholder={t('contact.name')}
-            required={true}
-            autocomplete="name"
-            inputClass={inputStyles.input}
-            class={inputStyles.label}
-          />
-          
-          <Input
-            type="email"
-            name="email"
-            id="contact-email"
-            label={t('contact.email')}
-            placeholder={t('contact.email')}
-            required={true}
-            autocomplete="email"
-            inputClass={inputStyles.input}
-            class={inputStyles.label}
-          />
-          
-          <Textarea
-            name="message"
-            id="contact-message"
-            label={t('contact.message')}
-            placeholder={t('contact.message')}
-            required={true}
-            rows={5}
-            maxlength={1000}
-            showCharCount={true}
-            textareaClass={textareaStyles.textarea}
-            class={`${textareaStyles.label} ${textareaStyles.charCount}`}
-          />
-          
-          <!-- Status Messages -->
-          <div id="form-status" role="status" aria-live="polite" class="hidden p-4 rounded-lg text-center font-semibold"></div>
-          
-          <Button
-            type="submit"
-            size="lg"
-            class="w-full"
-            id="submit-button"
-          >
-            {t('contact.send')}
-          </Button>
-        </form>
-      </div>
+<section id="contact" class="content-section content-section--contact" aria-labelledby="contact-heading">
+  <div class="site-container contact-stage">
+    <div class="contact-stage__intro">
+      <span class="section-kicker">{kicker}</span>
+      <h2 id="contact-heading" class="section-heading">{t('contact.title')}</h2>
+      <p class="contact-copy">{t('contact.subtitle')}</p>
+      <a class="text-link" href="mailto:airanschez0@gmail.com">airanschez0@gmail.com</a>
     </div>
-  </section>
-</Parallax>
+
+    <form
+      id="contact-form"
+      class="editorial-form"
+      data-sending={t('contact.sending')}
+      data-success={t('contact.success')}
+      data-error={t('contact.error')}
+      data-class-success={statusClasses.success}
+      data-class-error={statusClasses.error}
+    >
+      <input type="hidden" name="access_key" value={import.meta.env.WEB3FORMS_ACCESS_KEY || 'your_key_here'} />
+
+      <div>
+        <label for="contact-name">{t('contact.name')} *</label>
+        <input
+          type="text"
+          name="name"
+          id="contact-name"
+          placeholder={t('contact.name')}
+          required
+          autocomplete="name"
+        />
+      </div>
+
+      <div>
+        <label for="contact-email">{t('contact.email')} *</label>
+        <input
+          type="email"
+          name="email"
+          id="contact-email"
+          placeholder={t('contact.email')}
+          required
+          autocomplete="email"
+        />
+      </div>
+
+      <div>
+        <label for="contact-message">{t('contact.message')} *</label>
+        <textarea
+          name="message"
+          id="contact-message"
+          placeholder={t('contact.message')}
+          required
+          rows="6"
+          maxlength="1000"
+        ></textarea>
+      </div>
+
+      <div id="form-status" role="status" aria-live="polite" class="hidden"></div>
+
+      <button id="submit-button" class="editorial-form__submit" type="submit">
+        {t('contact.send')}
+      </button>
+    </form>
+  </div>
+</section>
 
 <script>
   import { initContactForm } from './contact-form';

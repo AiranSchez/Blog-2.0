@@ -1,8 +1,5 @@
 ---
 import { Image } from 'astro:assets';
-import AuroraBackground from '../shared/decorators/AuroraBackground.tsx';
-import AnimatedText from '../shared/react/common/AnimatedText.tsx';
-import MagneticButton from '../shared/react/common/MagneticButton.tsx';
 import profileImage from '../../assets/images/profile/DSC01226.jpg';
 
 interface Props {
@@ -10,97 +7,129 @@ interface Props {
   lang: string;
 }
 
-const { t, lang } = Astro.props;
+const { lang } = Astro.props;
+
+const copy = {
+  en: {
+    eyebrow: 'Software developer · Canary Islands ↔ Japan',
+    lead: 'I build',
+    highlight: 'useful systems.',
+    summary: 'I turn complex problems into maintainable software, useful internal tools, and stories that help other people build better.',
+    primary: 'See what I do',
+    secondary: 'Read the blog',
+    availability: 'Currently working full stack with LeanMind for TechnyFarma',
+    orbitA: 'Build',
+    orbitB: 'Learn',
+    orbitC: 'Share',
+    portrait: 'Portrait of Airán Sánchez',
+  },
+  es: {
+    eyebrow: 'Desarrollador de software · Canarias ↔ Japón',
+    lead: 'Construyo',
+    highlight: 'sistemas útiles.',
+    summary: 'Transformo problemas complejos en software mantenible, herramientas internas que funcionan e historias que ayudan a otros a construir mejor.',
+    primary: 'Ver lo que hago',
+    secondary: 'Leer el blog',
+    availability: 'Ahora, full stack con LeanMind para TechnyFarma',
+    orbitA: 'Crear',
+    orbitB: 'Aprender',
+    orbitC: 'Compartir',
+    portrait: 'Retrato de Airán Sánchez',
+  },
+  ja: {
+    eyebrow: 'ソフトウェア開発者 · カナリア諸島 ↔ 日本',
+    lead: '役立つ仕組みを',
+    highlight: 'つくる。',
+    summary: '複雑な課題を、保守しやすいソフトウェア、実用的な社内ツール、そしてより良くつくるための物語へ変えていきます。',
+    primary: 'できることを見る',
+    secondary: 'ブログを読む',
+    availability: '現在、LeanMindからTechnyFarma向けフルスタック開発に参画',
+    orbitA: 'つくる',
+    orbitB: '学ぶ',
+    orbitC: '共有する',
+    portrait: 'Airán Sánchez のポートレート',
+  },
+}[lang as 'en' | 'es' | 'ja'];
+
+let characterIndex = 0;
+const titleLines = [
+  { text: copy.lead, accent: false },
+  { text: copy.highlight, accent: true },
+].map((line) => ({
+  ...line,
+  words: line.text.split(' ').map((word, wordIndex, words) => ({
+    characters: Array.from(word).map((character) => ({
+      character,
+      index: characterIndex++,
+    })),
+    space: wordIndex < words.length - 1
+      ? { character: '\u00A0', index: characterIndex++ }
+      : null,
+  })),
+}));
 ---
 
-<div id="hero-section" class="relative min-h-[calc(100vh-5rem)] bg-stormy dark:bg-carbon">
-  <!-- Aurora WebGL background — island standalone, sin children con client:* -->
-  <div class="absolute inset-0 z-0" aria-hidden="true">
-    <AuroraBackground className="h-full" client:load />
-  </div>
-
-  <!-- Contenido — fuera de AuroraBackground, sin conflicto de React roots -->
-  <section class="relative z-10 min-h-[calc(100vh-5rem)] flex items-center justify-center">
-    <div class="container mx-auto px-4 sm:px-6 max-w-4xl">
-      <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-
-        <!-- Text Content (Left) -->
-        <div class="text-center md:text-left">
-          <h1 class="text-4xl sm:text-5xl md:text-7xl font-bold text-white mb-4 break-keep">
-            <AnimatedText
-              text={t('hero.greeting')}
-              variant="fade"
-              client:load
-            />
-            <AnimatedText
-              text={t('hero.name')}
-              variant="slideUp"
-              delay={0.3}
-              className="text-alabaster"
-              client:load
-            />
-          </h1>
-          <p class="text-xl sm:text-2xl md:text-3xl text-alabaster/90 mb-8">
-            <AnimatedText
-              text={t('hero.subtitle')}
-              variant="fade"
-              delay={0.6}
-              client:load
-            />
-          </p>
-          <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-            <MagneticButton
-              href={`/${lang}/blog/`}
-              className="px-6 py-4 min-h-[48px] bg-white text-stormy rounded-lg font-semibold hover:bg-alabaster transition-colors text-center"
-              client:load
-            >
-              {t('nav.blog')}
-            </MagneticButton>
-            <MagneticButton
-              href="#contact"
-              className="px-6 py-4 min-h-[48px] border-2 border-white text-white rounded-lg font-semibold hover:bg-white/10 transition-colors text-center"
-              client:load
-            >
-              {t('nav.contact')}
-            </MagneticButton>
-          </div>
-        </div>
-
-        <!-- Hero Image (Right) -->
-        <div class="flex justify-center md:justify-end mt-8 md:mt-0">
-          <div class="relative">
-            <Image
-              src={profileImage}
-              alt="Airán Sanchez"
-              width={800}
-              height={800}
-              loading="eager"
-              fetchpriority="high"
-              class="rounded-full shadow-2xl ring-4 ring-white/20 w-64 h-64 sm:w-80 sm:h-80 md:w-full md:h-full object-cover"
-            />
-            <!-- Decorative glow behind image -->
-            <div class="absolute top-4 left-4 w-full h-full rounded-full bg-seaweed/30 blur-xl -z-10"></div>
-          </div>
-        </div>
-
+<!-- Hallmark · genre: atmospheric · macrostructure: Marquee Hero · design-system: studied-DNA -->
+<section class="modern-hero" aria-labelledby="hero-title">
+  <div class="modern-hero__atmosphere" aria-hidden="true"></div>
+  <div class="site-container modern-hero__grid">
+    <div class="modern-hero__copy">
+      <p class="section-kicker hero-kicker"><span></span>{copy.eyebrow}</p>
+      <h1 id="hero-title" class:list={['hero-title', `hero-title--${lang}`]} aria-label={`${copy.lead} ${copy.highlight}`}>
+        {titleLines.map((line) => (
+          <span
+            class:list={['typewriter-line', { 'typewriter-line--accent': line.accent }]}
+            aria-hidden="true"
+          >
+            {line.words.map((word) => (
+              <>
+                <span class="typewriter-word">
+                  {word.characters.map(({ character, index }) => (
+                    <span class="typewriter-character" style={`--character-index: ${index}`}>
+                      {character}
+                    </span>
+                  ))}
+                </span>
+                {word.space && (
+                  <span class="typewriter-character" style={`--character-index: ${word.space.index}`}>
+                    {word.space.character}
+                  </span>
+                )}
+              </>
+            ))}
+            {line.accent && (
+              <span
+                class="typewriter-cursor"
+                style={`--character-index: ${characterIndex}`}
+                aria-hidden="true"
+              ></span>
+            )}
+          </span>
+        ))}
+      </h1>
+      <p class="hero-summary">{copy.summary}</p>
+      <div class="hero-actions">
+        <a class="primary-action" href="#capabilities">{copy.primary}</a>
+        <a class="secondary-action" href={`/${lang}/blog/`}>{copy.secondary}<span aria-hidden="true">↗</span></a>
       </div>
+      <p class="hero-availability"><span aria-hidden="true"></span>{copy.availability}</p>
     </div>
-  </section>
-</div>
 
-<script>
-  const hero = document.getElementById('hero-section') as HTMLElement | null;
-  if (hero) {
-    const speed = 0.3;
-    function updateParallax() {
-      const rect = hero!.getBoundingClientRect();
-      const progress = Math.max(0, Math.min(1,
-        (window.innerHeight - rect.top) / (hero!.offsetHeight + window.innerHeight)
-      ));
-      const y = (-100 * speed) + (progress * 200 * speed);
-      hero!.style.transform = `translateY(${y}px)`;
-    }
-    window.addEventListener('scroll', updateParallax, { passive: true });
-    updateParallax();
-  }
-</script>
+    <div class="hero-visual">
+      <div class="hero-visual__halo" aria-hidden="true"></div>
+      <figure class="hero-portrait">
+        <Image
+          src={profileImage}
+          alt={copy.portrait}
+          width={720}
+          height={900}
+          loading="eager"
+          fetchpriority="high"
+        />
+      </figure>
+      <span class="hero-orbit hero-orbit--a">{copy.orbitA}</span>
+      <span class="hero-orbit hero-orbit--b">{copy.orbitB}</span>
+      <span class="hero-orbit hero-orbit--c">{copy.orbitC}</span>
+    </div>
+  </div>
+</section>
