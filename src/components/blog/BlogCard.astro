@@ -89,7 +89,7 @@ const readMoreText = {
     
     <a 
       href={`/${locale}/blog/${slug}/`}
-      class="inline-flex items-center gap-1 text-stormy dark:text-seaweed hover:underline font-semibold transition-all group-hover:gap-2 mt-auto"
+      class="inline-flex items-center gap-1 text-stormy dark:text-seaweed hover:underline font-semibold transition-[color,gap] group-hover:gap-2 mt-auto"
     >
       {readMoreText[locale as keyof typeof readMoreText] || readMoreText.en}
       <span aria-hidden="true">→</span>
@@ -100,21 +100,15 @@ const readMoreText = {
 <style>
   .blog-card {
     position: relative;
-    background: white;
+    background: var(--color-paper-2);
     border-radius: 0.75rem;
-    transition: all 0.3s ease;
-  }
-  
-  :global(.dark) .blog-card {
-    background: rgb(36 41 46);
-  }
-  
-  .blog-card:hover {
-    transform: translateY(-4px);
+    transition-property: border-color, box-shadow;
+    transition-duration: 0.3s;
+    transition-timing-function: ease;
   }
   
   .blog-card:focus-within {
-    outline: 2px solid rgb(33 104 105);
+    outline: 2px solid var(--color-focus);
     outline-offset: 2px;
   }
   
@@ -124,44 +118,20 @@ const readMoreText = {
     inset: 0;
     border-radius: 0.75rem;
     padding: 2px;
-    background: linear-gradient(
-      135deg,
-      rgb(33 104 105) 0%,
-      rgb(73 160 120) 25%,
-      rgb(33 104 105) 50%,
-      rgb(73 160 120) 75%,
-      rgb(33 104 105) 100%
-    );
-    background-size: 200% 200%;
-    animation: electricGlow 3s ease-in-out infinite;
+    background: var(--gradient-accent);
     opacity: 0.6;
     pointer-events: none;
   }
   
   .blog-card:hover .electric-border {
     opacity: 1;
-    animation: electricGlow 1.5s ease-in-out infinite;
-  }
-  
-  @keyframes electricGlow {
-    0%, 100% {
-      background-position: 0% 50%;
-      opacity: 0.6;
-    }
-    50% {
-      background-position: 100% 50%;
-      opacity: 1;
-    }
   }
   
   .card-content {
-    background: white;
+    background: var(--color-paper-2);
     border-radius: 0.65rem;
     padding: 1.5rem;
     height: 100%;
   }
   
-  :global(.dark) .card-content {
-    background: rgb(36 41 46);
-  }
 </style>

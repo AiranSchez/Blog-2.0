@@ -205,7 +205,7 @@ export default function CommentForm({
           type="submit"
           disabled={submitting || isOverLimit}
           className="px-5 py-2 rounded-lg bg-stormy dark:bg-seaweed text-white text-sm font-semibold
-                     hover:bg-stormy/90 dark:hover:bg-seaweed/90 transition-all shadow-sm hover:shadow-md
+                     hover:bg-stormy/90 dark:hover:bg-seaweed/90 transition-[background-color,box-shadow] shadow-sm hover:shadow-md
                      disabled:opacity-50 disabled:cursor-not-allowed
                      focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-stormy dark:focus:ring-seaweed"
         >

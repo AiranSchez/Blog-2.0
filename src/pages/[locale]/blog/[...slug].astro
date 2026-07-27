@@ -11,11 +11,11 @@ export const prerender = true;
 
 export const getStaticPaths = (async () => {
   const blogEntries = await getCollection('blog');
-  
-  return blogEntries.map(entry => ({
-    params: { 
+
+  return blogEntries.map((entry) => ({
+    params: {
       locale: entry.id.split('/')[0],
-      slug: entry.slug 
+      slug: entry.slug,
     },
     props: { entry },
   }));
@@ -33,117 +33,89 @@ const canonicalSlug = entry.id
 const supabaseUrl = import.meta.env.SUPABASE_URL ?? '';
 const supabaseAnonKey = import.meta.env.SUPABASE_ANON_KEY ?? '';
 
-// Translations for back button
 const backText = {
-  en: 'Back to Blog',
-  es: 'Volver al Blog',
-  ja: 'ブログに戻る'
-};
+  en: 'Back to the archive',
+  es: 'Volver al archivo',
+  ja: '記事一覧に戻る',
+}[lang];
 
-const homeText = {
-  en: 'Home',
-  es: 'Inicio',
-  ja: 'ホーム'
-};
+const publishedText = {
+  en: 'Published',
+  es: 'Publicado',
+  ja: '公開日',
+}[lang];
 ---
 
-<Layout 
-  title={`${entry.data.title} - Airán`} 
+<Layout
+  title={`${entry.data.title} - Airán`}
   description={entry.data.description}
   image={entry.data.featuredImage}
   lang={lang}
 >
   <Header />
-  
-  <main class="min-h-screen bg-gradient-to-br from-alabaster via-alabaster-100 to-alabaster-200 dark:from-carbon dark:via-carbon-800 dark:to-carbon-900 py-12">
-    <div class="container mx-auto px-4 max-w-4xl">
-      <!-- Breadcrumbs & Back Button -->
-      <nav class="flex items-center justify-between mb-8" aria-label="Breadcrumb">
-        <ol class="flex items-center gap-2 text-sm text-carbon/60 dark:text-alabaster/60">
-          <li>
-            <a href={`/${lang}`} class="hover:text-stormy dark:hover:text-seaweed transition-colors">
-              {homeText[lang as keyof typeof homeText]}
-            </a>
-          </li>
-          <li aria-hidden="true">/</li>
-          <li>
-            <a href={`/${lang}/blog`} class="hover:text-stormy dark:hover:text-seaweed transition-colors">
-              {t('nav.blog')}
-            </a>
-          </li>
-          <li aria-hidden="true">/</li>
-          <li class="text-carbon dark:text-alabaster font-medium truncate max-w-xs">
-            {entry.data.title}
-          </li>
-        </ol>
 
-        <a
-          href={`/${lang}/blog`}
-          class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white dark:bg-carbon-700 text-stormy dark:text-seaweed hover:bg-alabaster-200 dark:hover:bg-carbon-600 transition-all shadow-sm hover:shadow-md font-medium text-sm"
-        >
-          <span aria-hidden="true">←</span>
-          {backText[lang as keyof typeof backText]}
-        </a>
+  <!-- Hallmark · genre: atmospheric · macrostructure: Long Document · design-system: studied-DNA -->
+  <main id="main-content" class="article-page">
+    <div class="article-page__atmosphere" aria-hidden="true"></div>
+    <article class="site-container article-shell">
+      <nav class="article-breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href={`/${lang}/`}>{t('nav.home')}</a></li>
+          <li aria-hidden="true">/</li>
+          <li><a href={`/${lang}/blog/`}>{t('nav.blog')}</a></li>
+        </ol>
       </nav>
 
-      <article class="bg-white dark:bg-carbon-700 rounded-xl shadow-lg overflow-hidden">
-        <header class="p-8 md:p-12 border-b border-alabaster-200 dark:border-carbon-600">
-          <h1 class="text-4xl md:text-5xl font-bold mb-4 text-stormy dark:text-seaweed">
-            {entry.data.title}
-          </h1>
-          <p class="text-lg md:text-xl text-carbon/70 dark:text-alabaster/70 mb-6">
-            {entry.data.description}
-          </p>
-          <div class="flex items-center gap-4 text-carbon/60 dark:text-alabaster/60 text-sm">
-            <time datetime={entry.data.date.toISOString()}>
-              {new Date(entry.data.date).toLocaleDateString(lang, {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              })}
-            </time>
+      <header class="article-header">
+        <div class="article-header__meta">
+          <span class="meta">{publishedText}</span>
+          <time datetime={entry.data.date.toISOString()}>
+            {new Intl.DateTimeFormat(lang, {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            }).format(entry.data.date)}
+          </time>
+          <span aria-hidden="true">·</span>
+          <span>{entry.data.tags.slice(0, 2).join(' · ')}</span>
+        </div>
+        <div class="article-header__copy">
+          <h1 class="article-title">{entry.data.title}</h1>
+          <p class="article-deck">{entry.data.description}</p>
+        </div>
+      </header>
+
+      {entry.data.featuredImage && (
+        <figure class="article-cover">
+          <img src={entry.data.featuredImage} alt="" loading="eager" />
+        </figure>
+      )}
+
+      <div class="article-content-grid">
+        <aside class="article-marginalia">
+          <a class="text-link text-link--back" href={`/${lang}/blog/`}>← {backText}</a>
+          <div class="article-tags" aria-label="Tags">
+            {entry.data.tags.map((tag) => <span class="tag">{tag}</span>)}
           </div>
-          <div class="flex flex-wrap gap-2 mt-6">
-            {entry.data.tags.map((tag) => (
-              <span class="px-3 py-1 bg-stormy/10 dark:bg-seaweed/20 rounded-full text-sm text-stormy dark:text-seaweed font-medium">
-                {tag}
-              </span>
-            ))}
-          </div>
-        </header>
-        
-        <div class="p-8 md:p-12">
-          <div class="prose prose-lg dark:prose-invert max-w-none
-                      prose-headings:text-stormy dark:prose-headings:text-seaweed
-                      prose-a:text-stormy dark:prose-a:text-seaweed hover:prose-a:underline
-                      prose-code:text-seaweed dark:prose-code:text-muted
-                      prose-pre:bg-carbon dark:prose-pre:bg-stormy
-                      prose-blockquote:border-l-stormy dark:prose-blockquote:border-l-seaweed">
+        </aside>
+
+        <div>
+          <div class="article-body">
             <Content />
           </div>
 
-          <!-- Comments Section -->
-          <CommentsSection
-            client:load
-            articleSlug={canonicalSlug}
-            locale={lang}
-            supabaseUrl={supabaseUrl}
-            supabaseAnonKey={supabaseAnonKey}
-          />
+          <div class="article-comments">
+            <CommentsSection
+              client:load
+              articleSlug={canonicalSlug}
+              locale={lang}
+              supabaseUrl={supabaseUrl}
+              supabaseAnonKey={supabaseAnonKey}
+            />
+          </div>
         </div>
-
-        <!-- Back to top button -->
-        <footer class="p-8 border-t border-alabaster-200 dark:border-carbon-600 text-center">
-          <a
-            href={`/${lang}/blog`}
-            class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-stormy dark:bg-seaweed text-white hover:bg-stormy/90 dark:hover:bg-seaweed/90 transition-all shadow-md hover:shadow-lg font-semibold"
-          >
-            <span aria-hidden="true">←</span>
-            {backText[lang as keyof typeof backText]}
-          </a>
-        </footer>
-      </article>
-    </div>
+      </div>
+    </article>
   </main>
 
   <Footer />

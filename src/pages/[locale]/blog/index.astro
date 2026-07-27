@@ -12,7 +12,7 @@ export function getStaticPaths() {
   return [
     { params: { locale: 'en' } },
     { params: { locale: 'es' } },
-    { params: { locale: 'ja' } }
+    { params: { locale: 'ja' } },
   ];
 }
 
@@ -21,31 +21,32 @@ const t = useTranslations(lang);
 
 const allPosts = await getCollection('blog');
 const posts = allPosts
-  .filter(post => !post.data.draft && post.id.startsWith(`${lang}/`))
+  .filter((post) => !post.data.draft && post.id.startsWith(`${lang}/`))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const description = {
+  en: 'A working notebook about software, testing, teams, and the craft behind maintainable systems.',
+  es: 'Un cuaderno de trabajo sobre software, testing, equipos y el oficio que hay detrás de los sistemas mantenibles.',
+  ja: 'ソフトウェア、テスト、チーム、そして保守しやすいシステムを作る技術についてのノートです。',
+}[lang];
 ---
 
-<Layout title={`${t('nav.blog')} - Airán`} description="Blog posts about web development" lang={lang}>
+<Layout title={`${t('nav.blog')} - Airán`} description={description} lang={lang}>
   <Header />
-  
-  <main class="min-h-screen bg-gradient-to-br from-alabaster via-alabaster-100 to-alabaster-200 dark:from-carbon dark:via-carbon-800 dark:to-carbon-900 py-16">
-    <div class="container mx-auto px-4 max-w-7xl">
-      <!-- Header Section -->
-      <div class="text-center mb-16">
-        <h1 class="text-5xl md:text-6xl font-bold mb-4 text-stormy dark:text-seaweed">
-          {t('nav.blog')}
-        </h1>
-        <p class="text-lg text-carbon/70 dark:text-alabaster/70 max-w-2xl mx-auto">
-          {lang === 'es' 
-            ? 'Artículos sobre desarrollo web, programación y tecnología' 
-            : lang === 'ja'
-            ? 'ウェブ開発、プログラミング、テクノロジーに関する記事'
-            : 'Articles about web development, programming, and technology'
-          }
-        </p>
+
+  <!-- Hallmark · genre: atmospheric · macrostructure: Ecosystem Index · design-system: studied-DNA -->
+  <main id="main-content" class="page-shell">
+    <header class="page-hero page-hero--blog">
+      <div class="site-container page-hero__grid">
+        <div>
+          <span class="section-kicker">Writing · Notes · Fieldwork</span>
+        <h1 class="page-title">{t('nav.blog')}</h1>
+        </div>
+        <p class="page-description">{description}</p>
       </div>
-      
-      <!-- Blog Section with Filters and Grid -->
+    </header>
+
+    <div class="site-container archive-shell">
       <BlogSection posts={posts} locale={lang} />
     </div>
   </main>

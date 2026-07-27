@@ -76,7 +76,7 @@ export default function ReactionBar({ commentId, reactions }: ReactionBarProps) 
             aria-label={`${label}: ${counts[type]}`}
             className={`
               inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium
-              transition-all duration-200 border
+              transition-[background-color,border-color,color,transform] duration-200 border
               ${active
                 ? 'bg-stormy/10 dark:bg-seaweed/20 border-stormy/30 dark:border-seaweed/30 text-stormy dark:text-seaweed scale-105'
                 : 'bg-alabaster-100 dark:bg-carbon-800 border-transparent text-carbon/60 dark:text-alabaster/60 hover:bg-alabaster-200 dark:hover:bg-carbon-700'

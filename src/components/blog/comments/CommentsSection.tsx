@@ -223,7 +223,7 @@ export default function CommentsSection({
           <button
             onClick={() => setShowForm(true)}
             className="px-4 py-2 rounded-lg bg-stormy dark:bg-seaweed text-white text-sm font-semibold
-                       hover:bg-stormy/90 dark:hover:bg-seaweed/90 transition-all shadow-sm
+                       hover:bg-stormy/90 dark:hover:bg-seaweed/90 transition-[background-color,box-shadow] shadow-sm
                        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-stormy dark:focus:ring-seaweed"
           >
             + {t.submit}
