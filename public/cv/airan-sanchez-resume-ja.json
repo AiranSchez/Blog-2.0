@@ -1,0 +1,242 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
+  "basics": {
+    "name": "Airán Sánchez",
+    "label": "ソフトウェア開発者",
+    "email": "airanschez0@gmail.com",
+    "url": "https://www.airanschez.tech",
+    "summary": "データ、Webプロダクト、バックエンド、インフラ、社内ツールの経験を持つソフトウェア開発者です。複雑な課題を、チームが理解し、保守し、発展させられるシステムへ変えることを大切にしています。",
+    "location": {
+      "region": "カナリア諸島 ↔ 日本"
+    },
+    "profiles": [
+      {
+        "network": "GitHub",
+        "username": "AiranSchez",
+        "url": "https://github.com/AiranSchez"
+      },
+      {
+        "network": "LinkedIn",
+        "username": "Airán Sánchez",
+        "url": "https://www.linkedin.com/in/air%C3%A1n-s%C3%A1nchez-brito-415910145/"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "LeanMind - TechnyFarma",
+      "position": "フルスタック開発者",
+      "startDate": "2026-05",
+      "endDate": "",
+      "summary": "TechnyFarma向けプロジェクトでフルスタック開発者として、薬局ERP連携に関わるC#、PostgreSQL、JavaScript、MQTT、CSSの開発に取り組んでいます。",
+      "highlights": [
+        "C#",
+        ".NET",
+        "PostgreSQL",
+        "JavaScript",
+        "MQTT",
+        "薬局ERP",
+        "CSS3"
+      ]
+    },
+    {
+      "name": "LeanMind",
+      "position": "内部管理",
+      "startDate": "2026-01",
+      "endDate": "2026-04",
+      "summary": "社内イニシアチブを主導し、チームメンバーを指導し、会社の成長戦略に貢献しています。AIツールの活用に強く注力し、知識共有、プロセス改善、協調的なエンジニア文化の醸成に努めています。",
+      "highlights": [
+        "Astro",
+        "CSS3",
+        "Docker",
+        "Figma",
+        "Git",
+        "GitHub",
+        "Html5",
+        "JavaScript",
+        "Jest",
+        "Next.js",
+        "Node.js",
+        "React",
+        "Tailwind CSS",
+        "TypeScript"
+      ]
+    },
+    {
+      "name": "LeanMind - Voxel",
+      "position": "バックエンド開発者",
+      "startDate": "2024-11",
+      "endDate": "2025-12",
+      "summary": "ホテルと旅行代理店間の請求書管理のためのグリーンフィールドプロジェクトの開発に参加しました。さまざまな社内プロジェクトのプロセス改善を実施し、特に大規模なレガシーコードベースの刷新を支援しました。",
+      "highlights": [
+        "Dotnet",
+        "Bash",
+        "CSS3",
+        "Html5",
+        "Git",
+        "Figma",
+        "GitHub",
+        "JavaScript",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "name": "LeanMind - Secret Project",
+      "position": "フルスタック開発者",
+      "startDate": "2023-10",
+      "endDate": "2024-03",
+      "summary": "数学研究に特化したソフトウェアプロジェクトに協力しました。最先端技術のイニシアチブに貢献し、クリーンアーキテクチャと保守性の高いコードプラクティスに注力しました。",
+      "highlights": [
+        "Docker",
+        "TypeScript",
+        "Node.js",
+        "MongoDB",
+        "ArgoCD",
+        "AWS",
+        "Bash",
+        "CSS3",
+        "Html5",
+        "Figma",
+        "Github",
+        "Jenkins",
+        "Jest",
+        "Kubernetes",
+        "Linux",
+        "Next.js",
+        "React"
+      ]
+    },
+    {
+      "name": "LeanMind - ClarityAI",
+      "position": "データエンジニア",
+      "startDate": "2021-06",
+      "endDate": "2023-09",
+      "summary": "データ分析のためのETLデータ処理パイプラインを開発・保守しました。大規模データシステムで作業し、自動テスト戦略を実装し、プラットフォームのスケーラビリティ向上に貢献しました。",
+      "highlights": [
+        "Python",
+        "Pytest",
+        "Pandas",
+        "MongoDB",
+        "Docker",
+        "JavaScript",
+        "Jupyter Notebooks",
+        "AWS",
+        "Jenkins",
+        "GitLab"
+      ]
+    },
+    {
+      "name": "LeanMind",
+      "position": "インターン",
+      "startDate": "2020-06",
+      "endDate": "2021-06",
+      "summary": "インターンとしてキャリアをスタートし、ソフトウェア開発のベストプラクティスを学び、本を読み、TDD手法やアジャイル原則を習得しました。社内プロジェクトに貢献しながら、モダンなWeb開発の基礎スキルを身につけました。",
+      "highlights": [
+        "TypeScript",
+        "JavaScript",
+        "Git",
+        "Docker",
+        "MySQL",
+        "React",
+        "Html5",
+        "CSS3",
+        "Bootstrap",
+        "Firebase",
+        "Github",
+        "Gulp",
+        "Java",
+        "Jest",
+        "Sass",
+        "Vue.js"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "",
+      "area": "Webアプリケーション開発",
+      "studyType": "Web開発とプログラミング基礎の技術教育。",
+      "startDate": "",
+      "endDate": ""
+    },
+    {
+      "institution": "",
+      "area": "フルスタック・ブートキャンプ",
+      "studyType": "Webプロダクト開発を一貫して学ぶ集中トレーニング。",
+      "startDate": "",
+      "endDate": ""
+    }
+  ],
+  "skills": [
+    {
+      "name": "Webプロダクト",
+      "level": "",
+      "keywords": [
+        "React",
+        "Next.js",
+        "Astro",
+        "TypeScript",
+        "JavaScript",
+        "CSS"
+      ]
+    },
+    {
+      "name": "バックエンドとシステム",
+      "level": "",
+      "keywords": [
+        "C#",
+        ".NET",
+        "Node.js",
+        "PostgreSQL",
+        "MQTT"
+      ]
+    },
+    {
+      "name": "データと自動化",
+      "level": "",
+      "keywords": [
+        "Python",
+        "Pandas",
+        "Pytest",
+        "ETL",
+        "AWS"
+      ]
+    },
+    {
+      "name": "デリバリーと基盤",
+      "level": "",
+      "keywords": [
+        "Docker",
+        "Kubernetes",
+        "ArgoCD",
+        "Jenkins",
+        "GitHub Actions"
+      ]
+    },
+    {
+      "name": "プラクティス",
+      "level": "",
+      "keywords": [
+        "TDD",
+        "Testing",
+        "Pairing",
+        "Clean Architecture",
+        "Mentoring"
+      ]
+    }
+  ],
+  "publications": [
+    {
+      "name": "素晴らしいデータとその見つけ方",
+      "publisher": "Software Crafters Barcelona",
+      "releaseDate": "2023",
+      "url": "https://www.youtube.com/watch?v=5xT-qo6aocQ",
+      "summary": "データ分野の役割、持続可能なコード、Python・Pandas・Dask・Airflowを使ったETLについての講演。"
+    }
+  ],
+  "meta": {
+    "canonical": "https://www.airanschez.tech/ja/cv/",
+    "version": "v1.0.0",
+    "lastModified": "2026-07-26"
+  }
+}

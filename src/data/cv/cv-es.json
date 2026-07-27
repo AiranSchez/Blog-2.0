@@ -1,0 +1,41 @@
+{
+  "name": "Airán Sánchez",
+  "headline": "Desarrollador de software",
+  "location": "Canarias ↔ Japón",
+  "email": "airanschez0@gmail.com",
+  "summary": "Desarrollador de software con experiencia en datos, producto web, backend, infraestructura y herramientas internas. Me especializo en convertir problemas complejos en sistemas mantenibles que los equipos puedan entender y hacer evolucionar.",
+  "links": [
+    { "label": "GitHub", "url": "https://github.com/AiranSchez" },
+    { "label": "LinkedIn", "url": "https://www.linkedin.com/in/air%C3%A1n-s%C3%A1nchez-brito-415910145/" }
+  ],
+  "skills": [
+    { "name": "Producto web", "keywords": ["React", "Next.js", "Astro", "TypeScript", "JavaScript", "CSS"] },
+    { "name": "Backend y sistemas", "keywords": ["C#", ".NET", "Node.js", "PostgreSQL", "MQTT"] },
+    { "name": "Datos y automatización", "keywords": ["Python", "Pandas", "Pytest", "ETL", "AWS"] },
+    { "name": "Entrega y plataforma", "keywords": ["Docker", "Kubernetes", "ArgoCD", "Jenkins", "GitHub Actions"] },
+    { "name": "Prácticas", "keywords": ["TDD", "Testing", "Pairing", "Clean Architecture", "Mentoría"] }
+  ],
+  "education": [
+    { "title": "Desarrollo de aplicaciones web", "description": "Formación técnica en desarrollo web y fundamentos de programación." },
+    { "title": "Bootcamp Full Stack", "description": "Formación intensiva en desarrollo de producto web de extremo a extremo." }
+  ],
+  "talk": {
+    "title": "Datos fantásticos y dónde encontrarlos",
+    "event": "Software Crafters Barcelona",
+    "year": "2023",
+    "url": "https://www.youtube.com/watch?v=5xT-qo6aocQ",
+    "description": "Charla sobre roles de datos, código sostenible y ETL con Python, Pandas, Dask y Airflow."
+  },
+  "labels": {
+    "profile": "Perfil",
+    "experience": "Experiencia",
+    "capabilities": "Capacidades",
+    "education": "Formación",
+    "talk": "Charla",
+    "present": "Actualidad",
+    "web": "Volver a la web",
+    "pdf": "Descargar PDF",
+    "json": "Descargar JSON",
+    "contact": "Contacto"
+  }
+}

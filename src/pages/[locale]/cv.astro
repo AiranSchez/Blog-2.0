@@ -1,0 +1,149 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../layouts/Header.astro';
+import Footer from '../../layouts/Footer.astro';
+import { getLangFromUrl } from '../../services/i18n';
+
+import experiencesEn from '../../data/experience/experiences-en.json';
+import experiencesEs from '../../data/experience/experiences-es.json';
+import experiencesJa from '../../data/experience/experiences-ja.json';
+import cvEn from '../../data/cv/cv-en.json';
+import cvEs from '../../data/cv/cv-es.json';
+import cvJa from '../../data/cv/cv-ja.json';
+
+export const prerender = true;
+
+export function getStaticPaths() {
+  return [
+    { params: { locale: 'en' } },
+    { params: { locale: 'es' } },
+    { params: { locale: 'ja' } },
+  ];
+}
+
+const lang = getLangFromUrl(Astro.url) as 'en' | 'es' | 'ja';
+const cvMap = { en: cvEn, es: cvEs, ja: cvJa };
+const experiencesMap = { en: experiencesEn, es: experiencesEs, ja: experiencesJa };
+const cv = cvMap[lang];
+const experiences = [...experiencesMap[lang]].sort((a, b) => b.startDate.localeCompare(a.startDate));
+
+const formatDate = (value: string | null) => {
+  if (!value) return cv.labels.present;
+  return new Intl.DateTimeFormat(lang, { year: 'numeric', month: 'short' }).format(
+    new Date(`${value}-01T00:00:00`),
+  );
+};
+---
+
+<Layout title={`${cv.name} · ${cv.headline}`} description={cv.summary} lang={lang}>
+  <Header />
+
+  <!-- Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V5 -->
+  <main id="main-content" class="cv-page">
+    <section class="cv-hero" aria-labelledby="cv-title">
+      <div class="site-container cv-hero__grid">
+        <div class="cv-hero__copy">
+          <span class="section-kicker">Curriculum Vitae · 2026</span>
+          <h1 id="cv-title">{cv.name}</h1>
+          <p class="cv-hero__headline">{cv.headline}</p>
+          <p class="cv-hero__summary">{cv.summary}</p>
+          <div class="cv-actions">
+            <a class="primary-action" href={`/cv/airan-sanchez-cv-${lang}.pdf`} download>
+              {cv.labels.pdf}
+            </a>
+            <a class="secondary-action" href={`/cv/airan-sanchez-resume-${lang}.json`} download>
+              {cv.labels.json}<span aria-hidden="true">↓</span>
+            </a>
+            <a class="text-link" href={`/${lang}/`}>{cv.labels.web}<span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+
+        <aside class="cv-contact-card" aria-labelledby="cv-contact-title">
+          <div class="cv-contact-card__mark" aria-hidden="true">AS</div>
+          <h2 id="cv-contact-title">{cv.labels.contact}</h2>
+          <address>
+            <span>{cv.location}</span>
+            <a href={`mailto:${cv.email}`}>{cv.email}</a>
+            {cv.links.map((link) => (
+              <a href={link.url} target="_blank" rel="noreferrer">{link.label}<span aria-hidden="true">↗</span></a>
+            ))}
+          </address>
+        </aside>
+      </div>
+    </section>
+
+    <section class="cv-section" aria-labelledby="cv-experience-title">
+      <div class="site-container cv-section__grid">
+        <header>
+          <span class="section-kicker">01 · Journey</span>
+          <h2 id="cv-experience-title">{cv.labels.experience}</h2>
+        </header>
+        <ol class="cv-timeline">
+          {experiences.map((experience) => (
+            <li>
+              <div class="cv-timeline__meta">
+                <time>{formatDate(experience.startDate)} — {formatDate(experience.endDate)}</time>
+              </div>
+              <div class="cv-timeline__content">
+                <p>{experience.company}</p>
+                <h3>{experience.role}</h3>
+                <p>{experience.description}</p>
+                <div class="tag-list" aria-label="Technologies">
+                  {experience.technologies.slice(0, 9).map((technology) => <span class="tag">{technology}</span>)}
+                </div>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section class="cv-section" aria-labelledby="cv-capabilities-title">
+      <div class="site-container cv-section__grid">
+        <header>
+          <span class="section-kicker">02 · Toolkit</span>
+          <h2 id="cv-capabilities-title">{cv.labels.capabilities}</h2>
+        </header>
+        <div class="cv-skill-grid">
+          {cv.skills.map((skill, index) => (
+            <article>
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              <h3>{skill.name}</h3>
+              <p>{skill.keywords.join(' · ')}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="cv-section cv-section--closing">
+      <div class="site-container cv-closing-grid">
+        <article aria-labelledby="cv-education-title">
+          <span class="section-kicker">03 · Learning</span>
+          <h2 id="cv-education-title">{cv.labels.education}</h2>
+          <div class="cv-education-list">
+            {cv.education.map((education) => (
+              <div>
+                <h3>{education.title}</h3>
+                <p>{education.description}</p>
+              </div>
+            ))}
+          </div>
+        </article>
+
+        <article class="cv-talk-card" aria-labelledby="cv-talk-title">
+          <span class="section-kicker">04 · Stage</span>
+          <h2 id="cv-talk-title">{cv.labels.talk}</h2>
+          <p class="episode-meta">{cv.talk.event} · {cv.talk.year}</p>
+          <h3>{cv.talk.title}</h3>
+          <p>{cv.talk.description}</p>
+          <a class="secondary-action" href={cv.talk.url} target="_blank" rel="noreferrer">
+            YouTube<span aria-hidden="true">↗</span>
+          </a>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

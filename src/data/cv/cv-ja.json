@@ -1,0 +1,41 @@
+{
+  "name": "Airán Sánchez",
+  "headline": "ソフトウェア開発者",
+  "location": "カナリア諸島 ↔ 日本",
+  "email": "airanschez0@gmail.com",
+  "summary": "データ、Webプロダクト、バックエンド、インフラ、社内ツールの経験を持つソフトウェア開発者です。複雑な課題を、チームが理解し、保守し、発展させられるシステムへ変えることを大切にしています。",
+  "links": [
+    { "label": "GitHub", "url": "https://github.com/AiranSchez" },
+    { "label": "LinkedIn", "url": "https://www.linkedin.com/in/air%C3%A1n-s%C3%A1nchez-brito-415910145/" }
+  ],
+  "skills": [
+    { "name": "Webプロダクト", "keywords": ["React", "Next.js", "Astro", "TypeScript", "JavaScript", "CSS"] },
+    { "name": "バックエンドとシステム", "keywords": ["C#", ".NET", "Node.js", "PostgreSQL", "MQTT"] },
+    { "name": "データと自動化", "keywords": ["Python", "Pandas", "Pytest", "ETL", "AWS"] },
+    { "name": "デリバリーと基盤", "keywords": ["Docker", "Kubernetes", "ArgoCD", "Jenkins", "GitHub Actions"] },
+    { "name": "プラクティス", "keywords": ["TDD", "Testing", "Pairing", "Clean Architecture", "Mentoring"] }
+  ],
+  "education": [
+    { "title": "Webアプリケーション開発", "description": "Web開発とプログラミング基礎の技術教育。" },
+    { "title": "フルスタック・ブートキャンプ", "description": "Webプロダクト開発を一貫して学ぶ集中トレーニング。" }
+  ],
+  "talk": {
+    "title": "素晴らしいデータとその見つけ方",
+    "event": "Software Crafters Barcelona",
+    "year": "2023",
+    "url": "https://www.youtube.com/watch?v=5xT-qo6aocQ",
+    "description": "データ分野の役割、持続可能なコード、Python・Pandas・Dask・Airflowを使ったETLについての講演。"
+  },
+  "labels": {
+    "profile": "プロフィール",
+    "experience": "職務経歴",
+    "capabilities": "得意領域",
+    "education": "学習歴",
+    "talk": "登壇",
+    "present": "現在",
+    "web": "サイトへ戻る",
+    "pdf": "PDFをダウンロード",
+    "json": "JSONをダウンロード",
+    "contact": "連絡先"
+  }
+}

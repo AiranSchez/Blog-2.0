@@ -1,0 +1,242 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
+  "basics": {
+    "name": "Airán Sánchez",
+    "label": "Software developer",
+    "email": "airanschez0@gmail.com",
+    "url": "https://www.airanschez.tech",
+    "summary": "Software developer experienced in data, web product, backend, infrastructure, and internal tools. I focus on turning complex problems into maintainable systems that teams can understand and evolve.",
+    "location": {
+      "region": "Canary Islands ↔ Japan"
+    },
+    "profiles": [
+      {
+        "network": "GitHub",
+        "username": "AiranSchez",
+        "url": "https://github.com/AiranSchez"
+      },
+      {
+        "network": "LinkedIn",
+        "username": "Airán Sánchez",
+        "url": "https://www.linkedin.com/in/air%C3%A1n-s%C3%A1nchez-brito-415910145/"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "LeanMind - TechnyFarma",
+      "position": "Full Stack Developer",
+      "startDate": "2026-05",
+      "endDate": "",
+      "summary": "I collaborate as a full-stack developer on a project for TechnyFarma, working with C#, PostgreSQL, JavaScript, MQTT, and CSS in the context of pharmacy ERP integrations.",
+      "highlights": [
+        "C#",
+        ".NET",
+        "PostgreSQL",
+        "JavaScript",
+        "MQTT",
+        "Pharmacy ERP",
+        "CSS3"
+      ]
+    },
+    {
+      "name": "LeanMind",
+      "position": "Internal Management",
+      "startDate": "2026-01",
+      "endDate": "2026-04",
+      "summary": "Leading internal initiatives, mentoring team members, and contributing to company growth strategies. Strongly focused on the use of AI tools and on sharing knowledge, improving processes, and fostering a collaborative engineering culture.",
+      "highlights": [
+        "Astro",
+        "CSS3",
+        "Docker",
+        "Figma",
+        "Git",
+        "GitHub",
+        "Html5",
+        "JavaScript",
+        "Jest",
+        "Next.js",
+        "Node.js",
+        "React",
+        "Tailwind CSS",
+        "TypeScript"
+      ]
+    },
+    {
+      "name": "LeanMind - Voxel",
+      "position": "Backend Developer",
+      "startDate": "2024-11",
+      "endDate": "2025-12",
+      "summary": "I participated in the development of a greenfield project for invoice management between hotels and travel agencies. I implemented improvements in different processes for various internal-use projects and, above all, helped with the renewal of a large legacy codebase.",
+      "highlights": [
+        "Dotnet",
+        "Bash",
+        "CSS3",
+        "Html5",
+        "Git",
+        "Figma",
+        "GitHub",
+        "JavaScript",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "name": "LeanMind - Secret Project",
+      "position": "Full Stack Developer",
+      "startDate": "2023-10",
+      "endDate": "2024-03",
+      "summary": "I collaborated on software projects focused on mathematical research. I contributed to a cutting-edge technology initiative, focusing on clean architecture and maintainable code practices.",
+      "highlights": [
+        "Docker",
+        "TypeScript",
+        "Node.js",
+        "MongoDB",
+        "ArgoCD",
+        "AWS",
+        "Bash",
+        "CSS3",
+        "Html5",
+        "Figma",
+        "Github",
+        "Jenkins",
+        "Jest",
+        "Kubernetes",
+        "Linux",
+        "Next.js",
+        "React"
+      ]
+    },
+    {
+      "name": "LeanMind - ClarityAI",
+      "position": "Data Engineer",
+      "startDate": "2021-06",
+      "endDate": "2023-09",
+      "summary": "I developed and maintained ETL data processing pipelines for data analysis. I worked with large-scale data systems, implemented automated testing strategies, and contributed to platform scalability improvements.",
+      "highlights": [
+        "Python",
+        "Pytest",
+        "Pandas",
+        "MongoDB",
+        "Docker",
+        "JavaScript",
+        "Jupyter Notebooks",
+        "AWS",
+        "Jenkins",
+        "GitLab"
+      ]
+    },
+    {
+      "name": "LeanMind",
+      "position": "Internship",
+      "startDate": "2020-06",
+      "endDate": "2021-06",
+      "summary": "I started my professional career as an intern, learning software development best practices, reading books, learning TDD methodology and agile principles. I contributed to internal projects while developing fundamental skills in modern web development.",
+      "highlights": [
+        "TypeScript",
+        "JavaScript",
+        "Git",
+        "Docker",
+        "MySQL",
+        "React",
+        "Html5",
+        "CSS3",
+        "Bootstrap",
+        "Firebase",
+        "Github",
+        "Gulp",
+        "Java",
+        "Jest",
+        "Sass",
+        "Vue.js"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "",
+      "area": "Web application development",
+      "studyType": "Technical training in web development and programming fundamentals.",
+      "startDate": "",
+      "endDate": ""
+    },
+    {
+      "institution": "",
+      "area": "Full Stack Bootcamp",
+      "studyType": "Intensive end-to-end web product development training.",
+      "startDate": "",
+      "endDate": ""
+    }
+  ],
+  "skills": [
+    {
+      "name": "Web product",
+      "level": "",
+      "keywords": [
+        "React",
+        "Next.js",
+        "Astro",
+        "TypeScript",
+        "JavaScript",
+        "CSS"
+      ]
+    },
+    {
+      "name": "Backend & systems",
+      "level": "",
+      "keywords": [
+        "C#",
+        ".NET",
+        "Node.js",
+        "PostgreSQL",
+        "MQTT"
+      ]
+    },
+    {
+      "name": "Data & automation",
+      "level": "",
+      "keywords": [
+        "Python",
+        "Pandas",
+        "Pytest",
+        "ETL",
+        "AWS"
+      ]
+    },
+    {
+      "name": "Delivery & platform",
+      "level": "",
+      "keywords": [
+        "Docker",
+        "Kubernetes",
+        "ArgoCD",
+        "Jenkins",
+        "GitHub Actions"
+      ]
+    },
+    {
+      "name": "Practices",
+      "level": "",
+      "keywords": [
+        "TDD",
+        "Testing",
+        "Pairing",
+        "Clean Architecture",
+        "Mentoring"
+      ]
+    }
+  ],
+  "publications": [
+    {
+      "name": "Fantastic data and where to find it",
+      "publisher": "Software Crafters Barcelona",
+      "releaseDate": "2023",
+      "url": "https://www.youtube.com/watch?v=5xT-qo6aocQ",
+      "summary": "A talk about data roles, sustainable code, and ETL with Python, Pandas, Dask, and Airflow."
+    }
+  ],
+  "meta": {
+    "canonical": "https://www.airanschez.tech/en/cv/",
+    "version": "v1.0.0",
+    "lastModified": "2026-07-26"
+  }
+}
