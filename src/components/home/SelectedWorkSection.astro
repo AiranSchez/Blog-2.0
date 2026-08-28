@@ -8,9 +8,9 @@ interface Props {
 
 const { projects, lang } = Astro.props;
 const copy = {
-  en: { kicker: '02 · Work', title: 'Selected work', context: 'Context', contribution: 'Contribution', outcome: 'Outcome' },
-  es: { kicker: '02 · Proyectos', title: 'Trabajo seleccionado', context: 'Contexto', contribution: 'Aportación', outcome: 'Resultado' },
-  ja: { kicker: '02 · 仕事', title: '主な仕事', context: '背景', contribution: '貢献', outcome: '成果' },
+  en: { kicker: 'Work', title: 'Selected work', context: 'Context', contribution: 'Contribution', outcome: 'Outcome' },
+  es: { kicker: 'Proyectos', title: 'Trabajo seleccionado', context: 'Contexto', contribution: 'Aportación', outcome: 'Resultado' },
+  ja: { kicker: '仕事', title: '主な仕事', context: '背景', contribution: '貢献', outcome: '成果' },
 }[lang as 'en' | 'es' | 'ja'];
 ---
 
