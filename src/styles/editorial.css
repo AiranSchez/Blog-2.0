@@ -1681,14 +1681,38 @@
     text-transform: uppercase;
   }
 
-  .testimonial-card blockquote {
+  .testimonial-card__quote {
     margin: auto 0 var(--space-xl);
+  }
+
+  .testimonial-card__quote blockquote {
+    margin: 0;
     color: var(--color-ink);
     font-family: var(--font-display);
     font-size: clamp(1.35rem, 2.4vw, 2rem);
     font-weight: 600;
     letter-spacing: -0.03em;
     line-height: 1.25;
+  }
+
+  .testimonial-card__read-more {
+    margin-top: var(--space-sm);
+    padding: 0 0 0.2rem;
+    border: 0;
+    border-bottom: var(--rule-hair) solid currentColor;
+    background: transparent;
+    color: var(--color-accent);
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    transition: border-color var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
+  }
+
+  .testimonial-card__read-more:hover {
+    border-color: transparent;
+    color: var(--color-ink);
   }
 
   .testimonial-card__author {
@@ -1719,6 +1743,59 @@
 
   .testimonial-card__author small {
     color: var(--color-ink-2);
+  }
+
+  .testimonial-dialog {
+    width: min(calc(100% - (2 * var(--space-sm))), 50rem);
+    max-height: min(85svh, 52rem);
+    padding: 0;
+    overflow: auto;
+    border: var(--rule-hair) solid var(--color-rule-strong);
+    border-radius: var(--radius-card);
+    background: var(--color-paper-2);
+    color: var(--color-ink);
+    box-shadow: var(--shadow-card);
+  }
+
+  .testimonial-dialog::backdrop {
+    background: var(--color-overlay);
+    backdrop-filter: blur(8px);
+  }
+
+  .testimonial-dialog__panel {
+    position: relative;
+    padding: clamp(1.5rem, 5vw, 3rem);
+  }
+
+  .testimonial-dialog__close {
+    position: absolute;
+    top: var(--space-sm);
+    right: var(--space-sm);
+  }
+
+  .testimonial-dialog h3 {
+    max-width: calc(100% - 4rem);
+    margin-top: var(--space-xs);
+    font-size: var(--text-xl);
+  }
+
+  .testimonial-dialog__role {
+    margin-top: var(--space-2xs);
+    color: var(--color-ink-2);
+  }
+
+  .testimonial-dialog blockquote {
+    margin: var(--space-xl) 0 0;
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 2.2vw, 1.65rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.5;
+  }
+
+  body:has(.testimonial-dialog[open]) {
+    overflow: hidden;
   }
 
   .selected-work-stage {

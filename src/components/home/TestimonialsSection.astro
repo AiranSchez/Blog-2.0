@@ -6,26 +6,49 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const testimonials = testimonialsByLocale[lang as PortfolioLocale];
+// Keep draft placeholders in the data file, but hide them until they become real reviews.
+const testimonials = testimonialsByLocale[lang as PortfolioLocale].filter(({ placeholder }) => !placeholder);
+const previewLimit = lang === 'ja' ? 90 : 220;
+
+const shortenQuote = (quote: string) => {
+  const characters = Array.from(quote);
+  if (characters.length <= previewLimit) return quote;
+
+  const shortened = characters.slice(0, previewLimit).join('');
+  const wordBoundary = lang === 'ja' ? shortened.length : shortened.lastIndexOf(' ');
+  return `${shortened.slice(0, wordBoundary).trimEnd()}...`;
+};
 
 const copy = {
   en: {
     kicker: 'Voices',
     title: 'What people say',
-    intro: 'A space ready for recommendations from people who have shared a team or project with me.',
+    intro: 'Recommendations from people who have shared a team or project with me.',
+    testimonial: 'Testimonial',
     placeholder: 'Testimonial to confirm',
+    readMore: 'Read more',
+    close: 'Close testimonial',
+    fullQuote: 'Full testimonial',
   },
   es: {
     kicker: 'Voces',
     title: 'Lo que dicen de mí',
-    intro: 'Un espacio preparado para recomendaciones de personas con las que he compartido equipo o proyecto.',
+    intro: 'Recomendaciones de personas con las que he compartido equipo o proyecto.',
+    testimonial: 'Testimonio',
     placeholder: 'Testimonio pendiente',
+    readMore: 'Leer más',
+    close: 'Cerrar testimonio',
+    fullQuote: 'Testimonio completo',
   },
   ja: {
     kicker: '推薦',
     title: '一緒に働いた人',
-    intro: '同じチームやプロジェクトで働いた方からの推薦文を掲載するためのスペースです。',
+    intro: '同じチームやプロジェクトで働いた方から寄せられた推薦文です。',
+    testimonial: '推薦文',
     placeholder: '推薦文は確認待ちです',
+    readMore: '続きを読む',
+    close: '推薦文を閉じる',
+    fullQuote: '推薦文全文',
   },
 }[lang as PortfolioLocale];
 ---
@@ -42,18 +65,82 @@ const copy = {
     </header>
 
     <div class="testimonial-stage">
-      {testimonials.map((testimonial, index) => (
-        <figure class:list={['testimonial-card', { 'is-placeholder': testimonial.placeholder }]}>
-          <figcaption>
-            <span>{copy.placeholder} · {String(index + 1).padStart(2, '0')}</span>
-          </figcaption>
-          <blockquote>“{testimonial.quote}”</blockquote>
-          <div class="testimonial-card__author">
-            <span aria-hidden="true">{testimonial.author.slice(0, 1)}</span>
-            <p><strong>{testimonial.author}</strong><small>{testimonial.role}</small></p>
-          </div>
-        </figure>
-      ))}
+      {testimonials.map((testimonial, index) => {
+        const preview = shortenQuote(testimonial.quote);
+        const isTruncated = preview !== testimonial.quote;
+        const dialogId = `testimonial-${lang}-${index + 1}`;
+        const dialogTitleId = `${dialogId}-title`;
+
+        return (
+          <figure class:list={['testimonial-card', { 'is-placeholder': testimonial.placeholder }]}>
+            <figcaption>
+              <span>{testimonial.placeholder ? copy.placeholder : copy.testimonial} · {String(index + 1).padStart(2, '0')}</span>
+            </figcaption>
+            <div class="testimonial-card__quote">
+              <blockquote>“{preview}”</blockquote>
+              {isTruncated && (
+                <button
+                  type="button"
+                  class="testimonial-card__read-more"
+                  data-testimonial-open={dialogId}
+                >
+                  {copy.readMore}
+                </button>
+              )}
+            </div>
+            <div class="testimonial-card__author">
+              <span aria-hidden="true">{testimonial.author.slice(0, 1)}</span>
+              <p>
+                <strong>
+                  {testimonial.url ? (
+                    <a href={testimonial.url} target="_blank" rel="noreferrer">{testimonial.author}</a>
+                  ) : testimonial.author}
+                </strong>
+                <small>{testimonial.role}</small>
+              </p>
+            </div>
+
+            {isTruncated && (
+              <dialog class="testimonial-dialog" id={dialogId} aria-labelledby={dialogTitleId}>
+                <div class="testimonial-dialog__panel">
+                  <form method="dialog">
+                    <button type="submit" class="icon-control testimonial-dialog__close" aria-label={copy.close}>
+                      <svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-width="1.75" d="M6 6l12 12M18 6 6 18"></path>
+                      </svg>
+                    </button>
+                  </form>
+                  <span class="section-kicker">{copy.fullQuote}</span>
+                  <h3 id={dialogTitleId}>{testimonial.author}</h3>
+                  <p class="testimonial-dialog__role">{testimonial.role}</p>
+                  <blockquote>“{testimonial.quote}”</blockquote>
+                </div>
+              </dialog>
+            )}
+          </figure>
+        );
+      })}
     </div>
   </div>
 </section>
+
+<script is:inline>
+  document.querySelectorAll('[data-testimonial-open]').forEach((trigger) => {
+    const dialogId = trigger.dataset.testimonialOpen;
+    const dialog = dialogId ? document.getElementById(dialogId) : null;
+
+    if (!(dialog instanceof HTMLDialogElement)) return;
+
+    trigger.addEventListener('click', () => dialog.showModal());
+    dialog.addEventListener('click', (event) => {
+      const bounds = dialog.getBoundingClientRect();
+      const clickedOutside =
+        event.clientX < bounds.left ||
+        event.clientX > bounds.right ||
+        event.clientY < bounds.top ||
+        event.clientY > bounds.bottom;
+
+      if (clickedOutside) dialog.close();
+    });
+  });
+</script>
