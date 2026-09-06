@@ -4,7 +4,8 @@
  * Uses Supabase RPC function increment_reaction defined in the DB.
  */
 import type { APIRoute } from 'astro';
-import { getSupabaseAdmin } from '../../../lib/supabase';
+import { createCommentsRepository } from '../../../server/comments/repository';
+import { reactToComment } from '../../../features/comments/service';
 import type { ReactionBody, ReactionType } from '../../../types/comments';
 
 export const prerender = false;
@@ -16,6 +17,7 @@ export const POST: APIRoute = async ({ request }) => {
 
   try {
     body = await request.json() as ReactionBody;
+    if (!body || typeof body !== 'object' || Array.isArray(body)) throw new Error('Expected object');
   } catch {
     return Response.json({ error: 'Invalid JSON body' }, { status: 400 });
   }
@@ -33,18 +35,10 @@ export const POST: APIRoute = async ({ request }) => {
     return Response.json({ error: 'Delta must be 1 or -1' }, { status: 400 });
   }
 
-  const supabase = getSupabaseAdmin();
-
-  const { error } = await supabase.rpc('increment_reaction', {
-    p_comment_id: comment_id,
-    p_reaction: reaction,
-    p_delta: delta,
-  });
-
-  if (error) {
+  try {
+    return Response.json(await reactToComment(createCommentsRepository(), comment_id, reaction, delta));
+  } catch (error) {
     console.error('[POST /api/comments/reactions]', error);
     return Response.json({ error: 'Failed to update reaction' }, { status: 500 });
   }
-
-  return Response.json({ ok: true }, { status: 200 });
 };

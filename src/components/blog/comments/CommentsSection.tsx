@@ -5,7 +5,7 @@
  */
 import { useState, useEffect, useRef } from 'react';
 import type { CommentWithReplies, Comment } from '../../../types/comments';
-import { createBrowserSupabaseClient } from '../../../lib/supabase';
+import { createBrowserSupabaseClient } from '../../../client/supabase';
 import CommentForm from './CommentForm';
 import CommentList from './CommentList';
 

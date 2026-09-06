@@ -5,6 +5,7 @@
  * Returns { translated_text } on success, { error: 'unavailable' } on failure.
  */
 import type { APIRoute } from 'astro';
+import { translateComment } from '../../../server/translation/libretranslate';
 import type { TranslateBody } from '../../../types/comments';
 
 export const prerender = false;
@@ -16,6 +17,7 @@ export const POST: APIRoute = async ({ request }) => {
 
   try {
     body = await request.json() as TranslateBody;
+    if (!body || typeof body !== 'object' || Array.isArray(body)) throw new Error('Expected object');
   } catch {
     return Response.json({ error: 'Invalid JSON body' }, { status: 400 });
   }
@@ -32,35 +34,7 @@ export const POST: APIRoute = async ({ request }) => {
     return Response.json({ error: 'Unsupported target language' }, { status: 400 });
   }
 
-  const libreTranslateUrl = import.meta.env.LIBRETRANSLATE_URL as string;
-  const apiKey = import.meta.env.LIBRETRANSLATE_API_KEY as string | undefined;
-
-  if (!libreTranslateUrl) {
-    return Response.json({ error: 'unavailable' }, { status: 200 });
-  }
-
-  try {
-    const libreResponse = await fetch(`${libreTranslateUrl}/translate`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        q: text,
-        source: source_lang ?? 'auto',
-        target: target_lang,
-        format: 'text',
-        ...(apiKey ? { api_key: apiKey } : {}),
-      }),
-    });
-
-    if (!libreResponse.ok) {
-      console.warn('[POST /api/translate] LibreTranslate error:', libreResponse.status);
-      return Response.json({ error: 'unavailable' }, { status: 200 });
-    }
-
-    const result = await libreResponse.json() as { translatedText?: string };
-    return Response.json({ translated_text: result.translatedText ?? '' }, { status: 200 });
-  } catch (err) {
-    console.warn('[POST /api/translate] Network error:', err);
-    return Response.json({ error: 'unavailable' }, { status: 200 });
-  }
+  return Response.json(await translateComment(
+    body, import.meta.env.LIBRETRANSLATE_URL, import.meta.env.LIBRETRANSLATE_API_KEY,
+  ));
 };
