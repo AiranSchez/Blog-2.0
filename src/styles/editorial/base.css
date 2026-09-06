@@ -1,0 +1,100 @@
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R4 V5
+ * theme: studied-DNA (source: https://www.aitorevi.dev/)
+ * studied: yes · DNA-source: url
+ * genre: atmospheric + modern-minimal · nav: N10 · footer: Ft5
+ */
+
+@layer base {
+  html,
+  html body {
+    overflow-x: clip;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 7rem;
+    background: var(--color-paper);
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    min-width: 0;
+    margin: 0;
+    background: var(--gradient-atmosphere), var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    font-weight: 400;
+    line-height: var(--leading-normal);
+    transition-property: background-color, color;
+    transition-duration: var(--duration-normal);
+    transition-timing-function: var(--ease-out);
+  }
+
+  html.dark body {
+    background: var(--gradient-atmosphere), var(--color-paper);
+    color: var(--color-ink);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    min-width: 0;
+    margin: 0;
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: var(--leading-snug);
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+  }
+
+  p {
+    margin: 0;
+    text-wrap: pretty;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    color: inherit;
+    font: inherit;
+  }
+
+  button,
+  a,
+  summary {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
+  ::selection {
+    background: var(--color-accent-soft);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 4px;
+  }
+}
