@@ -7,9 +7,13 @@ export function createCommentsRepository(): CommentsRepository {
   const client = () => supabase ??= getSupabaseAdmin();
   return {
     async list(slug) {
+      // Old macOS-local builds could have stored decomposed Unicode slugs.
+      // Read both forms while all new paths use the portable NFC key.
+      const legacySlug = slug.normalize('NFD');
+      const keys = legacySlug === slug ? [slug] : [slug, legacySlug];
       const { data, error } = await client().from('comments')
         .select('id, article_slug, parent_id, author_name, content, language, ip_hash, reactions, created_at')
-        .eq('article_slug', slug).order('created_at', { ascending: true });
+        .in('article_slug', keys).order('created_at', { ascending: true });
       if (error) throw error;
       return data ?? [];
     },

@@ -23,7 +23,7 @@ export function articlePath(locale: string, slug: string): string {
 // Deliberately reproduce the old key, including .en.md/.es.md/.ja.md.
 // This is a persistence identity, NOT a URL or a cross-language thread key.
 export function commentKey(entryId: string): string {
-  return entryId.replace(/^(en|es|ja)\//, '').replace(/\.(en|es|ja)$/, '');
+  return entryId.replace(/^(en|es|ja)\//, '').replace(/\.(en|es|ja)$/, '').normalize('NFC');
 }
 
 function translationKey(id: string): string {

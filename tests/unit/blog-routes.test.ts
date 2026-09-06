@@ -13,6 +13,7 @@ test('all 51 historic articles map to distinct canonical routes', () => {
     assert.equal(articlePath(locale, route.oldPath.split('/blog/')[1]), route.newPath);
     assert.match(route.newPath, /^\/(en|es|ja)\/blog\/[\p{L}\p{N}-]+\/$/u);
     assert.equal(commentKey(`${locale}/${route.commentKey}`), route.commentKey);
+    assert.equal(route.commentKey, route.commentKey.normalize('NFC'));
   }
 });
 
@@ -29,5 +30,5 @@ test('slug normalization handles old separators without changing persistence key
   assert.equal(normalizeArticleSlug('Mob&Pair'), 'mob-pair');
   assert.equal(normalizeArticleSlug('/en/café/'), 'cafe');
   assert.throws(() => normalizeArticleSlug('///'));
-  assert.equal(commentKey('en/café.en.md'), 'café.en.md');
+  assert.equal(commentKey('en/café.en.md'), 'café.en.md');
 });
