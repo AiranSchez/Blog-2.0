@@ -1,0 +1,257 @@
+[
+  {
+    "oldPath": "/en/blog/en/bootcamp/",
+    "commentKey": "mi-experiencia-en-un-bootcamp-fullstack.en.md",
+    "newPath": "/en/blog/bootcamp/"
+  },
+  {
+    "oldPath": "/en/blog/en/csrf-xss-cors/",
+    "commentKey": "csrf-xss-cors.en.md",
+    "newPath": "/en/blog/csrf-xss-cors/"
+  },
+  {
+    "oldPath": "/en/blog/en/how-we-reduced-an-11-hour-process-to-37-minutes/",
+    "commentKey": "como-pasamos-un-proceso-de-11-horas-a-37-minutos.en.md",
+    "newPath": "/en/blog/how-we-reduced-an-11-hour-process-to-37-minutes/"
+  },
+  {
+    "oldPath": "/en/blog/en/install-wsl/",
+    "commentKey": "instalación-wsl.en.md",
+    "newPath": "/en/blog/install-wsl/"
+  },
+  {
+    "oldPath": "/en/blog/en/kata/",
+    "commentKey": "string-calculator-kata.en.md",
+    "newPath": "/en/blog/kata/"
+  },
+  {
+    "oldPath": "/en/blog/en/mob-and-pair-programming/",
+    "commentKey": "mob-and-pair-programming.en.md",
+    "newPath": "/en/blog/mob-and-pair-programming/"
+  },
+  {
+    "oldPath": "/en/blog/en/mongo-loopback-docker/",
+    "commentKey": "loopback-mongo.en.md",
+    "newPath": "/en/blog/mongo-loopback-docker/"
+  },
+  {
+    "oldPath": "/en/blog/en/opensource-huelladigital/",
+    "commentKey": "arrancando-huella-digital.en.md",
+    "newPath": "/en/blog/opensource-huelladigital/"
+  },
+  {
+    "oldPath": "/en/blog/en/pandas-python/",
+    "commentKey": "Pandas.en.md",
+    "newPath": "/en/blog/pandas-python/"
+  },
+  {
+    "oldPath": "/en/blog/en/pandas-testing-pytest/",
+    "commentKey": "pandas_testing.en.md",
+    "newPath": "/en/blog/pandas-testing-pytest/"
+  },
+  {
+    "oldPath": "/en/blog/en/python-dataframes/",
+    "commentKey": "python.en.md",
+    "newPath": "/en/blog/python-dataframes/"
+  },
+  {
+    "oldPath": "/en/blog/en/react-ts/",
+    "commentKey": "react-ts-storybook-emotionjs-parte-1.en.md",
+    "newPath": "/en/blog/react-ts/"
+  },
+  {
+    "oldPath": "/en/blog/en/refactor-petproject/",
+    "commentKey": "refactor-proyecto-pokémon.en.md",
+    "newPath": "/en/blog/refactor-petproject/"
+  },
+  {
+    "oldPath": "/en/blog/en/tdd-agile-design-book/",
+    "commentKey": "he-leído-diseño-ágil-con-tdd-de-carlos-blé.en.md",
+    "newPath": "/en/blog/tdd-agile-design-book/"
+  },
+  {
+    "oldPath": "/en/blog/en/test/",
+    "commentKey": "testing-library.en.md",
+    "newPath": "/en/blog/test/"
+  },
+  {
+    "oldPath": "/en/blog/en/type-in-typescript/",
+    "commentKey": "type-en-typescript.en.md",
+    "newPath": "/en/blog/type-in-typescript/"
+  },
+  {
+    "oldPath": "/en/blog/en/welcome-to-lean-mind-community/",
+    "commentKey": "🚀¡bienvenido-a-la-comunidad-de-lean-mind-🚀.en.md",
+    "newPath": "/en/blog/welcome-to-lean-mind-community/"
+  },
+  {
+    "oldPath": "/es/blog/bootcamp/",
+    "commentKey": "mi-experiencia-en-un-bootcamp-fullstack.es.md",
+    "newPath": "/es/blog/bootcamp/"
+  },
+  {
+    "oldPath": "/es/blog/comunidad /LeanMind/",
+    "commentKey": "🚀¡bienvenido-a-la-comunidad-de-lean-mind-🚀.es.md",
+    "newPath": "/es/blog/comunidad-leanmind/"
+  },
+  {
+    "oldPath": "/es/blog/es/como-pasamos-un-proceso-de-11-horas-a-37-minutos/",
+    "commentKey": "como-pasamos-un-proceso-de-11-horas-a-37-minutos.es.md",
+    "newPath": "/es/blog/como-pasamos-un-proceso-de-11-horas-a-37-minutos/"
+  },
+  {
+    "oldPath": "/es/blog/es/csrf-xss-cors/",
+    "commentKey": "csrf-xss-cors.es.md",
+    "newPath": "/es/blog/csrf-xss-cors/"
+  },
+  {
+    "oldPath": "/es/blog/es/mob-and-pair-programming/",
+    "commentKey": "mob-and-pair-programming.es.md",
+    "newPath": "/es/blog/mob-and-pair-programming/"
+  },
+  {
+    "oldPath": "/es/blog/es/pandas-python/",
+    "commentKey": "Pandas.es.md",
+    "newPath": "/es/blog/pandas-python/"
+  },
+  {
+    "oldPath": "/es/blog/es/pandas-testing-pytest/",
+    "commentKey": "pandas_testing.es.md",
+    "newPath": "/es/blog/pandas-testing-pytest/"
+  },
+  {
+    "oldPath": "/es/blog/es/tdd-diseno-agil-libro/",
+    "commentKey": "he-leído-diseño-ágil-con-tdd-de-carlos-blé.es.md",
+    "newPath": "/es/blog/tdd-diseno-agil-libro/"
+  },
+  {
+    "oldPath": "/es/blog/install-wsl/",
+    "commentKey": "instalación-wsl.es.md",
+    "newPath": "/es/blog/install-wsl/"
+  },
+  {
+    "oldPath": "/es/blog/Kata/",
+    "commentKey": "string-calculator-kata.es.md",
+    "newPath": "/es/blog/kata/"
+  },
+  {
+    "oldPath": "/es/blog/mongo /loopback /docker/",
+    "commentKey": "loopback-mongo.es.md",
+    "newPath": "/es/blog/mongo-loopback-docker/"
+  },
+  {
+    "oldPath": "/es/blog/OpenSource /HuellaDigital/",
+    "commentKey": "arrancando-huella-digital.es.md",
+    "newPath": "/es/blog/opensource-huelladigital/"
+  },
+  {
+    "oldPath": "/es/blog/python-dataframes/",
+    "commentKey": "python.es.md",
+    "newPath": "/es/blog/python-dataframes/"
+  },
+  {
+    "oldPath": "/es/blog/React /TS/",
+    "commentKey": "react-ts-storybook-emotionjs-parte-1.es.md",
+    "newPath": "/es/blog/react-ts/"
+  },
+  {
+    "oldPath": "/es/blog/refactor /petproject/",
+    "commentKey": "refactor-proyecto-pokémon.es.md",
+    "newPath": "/es/blog/refactor-petproject/"
+  },
+  {
+    "oldPath": "/es/blog/test/",
+    "commentKey": "testing-library.es.md",
+    "newPath": "/es/blog/test/"
+  },
+  {
+    "oldPath": "/es/blog/TS /TypeScript/",
+    "commentKey": "type-en-typescript.es.md",
+    "newPath": "/es/blog/ts-typescript/"
+  },
+  {
+    "oldPath": "/ja/blog/CSRF /XSS /CORS/",
+    "commentKey": "csrf-xss-cors.ja.md",
+    "newPath": "/ja/blog/csrf-xss-cors/"
+  },
+  {
+    "oldPath": "/ja/blog/how-we-reduced-an-11-hour-process-to-37-minutes/",
+    "commentKey": "como-pasamos-un-proceso-de-11-horas-a-37-minutos.ja.md",
+    "newPath": "/ja/blog/how-we-reduced-an-11-hour-process-to-37-minutes/"
+  },
+  {
+    "oldPath": "/ja/blog/ja/bootcamp/",
+    "commentKey": "mi-experiencia-en-un-bootcamp-fullstack.ja.md",
+    "newPath": "/ja/blog/bootcamp/"
+  },
+  {
+    "oldPath": "/ja/blog/ja/install-wsl/",
+    "commentKey": "instalación-wsl.ja.md",
+    "newPath": "/ja/blog/install-wsl/"
+  },
+  {
+    "oldPath": "/ja/blog/ja/kata/",
+    "commentKey": "string-calculator-kata.ja.md",
+    "newPath": "/ja/blog/kata/"
+  },
+  {
+    "oldPath": "/ja/blog/ja/mongo-loopback-docker/",
+    "commentKey": "loopback-mongo.ja.md",
+    "newPath": "/ja/blog/mongo-loopback-docker/"
+  },
+  {
+    "oldPath": "/ja/blog/ja/opensource-huelladigital/",
+    "commentKey": "arrancando-huella-digital.ja.md",
+    "newPath": "/ja/blog/opensource-huelladigital/"
+  },
+  {
+    "oldPath": "/ja/blog/ja/pandas-python/",
+    "commentKey": "Pandas.ja.md",
+    "newPath": "/ja/blog/pandas-python/"
+  },
+  {
+    "oldPath": "/ja/blog/ja/pandas-testing-pytest/",
+    "commentKey": "pandas_testing.ja.md",
+    "newPath": "/ja/blog/pandas-testing-pytest/"
+  },
+  {
+    "oldPath": "/ja/blog/ja/python-dataframes/",
+    "commentKey": "python.ja.md",
+    "newPath": "/ja/blog/python-dataframes/"
+  },
+  {
+    "oldPath": "/ja/blog/ja/react-ts/",
+    "commentKey": "react-ts-storybook-emotionjs-parte-1.ja.md",
+    "newPath": "/ja/blog/react-ts/"
+  },
+  {
+    "oldPath": "/ja/blog/ja/refactor-petproject/",
+    "commentKey": "refactor-proyecto-pokémon.ja.md",
+    "newPath": "/ja/blog/refactor-petproject/"
+  },
+  {
+    "oldPath": "/ja/blog/ja/testing-library/",
+    "commentKey": "testing-library.ja.md",
+    "newPath": "/ja/blog/testing-library/"
+  },
+  {
+    "oldPath": "/ja/blog/ja/type-in-typescript/",
+    "commentKey": "type-en-typescript.ja.md",
+    "newPath": "/ja/blog/type-in-typescript/"
+  },
+  {
+    "oldPath": "/ja/blog/ja/welcome-to-lean-mind-community/",
+    "commentKey": "🚀¡bienvenido-a-la-comunidad-de-lean-mind-🚀.ja.md",
+    "newPath": "/ja/blog/welcome-to-lean-mind-community/"
+  },
+  {
+    "oldPath": "/ja/blog/Mob&Pair/",
+    "commentKey": "mob-and-pair-programming.ja.md",
+    "newPath": "/ja/blog/mob-pair/"
+  },
+  {
+    "oldPath": "/ja/blog/TDD/",
+    "commentKey": "he-leído-diseño-ágil-con-tdd-de-carlos-blé.ja.md",
+    "newPath": "/ja/blog/tdd/"
+  }
+]

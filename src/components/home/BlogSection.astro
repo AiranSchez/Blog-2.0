@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { articlePath } from '../../features/blog/routes';
 
 interface Props {
   posts: CollectionEntry<'blog'>[];
@@ -32,7 +33,7 @@ const formatDate = (date: Date) =>
   new Intl.DateTimeFormat(lang, { year: 'numeric', month: 'short', day: 'numeric' }).format(date);
 
 const articleHref = (slug: string) =>
-  `/${lang}/blog/${slug.replace(/^\/+|\/+$/g, '')}/`;
+  articlePath(lang, slug);
 ---
 
 <section class="content-section content-section--writing" aria-labelledby="writing-heading">

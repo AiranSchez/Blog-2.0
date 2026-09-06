@@ -5,6 +5,10 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const pathWithoutLocale = Astro.url.pathname.replace(/^\/(en|es|ja)/, '') || '/';
 const currentPath = Astro.url.pathname;
+const languagePaths = Astro.props.languagePaths as Partial<Record<'en' | 'es' | 'ja', string>> | undefined;
+const languageHref = (locale: 'en' | 'es' | 'ja') => languagePaths
+  ? languagePaths[locale] ?? `/${locale}/blog/`
+  : `/${locale}${pathWithoutLocale}`;
 
 const languageLabels = {
   en: 'EN',
@@ -52,9 +56,9 @@ const isCurrent = (match: string) =>
           {languageLabels[lang as keyof typeof languageLabels]}
         </summary>
         <div class="language-menu__panel">
-          <a href={`/en${pathWithoutLocale}`} lang="en" hreflang="en">English</a>
-          <a href={`/es${pathWithoutLocale}`} lang="es" hreflang="es">Español</a>
-          <a href={`/ja${pathWithoutLocale}`} lang="ja" hreflang="ja">日本語</a>
+          <a href={languageHref('en')} lang="en" hreflang="en">English</a>
+          <a href={languageHref('es')} lang="es" hreflang="es">Español</a>
+          <a href={languageHref('ja')} lang="ja" hreflang="ja">日本語</a>
         </div>
       </details>
 
@@ -76,9 +80,9 @@ const isCurrent = (match: string) =>
       <div class="site-menu__panel">
         {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
         <div class="site-menu__divider"></div>
-        <a href={`/en${pathWithoutLocale}`} lang="en" hreflang="en">English</a>
-        <a href={`/es${pathWithoutLocale}`} lang="es" hreflang="es">Español</a>
-        <a href={`/ja${pathWithoutLocale}`} lang="ja" hreflang="ja">日本語</a>
+        <a href={languageHref('en')} lang="en" hreflang="en">English</a>
+        <a href={languageHref('es')} lang="es" hreflang="es">Español</a>
+        <a href={languageHref('ja')} lang="ja" hreflang="ja">日本語</a>
         <button id="mobile-theme-toggle" class="filter-button" type="button">
           {t('nav.darkMode')}
         </button>

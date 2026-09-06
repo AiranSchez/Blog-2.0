@@ -1,3 +1,4 @@
+import { articlePath } from '../../features/blog/routes';
 /**
  * Hallmark · genre: atmospheric · macrostructure: Ecosystem Index
  * design-system: studied-DNA · designed-as-app
@@ -53,7 +54,7 @@ const copy = {
 } as const;
 
 const articleHref = (locale: string, slug: string) =>
-  `/${locale}/blog/${slug.replace(/^\/+|\/+$/g, '')}/`;
+  articlePath(locale, slug);
 
 export default function BlogGrid({ posts, locale }: BlogGridProps) {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
