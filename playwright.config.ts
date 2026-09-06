@@ -8,15 +8,20 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
   use: {
-    baseURL: 'http://localhost:4321',
+    baseURL: 'http://127.0.0.1:4321',
     trace: 'on-first-retry',
   },
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
   ],
   webServer: {
-    command: 'npm run dev',
-    url: 'http://localhost:4321',
-    reuseExistingServer: !process.env.CI,
+    command: 'bun run dev --host 127.0.0.1 --port 4321',
+    url: 'http://127.0.0.1:4321',
+    reuseExistingServer: false,
+    env: {
+      // Never let a local .env connect browser tests to production services.
+      SUPABASE_URL: '', SUPABASE_ANON_KEY: '', SUPABASE_SERVICE_ROLE_KEY: '',
+      LIBRETRANSLATE_URL: '', LIBRETRANSLATE_API_KEY: '', WEB3FORMS_ACCESS_KEY: 'test-only',
+    },
   },
 });

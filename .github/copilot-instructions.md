@@ -1,7 +1,5 @@
-# Copilot Instructions
-Actúa como un programador de par (Pair Programmer) ágil.
+# Copilot instructions
 
-## Instrucciones:
-1. Sigue los estándares definidos en `CONTEXT.md`.
-2. Prioriza el autocompletado de código que siga el estilo existente en los archivos abiertos.
-3. No generes bloques de código excesivamente largos si puedes dividirlos en funciones pequeñas.
+Read and follow [AGENTS.md](../AGENTS.md), the shared project instructions.
+Consult [README.md](../README.md) for setup and [architecture](../docs/architecture.md) for context.
+Keep this file as an adapter; do not duplicate project rules here.
