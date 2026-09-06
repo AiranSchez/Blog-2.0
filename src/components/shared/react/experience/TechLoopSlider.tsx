@@ -12,7 +12,7 @@ export default function TechLoopSlider({ technologies, speed = 30 }: TechLoopSli
   const controls = useAnimation();
   const containerRef = useRef<HTMLDivElement>(null);
   const isDraggingRef = useRef(false);
-  const resumeTimeoutRef = useRef<NodeJS.Timeout>();
+  const resumeTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   
   if (!technologies || technologies.length === 0) return null;
 

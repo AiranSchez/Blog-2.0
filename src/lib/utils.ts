@@ -33,7 +33,7 @@ export function cn(...inputs: ClassValue[]) {
   if (cnCache.size >= MAX_CACHE_SIZE) {
     // Remove oldest entry
     const firstKey = cnCache.keys().next().value;
-    cnCache.delete(firstKey);
+    if (firstKey !== undefined) cnCache.delete(firstKey);
   }
   cnCache.set(key, result);
   

@@ -37,6 +37,14 @@ export function initContactForm(): void {
   // Cleanup on Astro View Transitions
   document.addEventListener('astro:before-swap', () => controller.abort(), { once: true });
 
+  const message = form.querySelector<HTMLTextAreaElement>('#contact-message');
+  const charCount = form.querySelector('#char-count-contact-message');
+  const updateCharCount = () => {
+    if (message && charCount) charCount.textContent = String(message.value.length);
+  };
+  message?.addEventListener('input', updateCharCount, { signal });
+  updateCharCount();
+
   // Initialize handlers
   setupFormSubmitHandler(form, submitButton, formStatus, translations, statusClasses, signal);
   setupBeforeUnloadGuard(form, signal);

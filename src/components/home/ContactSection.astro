@@ -71,7 +71,9 @@ const statusClasses = {
           required
           rows="6"
           maxlength="1000"
+          aria-describedby="contact-message-count"
         ></textarea>
+        <small id="contact-message-count"><span id="char-count-contact-message">0</span> / 1000</small>
       </div>
 
       <div id="form-status" role="status" aria-live="polite" class="hidden"></div>

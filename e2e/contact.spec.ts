@@ -1,150 +1,109 @@
 import { test, expect, type Page } from '@playwright/test';
 
-const CONTACT_URL = '/#contact';
+const CONTACT_URL = '/en/#contact';
+const API_URL = 'https://api.web3forms.com/submit';
+const draft = { name: 'Test User', email: 'test@example.com', message: 'Hello from Playwright' };
 
-async function fillForm(page: Page, data: { name: string; email: string; message: string }) {
-  await page.fill('#contact-name', data.name);
-  await page.fill('#contact-email', data.email);
-  await page.fill('#contact-message', data.message);
+async function fillForm(page: Page) {
+  await page.fill('#contact-name', draft.name);
+  await page.fill('#contact-email', draft.email);
+  await page.fill('#contact-message', draft.message);
+}
+
+async function expectStatus(page: Page, kind: 'success' | 'error') {
+  const message = await page.locator('#contact-form').getAttribute(`data-${kind}`);
+  expect(message).toBeTruthy();
+  await expect(page.getByRole('status')).toBeVisible();
+  await expect(page.getByRole('status')).toHaveText(message!);
 }
 
 test.describe('ContactSection', () => {
   test.beforeEach(async ({ page }) => {
+    // Safe default: no test can accidentally send a real contact message.
+    await page.route(API_URL, route => route.abort());
     await page.goto(CONTACT_URL);
-    await page.waitForSelector('#contact-form');
+    await expect(page.locator('#contact-form')).toBeVisible();
   });
 
-  test.describe('submit — success', () => {
-    test('shows success message and resets form after successful submission', async ({ page }) => {
-      await page.route('https://api.web3forms.com/submit', (route) =>
-        route.fulfill({
-          status: 200,
-          contentType: 'application/json',
-          body: JSON.stringify({ success: true }),
-        })
-      );
-
-      await fillForm(page, {
-        name: 'Test User',
-        email: 'test@example.com',
-        message: 'Hello from Playwright',
-      });
-
-      await page.click('#submit-button');
-
-      const status = page.locator('#form-status');
-      await expect(status).toBeVisible();
-      await expect(status).not.toHaveClass(/hidden/);
-
-      // Form fields should be cleared after reset
-      await expect(page.locator('#contact-name')).toHaveValue('');
-      await expect(page.locator('#contact-email')).toHaveValue('');
-      await expect(page.locator('#contact-message')).toHaveValue('');
-    });
-
-    test('resets char counter to 0 after successful submission', async ({ page }) => {
-      await page.route('https://api.web3forms.com/submit', (route) =>
-        route.fulfill({
-          status: 200,
-          contentType: 'application/json',
-          body: JSON.stringify({ success: true }),
-        })
-      );
-
-      await fillForm(page, {
-        name: 'Test User',
-        email: 'test@example.com',
-        message: 'Some message text',
-      });
-      await page.click('#submit-button');
-
-      const charCount = page.locator('[id^="char-count-"]');
-      await expect(charCount).toHaveText('0');
-    });
+  test('shows success and resets every field after submission', async ({ page }) => {
+    await page.route(API_URL, route => route.fulfill({ json: { success: true } }));
+    await fillForm(page);
+    await page.click('#submit-button');
+    await expectStatus(page, 'success');
+    for (const field of ['name', 'email', 'message']) {
+      await expect(page.locator(`#contact-${field}`)).toHaveValue('');
+    }
   });
 
-  test.describe('submit — error', () => {
-    test('shows error message on network failure', async ({ page }) => {
-      await page.route('https://api.web3forms.com/submit', (route) =>
-        route.abort('failed')
-      );
-
-      await fillForm(page, {
-        name: 'Test User',
-        email: 'test@example.com',
-        message: 'Hello from Playwright',
-      });
-
-      await page.click('#submit-button');
-
-      const status = page.locator('#form-status');
-      await expect(status).toBeVisible();
-      await expect(status).toHaveClass(/bg-red-500/);
-    });
-
-    test('shows error message on API failure response', async ({ page }) => {
-      await page.route('https://api.web3forms.com/submit', (route) =>
-        route.fulfill({
-          status: 422,
-          contentType: 'application/json',
-          body: JSON.stringify({ success: false, message: 'Invalid key' }),
-        })
-      );
-
-      await fillForm(page, {
-        name: 'Test User',
-        email: 'test@example.com',
-        message: 'Hello from Playwright',
-      });
-
-      await page.click('#submit-button');
-
-      const status = page.locator('#form-status');
-      await expect(status).toBeVisible();
-      await expect(status).toHaveClass(/bg-red-500/);
-    });
+  test('updates character count while typing and resets it on success', async ({ page }) => {
+    await page.route(API_URL, route => route.fulfill({ json: { success: true } }));
+    await fillForm(page);
+    const count = page.locator('#char-count-contact-message');
+    await expect(count).toHaveText(String(draft.message.length));
+    await expect(page.locator('#contact-message')).toHaveAttribute('maxlength', '1000');
+    await page.click('#submit-button');
+    await expectStatus(page, 'success');
+    await expect(count).toHaveText('0');
   });
 
-  test.describe('submit button — loading state', () => {
-    test('disables button and sets aria-busy during submission', async ({ page }) => {
-      // Delay the response to capture the loading state
-      await page.route('https://api.web3forms.com/submit', async (route) => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        await route.fulfill({
-          status: 200,
-          contentType: 'application/json',
-          body: JSON.stringify({ success: true }),
-        });
-      });
-
-      await fillForm(page, {
-        name: 'Test User',
-        email: 'test@example.com',
-        message: 'Hello from Playwright',
-      });
-
-      const submitButton = page.locator('#submit-button');
+  for (const failure of ['network', 'api'] as const) {
+    test(`shows error and preserves the draft after ${failure} failure`, async ({ page }) => {
+      await page.route(API_URL, route => failure === 'network'
+        ? route.abort('failed')
+        : route.fulfill({ status: 422, json: { success: false, message: 'Invalid key' } }));
+      await fillForm(page);
       await page.click('#submit-button');
-
-      await expect(submitButton).toBeDisabled();
-      await expect(submitButton).toHaveAttribute('aria-busy', 'true');
-
-      // After response, button should be restored
-      await expect(submitButton).not.toBeDisabled();
-      await expect(submitButton).not.toHaveAttribute('aria-busy');
+      await expectStatus(page, 'error');
+      for (const field of ['name', 'email', 'message'] as const) {
+        await expect(page.locator(`#contact-${field}`)).toHaveValue(draft[field]);
+      }
+      await expect(page.locator('#submit-button')).toBeEnabled();
+      await expect(page.locator('#submit-button')).not.toHaveAttribute('aria-busy');
     });
+  }
+
+  test('disables submit until the response completes', async ({ page }) => {
+    let release!: () => void;
+    const responseReady = new Promise<void>(resolve => { release = resolve; });
+    await page.route(API_URL, async route => {
+      await responseReady;
+      await route.fulfill({ json: { success: true } });
+    });
+    await fillForm(page);
+    const button = page.locator('#submit-button');
+    const originalText = await button.textContent();
+    await button.click();
+    try {
+      await expect(button).toBeDisabled();
+      await expect(button).toHaveAttribute('aria-busy', 'true');
+    } finally {
+      release();
+    }
+    await expectStatus(page, 'success');
+    await expect(button).toBeEnabled();
+    await expect(button).not.toHaveAttribute('aria-busy');
+    await expect(button).toHaveText(originalText!);
   });
 
-  test.describe('beforeunload guard', () => {
-    test('form tracks changes after user types', async ({ page }) => {
-      // Verify inputs are initially empty (no unsaved state)
-      await expect(page.locator('#contact-name')).toHaveValue('');
-
-      await page.fill('#contact-name', 'Draft name');
-
-      // We can't easily assert beforeunload in Playwright without dialog interception,
-      // but we verify the field has the typed value (guard is active)
-      await expect(page.locator('#contact-name')).toHaveValue('Draft name');
-    });
+  test('warns before leaving an edited draft', async ({ page }) => {
+    await page.locator('#contact-name').click();
+    await page.locator('#contact-name').pressSequentially('Draft name');
+    const dialog = page.waitForEvent('dialog');
+    const navigation = page.reload();
+    const warning = await dialog;
+    expect(warning.type()).toBe('beforeunload');
+    await warning.accept();
+    await navigation;
   });
 });
+
+for (const locale of ['en', 'es', 'ja']) {
+  test(`contact confirmation uses the ${locale} translation`, async ({ page }) => {
+    await page.route(API_URL, route => route.fulfill({ json: { success: true } }));
+    await page.goto(`/${locale}/#contact`);
+    await expect(page.locator('html')).toHaveAttribute('lang', locale);
+    await fillForm(page);
+    await page.click('#submit-button');
+    await expectStatus(page, 'success');
+  });
+}
