@@ -1,0 +1,105 @@
+/* Hallmark · pre-emit critique: P5 H5 E4 S5 R5 V4
+ * theme: Carbon / Citron · macrostructure: real project feature / story
+ * No decorative device chrome, autoplay, fabricated proof.
+ */
+@layer components {
+  .project-index .site-container { display: grid; gap: var(--space-md); }
+  .content-section--work { padding-block: var(--space-xl); }
+  .content-section--work .section-heading { font-size: var(--text-2xl); }
+  .project-feature .primary-action, .project-story .primary-action {
+    background: var(--color-accent);
+    color: var(--color-accent-ink);
+    box-shadow: none;
+  }
+  .project-feature {
+    display: grid;
+    align-items: center;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-lg);
+    padding: var(--space-lg);
+    border: var(--rule-hair) solid var(--color-rule);
+    border-radius: var(--radius-card);
+    background: var(--color-paper-2);
+    color: var(--color-ink);
+  }
+
+  .project-feature__preview {
+    display: grid;
+    justify-items: center;
+    margin: 0;
+    padding: var(--space-md);
+    border-radius: var(--radius-lg);
+    background: var(--color-paper-3);
+    color: var(--color-ink);
+  }
+
+  .project-feature__preview img {
+    width: auto;
+    height: auto;
+    max-height: 24rem;
+    border: var(--rule-hair) solid var(--color-rule);
+    border-radius: var(--radius-sm);
+  }
+
+  .project-feature__status { color: var(--color-accent); font-size: var(--text-xs); }
+  .project-feature__copy { display: grid; align-content: center; gap: var(--space-sm); min-width: 0; }
+  .project-feature :is(h2, h3) { font-size: var(--text-2xl); }
+  .project-feature dl { display: grid; gap: var(--space-sm); margin: 0; }
+  .project-feature dt { margin-bottom: var(--space-3xs); color: var(--color-accent); font-family: var(--font-mono); font-size: var(--text-xs); }
+  .project-feature dd { margin: 0; color: var(--color-ink-2); }
+  .project-feature .primary-action { justify-self: start; }
+
+  .project-story__hero { display: grid; gap: var(--space-md); padding-block: var(--space-3xl) var(--space-2xl); }
+  .project-story__hero .page-title { font-size: var(--text-3xl); }
+  .project-story__hero > .text-link { justify-self: start; margin-bottom: var(--space-sm); }
+  .project-story__hero > .text-link::after { content: none; }
+  .project-story__headline { max-width: 28ch; font-size: var(--text-xl); line-height: var(--leading-snug); }
+  .project-story__hero .page-description { max-width: 58ch; }
+  .project-story__overview { display: grid; grid-template-columns: minmax(0, 1fr); align-items: start; gap: var(--space-xl); }
+  .project-recording { display: grid; justify-items: center; gap: var(--space-sm); min-width: 0; margin: 0; }
+  .project-recording video { display: block; width: min(100%, 19rem); height: auto; border: var(--rule-hair) solid var(--color-rule); border-radius: var(--radius-sm); background: var(--color-paper-2); color: var(--color-ink); }
+  .project-recording figcaption { max-width: 38ch; color: var(--color-ink-2); font-size: var(--text-sm); }
+  .project-story__context { display: grid; gap: var(--space-lg); }
+  .project-story__context h2 { font-size: var(--text-2xl); }
+  .project-story__context h3 { font-size: var(--text-lg); }
+  .project-story__context p, .project-decisions p { max-width: 65ch; color: var(--color-ink-2); }
+  .project-note { display: grid; gap: var(--space-xs); padding: var(--space-lg); border-inline-start: var(--rule-fine) solid var(--color-accent); background: var(--color-surface-soft); color: var(--color-ink); }
+  .project-note h3 { font-size: var(--text-base); }
+  .project-note p { font-size: var(--text-sm); }
+  .project-decisions { padding-block: var(--space-2xl); }
+  .project-decisions__list { display: grid; gap: var(--space-lg); }
+  .project-decisions__list article { display: grid; align-content: start; gap: var(--space-sm); padding-block-start: var(--space-md); border-top: var(--rule-hair) solid var(--color-rule); }
+  .project-decisions__list h3 { font-size: var(--text-lg); }
+
+  @media (min-width: 60rem) {
+    .project-feature { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); padding: var(--space-xl); gap: var(--space-xl); }
+    .project-feature:not(:has(.project-feature__preview)) { grid-template-columns: minmax(0, 1fr); }
+    .project-story__overview { grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr); gap: var(--space-2xl); }
+    .project-decisions__list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xl); }
+  }
+}
+
+/* Hallmark · mobile project proof, no independent browser experiment. */
+@layer components {
+  .project-story .project-story__hero { padding-block: var(--space-xl) var(--space-lg); gap: var(--space-sm); }
+  .project-story .project-story__hero .section-kicker { font-family: var(--font-body); text-transform: none; letter-spacing: normal; color: var(--color-ink-2); }
+  .project-story .project-story__hero .page-title { font-size: clamp(2.2rem, 8vw, 4.5rem); }
+  .project-story .project-story__hero .page-description { font-size: var(--text-base); }
+  .project-story .hero-actions { flex-direction: row; justify-content: flex-start; gap: var(--space-sm); margin-top: var(--space-sm); }
+  .project-story .hero-actions > a { width: auto; font-size: var(--text-sm); border-radius: var(--radius-sm); }
+  .project-story .project-story__overview { padding-block: var(--space-md) var(--space-lg); gap: var(--space-lg); }
+  .project-recording { scroll-margin-top: 7rem; }
+  .project-recording video { width: min(100%, 16rem); }
+  .project-story .project-story__context { gap: var(--space-md); }
+  .project-story__context .section-kicker { display: none; }
+  .project-story .project-story__context h2 { font-size: var(--text-xl); }
+  .project-story .project-note { padding: var(--space-md); }
+  .project-story .project-decisions { padding-block: var(--space-lg) var(--space-xl); }
+  .project-story .project-decisions .section-heading { font-size: var(--text-xl); }
+  .project-story .project-decisions .section-head { margin-bottom: var(--space-lg); }
+  .project-story .project-decisions__list { grid-template-columns: minmax(0, 1fr); gap: var(--space-lg); }
+  @media (min-width: 40rem) {
+    .project-story .project-story__overview { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); }
+    .project-story .project-decisions__list article { grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr); gap: var(--space-lg); }
+  }
+}

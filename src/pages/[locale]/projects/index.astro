@@ -1,0 +1,32 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Header from '../../../layouts/Header.astro';
+import Footer from '../../../layouts/Footer.astro';
+import SelectedWorkSection from '../../../components/home/SelectedWorkSection.astro';
+import { selectedWorkByLocale, type PortfolioLocale } from '../../../data/portfolio-content';
+import { japonesAppCopy } from '../../../data/japonesapp';
+import { getLangFromUrl } from '../../../services/i18n';
+
+export const prerender = true;
+export function getStaticPaths() {
+  return ['en', 'es', 'ja'].map(locale => ({ params: { locale } }));
+}
+const lang = getLangFromUrl(Astro.url) as PortfolioLocale;
+const copy = japonesAppCopy[lang];
+const projects = selectedWorkByLocale[lang].filter(project => project.published);
+---
+
+<Layout title={`${copy.projects} · Airán Sánchez`} description={copy.indexSummary} lang={lang}>
+  <Header />
+  <main id="main-content" class="page-shell">
+    <header class="page-hero project-index">
+      <div class="site-container">
+        <span class="section-kicker">{copy.projects}</span>
+        <h1 class="page-title">{copy.indexTitle}</h1>
+        <p class="page-description">{copy.indexSummary}</p>
+      </div>
+    </header>
+    <SelectedWorkSection projects={projects} lang={lang} showHeading={false} />
+  </main>
+  <Footer />
+</Layout>

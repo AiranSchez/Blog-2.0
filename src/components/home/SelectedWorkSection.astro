@@ -1,43 +1,40 @@
 ---
 import type { SelectedWork } from '../../data/portfolio-content';
-
-interface Props {
-  projects: SelectedWork[];
-  lang: string;
-}
-
-const { projects, lang } = Astro.props;
+interface Props { projects: SelectedWork[]; lang: string; showHeading?: boolean; featured?: boolean }
+const { projects, lang, showHeading = true, featured = false } = Astro.props;
+const ProjectHeading = featured || !showHeading ? 'h2' : 'h3';
 const copy = {
-  en: { kicker: 'Work', title: 'Selected work', context: 'Context', contribution: 'Contribution', outcome: 'Outcome' },
-  es: { kicker: 'Proyectos', title: 'Trabajo seleccionado', context: 'Contexto', contribution: 'Aportación', outcome: 'Resultado' },
-  ja: { kicker: '仕事', title: '主な仕事', context: '背景', contribution: '貢献', outcome: '成果' },
+  en: { kicker: 'Personal project', title: 'Built out of curiosity.', context: 'The idea', contribution: 'The work', outcome: 'Today', open: 'Inside the project', all: 'All projects', recording: 'Actual simulator recording · 8 seconds · no audio', video: 'Watch the actual app recording' },
+  es: { kicker: 'Proyecto personal', title: 'De la curiosidad a la práctica.', context: 'La idea', contribution: 'El trabajo', outcome: 'Hoy', open: 'Dentro del proyecto', all: 'Todos los proyectos', recording: 'Grabación real del simulador · 8 segundos · sin audio', video: 'Ver la grabación real de la app' },
+  ja: { kicker: '個人プロジェクト', title: '好奇心を形に。', context: 'アイデア', contribution: '実装', outcome: '現在', open: '設計と実装を見る', all: 'プロジェクト一覧', recording: '実際のシミュレーター録画 · 8秒 · 音声なし', video: '実際のアプリ録画を見る' },
 }[lang as 'en' | 'es' | 'ja'];
 ---
-
-<!-- This section is intentionally rendered only when at least one case study has published=true. -->
-<section id="work" class="content-section content-section--work" aria-labelledby="work-heading">
+<section id="work" class:list={['content-section', 'content-section--work', { 'work-featured': featured }]} aria-label={copy.kicker}>
   <div class="site-container">
-    <header class="section-head">
-      <div>
-        <span class="section-kicker">{copy.kicker}</span>
-        <h2 id="work-heading" class="section-heading">{copy.title}</h2>
-      </div>
-    </header>
+    {showHeading && !featured && <header class="section-head"><div><span class="section-kicker">{copy.kicker}</span><h2 id="work-heading" class="section-heading">{copy.title}</h2></div><a class="text-link" href={`/${lang}/projects/`}>{copy.all}</a></header>}
+    {featured && <header class="work-featured__head"><p>{copy.kicker}</p><a class="portfolio-inline-link" href={`/${lang}/projects/`}>{copy.all} ↗</a></header>}
     <div class="selected-work-stage">
-      {projects.map((project, index) => (
-        <article class="selected-work-card">
-          <span class="selected-work-card__index">{String(index + 1).padStart(2, '0')}</span>
-          <h3>{project.title}</h3>
-          <dl>
+      {projects.map(project => <article class:list={['project-feature', { 'project-feature--lead': featured }]}>
+        <div class="project-feature__copy">
+          <ProjectHeading>{project.title}</ProjectHeading>
+          {project.status && <p class="project-feature__status">{project.status}</p>}
+          {featured ? <p class="project-feature__summary">{project.context}</p> : <dl>
             <div><dt>{copy.context}</dt><dd>{project.context}</dd></div>
             <div><dt>{copy.contribution}</dt><dd>{project.contribution}</dd></div>
             <div><dt>{copy.outcome}</dt><dd>{project.outcome}</dd></div>
-          </dl>
-          {project.technologies.length > 0 && (
-            <div class="tag-list">{project.technologies.map((technology) => <span class="tag">{technology}</span>)}</div>
-          )}
-        </article>
-      ))}
+          </dl>}
+          {project.technologies.length > 0 && <div class="tag-list">{project.technologies.map(technology => <span class="tag">{technology}</span>)}</div>}
+          {project.href && <a class={featured ? 'portfolio-action' : 'primary-action'} href={project.href}>{copy.open}<span aria-hidden="true"> ↗</span></a>}
+        </div>
+        {project.image && <figure class="project-feature__preview">
+          {featured && project.video ? <>
+            <video controls playsinline preload="none" poster={project.image.src} width={project.image.width} height={project.image.height} aria-label={copy.video}>
+              <source src={project.video} type="video/mp4" />
+            </video>
+            <figcaption>{copy.recording}</figcaption>
+          </> : <img src={project.image.src} alt={project.image.alt} width={project.image.width} height={project.image.height} loading="lazy" decoding="async" />}
+        </figure>}
+      </article>)}
     </div>
   </div>
 </section>

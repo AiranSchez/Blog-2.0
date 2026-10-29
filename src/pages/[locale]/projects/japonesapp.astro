@@ -1,0 +1,62 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Header from '../../../layouts/Header.astro';
+import Footer from '../../../layouts/Footer.astro';
+import { japonesAppCopy, japonesAppMedia, japonesAppTechnologies } from '../../../data/japonesapp';
+import { getLangFromUrl } from '../../../services/i18n';
+import type { PortfolioLocale } from '../../../data/portfolio-content';
+
+export const prerender = true;
+export function getStaticPaths() {
+  return ['en', 'es', 'ja'].map(locale => ({ params: { locale } }));
+}
+const lang = getLangFromUrl(Astro.url) as PortfolioLocale;
+const copy = japonesAppCopy[lang];
+---
+
+<Layout title="JaponesApp · Airán Sánchez" description={copy.summary} image={japonesAppMedia.poster} lang={lang}>
+  <Header />
+  <!-- Hallmark · pre-emit critique: P5 H5 E4 S5 R5 V4 · theme: studied-DNA · macrostructure: Project story + real recording -->
+  <main id="main-content" class="page-shell project-story">
+    <header class="project-story__hero site-container">
+      <a class="text-link" href={`/${lang}/projects/`}>← {copy.allProjects}</a>
+      <p class="section-kicker">{copy.kicker}</p>
+      <h1 class="page-title">JaponesApp</h1>
+      <p class="page-description">{copy.summary}</p>
+      <div class="hero-actions">
+        <a class="primary-action" href="#recording">{copy.recordingAction}<span aria-hidden="true"> ↓</span></a>
+        <a class="text-link" href={`/${lang}/#contact`}>{copy.contact}</a>
+      </div>
+    </header>
+
+    <section class="site-container project-story__overview" aria-labelledby="recording-heading">
+      <figure id="recording" class="project-recording">
+        <video controls playsinline preload="none" poster={japonesAppMedia.poster} width={japonesAppMedia.width} height={japonesAppMedia.height} aria-label={copy.videoLabel} aria-describedby="recording-caption">
+          <source src={japonesAppMedia.video} type="video/mp4" />
+          <a href={japonesAppMedia.video}>{copy.videoFallback}</a>
+        </video>
+        <figcaption id="recording-caption">{copy.recordingDescription}</figcaption>
+        <a class="text-link" href={japonesAppMedia.video}>{copy.videoFallback}</a>
+      </figure>
+      <div class="project-story__context">
+        <span class="section-kicker">JaponesApp</span>
+        <h2 id="recording-heading">{copy.recording}</h2>
+        <h3>{copy.whyTitle}</h3>
+        <p>{copy.why}</p>
+        <div class="tag-list">{japonesAppTechnologies.map(technology => <span class="tag">{technology}</span>)}</div>
+        <aside class="project-note" aria-labelledby="limits-heading">
+          <h3 id="limits-heading">{copy.limitsTitle}</h3>
+          <p>{copy.limits}</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="site-container project-decisions" aria-labelledby="decisions-heading">
+      <header class="section-head"><h2 id="decisions-heading" class="section-heading">{copy.decisionsTitle}</h2></header>
+      <div class="project-decisions__list">
+        {copy.decisions.map(decision => <article><h3>{decision.title}</h3><p>{decision.text}</p></article>)}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
