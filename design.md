@@ -1,163 +1,89 @@
 # Design — Airán Sánchez
 
-Sistema visual bloqueado para todo el sitio. Nace de un estudio público de
-`https://www.aitorevi.dev/`, pero adapta su ADN a la voz, el contenido y las
-rutas de Airán en lugar de reproducir su composición.
+## Dirección autorizada
+
+El usuario autoriza expresamente una dirección nueva en colores, estilos, orden y texto. Sustituye el sistema visual violeta anterior, no su contenido ni rutas. La base es técnica y personal: carbón, verde lima y una variante clara mineral, sin beige, tipografía serif rústica, gradientes ni cristal decorativo.
 
 ## Hallmark fingerprint
 
-- `theme: studied-DNA (source: https://www.aitorevi.dev/)`
-- `studied: yes`
-- `DNA-source: url`
-- Género: **atmospheric + modern-minimal**
-- Navegación: **N10 Floating morph**
-- Footer: **Ft5 Statement close**
-
-## Dirección
-
-Un portfolio técnico con profundidad cinematográfica: fondo azul noche,
-atmósfera radial, superficies de cristal sobrias y acentos eléctricos
-índigo-violeta-azul. En claro se convierte en una interfaz limpia y fría, no en
-una versión beige o editorial. La tecnología acompaña la narrativa personal.
-
-## Macroestructuras
-
-- Home: **Marquee Hero → Ecosystem Index**, con hero inmersivo y módulos bento
-  irregulares para experiencia, escritura y podcast.
-- Blog: **Ecosystem Index**, con un artículo protagonista, filtros compactos y
-  un archivo visual asimétrico.
-- Artículo: **Long Document**, contenido dentro de una superficie elevada y
-  silenciosa, con lectura de 65–72ch.
-- Podcast: **Catalogue + Listening room**, episodio protagonista y archivo
-  cronológico, sin pared de tarjetas idénticas.
-- 404: **Atmospheric interstitial**, breve y deliberado.
-
-## Color
-
-Valores observados en la referencia: `#f8fafc`, `#020617`, `#0b1120`,
-`#4727cc`, `#ac91fc`, `#60a5fa`.
-
-La adaptación usa esos anclajes exactos mediante tokens:
-
-- Claro: papel `#f8fafc`, superficie `#ffffff`, tinta `#0f172a`.
-- Oscuro: papel `#020617`, superficie `#0b1120`, tinta `#f8fafc`.
-- Acento claro: índigo `#4727cc`.
-- Acento oscuro: violeta `#ac91fc`.
-- Contrapunto: azul `#60a5fa`.
-
-Los glows pertenecen al fondo y a una única pieza protagonista. Las tarjetas
-ordinarias se separan por borde, contraste y composición; no por sombras neón
-repetidas.
+- Theme: **custom — Carbon / Citron**. No copia visual de una referencia.
+- Estructura: **identidad → evidencia → contexto → actividad → conversación**.
+- Nav: **N9 Edge-aligned**, wordmark tipográfico, utilidades accesibles y menú móvil nativo.
+- Footer: **Ft1 cierre de autor compacto**, sin un segundo hero de contacto.
+- Anterior: azul noche / Outfit / acento violeta / navegación flotante. Ahora: carbón / Space Grotesk + Manrope / lima y verde / cabecera abierta. Cambian papel, tipografía, acento y jerarquía, no solo un color.
 
 ## Tipografía
 
-- Display y cuerpo: **Outfit**, pesos 400, 500, 600, 700 y 900.
-- Metadatos: **JetBrains Mono**, pesos 400, 600 y 700.
-- Titulares siempre romanos, compactos y con `overflow-wrap: anywhere`.
-- Escala hero: `clamp(3.4rem, 9vw, 8.5rem)`.
-- Cuerpo: 1rem–1.125rem; lectura larga: 65–72ch.
+- Display: **Space Grotesk**, 500/600/700. Nombre en dos líneas con respiración, tracking de -0.045em, nunca palabras comprimidas para forzar una línea.
+- Cuerpo: **Manrope**, 400/500/600/700. Lectura desde 14px; formularios a 16px.
+- Metadatos técnicos: **JetBrains Mono**, uso puntual.
+- Títulos romanos, sin texto en gradiente ni typewriter. Saltos semánticos para japonés.
 
-## Espaciado y geometría
+## Color y tokens
 
-- Escala nominal de 4px conservada en `tokens.css`.
-- Contenedor máximo: 80rem.
-- Superficies: radios de 18–30px, nunca una cuadrícula de tarjetas idénticas.
-- La composición alterna bloques amplios, piezas verticales y filas compactas.
-- En 768px todo módulo complejo colapsa a una sola columna.
+`tokens.css` define todos los roles, con neutros tintados en OKLCH.
 
-## Movimiento
+- Claro: papel #f4f6f2, superficie #fcfdfb, tinta #17221d, secundaria #526257, acento #355b3c.
+- Oscuro: papel #131a17, superficie #1b2520, tinta #f2f6ee, secundaria #adbaae, acento #d7ed9f.
+- Señal lima: #d7ed9f con tinta #17221d. El área de vídeo usa una superficie de baja saturación, no un bloque de acento completo.
+- Roles `--color-highlight` / `--color-highlight-ink` para la acción principal; `--color-project-stage` para la evidencia real.
+- No colores o fuentes improvisados dentro de componentes. El sistema se comparte con blog, CV, proyectos y podcast; se verifican por regresión.
 
-- Entrada única del hero: opacidad + desplazamiento corto.
-- Aparición progresiva por `IntersectionObserver` con la misma curva.
-- Navegación flotante compacta al hacer scroll.
-- Hover modifica color, borde o revelado interno; no hay elevación universal.
-- Sin WebGL, parallax, terminales falsas ni `transition-all`.
-- `prefers-reduced-motion` elimina animaciones no esenciales.
+## Composición
 
-## Componentes compartidos
+- Home: perfil compacto con retrato real y nombre expresivo; proyecto inmediatamente después, no escondido tras CV/estadísticas.
+- JaponesApp: protagonista con grabación real manual, estado de prototipo y acceso al caso. No miniquiz, descargas inexistentes ni métricas sin fuente.
+- Perfil y trayectoria: texto breve, trabajo actual, historial desplegable y enlace al CV. La prueba social usa un fragmento literal del testimonio, con texto completo accesible.
+- GitHub: mismas funciones y cuatro cifras, menos texto y altura, gráficas ampliables.
+- Contacto: correo directo y formulario visible, sin tocar el proveedor ni simular un envío real.
+- Blog/artículos/CV/podcast conservan sus rutas y estructura; heredan los nuevos roles de color y tipografía.
 
-- Navegación flotante translúcida y accesible.
-- Etiquetas mono en mayúsculas controladas.
-- CTA primario sólido con brillo moderado; secundario translúcido.
-- Chips, filtros y controles con altura táctil mínima.
-- Foco visible inmediato en violeta/azul.
-- Enlaces clicables de una sola línea.
-- `html` y `body` usan `overflow-x: clip`.
+## Móvil y movimiento
 
-## Reglas por página
+- Primero 320/375/414px; después 768 y 1280px. Nombre y acción principal dentro del primer pantallazo; cero overflow del documento.
+- Controles de 44px como mínimo, campos de 16px y foco visible inmediato.
+- Imágenes en tracks `minmax(0, 1fr)`; vídeo local sin autoplay, con controles y poster. Sin marcos falsos de dispositivo.
+- Sin animaciones que oculten el contenido ni hover como única forma de interacción. Se respeta reduced motion.
+- Cabecera plana, sin scroll-morph ni sombra de cristal. Idioma/tema disponibles en móvil.
 
-- El retrato del hero es el ancla humana; se permite un segundo retrato en About.
-- Las imágenes de artículos se muestran con tratamiento editorial moderno y
-  fallback atmosférico cuando falten.
-- El podcast usa una pieza visual generada con CSS, no una interfaz falsa.
-- Los comentarios y formularios mantienen toda su lógica y accesibilidad.
-- Rutas, contenido, idiomas e integraciones no se eliminan.
+## Actividad GitHub
+
+- Fuente fija y pública de AiranSchez; no necesita credenciales ni expone un endpoint nuevo.
+- La consulta se realiza al renderizar/construir Astro, compartida por los tres idiomas. Una web estática se actualiza en el siguiente build, no en tiempo real ni mediante una automatización nueva.
+- Ante errores se conserva una captura verificada con fecha visible; si tampoco es válida, se muestra indisponibilidad, nunca ceros ficticios.
+- Solo fechas reales hasta la captura; las cifras son contribuciones, no commits, productividad ni horas trabajadas.
+- Vista inicial de 90 días, año de la captura opcional. Cuatro estadísticas y dos gráficas derivadas del mismo período. Gráficas plegadas para no dominar el móvil.
+- Calendario con selección por toque, tooltip para cursor y foco, flechas y Escape. Solo el calendario puede desplazarse lateralmente.
+
+## Verificación móvil
+
+- Revisar 320, 375, 414 y 768 px, además de 1280 px; ES/EN/JA y ambos temas.
+- Campos y acciones principales de al menos 44 px; tipografía de campos de 16 px para evitar zoom en iOS.
+- Sin títulos recortados ni enlaces de acción en dos líneas. El calendario compacto mantiene separación entre celdas y navegación de teclado.
+- Formulario y correo directo se conservan. Los tests interceptan Web3Forms, no envían mensajes reales.
 
 ## Exportación
 
-`tokens.css` es la fuente portable. `src/styles/variables.css` la importa antes
-de la capa de componentes. Tailwind sigue disponible para componentes
-funcionales existentes, pero la interfaz rediseñada consume únicamente tokens
-con nombre.
+Los tokens activos son la fuente portable. Tailwind y componentes existentes consumen los mismos nombres, sin un segundo sistema paralelo.
 
 ### Tailwind v4
-
 ```css
 @theme {
   --color-paper: var(--color-paper);
-  --color-surface: var(--color-paper-2);
   --color-ink: var(--color-ink);
-  --color-muted: var(--color-ink-2);
   --color-accent: var(--color-accent);
-  --color-blue: var(--color-signal);
   --font-display: var(--font-display);
   --font-body: var(--font-body);
-  --font-mono: var(--font-mono);
 }
 ```
 
 ### DTCG
-
 ```json
-{
-  "$schema": "https://design-tokens.github.io/community-group/format/",
-  "color": {
-    "paper": { "$value": "#f8fafc", "$type": "color" },
-    "paperDark": { "$value": "#020617", "$type": "color" },
-    "accent": { "$value": "#4727cc", "$type": "color" },
-    "accentDark": { "$value": "#ac91fc", "$type": "color" },
-    "signal": { "$value": "#60a5fa", "$type": "color" }
-  },
-  "font": {
-    "display": { "$value": "Outfit, ui-sans-serif, sans-serif", "$type": "fontFamily" },
-    "mono": { "$value": "JetBrains Mono, ui-monospace, monospace", "$type": "fontFamily" }
-  }
-}
+{"color":{"paper":{"$value":"#f4f6f2","$type":"color"},"paperDark":{"$value":"#131a17","$type":"color"},"accent":{"$value":"#355b3c","$type":"color"},"accentDark":{"$value":"#d7ed9f","$type":"color"}},"font":{"display":{"$value":"Space Grotesk, sans-serif","$type":"fontFamily"},"body":{"$value":"Manrope, sans-serif","$type":"fontFamily"}}}
 ```
 
 ### shadcn/ui
-
 ```css
-:root {
-  --background: 98% 0.004 247;
-  --foreground: 20.8% 0.042 266;
-  --card: 100% 0 0;
-  --card-foreground: 20.8% 0.042 266;
-  --primary: 43.8% 0.233 291;
-  --primary-foreground: 98% 0.004 247;
-  --border: 91% 0.018 263;
-  --ring: 43.8% 0.233 291;
-  --radius: 1.25rem;
-}
-
-.dark {
-  --background: 12.9% 0.042 264;
-  --foreground: 98% 0.004 247;
-  --card: 17.8% 0.042 265;
-  --card-foreground: 98% 0.004 247;
-  --primary: 76.1% 0.137 299;
-  --primary-foreground: 12.9% 0.042 264;
-  --border: 27.9% 0.052 264;
-  --ring: 70.7% 0.126 250;
-}
+:root { --background: 96.8% 0.006 135; --foreground: 24% 0.018 155; --primary: 44% 0.065 148; --radius: 0.625rem; }
+.dark { --background: 21% 0.013 155; --foreground: 97% 0.01 135; --primary: 92% 0.10 125; }
 ```

@@ -66,7 +66,7 @@ const copy = {
 
     <div class="testimonial-stage">
       {testimonials.map((testimonial, index) => {
-        const preview = shortenQuote(testimonial.quote);
+        const preview = testimonial.excerpt ? `${testimonial.excerpt.replace(/[.。]$/, '')}...` : shortenQuote(testimonial.quote);
         const isTruncated = preview !== testimonial.quote;
         const dialogId = `testimonial-${lang}-${index + 1}`;
         const dialogTitleId = `${dialogId}-title`;
@@ -74,7 +74,7 @@ const copy = {
         return (
           <figure class:list={['testimonial-card', { 'is-placeholder': testimonial.placeholder }]}>
             <figcaption>
-              <span>{testimonial.placeholder ? copy.placeholder : copy.testimonial} · {String(index + 1).padStart(2, '0')}</span>
+              <span>{testimonial.placeholder ? copy.placeholder : copy.testimonial}</span>
             </figcaption>
             <div class="testimonial-card__quote">
               <blockquote>“{preview}”</blockquote>

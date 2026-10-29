@@ -1,5 +1,47 @@
 [
   {
+    "date": "2026-10-30",
+    "scope": "home + shared visual system + projects + contact",
+    "theme": "custom — Carbon / Citron",
+    "theme_axes": "carbon/mineral paper / geometric Space Grotesk + Manrope / citron-green",
+    "macrostructure": "Identity → Evidence → Context → Activity → Conversation",
+    "nav": "N9 Edge-aligned",
+    "footer": "Ft1 compact authored close",
+    "enrichment": "real rubber-duck portrait and manual JaponesApp video",
+    "brief": "User grants creative freedom to combine visual presence with mobile clarity; real work moves directly after the identity, generic stack removed.",
+    "designSystem": "design.md"
+  },
+  {
+    "date": "2026-10-29",
+    "scope": "home + projects + contact + footer",
+    "genre": "atmospheric + modern-minimal",
+    "macrostructure": "Authored personal profile / Split Studio / project story",
+    "theme": "studied-DNA",
+    "nav": "N10 Floating morph (existing system retained)",
+    "footer": "Compact authored index",
+    "enrichment": "real portrait and manual JaponesApp recording; no quiz",
+    "brief": "Mobile-first redesign of the approved scope, real dated GitHub contributions, localized contact and compact footer.",
+    "designSystem": "design.md",
+    "mobileWidths": [
+      320,
+      375,
+      414,
+      768,
+      1280
+    ]
+  },
+  {
+    "date": "2026-10-05",
+    "scope": "home + projects + footer",
+    "genre": "atmospheric + modern-minimal",
+    "macrostructure": "Real project feature / Project story / Optional experiment",
+    "theme": "studied-DNA",
+    "enrichment": "real simulator capture and manual video; independent kanji miniquiz",
+    "brief": "Give the real JaponesApp project visibility from event QR visits without a store release or extra visual noise.",
+    "footer": "Ft5 Statement close + Ft3 Index",
+    "designSystem": "design.md"
+  },
+  {
     "date": "2026-07-26",
     "scope": "app",
     "genre": "editorial",

@@ -16,16 +16,10 @@ interface Props {
 
 const { experiences, t, lang } = Astro.props as Props;
 
-const intro = {
-  en: 'A path through data, product development, backend systems, and the internal tools that help teams work better.',
-  es: 'Un recorrido por datos, producto, sistemas backend y las herramientas internas que ayudan a los equipos a trabajar mejor.',
-  ja: 'データ、プロダクト開発、バックエンド、そしてチームを支える社内ツールに取り組んできました。',
-}[lang as 'en' | 'es' | 'ja'];
-
-const kicker = {
-  en: 'Journey',
-  es: 'Trayectoria',
-  ja: '経歴',
+const copy = {
+  es: { full: 'Ver CV completo', previous: 'Experiencia anterior' },
+  en: { full: 'View full CV', previous: 'Earlier experience' },
+  ja: { full: '経歴の詳細', previous: 'これまでの経験' },
 }[lang as 'en' | 'es' | 'ja'];
 
 const formatDate = (value: string | null) => {
@@ -59,43 +53,23 @@ const formatDuration = (startDate: string, endDate: string | null) => {
 };
 ---
 
-<section id="experience" class="content-section content-section--experience" aria-labelledby="experience-heading">
+<section id="experience" class="content-section portfolio-career" aria-labelledby="experience-heading">
   <div class="site-container">
-    <header class="section-head">
-      <div>
-        <span class="section-kicker">{kicker}</span>
-        <h2 id="experience-heading" class="section-heading">{t('experience.title')}</h2>
-      </div>
-      <p class="section-intro">{intro}</p>
+    <header class="portfolio-section-head">
+      <div><h2 id="experience-heading">{t('experience.title')}</h2></div>
+      <a class="portfolio-inline-link" href={`/${lang}/cv/`}>{copy.full} ↗</a>
     </header>
-
-    <ol class="home-timeline">
-      {experiences.map((experience, index) => (
-        <li class:list={{ 'is-current': index === 0 }}>
-          <div class="home-timeline__meta">
-            <time class="experience-period">
-              {formatDate(experience.data.startDate)} — {formatDate(experience.data.endDate)}
-            </time>
-            <span class="experience-duration">
-              {formatDuration(experience.data.startDate, experience.data.endDate)}
-            </span>
-          </div>
-          <div class="home-timeline__content">
-            <h3 class="experience-role">{experience.data.role}</h3>
-            <p class="experience-company">{experience.data.company}</p>
-            {experience.data.description && (
-              <p class="experience-description">{experience.data.description}</p>
-            )}
-            {experience.data.technologies && (
-              <div class="tag-list" aria-label="Technologies">
-                {experience.data.technologies.slice(0, index === 0 ? 8 : 6).map((technology) => (
-                  <span class="tag">{technology}</span>
-                ))}
-              </div>
-            )}
-          </div>
-        </li>
-      ))}
-    </ol>
+    {[experiences.slice(0, 1), experiences.slice(1)].map((group, index) => {
+      const Container = index === 0 ? 'div' : 'details';
+      return <Container class={index === 0 ? 'career-current' : 'career-history'}>
+        {index === 1 && <summary>{copy.previous}<span aria-hidden="true">＋</span></summary>}
+        <ol class="career-list">
+          {group.map(experience => <li>
+            <div class="career-date"><time>{formatDate(experience.data.startDate)} — {formatDate(experience.data.endDate)}</time><span>{formatDuration(experience.data.startDate, experience.data.endDate)}</span></div>
+            <div class="career-description"><h3>{experience.data.role}</h3><p class="career-company">{experience.data.company}</p><p>{experience.data.description}</p><div class="career-technologies">{experience.data.technologies?.slice(0, 4).map(technology => <span>{technology}</span>)}</div></div>
+          </li>)}
+        </ol>
+      </Container>;
+    })}
   </div>
 </section>

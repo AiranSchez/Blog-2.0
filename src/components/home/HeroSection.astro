@@ -1,135 +1,28 @@
 ---
 import { Image } from 'astro:assets';
-import profileImage from '../../assets/images/profile/DSC01226.jpg';
-
-interface Props {
-  t: (key: any) => string;
-  lang: string;
-}
-
+import profileImage from '../../assets/images/profile/DSC01235.jpg';
+import type { PortfolioLocale } from '../../data/portfolio-content';
+interface Props { lang: PortfolioLocale }
 const { lang } = Astro.props;
-
 const copy = {
-  en: {
-    eyebrow: 'Software developer · Canary Islands ↔ Japan',
-    lead: 'I build',
-    highlight: 'useful systems.',
-    summary: 'I turn complex problems into maintainable software, useful internal tools, and stories that help other people build better.',
-    primary: 'See what I do',
-    secondary: 'Read the blog',
-    availability: 'Currently working full stack with LeanMind for TechnyFarma',
-    orbitA: 'Build',
-    orbitB: 'Learn',
-    orbitC: 'Share',
-    portrait: 'Portrait of Airán Sánchez',
-  },
-  es: {
-    eyebrow: 'Desarrollador de software · Canarias ↔ Japón',
-    lead: 'Construyo',
-    highlight: 'sistemas útiles.',
-    summary: 'Transformo problemas complejos en software mantenible, herramientas internas que funcionan e historias que ayudan a otros a construir mejor.',
-    primary: 'Ver lo que hago',
-    secondary: 'Leer el blog',
-    availability: 'Ahora, full stack con LeanMind para TechnyFarma',
-    orbitA: 'Crear',
-    orbitB: 'Aprender',
-    orbitC: 'Compartir',
-    portrait: 'Retrato de Airán Sánchez',
-  },
-  ja: {
-    eyebrow: 'ソフトウェア開発者 · カナリア諸島 ↔ 日本',
-    lead: '役立つ仕組みを',
-    highlight: 'つくる。',
-    summary: '複雑な課題を、保守しやすいソフトウェア、実用的な社内ツール、そしてより良くつくるための物語へ変えていきます。',
-    primary: 'できることを見る',
-    secondary: 'ブログを読む',
-    availability: '現在、LeanMindからTechnyFarma向けフルスタック開発に参画',
-    orbitA: 'つくる',
-    orbitB: '学ぶ',
-    orbitC: '共有する',
-    portrait: 'Airán Sánchez のポートレート',
-  },
-}[lang as 'en' | 'es' | 'ja'];
-
-let characterIndex = 0;
-const titleLines = [
-  { text: copy.lead, accent: false },
-  { text: copy.highlight, accent: true },
-].map((line) => ({
-  ...line,
-  words: line.text.split(' ').map((word, wordIndex, words) => ({
-    characters: Array.from(word).map((character) => ({
-      character,
-      index: characterIndex++,
-    })),
-    space: wordIndex < words.length - 1
-      ? { character: '\u00A0', index: characterIndex++ }
-      : null,
-  })),
-}));
+  es: { place: 'Canarias ↔ Japón', position: 'Desarrollador de software.\nEntre datos, web y sistemas.', summary: 'Entender el problema, conectar las piezas y construir con el equipo.', primary: 'Explorar mi trabajo', contact: 'Hablemos', portrait: 'Airán Sánchez con un pato de goma en la cabeza', now: 'LeanMind · TechnyFarma' },
+  en: { place: 'Canary Islands ↔ Japan', position: 'Software developer.\nAcross data, web and systems.', summary: 'Understand the problem, connect the pieces and build with the team.', primary: 'Explore my work', contact: 'Let’s talk', portrait: 'Airán Sánchez with a rubber duck on his head', now: 'LeanMind · TechnyFarma' },
+  ja: { place: 'カナリア諸島 ↔ 日本', position: 'ソフトウェア開発者。\nデータ、ウェブ、システムをつなぐ。', summary: '課題を理解し、チームで育てる。', primary: 'つくったものを見る', contact: '話してみる', portrait: '頭にラバーダックを乗せたAirán Sánchez', now: 'LeanMind · TechnyFarma' },
+}[lang];
 ---
-
-<!-- Hallmark · genre: atmospheric · macrostructure: Marquee Hero · design-system: studied-DNA -->
-<section class="modern-hero" aria-labelledby="hero-title">
-  <div class="modern-hero__atmosphere" aria-hidden="true"></div>
-  <div class="site-container modern-hero__grid">
-    <div class="modern-hero__copy">
-      <p class="section-kicker hero-kicker"><span></span>{copy.eyebrow}</p>
-      <h1 id="hero-title" class:list={['hero-title', `hero-title--${lang}`]} aria-label={`${copy.lead} ${copy.highlight}`}>
-        {titleLines.map((line) => (
-          <span
-            class:list={['typewriter-line', { 'typewriter-line--accent': line.accent }]}
-            aria-hidden="true"
-          >
-            {line.words.map((word) => (
-              <>
-                <span class="typewriter-word">
-                  {word.characters.map(({ character, index }) => (
-                    <span class="typewriter-character" style={`--character-index: ${index}`}>
-                      {character}
-                    </span>
-                  ))}
-                </span>
-                {word.space && (
-                  <span class="typewriter-character" style={`--character-index: ${word.space.index}`}>
-                    {word.space.character}
-                  </span>
-                )}
-              </>
-            ))}
-            {line.accent && (
-              <span
-                class="typewriter-cursor"
-                style={`--character-index: ${characterIndex}`}
-                aria-hidden="true"
-              ></span>
-            )}
-          </span>
-        ))}
-      </h1>
-      <p class="hero-summary">{copy.summary}</p>
-      <div class="hero-actions">
-        <a class="primary-action" href="#capabilities">{copy.primary}</a>
-        <a class="secondary-action" href={`/${lang}/blog/`}>{copy.secondary}<span aria-hidden="true">↗</span></a>
+<!-- Hallmark · custom: Carbon / Citron · structure: identity → evidence · designed-as-app -->
+<section id="intro" class="profile-hero" aria-labelledby="hero-title">
+  <div class="site-container profile-composition">
+    <div class="profile-identity"><p>{copy.place}</p><span>{copy.now}</span></div>
+    <Image src={profileImage} alt={copy.portrait} widths={[160, 320, 640]} sizes="(min-width: 960px) 400px, 80px" width={640} height={640} loading="eager" fetchpriority="high" class="profile-portrait" />
+    <h1 id="hero-title"><span>Airán</span> <span>Sánchez<span class="profile-period">.</span></span></h1>
+    <div class="profile-intro">
+      <p class="profile-position">{copy.position}</p>
+      <p class="profile-summary">{copy.summary}</p>
+      <div class="profile-actions">
+        <a class="portfolio-action" href="#work">{copy.primary}<span aria-hidden="true">↘</span></a>
+        <a class="portfolio-text-action" href="#contact">{copy.contact}<span aria-hidden="true">↗</span></a>
       </div>
-      <p class="hero-availability"><span aria-hidden="true"></span>{copy.availability}</p>
-    </div>
-
-    <div class="hero-visual">
-      <div class="hero-visual__halo" aria-hidden="true"></div>
-      <figure class="hero-portrait">
-        <Image
-          src={profileImage}
-          alt={copy.portrait}
-          width={720}
-          height={900}
-          loading="eager"
-          fetchpriority="high"
-        />
-      </figure>
-      <span class="hero-orbit hero-orbit--a">{copy.orbitA}</span>
-      <span class="hero-orbit hero-orbit--b">{copy.orbitB}</span>
-      <span class="hero-orbit hero-orbit--c">{copy.orbitC}</span>
     </div>
   </div>
 </section>

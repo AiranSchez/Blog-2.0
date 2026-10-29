@@ -1,45 +1,37 @@
 ---
 import { getLangFromUrl, useTranslations } from '../services/i18n';
-
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const currentYear = new Date().getFullYear();
-
-const closeText = {
-  en: 'Let’s make something useful.',
-  es: 'Hagamos algo que merezca la pena.',
-  ja: '価値のあるものを、一緒につくろう。',
-};
-
-const smallText = {
-  en: 'Software, ideas and conversations from the space between the Canary Islands and Japan.',
-  es: 'Software, ideas y conversaciones desde ese espacio entre Canarias y Japón.',
-  ja: 'カナリア諸島と日本のあいだから、ソフトウェアとアイデアと対話を。',
-};
+const copy = {
+  es: { line: 'Datos, web y sistemas.', place: 'Canarias ↔ Japón', explore: 'Explorar', share: 'Compartir', connect: 'Conectar', projects: 'Proyectos', career: 'Trayectoria', talk: 'Charla de datos', contact: 'Contacto', top: 'Volver arriba' },
+  en: { line: 'Data, web and systems.', place: 'Canary Islands ↔ Japan', explore: 'Explore', share: 'Share', connect: 'Connect', projects: 'Projects', career: 'Experience', talk: 'Data talk', contact: 'Contact', top: 'Back to top' },
+  ja: { line: 'データ、ウェブ、システム。', place: 'カナリア諸島 ↔ 日本', explore: 'コンテンツ', share: '発信', connect: 'つながる', projects: 'プロジェクト', career: '経歴', talk: 'データの登壇', contact: 'お問い合わせ', top: '先頭へ戻る' },
+}[lang as 'en' | 'es' | 'ja'];
 ---
-
-<!-- Hallmark · genre: atmospheric · footer: Ft5 Statement close · design-system: studied-DNA -->
-<footer class="site-footer">
-  <div class="site-container site-footer__inner">
-    <div class="site-footer__statement">
-      <span class="section-kicker">Airán Sánchez · 2026</span>
-      <p>
-        {lang === 'ja' ? (
-          <>価値のあるものを、<span class="no-break">一緒につくろう。</span></>
-        ) : closeText[lang as keyof typeof closeText]}
-      </p>
-      <a class="primary-action" href="mailto:airanschez0@gmail.com">airanschez0@gmail.com</a>
+<!-- Hallmark · footer: Ft1 compact authored close · design-system: design.md · designed-as-app -->
+<footer class="site-footer site-footer--portfolio">
+  <div class="site-container footer-shell">
+    <div class="footer-directory">
+      <div class="footer-identity">
+        <a class="footer-brand" href={`/${lang}/`} aria-label="Airán Sánchez">airán<span>/</span></a>
+        <p>{copy.line}</p><span class="footer-location">{copy.place}</span>
+      </div>
+      <nav aria-labelledby="footer-explore"><h2 id="footer-explore">{copy.explore}</h2><ul>
+        <li><a href={`/${lang}/#experience`}>{copy.career}</a></li>
+        <li><a href={`/${lang}/projects/`}>{copy.projects}</a></li>
+        <li><a href={`/${lang}/cv/`}>{t('nav.cv')}</a></li>
+      </ul></nav>
+      <nav aria-labelledby="footer-share"><h2 id="footer-share">{copy.share}</h2><ul>
+        <li><a href={`/${lang}/blog/`}>{t('nav.blog')}</a></li>
+        <li><a href={`/${lang}/podcast/`}>{t('nav.podcast')}</a></li>
+        <li><a href="https://www.youtube.com/watch?v=5xT-qo6aocQ" target="_blank" rel="noopener noreferrer">{copy.talk} ↗</a></li>
+      </ul></nav>
+      <nav aria-labelledby="footer-connect"><h2 id="footer-connect">{copy.connect}</h2><ul>
+        <li><a href={`/${lang}/#contact`}>{copy.contact}</a></li>
+        <li><a href="https://github.com/AiranSchez" target="_blank" rel="noopener noreferrer">GitHub ↗</a></li>
+        <li><a href="https://www.linkedin.com/in/air%C3%A1n-s%C3%A1nchez-brito-415910145/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></li>
+      </ul></nav>
     </div>
-
-    <div class="site-footer__bottom">
-      <p>{smallText[lang as keyof typeof smallText]}</p>
-      <nav class="site-footer__links" aria-label={t('footer.social')}>
-        <a href={`/${lang}/blog/`}>{t('nav.blog')}</a>
-        <a href={`/${lang}/podcast/`}>{t('nav.podcast')}</a>
-        <a href="https://github.com/AiranSchez" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a href="https://www.linkedin.com/in/air%C3%A1n-s%C3%A1nchez-brito-415910145/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-      </nav>
-      <p>© {currentYear} · {t('footer.madeIn')}</p>
-    </div>
+    <div class="footer-colophon"><p>© {new Date().getFullYear()} Airán Sánchez</p><a href="#main-content">{copy.top}<span aria-hidden="true"> ↑</span></a></div>
   </div>
 </footer>

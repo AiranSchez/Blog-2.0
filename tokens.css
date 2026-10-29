@@ -1,39 +1,39 @@
-/* Hallmark · pre-emit critique: P5 H5 E4 S5 R4 V5
- * theme: studied-DNA (source: https://www.aitorevi.dev/)
- * studied: yes · DNA-source: url
- * observed: Outfit · JetBrains Mono · #f8fafc · #020617 · #0b1120 · #4727cc · #ac91fc · #60a5fa
+/* Hallmark · custom: Carbon / Citron · modern technical / human
+ * Space Grotesk + Manrope · flat tinted surfaces · no decorative gradient
+ * Palette converted from sRGB anchors to OKLCH; roles shared across the site.
  */
 :root {
   /* Colour */
-  --color-paper: #f8fafc;
-  --color-paper-2: #ffffff;
-  --color-paper-3: #eef2ff;
-  --color-surface-glass: rgba(255, 255, 255, 0.74);
-  --color-surface-soft: rgba(71, 39, 204, 0.06);
-  --color-ink: #0f172a;
-  --color-ink-2: #526078;
-  --color-rule: #dce3f0;
-  --color-rule-strong: #c6d0e1;
-  --color-accent: #4727cc;
-  --color-accent-hover: #3518ad;
-  --color-accent-ink: #ffffff;
+  --color-highlight: oklch(0.91163 0.10313 121.28);
+  --color-highlight-ink: oklch(0.23958 0.01829 165.26);
+  --color-project-stage: oklch(0.93062 0.02476 121.92);
+  --color-paper: oklch(0.97052 0.00568 128.53);
+  --color-paper-2: oklch(0.99274 0.00283 128.49);
+  --color-paper-3: oklch(0.93678 0.01310 130.78);
+  --color-surface-glass: var(--color-paper-2);
+  --color-surface-soft: color-mix(in srgb, var(--color-accent) 6%, var(--color-paper));
+  --color-ink: oklch(0.23958 0.01829 165.26);
+  --color-ink-2: oklch(0.47914 0.02627 155.27);
+  --color-rule: oklch(0.87811 0.01891 137.80);
+  --color-rule-strong: oklch(0.77410 0.03030 145.27);
+  --color-accent: oklch(0.43342 0.06705 148.90);
+  --color-accent-hover: oklch(0.35466 0.05695 149.04);
+  --color-accent-ink: oklch(0.97052 0.00568 128.53);
   --color-on-image: #ffffff;
-  --color-accent-soft: rgba(71, 39, 204, 0.13);
-  --color-signal: #2563eb;
-  --color-signal-soft: rgba(37, 99, 235, 0.12);
-  --color-focus: #7c3aed;
+  --color-accent-soft: color-mix(in srgb, var(--color-accent) 13%, transparent);
+  --color-signal: oklch(0.43342 0.06705 148.90);
+  --color-signal-soft: var(--color-accent-soft);
+  --color-focus: oklch(0.43239 0.07955 146.08);
   --color-danger: #dc2626;
-  --color-success: #059669;
-  --color-overlay: rgba(2, 6, 23, 0.78);
-  --color-shadow: rgba(37, 31, 84, 0.16);
-  --color-dots: rgba(71, 39, 204, 0.18);
-  --color-code-bg: #24292e;
-  --color-code-text: #e1e4e8;
-  --color-code-label: #9fb3c8;
-  --gradient-accent: linear-gradient(135deg, var(--color-accent), var(--color-signal));
-  --gradient-atmosphere:
-    radial-gradient(circle at 20% 18%, var(--color-accent-soft), transparent 36%),
-    radial-gradient(circle at 84% 30%, var(--color-signal-soft), transparent 34%);
+  --color-success: oklch(0.47910 0.09817 153.10);
+  --color-overlay: rgba(19, 26, 23, 0.82);
+  --color-shadow: rgba(6, 12, 8, 0.14);
+  --color-dots: var(--color-accent-soft);
+  --color-code-bg: #1b2520;
+  --color-code-text: #e2eadf;
+  --color-code-label: #a8b9a8;
+  --gradient-accent: linear-gradient(var(--color-accent), var(--color-accent));
+  --gradient-atmosphere: none;
 
   /* Legacy aliases kept for functional Tailwind components */
   --color-carbon: var(--color-ink);
@@ -43,8 +43,8 @@
   --color-alabaster: var(--color-paper);
 
   /* Typography */
-  --font-display: 'Outfit', ui-sans-serif, system-ui, sans-serif;
-  --font-body: 'Outfit', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Manrope', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
   --font-outlier: var(--font-mono);
   --font-sans: var(--font-body);
@@ -91,8 +91,8 @@
   --radius-md: 1rem;
   --radius-lg: 1.25rem;
   --radius-xl: 1.875rem;
-  --radius-card: var(--radius-xl);
-  --radius-input: var(--radius-md);
+  --radius-card: var(--radius-md);
+  --radius-input: var(--radius-sm);
   --radius-pill: 999px;
   --rule-hair: 1px;
   --rule-fine: 2px;
@@ -124,29 +124,32 @@
 }
 
 html.dark {
-  --color-paper: #020617;
-  --color-paper-2: #0b1120;
-  --color-paper-3: #111a30;
-  --color-surface-glass: rgba(11, 17, 32, 0.76);
-  --color-surface-soft: rgba(172, 145, 252, 0.08);
-  --color-ink: #f8fafc;
-  --color-ink-2: #a8b2c7;
-  --color-rule: #24314d;
-  --color-rule-strong: #354564;
-  --color-accent: #ac91fc;
-  --color-accent-hover: #c4b2ff;
-  --color-accent-ink: #020617;
+  --color-highlight: oklch(0.91163 0.10313 121.28);
+  --color-highlight-ink: oklch(0.23958 0.01829 165.26);
+  --color-project-stage: oklch(0.32093 0.03168 155.05);
+  --color-paper: oklch(0.20947 0.01200 167.28);
+  --color-paper-2: oklch(0.25301 0.01698 163.24);
+  --color-paper-3: oklch(0.30923 0.02468 156.46);
+  --color-surface-glass: var(--color-paper-2);
+  --color-surface-soft: color-mix(in srgb, var(--color-accent) 6%, var(--color-paper));
+  --color-ink: oklch(0.96791 0.01137 128.59);
+  --color-ink-2: oklch(0.77532 0.02211 147.57);
+  --color-rule: oklch(0.37470 0.03070 155.47);
+  --color-rule-strong: oklch(0.51311 0.04116 151.00);
+  --color-accent: oklch(0.91163 0.10313 121.28);
+  --color-accent-hover: oklch(0.94412 0.07264 121.99);
+  --color-accent-ink: oklch(0.23958 0.01829 165.26);
   --color-on-image: #ffffff;
-  --color-accent-soft: rgba(172, 145, 252, 0.18);
-  --color-signal: #60a5fa;
-  --color-signal-soft: rgba(96, 165, 250, 0.16);
-  --color-focus: #60a5fa;
+  --color-accent-soft: color-mix(in srgb, var(--color-accent) 13%, transparent);
+  --color-signal: oklch(0.91163 0.10313 121.28);
+  --color-signal-soft: var(--color-accent-soft);
+  --color-focus: oklch(0.91163 0.10313 121.28);
   --color-danger: #f87171;
-  --color-success: #34d399;
-  --color-overlay: rgba(2, 6, 23, 0.9);
-  --color-shadow: rgba(0, 0, 0, 0.34);
-  --color-dots: rgba(172, 145, 252, 0.2);
-  --color-code-bg: #0b1020;
-  --color-code-text: #dbeafe;
-  --color-code-label: #93a4bd;
+  --color-success: oklch(0.79262 0.09530 140.68);
+  --color-overlay: rgba(8, 15, 11, 0.9);
+  --color-shadow: rgba(0, 5, 2, 0.38);
+  --color-dots: var(--color-accent-soft);
+  --color-code-bg: #0f1712;
+  --color-code-text: #e2eadf;
+  --color-code-label: #a8b9a8;
 }

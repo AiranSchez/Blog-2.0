@@ -1,0 +1,157 @@
+---
+import type { ActivitySnapshot } from '../../features/github-activity';
+import { summarizeActivity } from '../../features/github-activity';
+import type { PortfolioLocale } from '../../data/portfolio-content';
+interface Props { lang: PortfolioLocale; snapshot: ActivitySnapshot | null; status: string }
+const { lang, snapshot, status } = Astro.props;
+const copy = {
+  es: { kicker: 'En abierto', title: 'En GitHub.', intro: 'Contribuciones públicas, no horas de trabajo.', profile: 'Ver perfil', recent: '90 días', year: 'Este año', daily: 'Contribuciones por día', total: 'Contribuciones', active: 'Días activos', streak: 'Racha máxima', average: 'Media diaria', days: 'días', graphs: 'Explorar las gráficas', monthly: 'Por mes', weekly: 'Por día de la semana', graphNote: 'Totales del período seleccionado; los meses pueden estar incompletos. La media incluye días sin actividad.', help: 'Toca una celda para ver el día. Con teclado, usa las flechas; Escape cierra el detalle.', empty: 'No hay datos verificados disponibles. Puedes consultar mi perfil en GitHub.', capture: 'Datos hasta', cached: 'Mostrando la última captura verificada.', source: 'Fuente de los datos', count: 'contribuciones', selected: 'Selecciona una fecha para ver su actividad.', best: 'Día con más actividad' },
+  en: { kicker: 'In the open', title: 'On GitHub.', intro: 'Public contributions, not hours worked.', profile: 'View profile', recent: '90 days', year: 'This year', daily: 'Contributions by day', total: 'Contributions', active: 'Active days', streak: 'Longest streak', average: 'Daily average', days: 'days', graphs: 'Explore the charts', monthly: 'By month', weekly: 'By weekday', graphNote: 'Totals for the selected period; months may be partial. The average includes inactive days.', help: 'Tap a cell to see the day. With a keyboard, use the arrow keys; Escape dismisses the detail.', empty: 'Verified data is unavailable. You can view my profile on GitHub.', capture: 'Data through', cached: 'Showing the last verified snapshot.', source: 'Data source', count: 'contributions', selected: 'Select a date to see its activity.', best: 'Most active day' },
+  ja: { kicker: '公開している活動', title: 'GitHubの活動。', intro: '公開の活動記録です。作業時間や品質の評価ではありません。', profile: 'プロフィール', recent: '90日間', year: '今年', daily: '日ごとの活動', total: 'コントリビューション', active: '活動した日', streak: '最長の連続日数', average: '1日あたりの平均', days: '日', graphs: 'グラフを見る', monthly: '月ごとの活動', weekly: '曜日ごとの活動', graphNote: '選択した期間の合計です。月の途中を含みます。平均には活動がない日も含めています。', help: '日付をタップして詳細を確認できます。キーボードでは矢印キー、閉じるにはEscapeを使います。', empty: '確認済みのデータがありません。GitHubのプロフィールをご覧ください。', capture: '集計日', cached: '最後に確認できたデータを表示しています。', source: 'データの出典', count: 'コントリビューション', selected: '日付を選ぶと、その日の活動が表示されます。', best: '最も活動した日' },
+}[lang];
+const days = snapshot?.days.slice(-90) ?? [];
+const summary = summarizeActivity(days);
+const number = new Intl.NumberFormat(lang);
+const date = (value: string) => new Intl.DateTimeFormat(lang, { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${value}T00:00:00Z`));
+const offset = days.length ? new Date(`${days[0].date}T00:00:00Z`).getUTCDay() : 0;
+---
+<section id="activity" class="content-section portfolio-activity" aria-labelledby="activity-heading" data-activity data-lang={lang} data-copy={JSON.stringify(copy)} data-snapshot={JSON.stringify(snapshot)}>
+  <div class="site-container">
+    <header class="portfolio-section-head">
+      <div><h2 id="activity-heading"><a class="activity-profile-link" href="https://github.com/AiranSchez" target="_blank" rel="noopener noreferrer">{copy.title}<span aria-hidden="true"> ↗</span></a></h2></div>
+      <div class="portfolio-section-description"><p>{copy.intro}</p></div>
+    </header>
+    {snapshot ? <div class="activity-panel">
+      <div class="activity-toolbar">
+        <p class="activity-period" data-period>{date(days[0].date)} — {date(days.at(-1)!.date)}</p>
+        <div class="activity-switch" role="group" aria-label={copy.kicker} data-activity-controls hidden>
+          <button type="button" data-range="90" aria-pressed="true">{copy.recent}</button>
+          <button type="button" data-range="year" aria-pressed="false">{snapshot.year}</button>
+        </div>
+      </div>
+      <dl class="activity-stats">
+        <div><dt>{copy.total}</dt><dd data-stat="total">{number.format(summary.total)}</dd></div>
+        <div><dt>{copy.active}</dt><dd data-stat="active">{number.format(summary.activeDays)}</dd></div>
+        <div><dt>{copy.streak}</dt><dd><span data-stat="streak">{summary.longestStreak}</span><small> {copy.days}</small></dd></div>
+        <div><dt>{copy.average}</dt><dd data-stat="average">{number.format(Number(summary.average.toFixed(1)))}</dd></div>
+      </dl>
+      <h3 class="activity-calendar-title">{copy.daily}</h3>
+      <div class="activity-calendar-scroll" data-calendar-scroll>
+        <div class="activity-calendar" data-calendar role="group" aria-label={copy.total}>
+          {Array.from({ length: offset }, () => <span class="activity-day activity-day--blank" aria-hidden="true" />)}
+          {days.map(day => <span class="activity-day" data-level={day.level} title={`${date(day.date)}: ${day.count} ${copy.count}`} />)}
+        </div>
+      </div>
+      <p class="activity-day-detail" data-day-detail aria-live="polite">{copy.selected}</p>
+      <p class="activity-help sr-only" id="activity-help" data-activity-help hidden>{copy.help}</p>
+      <details class="activity-charts">
+        <summary>{copy.graphs}<span aria-hidden="true">＋</span></summary>
+        <div class="activity-chart-grid">
+          <div><h3>{copy.monthly}</h3><ul class="activity-bars" data-month-chart>{summary.months.map(month => <li><span>{month.key}</span><span class="activity-bar-track" aria-hidden="true"><span style={`--bar-size:${month.total / Math.max(1, ...summary.months.map(m => m.total)) * 100}%`} /></span><strong>{number.format(month.total)}</strong></li>)}</ul></div>
+          <div><h3>{copy.weekly}</h3><ul class="activity-bars" data-week-chart>{[1, 2, 3, 4, 5, 6, 0].map(index => <li><span>{new Intl.DateTimeFormat(lang, { weekday: 'short', timeZone: 'UTC' }).format(new Date(Date.UTC(2026, 0, 4 + index)))}</span><span class="activity-bar-track" aria-hidden="true"><span style={`--bar-size:${summary.weekdays[index].total / Math.max(1, ...summary.weekdays.map(d => d.total)) * 100}%`} /></span><strong>{number.format(summary.weekdays[index].total)}</strong></li>)}</ul></div>
+        </div>
+        <p class="activity-best" data-best-day>{summary.bestDay && `${copy.best}: ${date(summary.bestDay.date)} · ${number.format(summary.bestDay.count)} ${copy.count}`}</p>
+        <p class="activity-help">{copy.graphNote}</p>
+      </details>
+      <p class="activity-source">{copy.capture} <time datetime={snapshot.capturedAt}>{date(snapshot.capturedAt)}</time>. {status === 'cached' && copy.cached} <a href={snapshot.source} target="_blank" rel="noopener noreferrer">{copy.source} ↗</a></p>
+      <div class="activity-tooltip" role="tooltip" id="activity-tooltip" hidden />
+    </div> : <p class="activity-unavailable">{copy.empty}</p>}
+  </div>
+</section>
+<script>
+  import { summarizeActivity, type ActivitySnapshot } from '../../features/github-activity';
+  const root = document.querySelector<HTMLElement>('[data-activity]');
+  if (root?.dataset.snapshot && root.dataset.snapshot !== 'null') {
+    const snapshot: ActivitySnapshot = JSON.parse(root.dataset.snapshot);
+    const copy: Record<string, string> = JSON.parse(root.dataset.copy!);
+    const lang = root.dataset.lang!;
+    const calendar = root.querySelector<HTMLElement>('[data-calendar]')!;
+    const scroller = root.querySelector<HTMLElement>('[data-calendar-scroll]')!;
+    const detail = root.querySelector<HTMLElement>('[data-day-detail]')!;
+    const tooltip = root.querySelector<HTMLElement>('[role="tooltip"]')!;
+    const controls = root.querySelector<HTMLElement>('[data-activity-controls]')!;
+    const number = new Intl.NumberFormat(lang);
+    const date = (value: string) => new Intl.DateTimeFormat(lang, { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${value}T00:00:00Z`));
+    const weekday = (index: number) => new Intl.DateTimeFormat(lang, { weekday: 'short', timeZone: 'UTC' }).format(new Date(Date.UTC(2026, 0, 4 + index)));
+    const node = (tag: string, text = '', className = '') => {
+      const element = document.createElement(tag); element.textContent = text; element.className = className; return element;
+    };
+    let timer: ReturnType<typeof setTimeout>;
+    let owner: HTMLElement | null = null;
+    function hideTooltip() {
+      clearTimeout(timer); tooltip.hidden = true; owner?.removeAttribute('aria-describedby'); owner = null;
+    }
+    function showDay(cell: HTMLButtonElement) {
+      hideTooltip(); owner = cell;
+      tooltip.textContent = cell.getAttribute('aria-label'); tooltip.hidden = false;
+      cell.setAttribute('aria-describedby', tooltip.id);
+      const bounds = cell.getBoundingClientRect(), panel = root!.getBoundingClientRect();
+      const size = tooltip.getBoundingClientRect();
+      tooltip.style.left = `${Math.max(16, Math.min(bounds.left - panel.left + bounds.width / 2 - size.width / 2, panel.width - size.width - 16))}px`;
+      tooltip.style.top = `${bounds.top - panel.top - size.height - 10}px`;
+    }
+    function chart(selector: string, rows: { label: string; total: number }[]) {
+      const max = Math.max(1, ...rows.map(row => row.total));
+      const items = rows.map(row => {
+        const item = node('li'), track = node('span', '', 'activity-bar-track'), bar = node('span');
+        track.setAttribute('aria-hidden', 'true'); bar.style.setProperty('--bar-size', `${row.total / max * 100}%`); track.append(bar);
+        item.append(node('span', row.label), track, node('strong', number.format(row.total))); return item;
+      });
+      root!.querySelector(selector)!.replaceChildren(...items);
+    }
+    function render(range: string) {
+      hideTooltip();
+      const days = range === 'year' ? snapshot.days : snapshot.days.slice(-90);
+      const result = summarizeActivity(days);
+      const values = { total: result.total, active: result.activeDays, streak: result.longestStreak, average: Number(result.average.toFixed(1)) };
+      for (const [key, value] of Object.entries(values)) root!.querySelector(`[data-stat="${key}"]`)!.textContent = number.format(value);
+      root!.querySelector('[data-period]')!.textContent = `${date(days[0].date)} — ${date(days.at(-1)!.date)}`;
+      controls.querySelectorAll('button').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.range === range)));
+      const offset = new Date(`${days[0].date}T00:00:00Z`).getUTCDay();
+      const cells: HTMLElement[] = Array.from({ length: offset }, () => node('span', '', 'activity-day activity-day--blank'));
+      days.forEach((day, index) => {
+        const cell = document.createElement('button'); cell.type = 'button'; cell.className = 'activity-day'; cell.dataset.level = String(day.level); cell.dataset.date = day.date;
+        cell.setAttribute('aria-label', `${date(day.date)}: ${number.format(day.count)} ${copy.count}`); cell.tabIndex = index === 0 ? 0 : -1;
+        cell.addEventListener('pointerenter', () => { clearTimeout(timer); timer = setTimeout(() => showDay(cell), 800); });
+        cell.addEventListener('pointerleave', () => {
+          clearTimeout(timer);
+          if (owner === cell && document.activeElement !== cell) hideTooltip();
+        });
+        cell.addEventListener('focus', () => {
+          calendar.querySelectorAll<HTMLButtonElement>('button').forEach(day => day.tabIndex = day === cell ? 0 : -1);
+          showDay(cell);
+        });
+        cell.addEventListener('blur', () => { if (owner === cell) hideTooltip(); });
+        cell.addEventListener('click', () => { detail.textContent = cell.getAttribute('aria-label'); showDay(cell); });
+        cells.push(cell);
+      });
+      calendar.replaceChildren(...cells); scroller.scrollLeft = 0;
+      calendar.setAttribute('aria-describedby', 'activity-help');
+      detail.textContent = copy.selected;
+      chart('[data-month-chart]', result.months.map(month => ({ label: new Intl.DateTimeFormat(lang, { month: 'short', timeZone: 'UTC' }).format(new Date(`${month.from}T00:00:00Z`)), total: month.total })));
+      chart('[data-week-chart]', [1, 2, 3, 4, 5, 6, 0].map(index => ({ label: weekday(index), total: result.weekdays[index].total })));
+      root!.querySelector('[data-best-day]')!.textContent = result.bestDay ? `${copy.best}: ${date(result.bestDay.date)} · ${number.format(result.bestDay.count)} ${copy.count}` : '';
+    }
+    calendar.addEventListener('keydown', event => {
+      if (event.key === 'Escape') { hideTooltip(); return; }
+      const cells = [...calendar.querySelectorAll<HTMLButtonElement>('button')];
+      const current = cells.indexOf(event.target as HTMLButtonElement);
+      const moves: Record<string, number> = { ArrowUp: -1, ArrowDown: 1, ArrowLeft: -7, ArrowRight: 7 };
+      const target = event.key === 'Home' ? 0 : event.key === 'End' ? cells.length - 1 : current + moves[event.key];
+      if (current < 0 || !Number.isFinite(target)) return;
+      event.preventDefault();
+      const next = cells[Math.max(0, Math.min(cells.length - 1, target))];
+      cells.forEach(cell => cell.tabIndex = cell === next ? 0 : -1); next.focus({ preventScroll: true });
+      const bounds = next.getBoundingClientRect(), visible = scroller.getBoundingClientRect();
+      if (bounds.right > visible.right) scroller.scrollLeft += bounds.right - visible.right + 8;
+      if (bounds.left < visible.left) scroller.scrollLeft -= visible.left - bounds.left + 8;
+    });
+    controls.querySelectorAll<HTMLButtonElement>('button').forEach(button => button.addEventListener('click', () => render(button.dataset.range!)));
+    window.addEventListener('scroll', () => {
+      if (owner instanceof HTMLButtonElement && document.activeElement === owner) showDay(owner);
+      else hideTooltip();
+    }, { passive: true }); window.addEventListener('resize', hideTooltip);
+    root.querySelector<HTMLElement>('[data-activity-help]')!.hidden = false;
+    controls.hidden = false; render('90');
+  }
+</script>

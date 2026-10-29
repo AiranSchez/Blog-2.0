@@ -16,8 +16,11 @@ const languageLabels = {
   ja: 'JA',
 };
 
+const controls = { es: { menu: 'Abrir navegación', theme: 'Cambiar tema', nav: 'Navegación principal' }, en: { menu: 'Open navigation', theme: 'Toggle theme', nav: 'Main navigation' }, ja: { menu: 'メニューを開く', theme: 'テーマを変更', nav: 'メインナビゲーション' } }[lang as 'en' | 'es' | 'ja'];
+
 const navItems = [
   { href: `/${lang}/`, label: t('nav.home'), match: `/${lang}/` },
+  { href: `/${lang}/projects/`, label: { en: 'Projects', es: 'Proyectos', ja: 'プロジェクト' }[lang as 'en' | 'es' | 'ja'], match: `/${lang}/projects` },
   { href: `/${lang}/blog/`, label: t('nav.blog'), match: `/${lang}/blog` },
   { href: `/${lang}/podcast/`, label: t('nav.podcast'), match: `/${lang}/podcast` },
   { href: `/${lang}/cv/`, label: t('nav.cv'), match: `/${lang}/cv` },
@@ -28,14 +31,13 @@ const isCurrent = (match: string) =>
   match === `/${lang}/` ? currentPath === match : match !== '#contact' && currentPath.startsWith(match);
 ---
 
-<!-- Hallmark · genre: atmospheric · nav: N10 Floating morph · design-system: studied-DNA -->
+<!-- Hallmark · nav: N9 Edge-aligned · design-system: Carbon / Citron -->
 <a href="#main-content" class="skip-to-main">{t('nav.skipToContent')}</a>
 
 <header class="site-header" data-site-header>
-  <nav class="site-nav" aria-label="Main navigation">
-    <a href={`/${lang}/`} class="site-wordmark" aria-label="Airán Sánchez — Home">
-      <span class="site-wordmark__mark" aria-hidden="true">AS</span>
-      <span class="site-wordmark__name">Airán Sánchez</span>
+  <nav class="site-nav" aria-label={controls.nav}>
+    <a href={`/${lang}/`} class="site-wordmark" aria-label={`Airán Sánchez — ${t('nav.home')}`}>
+      <span class="site-wordmark__signature" aria-hidden="true">airán<span>/</span></span>
     </a>
 
     <div class="site-nav__links">
@@ -62,7 +64,7 @@ const isCurrent = (match: string) =>
         </div>
       </details>
 
-      <button id="theme-toggle" class="icon-control" type="button" aria-label="Toggle theme">
+      <button id="theme-toggle" class="icon-control" type="button" aria-label={controls.theme}>
         <svg class="theme-icon theme-icon--sun" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <circle cx="12" cy="12" r="4"></circle>
           <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
@@ -74,18 +76,11 @@ const isCurrent = (match: string) =>
     </div>
 
     <details class="site-menu">
-      <summary class="menu-control" aria-label="Open navigation">
+      <summary class="menu-control" aria-label={controls.menu}>
         <span></span><span></span>
       </summary>
       <div class="site-menu__panel">
         {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
-        <div class="site-menu__divider"></div>
-        <a href={languageHref('en')} lang="en" hreflang="en">English</a>
-        <a href={languageHref('es')} lang="es" hreflang="es">Español</a>
-        <a href={languageHref('ja')} lang="ja" hreflang="ja">日本語</a>
-        <button id="mobile-theme-toggle" class="filter-button" type="button">
-          {t('nav.darkMode')}
-        </button>
       </div>
     </details>
   </nav>
@@ -93,7 +88,6 @@ const isCurrent = (match: string) =>
 
 <script>
   const themeToggle = document.getElementById('theme-toggle');
-  const mobileThemeToggle = document.getElementById('mobile-theme-toggle');
   const siteHeader = document.querySelector('[data-site-header]');
 
   function toggleTheme() {
@@ -104,7 +98,7 @@ const isCurrent = (match: string) =>
     localStorage.setItem('theme', nextTheme);
     document
       .querySelector('meta[name="theme-color"]')
-      ?.setAttribute('content', nextTheme === 'dark' ? '#020617' : '#f8fafc');
+      ?.setAttribute('content', nextTheme === 'dark' ? '#131a17' : '#f4f6f2');
   }
 
   function updateHeader() {
@@ -112,7 +106,6 @@ const isCurrent = (match: string) =>
   }
 
   themeToggle?.addEventListener('click', toggleTheme);
-  mobileThemeToggle?.addEventListener('click', toggleTheme);
   window.addEventListener('scroll', updateHeader, { passive: true });
   updateHeader();
 </script>

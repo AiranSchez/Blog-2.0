@@ -13,13 +13,14 @@ Arquitectura ligera por funcionalidades sobre las convenciones de Astro. No hay 
 | `src/components/home/`, `blog/`, `podcast/` | Presentación e interactividad agrupadas por funcionalidad. |
 | `src/components/shared/` | Componentes visuales reutilizables; no un lugar para reglas de servidor. |
 | `src/features/comments/` | Reglas, casos de uso y contrato `CommentsRepository`, sin Astro, Supabase, HTTP ni UI. |
+| `src/features/github-activity.ts` | Calendario normalizado, validación y cálculos puros de contribuciones. No consulta proveedores. |
 | `src/features/blog/` | URLs de artículos, identidad de traducción y claves persistentes de comentarios: conceptos separados. |
-| `src/server/` | Adaptadores de Supabase y LibreTranslate, implementación del repositorio e IP hashing. Nunca se importa desde el navegador. |
+| `src/server/` | Adaptadores de Supabase, LibreTranslate y GitHub, implementación del repositorio e IP hashing. Nunca se importa desde el navegador. |
 | `src/client/` | Cliente Supabase anónimo para Realtime, sin acceso a secretos del servidor. |
 | `src/content/` | Artículos Markdown, about MDX y datos; colecciones existentes `type: content/data` en `config.ts`. |
 | `src/data/` | Datos de home/CV y registro histórico `blog-legacy-routes.json`. |
 | `src/services/`, `src/i18n/` | Servicios compartidos y una sola implementación i18n: `services/i18n.ts` + `i18n/translations.ts`. El texto exclusivo de una funcionalidad puede seguir junto a ella. |
-| `src/styles/` y `tokens.css` | Layout → global.css → variables.css → tokens.css. `editorial.css` importa 11 módulos ordenados por responsabilidad. |
+| `src/styles/` y `tokens.css` | Layout → global.css → variables.css → tokens.css. `editorial.css` importa 13 módulos ordenados por responsabilidad. |
 | `public/` | Recursos servidos directamente, incluidos artefactos del CV. |
 | `tests/unit/`, `tests/build/`, `e2e/` | Reglas y límites de imports, artefactos construidos y comportamiento en navegador. |
 
@@ -35,17 +36,23 @@ Isla de comentarios → HTTP → ruta API → caso de uso → CommentsRepository
 Isla de comentarios → cliente anónimo (client) → Supabase Realtime
 Ruta de traducción → adaptador LibreTranslate (server)
 Formulario de contacto → Web3Forms (navegador, envío público)
+Home Astro → server/github-activity → calendario público GitHub → snapshot normalizado
+                                    ↘ captura local verificada si falla el proveedor
 ```
 
 La ruta de comentarios crea el adaptador y entrega tiempo/IP ya transformados al caso de uso. Las pruebas usan un repositorio en memoria y un instante fijo. Las funciones de árbol y limpieza de contenido ya no viven en UI. El código visual conserva formato relativo de fechas y preferencias locales de reacciones.
 
 Cambiar el proveedor de comentarios requiere implementar el contrato, pero reemplazar Supabase también implica persistencia, políticas y Realtime. Cambiar Astro/React afectaría al renderizado, rutas e interactividad; una buena organización no hace gratuita esa migración.
 
-## CSS sin cambio de diseño
+La actividad GitHub se consulta una vez por renderizado/build, compartida entre idiomas. No usa credenciales ni una API nueva. Las páginas estáticas muestran la fecha de captura y solo cambian al reconstruir; el adaptador conserva `src/data/github-activity.json` si falla la consulta o el formato. El navegador recibe solo fechas, cantidades y niveles normalizados; los cálculos del período se comparten con el renderizado inicial.
 
-El antiguo archivo editorial se divide en base, navegación/compartido, home, CV, contacto, archivo, artículo, podcast, footer/404, responsive y movimiento. Se ha conservado el orden de todas las reglas y las capas `base/components`; responsive permanece después de las reglas originales. Se dejan juntos los selectores compartidos y los overrides para no alterar precedencias al agruparlos por nombre.
+## CSS y diseño
 
-`design.md`, `tokens.css` y `.hallmark/` permanecen. Los metadatos antiguos de Hallmark son historia, no una descripción necesariamente vigente. No se añade un framework de estilos ni se cambia el tema.
+El antiguo archivo editorial se divide en base, navegación/compartido, home, CV, contacto, archivo, artículo, podcast, footer/404, responsive y movimiento. La reorganización inicial conservó el orden de todas las reglas y las capas `base/components`; responsive permanece después de las reglas originales. Se dejan juntos los selectores compartidos y los overrides para no alterar precedencias al agruparlos por nombre.
+
+El rediseño móvil añade `editorial/portfolio.css` al final del manifiesto, con la composición de portada y la cabecera/pie compartidos. La dirección Carbon / Citron actualiza los roles globales de color y las fuentes; artículos, CV y podcast conservan sus rutas, contenidos y estructura, y se comprueban como superficies afectadas.
+
+`design.md`, `tokens.css` y `.hallmark/` permanecen. Los metadatos antiguos de Hallmark son historia, no una descripción necesariamente vigente. No se añade un framework de estilos ni dependencias. El sistema visual autorizado usa Space Grotesk, Manrope y JetBrains Mono; el cambio queda definido en design.md y tokens.css.
 
 ## Construcción y compatibilidad
 
