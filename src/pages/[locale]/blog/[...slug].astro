@@ -1,19 +1,16 @@
 ---
-import Layout from '../../../layouts/Layout.astro';
-import Header from '../../../layouts/Header.astro';
-import Footer from '../../../layouts/Footer.astro';
+import KineticLayout from '../../../layouts/KineticLayout.astro';
 import { getCollection } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import { articleAlternates, articleLocale, articlePath, commentKey, normalizeArticleSlug } from '../../../features/blog/routes';
-import { getLangFromUrl, useTranslations } from '../../../services/i18n';
+import { getLangFromUrl } from '../../../services/i18n';
 import CommentsSection from '../../../components/blog/comments/CommentsSection';
 
 export const prerender = true;
 
 export const getStaticPaths = (async () => {
   const blogEntries = await getCollection('blog');
-
-  const paths = blogEntries.map(entry => articlePath(articleLocale(entry), entry.slug));
+  const paths = blogEntries.map((entry) => articlePath(articleLocale(entry), entry.slug));
   if (new Set(paths).size !== paths.length) throw new Error('Duplicate normalized blog URL');
 
   return blogEntries.map((entry) => ({
@@ -27,99 +24,65 @@ export const getStaticPaths = (async () => {
 
 const { entry, languagePaths } = Astro.props;
 const { Content } = await entry.render();
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
-
+const lang = getLangFromUrl(Astro.url) as 'en' | 'es' | 'ja';
 const canonicalSlug = commentKey(entry.id);
+
+const copy = {
+  es: { back: 'Volver al archivo', published: 'Publicado', tags: 'Temas', article: 'Artículo', comments: 'Comentarios' },
+  en: { back: 'Back to the archive', published: 'Published', tags: 'Topics', article: 'Article', comments: 'Comments' },
+  ja: { back: '記事一覧に戻る', published: '公開日', tags: 'テーマ', article: '記事', comments: 'コメント' },
+}[lang];
 
 const supabaseUrl = import.meta.env.SUPABASE_URL ?? '';
 const supabaseAnonKey = import.meta.env.SUPABASE_ANON_KEY ?? '';
-
-const backText = {
-  en: 'Back to the archive',
-  es: 'Volver al archivo',
-  ja: '記事一覧に戻る',
-}[lang];
-
-const publishedText = {
-  en: 'Published',
-  es: 'Publicado',
-  ja: '公開日',
-}[lang];
+const publishedDate = new Intl.DateTimeFormat(lang, { year: 'numeric', month: 'long', day: 'numeric' }).format(entry.data.date);
 ---
 
-<Layout
-  title={`${entry.data.title} - Airán`}
+<KineticLayout
+  title={`${entry.data.title} · Airán Sánchez`}
   description={entry.data.description}
   image={entry.data.featuredImage}
   lang={lang}
   languagePaths={languagePaths}
 >
-  <Header languagePaths={languagePaths} />
-
-  <!-- Hallmark · genre: atmospheric · macrostructure: Long Document · design-system: studied-DNA -->
-  <main id="main-content" class="article-page">
-    <div class="article-page__atmosphere" aria-hidden="true"></div>
-    <article class="site-container article-shell">
-      <nav class="article-breadcrumb" aria-label="Breadcrumb">
-        <ol>
-          <li><a href={`/${lang}/`}>{t('nav.home')}</a></li>
-          <li aria-hidden="true">/</li>
-          <li><a href={`/${lang}/blog/`}>{t('nav.blog')}</a></li>
-        </ol>
+  <main id="main-content">
+    <article class="article-shell">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href={`/${lang}/`}>{lang === 'es' ? 'Inicio' : lang === 'ja' ? 'ホーム' : 'Home'}</a>
+        <span aria-hidden="true">/</span>
+        <a href={`/${lang}/blog/`}>{lang === 'es' ? 'Blog' : lang === 'ja' ? 'ブログ' : 'Blog'}</a>
       </nav>
 
-      <header class="article-header">
-        <div class="article-header__meta">
-          <span class="meta">{publishedText}</span>
-          <time datetime={entry.data.date.toISOString()}>
-            {new Intl.DateTimeFormat(lang, {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-            }).format(entry.data.date)}
-          </time>
-          <span aria-hidden="true">·</span>
-          <span>{entry.data.tags.slice(0, 2).join(' · ')}</span>
-        </div>
-        <div class="article-header__copy">
-          <h1 class="article-title">{entry.data.title}</h1>
-          <p class="article-deck">{entry.data.description}</p>
+      <header class="article-hero">
+        <p class="kicker"><span>{copy.article}</span><span>{publishedDate}</span><span>{entry.data.tags.slice(0, 3).join(' · ')}</span></p>
+        <h1 class="article-title">{entry.data.title}<span class="hero__period">.</span></h1>
+        <p class="article-deck">{entry.data.description}</p>
+        <div class="article-tags tag-list" aria-label={copy.tags}>
+          {entry.data.tags.map((tag) => <span class="tag">{tag}</span>)}
         </div>
       </header>
 
       {entry.data.featuredImage && (
         <figure class="article-cover">
-          <img src={entry.data.featuredImage} alt="" loading="eager" />
+          <img src={entry.data.featuredImage} alt="" loading="eager" fetchpriority="high" />
         </figure>
       )}
 
-      <div class="article-content-grid">
-        <aside class="article-marginalia">
-          <a class="text-link text-link--back" href={`/${lang}/blog/`}>← {backText}</a>
-          <div class="article-tags" aria-label="Tags">
-            {entry.data.tags.map((tag) => <span class="tag">{tag}</span>)}
-          </div>
-        </aside>
-
-        <div>
-          <div class="article-body">
-            <Content />
-          </div>
-
-          <div class="article-comments">
-            <CommentsSection
-              client:load
-              articleSlug={canonicalSlug}
-              locale={lang}
-              supabaseUrl={supabaseUrl}
-              supabaseAnonKey={supabaseAnonKey}
-            />
-          </div>
-        </div>
+      <div class="article-body">
+        <Content />
       </div>
+
+      <div class="article-footer">
+        <a class="link" href={`/${lang}/blog/`}>← {copy.back}</a>
+      </div>
+
+      <CommentsSection
+        client:load
+        articleSlug={canonicalSlug}
+        locale={lang}
+        supabaseUrl={supabaseUrl}
+        supabaseAnonKey={supabaseAnonKey}
+      />
     </article>
   </main>
-
-  <Footer />
-</Layout>
+</KineticLayout>

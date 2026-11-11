@@ -1,0 +1,59 @@
+---
+import { summarizeActivity, type ActivitySnapshot } from '../../features/github-activity';
+
+interface Props {
+  lang: 'en' | 'es' | 'ja';
+  snapshot: ActivitySnapshot | null;
+  status: string;
+}
+const { lang, snapshot, status } = Astro.props;
+const copy = {
+  es: { kicker: 'En abierto', title: 'EN GITHUB.', intro: 'Contribuciones públicas, no horas de trabajo ni productividad.', total: 'Contribuciones', active: 'Días activos', streak: 'Racha máxima', average: 'Media diaria', days: 'días', daily: 'Actividad de este año', profile: 'Ver perfil', capture: 'Datos hasta', cached: 'Última captura verificada.', unavailable: 'No hay datos verificados disponibles.', source: 'Fuente' },
+  en: { kicker: 'In the open', title: 'ON GITHUB.', intro: 'Public contributions, not hours worked or productivity.', total: 'Contributions', active: 'Active days', streak: 'Longest streak', average: 'Daily average', days: 'days', daily: "This year's activity", profile: 'View profile', capture: 'Data through', cached: 'Last verified snapshot.', unavailable: 'Verified data is unavailable.', source: 'Source' },
+  ja: { kicker: '公開している活動', title: 'GITHUBの活動。', intro: '公開のコントリビューションです。作業時間や生産性ではありません。', total: 'コントリビューション', active: '活動した日', streak: '最長の連続日数', average: '1日あたりの平均', days: '日', daily: '今年の活動', profile: 'プロフィール', capture: '集計日', cached: '最後に確認できたデータです。', unavailable: '確認済みのデータがありません。', source: '出典' },
+}[lang];
+
+const days = snapshot?.days ?? [];
+const summary = summarizeActivity(days);
+const number = new Intl.NumberFormat(lang);
+const formatDate = (value: string) =>
+  new Intl.DateTimeFormat(lang, { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${value}T00:00:00Z`));
+const offset = days.length ? new Date(`${days[0].date}T00:00:00Z`).getUTCDay() : 0;
+---
+
+<section class="scene activity-scene" id="actividad" aria-labelledby="activity-title">
+  <div class="scene__head">
+    <div>
+      <p class="kicker"><span>{copy.kicker}</span></p>
+      <h2 id="activity-title" class="scene__title">{copy.title}</h2>
+    </div>
+    <p class="scene__body">{copy.intro}</p>
+  </div>
+
+  {snapshot ? (
+    <div class="activity-panel">
+      <dl class="activity-stats">
+        <div><dt>{copy.total}</dt><dd>{number.format(summary.total)}</dd></div>
+        <div><dt>{copy.active}</dt><dd>{number.format(summary.activeDays)}</dd></div>
+        <div><dt>{copy.streak}</dt><dd>{summary.longestStreak} <small>{copy.days}</small></dd></div>
+        <div><dt>{copy.average}</dt><dd>{number.format(Number(summary.average.toFixed(1)))}</dd></div>
+      </dl>
+
+      <div class="activity-calendar-scroll">
+        <div class="activity-calendar" role="img" aria-label={`${copy.daily}: ${copy.total} ${number.format(summary.total)}`}>
+          {Array.from({ length: offset }, () => <span class="activity-cell activity-cell--blank" aria-hidden="true"></span>)}
+          {days.map((day) => (
+            <span class:list={['activity-cell', `activity-cell--l${day.level}`]} title={`${formatDate(day.date)}: ${number.format(day.count)} ${copy.total}`}></span>
+          ))}
+        </div>
+      </div>
+
+      <div class="activity-meta">
+        <span>{copy.capture} {formatDate(snapshot.capturedAt)}. {status === 'cached' && copy.cached}</span>
+        <a href="https://github.com/AiranSchez" target="_blank" rel="noreferrer">{copy.profile} ↗</a>
+      </div>
+    </div>
+  ) : (
+    <p class="scene__body activity-unavailable">{copy.unavailable} <a class="link" href="https://github.com/AiranSchez" target="_blank" rel="noreferrer">{copy.profile} ↗</a></p>
+  )}
+</section>

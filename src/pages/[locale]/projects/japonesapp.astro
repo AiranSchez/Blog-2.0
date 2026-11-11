@@ -1,62 +1,144 @@
 ---
-import Layout from '../../../layouts/Layout.astro';
-import Header from '../../../layouts/Header.astro';
-import Footer from '../../../layouts/Footer.astro';
+import KineticLayout from '../../../layouts/KineticLayout.astro';
 import { japonesAppCopy, japonesAppMedia, japonesAppTechnologies } from '../../../data/japonesapp';
 import { getLangFromUrl } from '../../../services/i18n';
 import type { PortfolioLocale } from '../../../data/portfolio-content';
 
 export const prerender = true;
 export function getStaticPaths() {
-  return ['en', 'es', 'ja'].map(locale => ({ params: { locale } }));
+  return ['en', 'es', 'ja'].map((locale) => ({ params: { locale } }));
 }
 const lang = getLangFromUrl(Astro.url) as PortfolioLocale;
 const copy = japonesAppCopy[lang];
+
+const pageCopy = {
+  es: {
+    meta: 'LeanMind · Proyecto personal · 2026',
+    statusLabel: 'Estado', status: 'Prototipo móvil, sin publicación en tiendas.',
+    stackLabel: 'Stack', roleLabel: 'Rol', role: 'Interfaz, datos locales y motor de repaso.',
+    recordingLabel: 'Grabación', recordingValue: 'Simulador de iPhone · 28 segundos · sin audio.',
+    processTitle: 'DE LA IDEA A LA PANTALLA.', processBody: 'Una necesidad, un prototipo y una grabación honesta.',
+    phases: [
+      { time: 'Fase 01', title: 'La necesidad.', text: 'Aprender japonés con sesiones pequeñas y progreso visible.' },
+      { time: 'Fase 02', title: 'El prototipo.', text: 'Interfaz móvil, datos locales y un motor de repetición espaciada.' },
+      { time: 'Fase 03', title: 'La grabación.', text: 'Una muestra real del simulador, sin audio y sin métricas inventadas.' },
+    ],
+    back: 'Volver a proyectos', contact: 'Hablemos del proyecto', heroAlt: 'Pantalla real de Kanjis N5 de JaponesApp',
+  },
+  en: {
+    meta: 'LeanMind · Personal project · 2026',
+    statusLabel: 'Status', status: 'Mobile prototype, not released in stores.',
+    stackLabel: 'Stack', roleLabel: 'Role', role: 'Interface, local data and review engine.',
+    recordingLabel: 'Recording', recordingValue: 'iPhone simulator · 28 seconds · no audio.',
+    processTitle: 'FROM IDEA TO SCREEN.', processBody: 'A need, a prototype and an honest recording.',
+    phases: [
+      { time: 'Phase 01', title: 'The need.', text: 'Learn Japanese in small sessions with visible progress.' },
+      { time: 'Phase 02', title: 'The prototype.', text: 'Mobile interface, local data and a spaced-repetition engine.' },
+      { time: 'Phase 03', title: 'The recording.', text: 'A real simulator sample, no audio and no invented metrics.' },
+    ],
+    back: 'Back to projects', contact: 'Talk about the project', heroAlt: 'Real JaponesApp Kanji N5 screen',
+  },
+  ja: {
+    meta: 'LeanMind · 個人プロジェクト · 2026',
+    statusLabel: '状態', status: 'モバイル試作。ストア未公開。',
+    stackLabel: 'スタック', roleLabel: '役割', role: '画面、ローカルデータ、復習エンジン。',
+    recordingLabel: '録画', recordingValue: 'iPhoneシミュレーター · 28秒 · 音声なし。',
+    processTitle: 'アイデアから画面へ。', processBody: '必要性、プロトタイプ、正直な録画。',
+    phases: [
+      { time: 'フェーズ 01', title: '必要性。', text: '短い学習時間と見える進捗で日本語を学ぶ。' },
+      { time: 'フェーズ 02', title: 'プロトタイプ。', text: 'モバイル画面、ローカルデータ、間隔反復エンジン。' },
+      { time: 'フェーズ 03', title: '録画。', text: 'シミュレーターの実際の映像。音声も作られた指標もありません。' },
+    ],
+    back: 'プロジェクト一覧へ', contact: 'このプロジェクトについて', heroAlt: 'JaponesAppの漢字N5の実際の画面',
+  },
+}[lang];
 ---
 
-<Layout title="JaponesApp · Airán Sánchez" description={copy.summary} image={japonesAppMedia.poster} lang={lang}>
-  <Header />
-  <!-- Hallmark · pre-emit critique: P5 H5 E4 S5 R5 V4 · theme: studied-DNA · macrostructure: Project story + real recording -->
-  <main id="main-content" class="page-shell project-story">
-    <header class="project-story__hero site-container">
-      <a class="text-link" href={`/${lang}/projects/`}>← {copy.allProjects}</a>
-      <p class="section-kicker">{copy.kicker}</p>
-      <h1 class="page-title">JaponesApp</h1>
-      <p class="page-description">{copy.summary}</p>
-      <div class="hero-actions">
-        <a class="primary-action" href="#recording">{copy.recordingAction}<span aria-hidden="true"> ↓</span></a>
-        <a class="text-link" href={`/${lang}/#contact`}>{copy.contact}</a>
+<KineticLayout title="JaponesApp · Airán Sánchez" description={copy.summary} image="/kinetic/project-showcase-poster.png" lang={lang}>
+  <main id="main-content">
+    <section class="page-hero" aria-labelledby="case-title">
+      <div class="case-hero">
+        <div>
+          <p class="kicker"><span>{pageCopy.meta}</span></p>
+          <h1 id="case-title" class="page-hero__display"><span><span>JaponesApp</span></span></h1>
+          <div class="hero__type" data-typewriter={japonesAppTechnologies.join(' · ')}>{japonesAppTechnologies.join(' · ')}</div>
+          <p class="lede">{copy.summary}</p>
+          <div class="hero__actions">
+            <a class="btn" href="#recording">{copy.recordingAction}</a>
+            <a class="btn btn--ghost" href={`/${lang}/projects/`}>{pageCopy.back}</a>
+          </div>
+        </div>
+        <figure class="case-hero__media">
+          <img src="/kinetic/project-kanji.png" alt={pageCopy.heroAlt} width="604" height="1314" loading="eager" fetchpriority="high" />
+        </figure>
       </div>
-    </header>
 
-    <section class="site-container project-story__overview" aria-labelledby="recording-heading">
-      <figure id="recording" class="project-recording">
-        <video controls playsinline preload="none" poster={japonesAppMedia.poster} width={japonesAppMedia.width} height={japonesAppMedia.height} aria-label={copy.videoLabel} aria-describedby="recording-caption">
+      <dl class="spec">
+        <div><dt>{pageCopy.statusLabel}</dt><dd>{pageCopy.status}</dd></div>
+        <div><dt>{pageCopy.stackLabel}</dt><dd>{japonesAppTechnologies.join(' · ')}</dd></div>
+        <div><dt>{pageCopy.roleLabel}</dt><dd>{pageCopy.role}</dd></div>
+        <div><dt>{pageCopy.recordingLabel}</dt><dd>{pageCopy.recordingValue}</dd></div>
+      </dl>
+    </section>
+
+    <section class="case-layout" id="recording" aria-labelledby="recording-title">
+      <div class="case-sticky">
+        <h2 id="recording-title">{copy.recording}</h2>
+        <p>{copy.recordingDescription}</p>
+      </div>
+      <div>
+        <video class="case-video" controls playsinline preload="metadata" poster={japonesAppMedia.poster} width={japonesAppMedia.width} height={japonesAppMedia.height} aria-label={copy.videoLabel}>
           <source src={japonesAppMedia.video} type="video/mp4" />
           <a href={japonesAppMedia.video}>{copy.videoFallback}</a>
         </video>
-        <figcaption id="recording-caption">{copy.recordingDescription}</figcaption>
-        <a class="text-link" href={japonesAppMedia.video}>{copy.videoFallback}</a>
-      </figure>
-      <div class="project-story__context">
-        <span class="section-kicker">JaponesApp</span>
-        <h2 id="recording-heading">{copy.recording}</h2>
-        <h3>{copy.whyTitle}</h3>
-        <p>{copy.why}</p>
-        <div class="tag-list">{japonesAppTechnologies.map(technology => <span class="tag">{technology}</span>)}</div>
-        <aside class="project-note" aria-labelledby="limits-heading">
-          <h3 id="limits-heading">{copy.limitsTitle}</h3>
-          <p>{copy.limits}</p>
-        </aside>
+        <p class="case-video-caption">{pageCopy.recordingValue}</p>
       </div>
     </section>
 
-    <section class="site-container project-decisions" aria-labelledby="decisions-heading">
-      <header class="section-head"><h2 id="decisions-heading" class="section-heading">{copy.decisionsTitle}</h2></header>
-      <div class="project-decisions__list">
-        {copy.decisions.map(decision => <article><h3>{decision.title}</h3><p>{decision.text}</p></article>)}
+    <section class="scene" aria-labelledby="idea-title">
+      <div class="scene__head">
+        <div><h2 id="idea-title" class="scene__title">{copy.whyTitle}</h2></div>
+        <p class="scene__body">{copy.why}</p>
+      </div>
+      <div class="stack">
+        {copy.decisions.map((decision) => (
+          <article class="stack-card">
+            <h3>{decision.title}</h3>
+            <p>{decision.text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="scene" aria-labelledby="process-title">
+      <div class="scene__head">
+        <div><h2 id="process-title" class="scene__title">{pageCopy.processTitle}</h2></div>
+        <p class="scene__body">{pageCopy.processBody}</p>
+      </div>
+      <ol class="timeline">
+        {pageCopy.phases.map((phase, index) => (
+          <li style={`--i:${index}`}>
+            <time>{phase.time}</time>
+            <h3>{phase.title}</h3>
+            <p>{phase.text}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="scene" aria-labelledby="limits-title">
+      <div class="scene__head">
+        <div><h2 id="limits-title" class="scene__title">{copy.limitsTitle}</h2></div>
+        <p class="scene__body">{copy.limits}</p>
+      </div>
+      <div class="hero__actions">
+        <a class="btn" href={`/${lang}/projects/`}>{pageCopy.back}</a>
+        <a class="link" href={`/${lang}/#contact`}>{pageCopy.contact}</a>
       </div>
     </section>
   </main>
-  <Footer />
-</Layout>
+
+  <script>
+    import '../../../scripts/kinetic-home';
+  </script>
+</KineticLayout>

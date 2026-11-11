@@ -116,19 +116,17 @@
     "locale": "es"
   },
   {
-    "company": "LeanMind - TechnyFarma",
+    "company": "LeanMind - Next Digital",
     "role": "Desarrollador Full Stack",
     "startDate": "2026-05",
     "endDate": null,
-    "description": "Colaboro como desarrollador full stack en un proyecto para TechnyFarma, trabajando con C#, PostgreSQL, JavaScript, MQTT y CSS en el contexto de integraciones con ERPs de farmacia.",
+    "description": "",
     "technologies": [
       "C#",
       ".NET",
       "PostgreSQL",
       "JavaScript",
-      "MQTT",
-      "ERP de farmacia",
-      "CSS3"
+      "MQTT"
     ],
     "locale": "es"
   }

@@ -7,7 +7,7 @@
     "url": "https://www.airanschez.tech",
     "summary": "Software developer experienced in data, web product, backend, infrastructure, and internal tools. I focus on turning complex problems into maintainable systems that teams can understand and evolve.",
     "location": {
-      "region": "Canary Islands ↔ Japan"
+      "region": "Canary Islands ↔ Spain ↔ Japan"
     },
     "profiles": [
       {
@@ -24,19 +24,17 @@
   },
   "work": [
     {
-      "name": "LeanMind - TechnyFarma",
+      "name": "LeanMind - Next Digital",
       "position": "Full Stack Developer",
       "startDate": "2026-05",
       "endDate": "",
-      "summary": "I collaborate as a full-stack developer on a project for TechnyFarma, working with C#, PostgreSQL, JavaScript, MQTT, and CSS in the context of pharmacy ERP integrations.",
+      "summary": "",
       "highlights": [
         "C#",
         ".NET",
         "PostgreSQL",
         "JavaScript",
-        "MQTT",
-        "Pharmacy ERP",
-        "CSS3"
+        "MQTT"
       ]
     },
     {
@@ -237,6 +235,6 @@
   "meta": {
     "canonical": "https://www.airanschez.tech/en/cv/",
     "version": "v1.0.0",
-    "lastModified": "2026-07-26"
+    "lastModified": "2026-11-11"
   }
 }

@@ -159,9 +159,11 @@ def experience_flowable(
     s: dict[str, ParagraphStyle],
     present: str,
     width_mm: float = 153,
+    compact: bool = False,
 ):
     period = f"{format_month(item['startDate'], lang, present)} - {format_month(item['endDate'], lang, present)}"
-    technologies = "  ·  ".join(item["technologies"][:8])
+    labels = {"Dotnet": ".NET", "Html5": "HTML5", "Css3": "CSS3", "Github": "GitHub", "Javascript": "JavaScript"}
+    technologies = "  ·  ".join(labels.get(value, value) for value in item["technologies"][:8])
     return [
         Table([
             [Paragraph(esc(item["company"]), s["company"]), Paragraph(esc(period), s["period"])],
@@ -174,12 +176,12 @@ def experience_flowable(
             ("BOTTOMPADDING", (0,0), (-1,-1), 0),
         ])),
         Paragraph(esc(item["role"]), s["role"]),
-        Paragraph(esc(item["description"]), s["body"]),
+        *([Paragraph(esc(item["description"]), s["body"])] if not compact and item.get("description") else []),
         Spacer(1, 4),
         Paragraph(esc(technologies), s["keywords"]),
-        Spacer(1, 11),
+        Spacer(1, 7 if compact else 11),
         Table([[""]], colWidths=[width_mm*mm], rowHeights=[0.35], style=TableStyle([("BACKGROUND", (0,0), (-1,-1), RULE)])),
-        Spacer(1, 10),
+        Spacer(1, 7 if compact else 10),
     ]
 
 
@@ -249,8 +251,8 @@ def generate_pdf(lang: str, cv: dict[str, Any], experience: list[dict[str, Any]]
     ])
 
     first_experience = []
-    for item in experience[:3]:
-        first_experience.extend(experience_flowable(item, lang, s, cv["labels"]["present"], width_mm=99))
+    for item in experience:
+        first_experience.extend(experience_flowable(item, lang, s, cv["labels"]["present"], width_mm=99, compact=True))
 
     skill_blocks = []
     for skill in cv["skills"]:
@@ -274,10 +276,7 @@ def generate_pdf(lang: str, cv: dict[str, Any], experience: list[dict[str, Any]]
         ("LINEBEFORE", (1,0), (1,0), 0.5, RULE),
     ]))
 
-    story = [first_body, NextPageTemplate("later"), PageBreak()]
-    story.append(Paragraph(esc(cv["labels"]["experience"]), s["section"]))
-    for item in experience[3:]:
-        story.append(KeepTogether(experience_flowable(item, lang, s, cv["labels"]["present"])))
+    story = [first_body]
 
     education_flow = [Paragraph(esc(cv["labels"]["education"]), s["section"])]
     for item in cv["education"]:
@@ -297,7 +296,7 @@ def generate_pdf(lang: str, cv: dict[str, Any], experience: list[dict[str, Any]]
         Paragraph(f'<link href="{esc(talk["url"])}" color="#4727cc">YouTube ↗</link>', s["keywords"]),
     ]
     story.extend([
-        Spacer(1, 4*mm),
+        Spacer(1, 3*mm),
         Table([[education_flow, talk_flow]], colWidths=[77*mm, 77*mm], style=TableStyle([
             ("VALIGN", (0,0), (-1,-1), "TOP"),
             ("BOX", (0,0), (-1,-1), 0.5, RULE),

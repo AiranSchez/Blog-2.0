@@ -1,89 +1,169 @@
 # Design — Airán Sánchez
 
-## Dirección autorizada
+## Estado
 
-El usuario autoriza expresamente una dirección nueva en colores, estilos, orden y texto. Sustituye el sistema visual violeta anterior, no su contenido ni rutas. La base es técnica y personal: carbón, verde lima y una variante clara mineral, sin beige, tipografía serif rústica, gradientes ni cristal decorativo.
+Sistema activo: **Kinetic Type / Cobalto editorial**.
 
-## Hallmark fingerprint
+Sustituye a Carbon / Citron. El sistema anterior queda archivado en
+`output/design-archive/design-carbon-citron.md` como referencia histórica. No se
+reutilizan sus tokens, tipografías ni decoraciones.
 
-- Theme: **custom — Carbon / Citron**. No copia visual de una referencia.
-- Estructura: **identidad → evidencia → contexto → actividad → conversación**.
-- Nav: **N9 Edge-aligned**, wordmark tipográfico, utilidades accesibles y menú móvil nativo.
-- Footer: **Ft1 cierre de autor compacto**, sin un segundo hero de contacto.
-- Anterior: azul noche / Outfit / acento violeta / navegación flotante. Ahora: carbón / Space Grotesk + Manrope / lima y verde / cabecera abierta. Cambian papel, tipografía, acento y jerarquía, no solo un color.
+La Home y el shell nuevo están implementados en Astro. Blog, CV, Podcast, caso
+JaponesApp y 404 se migran página a página con este mismo sistema.
+
+## Idea
+
+Una web editorial con energía cinética. La tipografía grande, el contraste y el
+movimiento ordenan la lectura; el contenido real (proyecto, artículo, podcast,
+trayectoria, actividad y recomendación) es la prueba. Nada de testimonios,
+métricas o casos inventados.
+
+## Fingerprint
+
+- Género: editorial.
+- Estructura: narrativa cinética, no una landing de secciones apiladas.
+- Home: perfil → práctica → trabajo → escritura → escucha → trayectoria →
+  recomendación → actividad → contacto.
+- Shell: header fijo que se oculta al bajar, rail vertical de secciones, drawer
+  móvil, footer de cierre y progreso de lectura.
+- Voz: directa, cálida, específica. Sin superlativos de marketing.
 
 ## Tipografía
 
-- Display: **Space Grotesk**, 500/600/700. Nombre en dos líneas con respiración, tracking de -0.045em, nunca palabras comprimidas para forzar una línea.
-- Cuerpo: **Manrope**, 400/500/600/700. Lectura desde 14px; formularios a 16px.
-- Metadatos técnicos: **JetBrains Mono**, uso puntual.
-- Títulos romanos, sin texto en gradiente ni typewriter. Saltos semánticos para japonés.
+- Display: **DM Serif Display**, romana. Titulares grandes, nombre y frases
+  editoriales. Nunca en textos pequeños ni en filas densas.
+- Cuerpo y subtítulos: **Archivo** 400/500/600/700. Los títulos pequeños,
+  tarjetas, filas de archivo y timeline usan Archivo 700.
+- Datos y metadatos: **IBM Plex Mono** 400/500.
+- Fallbacks japoneses: Hiragino Mincho / Yu Mincho / Noto Serif JP para display;
+  Hiragino Sans / Yu Gothic / Noto Sans JP para cuerpo.
+- Escala display: hero `clamp(3rem, 10.5vw, 10rem)`, página `clamp(2.4rem, 7.5vw, 8.5rem)`,
+  sección `clamp(2rem, 6.2vw, 6.5rem)`. Leading 0.9–0.96 y tracking −0.03em.
+- Metadatos mínimos a 12px. Cuerpo de lectura a 16px o más.
 
-## Color y tokens
+## Color
 
-`tokens.css` define todos los roles, con neutros tintados en OKLCH.
+Tokens en `src/styles/kinetic-theme.css`:
 
-- Claro: papel #f4f6f2, superficie #fcfdfb, tinta #17221d, secundaria #526257, acento #355b3c.
-- Oscuro: papel #131a17, superficie #1b2520, tinta #f2f6ee, secundaria #adbaae, acento #d7ed9f.
-- Señal lima: #d7ed9f con tinta #17221d. El área de vídeo usa una superficie de baja saturación, no un bloque de acento completo.
-- Roles `--color-highlight` / `--color-highlight-ink` para la acción principal; `--color-project-stage` para la evidencia real.
-- No colores o fuentes improvisados dentro de componentes. El sistema se comparte con blog, CV, proyectos y podcast; se verifican por regresión.
+| Rol | Claro | Oscuro |
+|---|---|---|
+| Papel | `#F3F0E9` | `#0B0B0C` |
+| Superficie | `#E9E4DA` | `#141416` |
+| Tinta | `#070707` | `#F2EFE6` |
+| Secundaria | `#6B645A` | `#A8A198` |
+| Regla | `#D4CDC0` | `#2A2825` |
+| Señal | `#2E4BD8` | `#9DB1FF` |
+| Señal sobre papel | `#F3F0E9` | `#0B0B0C` |
 
-## Composición
+- Claro es el tema por defecto. El botón alterna y guarda `theme`.
+- `#2E4BD8` sobre papel: 5.93:1. `#9DB1FF` sobre noche: 9.52:1.
+- No se usan gradientes decorativos, cristal, sombras difusas ni paletas
+  improvisadas dentro de componentes.
+- La imagen de la app puede conservar su color real; no se tiñe con la señal.
 
-- Home: perfil compacto con retrato real y nombre expresivo; proyecto inmediatamente después, no escondido tras CV/estadísticas.
-- JaponesApp: protagonista con grabación real manual, estado de prototipo y acceso al caso. No miniquiz, descargas inexistentes ni métricas sin fuente.
-- Perfil y trayectoria: texto breve, trabajo actual, historial desplegable y enlace al CV. La prueba social usa un fragmento literal del testimonio, con texto completo accesible.
-- GitHub: mismas funciones y cuatro cifras, menos texto y altura, gráficas ampliables.
-- Contacto: correo directo y formulario visible, sin tocar el proveedor ni simular un envío real.
-- Blog/artículos/CV/podcast conservan sus rutas y estructura; heredan los nuevos roles de color y tipografía.
+## Layout
 
-## Móvil y movimiento
+- Ancho máximo `90rem`; padding lateral `clamp(1.25rem, 4vw, 4rem)`.
+- Header fijo de 72px + progreso de 4px. Se oculta al bajar; vuelve al subir.
+- Rail vertical de secciones a la derecha en Home, visible desde 80rem.
+- Grid de 12 columnas implícito mediante CSS Grid; `minmax(0, 1fr)` en todo
+  track que contenga texto o medios.
+- Móvil primero: 320, 375, 414, 768 y 1280px. Cero overflow del documento.
+- Controles táctiles de 44px mínimo. Campos a 16px.
 
-- Primero 320/375/414px; después 768 y 1280px. Nombre y acción principal dentro del primer pantallazo; cero overflow del documento.
-- Controles de 44px como mínimo, campos de 16px y foco visible inmediato.
-- Imágenes en tracks `minmax(0, 1fr)`; vídeo local sin autoplay, con controles y poster. Sin marcos falsos de dispositivo.
-- Sin animaciones que oculten el contenido ni hover como única forma de interacción. Se respeta reduced motion.
-- Cabecera plana, sin scroll-morph ni sombra de cristal. Idioma/tema disponibles en móvil.
+## Home
 
-## Actividad GitHub
+1. **Hero**: nombre en DM Serif, typewriter de rol, CV/trabajo, ubicación
+   `Canarias ↔ España ↔ Japón`, años, retrato real y burst.
+2. **Práctica**: escena pinneada; la palabra cambia entre entender, operar y
+   evolucionar. En móvil cambia por scroll sin pin.
+3. **Trabajo**: cabecera + rail horizontal con cuatro tarjetas iguales:
+   vídeo real, modos, kanjis y estado. Sin números de sección.
+4. **Escritura**: texto revelado, highlighter y último artículo real con portada.
+5. **Escucha**: carrusel de ocho episodios reales, modal con reproductor.
+6. **Trayectoria**: seis etapas con duración calculada, stack y CTA al CV.
+7. **Recomendación**: solo la recomendación real; extracto + texto completo
+   accesible. Nunca placeholders.
+8. **Actividad**: snapshot verificado de GitHub, cuatro cifras y calendario del
+   año en curso; enlace al perfil y fecha de captura.
+9. **Contacto**: correo directo y formulario real Web3Forms.
+10. **Footer**: cierre de carta, enlaces y colofón.
 
-- Fuente fija y pública de AiranSchez; no necesita credenciales ni expone un endpoint nuevo.
-- La consulta se realiza al renderizar/construir Astro, compartida por los tres idiomas. Una web estática se actualiza en el siguiente build, no en tiempo real ni mediante una automatización nueva.
-- Ante errores se conserva una captura verificada con fecha visible; si tampoco es válida, se muestra indisponibilidad, nunca ceros ficticios.
-- Solo fechas reales hasta la captura; las cifras son contribuciones, no commits, productividad ni horas trabajadas.
-- Vista inicial de 90 días, año de la captura opcional. Cuatro estadísticas y dos gráficas derivadas del mismo período. Gráficas plegadas para no dominar el móvil.
-- Calendario con selección por toque, tooltip para cursor y foco, flechas y Escape. Solo el calendario puede desplazarse lateralmente.
+## Caso JaponesApp
 
-## Verificación móvil
+- Hero con nombre, resumen y póster real.
+- Ficha de estado, stack, rol y grabación.
+- Grabación real del simulador con controles y caption honesta.
+- Decisiones en tarjetas apiladas.
+- Proceso en timeline de tres fases.
+- Límites explícitos: prototipo, sin descarga pública, sin métricas de usuarios.
+- Enlace de vuelta y CTA al CV.
 
-- Revisar 320, 375, 414 y 768 px, además de 1280 px; ES/EN/JA y ambos temas.
-- Campos y acciones principales de al menos 44 px; tipografía de campos de 16 px para evitar zoom en iOS.
-- Sin títulos recortados ni enlaces de acción en dos líneas. El calendario compacto mantiene separación entre celdas y navegación de teclado.
-- Formulario y correo directo se conservan. Los tests interceptan Web3Forms, no envían mensajes reales.
+## Blog, CV y podcast
 
-## Exportación
+- Blog: archivo con filtros por tema y año, paginación de 6, recuento y tarjetas; artículo con comentarios rediseñados y rutas traducidas.
+- CV: una página densa y legible, con índice sticky, timeline, capacidades, formación y descargas ES/EN/JA.
+- Podcast: carrusel de 8, archivo con «Ver más», modal y enlaces a iVoox.
+- Conservan rutas, contenido, i18n y proveedores reales.
 
-Los tokens activos son la fuente portable. Tailwind y componentes existentes consumen los mismos nombres, sin un segundo sistema paralelo.
+## Movimiento
 
-### Tailwind v4
-```css
-@theme {
-  --color-paper: var(--color-paper);
-  --color-ink: var(--color-ink);
-  --color-accent: var(--color-accent);
-  --font-display: var(--font-display);
-  --font-body: var(--font-body);
-}
-```
+- GSAP + ScrollTrigger local, no CDN.
+- Muestras clave: mask reveal, typewriter, pop-in, burst, count-up, parallax
+  puntual, pinning, scroll horizontal, texto revelado, highlighter, timeline,
+  stacking, carrusel, modal, drawer, progreso y transición.
+- El rail horizontal se pinnea en desktop; en móvil se apila.
+- El vídeo de la tarjeta de JaponesApp se reproduce en silencio y en bucle.
+  Es una excepción deliberada al “sin autoplay” del sistema anterior.
+- `prefers-reduced-motion`: sin parallax, pinning, typewriter, contadores ni
+  autoplay; el contenido queda visible.
+- El movimiento nunca es la única forma de acceder a contenido o estado.
 
-### DTCG
-```json
-{"color":{"paper":{"$value":"#f4f6f2","$type":"color"},"paperDark":{"$value":"#131a17","$type":"color"},"accent":{"$value":"#355b3c","$type":"color"},"accentDark":{"$value":"#d7ed9f","$type":"color"}},"font":{"display":{"$value":"Space Grotesk, sans-serif","$type":"fontFamily"},"body":{"$value":"Manrope, sans-serif","$type":"fontFamily"}}}
-```
+## Componentes y estados
 
-### shadcn/ui
-```css
-:root { --background: 96.8% 0.006 135; --foreground: 24% 0.018 155; --primary: 44% 0.065 148; --radius: 0.625rem; }
-.dark { --background: 21% 0.013 155; --foreground: 97% 0.01 135; --primary: 92% 0.10 125; }
-```
+- Header, drawer, language switch, theme toggle, progress, back-to-top.
+- Rail de secciones con estado activo.
+- Tarjetas de trabajo, tarjetas de episodio, timeline, ficha, formulario.
+- Modal de episodio, tooltip de duración, toast/estado de formulario.
+- Foco visible `2px` en señal; hover con subrayado o desplazamiento mínimo.
+- Formularios con labels flotantes, validación nativa, estado de envío y error.
+
+## i18n
+
+- ES/EN/JA en rutas `/{locale}/`; el selector conserva la ruta actual.
+- Home, artículo, podcast y experiencia del CV se renderizan desde datos
+  traducidos. El cuerpo del artículo, detalles del caso y extras del CV pueden
+  quedar en español con una nota mientras se migran.
+- Fechas y duraciones se formatean con `Intl`; las duraciones se calculan por
+  meses desde `startDate`/`endDate`.
+- El contenido japonés no se fuerza a mayúsculas ni a tracking negativo extremo.
+
+## Accesibilidad
+
+- Un `h1` por página; jerarquía de encabezados sin saltos.
+- Skip link, landmarks, `aria-current`, `aria-label` en controles.
+- Contraste AA en texto y controles.
+- `prefers-reduced-motion` no opcional.
+- El vídeo decorativo se pausa con movimiento reducido.
+- Calendario de actividad con etiquetas de fecha y conteo; sin depender del color.
+- El formulario conserva el proveedor y el borrador ante error.
+
+## Implementación
+
+- `src/layouts/KineticLayout.astro`: shell.
+- `src/pages/[locale]/index.astro`: Home.
+- `src/scripts/kinetic-home.ts`: movimiento, carrusel, modal y rail.
+- `src/styles/kinetic.css` + `src/styles/kinetic-theme.css`: sistema visual.
+- `src/components/home/KineticActivity.astro` y `KineticTestimonial.astro`:
+  actividad y recomendación.
+- `public/kinetic/`: retrato, vídeo, póster y capturas reales.
+- `public/cv/`: CV ES/EN/JA de una página y JSON Resume.
+- `scripts/generate-cv-artifacts.py`: generador de CV.
+
+## Reglas
+
+- No inventar testimonios, proyectos, métricas ni resultados.
+- No usar imágenes de relleno ni marcos falsos de dispositivo.
+- No romper rutas, contenido, comentarios, i18n ni el formulario real.
+- Mantener el contenido largo real en español hasta tener su traducción.
+- Cualquier página nueva debe usar el shell y los tokens de este documento.

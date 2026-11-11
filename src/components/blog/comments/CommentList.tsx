@@ -23,16 +23,12 @@ export default function CommentList({
   onNewReply,
 }: CommentListProps) {
   if (comments.length === 0) {
-    return (
-      <div className="text-center py-12">
-        <p className="text-carbon/50 dark:text-alabaster/50 text-sm">{t.noComments}</p>
-      </div>
-    );
+    return <p className="comments__status">{t.noComments}</p>;
   }
 
   return (
-    <section aria-label={t.title}>
-      <div className="space-y-4">
+    <section className="comments-list" aria-label={t.title}>
+      <div className="comments-list__items">
         {comments.map(comment => (
           <CommentItem
             key={comment.id}

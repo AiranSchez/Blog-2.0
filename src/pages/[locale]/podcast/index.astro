@@ -1,53 +1,120 @@
 ---
-import Layout from '../../../layouts/Layout.astro';
-import Header from '../../../layouts/Header.astro';
-import Footer from '../../../layouts/Footer.astro';
-import PodcastGrid from '../../../components/podcast/PodcastGrid';
-import { getLangFromUrl, useTranslations } from '../../../services/i18n';
+import KineticLayout from '../../../layouts/KineticLayout.astro';
+import { getLangFromUrl } from '../../../services/i18n';
 import { loadPodcastEpisodes } from '../../../services/podcast';
 
 export const prerender = true;
-
 export function getStaticPaths() {
-  return [
-    { params: { locale: 'en' } },
-    { params: { locale: 'es' } },
-    { params: { locale: 'ja' } },
-  ];
+  return ['en', 'es', 'ja'].map((locale) => ({ params: { locale } }));
 }
+const lang = getLangFromUrl(Astro.url) as 'en' | 'es' | 'ja';
+const episodes = (await loadPodcastEpisodes(lang)).sort((a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf());
+const carousel = episodes.slice(0, 8);
+const archive = episodes.slice(8);
+const formatDate = (value: string) => new Intl.DateTimeFormat(lang, { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(`${value}T00:00:00`));
 
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
-const episodes = (await loadPodcastEpisodes(lang)).sort(
-  (a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf(),
-);
-
-const description = {
-  en: 'La Techtulia: long conversations about technology, work, and the stories that appear between both.',
-  es: 'La Techtulia: conversaciones sin prisas sobre tecnología, trabajo y las historias que aparecen entre ambos.',
-  ja: 'La Techtulia：テクノロジー、仕事、そしてその間に生まれる物語についての長い対話。',
+const copy = {
+  es: {
+    kicker: 'La Techtulia · Podcast', title: 'La Techtulia', type: 'Conversaciones // Tecnología · Trabajo · Historias',
+    lede: 'Conversaciones sin prisa sobre tecnología, trabajo y las historias que aparecen entre ambos. Sin guion y sin prisa.',
+    latestTitle: 'CONVERSACIONES SIN PRISA.', latestBody: 'Una selección de episodios. Abre el reproductor, escucha y sigue con lo que estabas haciendo.',
+    archiveTitle: 'SIGUE ESCUCHANDO.', archiveBody: 'El archivo completo, sin ordenar por métricas ni por promesas. Solo episodios reales.',
+    listen: 'Escuchar', durationTip: 'Duración del episodio', prev: 'Episodio anterior', next: 'Episodio siguiente', more: 'Ver más', close: 'Cerrar reproductor', back: 'Volver al inicio',
+  },
+  en: {
+    kicker: 'La Techtulia · Podcast', title: 'La Techtulia', type: 'Conversations // Technology · Work · Stories',
+    lede: 'Unhurried conversations about technology, work and the stories that appear between them. No script and no rush.',
+    latestTitle: 'UNHURRIED CONVERSATIONS.', latestBody: 'A selection of episodes. Open the player, listen and carry on with what you were doing.',
+    archiveTitle: 'KEEP LISTENING.', archiveBody: 'The full archive, not sorted by metrics or promises. Just real episodes.',
+    listen: 'Listen', durationTip: 'Episode duration', prev: 'Previous episode', next: 'Next episode', more: 'Show more', close: 'Close player', back: 'Back home',
+  },
+  ja: {
+    kicker: 'La Techtulia · ポッドキャスト', title: 'La Techtulia', type: '会話 // テクノロジー・仕事・物語',
+    lede: 'テクノロジー、仕事、その間にある物語についての急がない会話。台本も焦りもありません。',
+    latestTitle: '急がない会話。', latestBody: 'エピソードの抜粋。プレーヤーを開いて聴き、作業を続けてください。',
+    archiveTitle: '聴き続ける。', archiveBody: '指標や約束で並べない完全なアーカイブ。実際のエピソードだけ。',
+    listen: '聴く', durationTip: 'エピソードの長さ', prev: '前のエピソード', next: '次のエピソード', more: 'もっと見る', close: 'プレーヤーを閉じる', back: 'ホームへ戻る',
+  },
 }[lang];
 ---
 
-<Layout title={`${t('nav.podcast')} - Airán`} description={description} lang={lang}>
-  <Header />
+<KineticLayout title={`La Techtulia · Airán Sánchez`} description={copy.lede} lang={lang}>
+  <main id="main-content">
+    <section class="page-hero" aria-labelledby="podcast-title">
+      <p class="kicker"><span>{copy.kicker}</span><span>2022 – 2024</span></p>
+      <h1 id="podcast-title" class="page-hero__display"><span><span>{copy.title}</span></span></h1>
+      <div class="hero__type" data-typewriter={copy.type}>{copy.type}</div>
+      <p class="lede">{copy.lede}</p>
+      <div class="hero__actions"><a class="link" href={`/${lang}/`}>{copy.back}</a></div>
+    </section>
 
-  <!-- Hallmark · genre: atmospheric · macrostructure: Listening room · design-system: studied-DNA -->
-  <main id="main-content" class="page-shell">
-    <header class="page-hero page-hero--podcast">
-      <div class="site-container page-hero__grid">
-        <div>
-          <span class="section-kicker">Conversations · Technology · Stories</span>
-          <h1 class="page-title">{t('nav.podcast')}</h1>
-        </div>
-        <p class="page-description">{description}</p>
+    <section class="scene" aria-labelledby="latest-title">
+      <div class="scene__head">
+        <div><h2 id="latest-title" class="scene__title">{copy.latestTitle}</h2></div>
+        <p class="scene__body">{copy.latestBody}</p>
       </div>
-    </header>
+      <div class="carousel" data-carousel>
+        <div class="carousel__viewport">
+          <div class="carousel__track">
+            {carousel.map((episode, index) => (
+              <article class="episode">
+                <img src="/images/la-techtulia-cover.webp" alt="La Techtulia" width="640" height="640" loading={index === 0 ? 'eager' : 'lazy'} />
+                <div class="episode__body">
+                  <p class="episode__meta">{formatDate(episode.date)} · <span class="tooltip" data-tooltip={copy.durationTip}>{episode.duration}</span></p>
+                  <h3 class="episode__title">{episode.title}</h3>
+                  <p class="episode__desc">{episode.description}</p>
+                  <button class="btn" type="button" data-episode data-episode-title={episode.title} data-episode-meta={`La Techtulia · ${formatDate(episode.date)} · ${episode.duration}`} data-episode-description={episode.description} data-episode-url={episode.url}>{copy.listen}</button>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+        <div class="carousel__controls">
+          <button class="carousel__btn" type="button" data-carousel-prev aria-label={copy.prev}>←</button>
+          <button class="carousel__btn" type="button" data-carousel-next aria-label={copy.next}>→</button>
+          <div class="carousel__dots" data-carousel-dots></div>
+        </div>
+      </div>
+    </section>
 
-    <div class="site-container archive-shell">
-      <PodcastGrid episodes={episodes} locale={lang} client:load />
-    </div>
+    <section class="scene" aria-labelledby="archive-title">
+      <div class="scene__head">
+        <div><h2 id="archive-title" class="scene__title">{copy.archiveTitle}</h2></div>
+        <p class="scene__body">{copy.archiveBody}</p>
+      </div>
+      <div class="podcast-grid" data-podcast-grid>
+        {archive.map((episode) => (
+          <article class="podcast-card">
+            <img src="/images/la-techtulia-cover.webp" alt="La Techtulia" width="640" height="640" loading="lazy" />
+            <div>
+              <p class="episode__meta">{formatDate(episode.date)} · {episode.duration}</p>
+              <h3 class="episode__title">{episode.title}</h3>
+              <p class="episode__desc">{episode.description}</p>
+              <button class="btn" type="button" data-episode data-episode-title={episode.title} data-episode-meta={`La Techtulia · ${formatDate(episode.date)} · ${episode.duration}`} data-episode-description={episode.description} data-episode-url={episode.url}>{copy.listen}</button>
+            </div>
+          </article>
+        ))}
+      </div>
+      {archive.length > 8 && (
+        <div class="podcast-more">
+          <button class="btn btn--ghost" type="button" data-podcast-more>{copy.more}</button>
+        </div>
+      )}
+    </section>
   </main>
 
-  <Footer />
-</Layout>
+  <dialog class="modal" data-episode-modal aria-labelledby="episode-modal-title">
+    <div class="modal__panel">
+      <button class="icon-btn modal__close" type="button" data-modal-close aria-label={copy.close}>✕</button>
+      <p class="kicker"><span>La Techtulia</span><span>{copy.listen}</span></p>
+      <h2 id="episode-modal-title" data-modal-title>La Techtulia</h2>
+      <p class="episode__meta" data-modal-meta></p>
+      <p data-modal-description></p>
+      <div class="modal__player" data-modal-player></div>
+    </div>
+  </dialog>
+
+  <script>
+    import '../../../scripts/kinetic-home';
+  </script>
+</KineticLayout>

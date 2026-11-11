@@ -116,19 +116,17 @@
     "locale": "ja"
   },
   {
-    "company": "LeanMind - TechnyFarma",
+    "company": "LeanMind - Next Digital",
     "role": "フルスタック開発者",
     "startDate": "2026-05",
     "endDate": null,
-    "description": "TechnyFarma向けプロジェクトでフルスタック開発者として、薬局ERP連携に関わるC#、PostgreSQL、JavaScript、MQTT、CSSの開発に取り組んでいます。",
+    "description": "",
     "technologies": [
       "C#",
       ".NET",
       "PostgreSQL",
       "JavaScript",
-      "MQTT",
-      "薬局ERP",
-      "CSS3"
+      "MQTT"
     ],
     "locale": "ja"
   }

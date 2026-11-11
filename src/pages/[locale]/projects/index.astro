@@ -1,32 +1,60 @@
 ---
-import Layout from '../../../layouts/Layout.astro';
-import Header from '../../../layouts/Header.astro';
-import Footer from '../../../layouts/Footer.astro';
-import SelectedWorkSection from '../../../components/home/SelectedWorkSection.astro';
+import KineticLayout from '../../../layouts/KineticLayout.astro';
 import { selectedWorkByLocale, type PortfolioLocale } from '../../../data/portfolio-content';
 import { japonesAppCopy } from '../../../data/japonesapp';
 import { getLangFromUrl } from '../../../services/i18n';
 
 export const prerender = true;
 export function getStaticPaths() {
-  return ['en', 'es', 'ja'].map(locale => ({ params: { locale } }));
+  return ['en', 'es', 'ja'].map((locale) => ({ params: { locale } }));
 }
 const lang = getLangFromUrl(Astro.url) as PortfolioLocale;
 const copy = japonesAppCopy[lang];
-const projects = selectedWorkByLocale[lang].filter(project => project.published);
+const projects = selectedWorkByLocale[lang].filter((project) => project.published);
+const project = projects[0];
+
+const pageCopy = {
+  es: { title: 'PROYECTOS.', back: 'Volver al inicio', view: 'Ver el caso', stack: 'Stack', status: 'Estado' },
+  en: { title: 'PROJECTS.', back: 'Back home', view: 'View the case', stack: 'Stack', status: 'Status' },
+  ja: { title: 'プロジェクト。', back: 'ホームへ戻る', view: 'ケースを見る', stack: 'スタック', status: '状態' },
+}[lang];
 ---
 
-<Layout title={`${copy.projects} · Airán Sánchez`} description={copy.indexSummary} lang={lang}>
-  <Header />
-  <main id="main-content" class="page-shell">
-    <header class="page-hero project-index">
-      <div class="site-container">
-        <span class="section-kicker">{copy.projects}</span>
-        <h1 class="page-title">{copy.indexTitle}</h1>
-        <p class="page-description">{copy.indexSummary}</p>
+<KineticLayout title={`${copy.projects} · Airán Sánchez`} description={copy.indexSummary} lang={lang}>
+  <main id="main-content">
+    <section class="page-hero" aria-labelledby="projects-title">
+      <p class="kicker"><span>{copy.projects}</span><span>2026</span></p>
+      <h1 id="projects-title" class="page-hero__display"><span><span>{pageCopy.title}</span></span></h1>
+      <p class="lede">{copy.indexSummary}</p>
+      <div class="hero__actions">
+        <a class="link" href={`/${lang}/`}>{pageCopy.back}</a>
       </div>
-    </header>
-    <SelectedWorkSection projects={projects} lang={lang} showHeading={false} />
+    </section>
+
+    <section class="scene" aria-label={copy.projects}>
+      {project ? (
+        <article class="project-index">
+          <a class="project-index__media" href={project.href} aria-label={`${project.title}: ${pageCopy.view}`}>
+            {project.image ? (
+              <img src={project.image.src} alt={project.image.alt} width={project.image.width} height={project.image.height} loading="eager" />
+            ) : (
+              <div class="project-index__fallback" aria-hidden="true"></div>
+            )}
+          </a>
+          <div class="project-index__copy">
+            <p class="meta"><span>{project.status}</span><span>2026</span></p>
+            <h2>{project.title}</h2>
+            <p>{project.context}</p>
+            <p>{project.contribution}</p>
+            <div class="tag-list" aria-label={pageCopy.stack}>
+              {project.technologies.map((technology) => <span class="tag">{technology}</span>)}
+            </div>
+            <a class="btn" href={project.href}>{pageCopy.view}</a>
+          </div>
+        </article>
+      ) : (
+        <p class="empty-state">{copy.indexSummary}</p>
+      )}
+    </section>
   </main>
-  <Footer />
-</Layout>
+</KineticLayout>

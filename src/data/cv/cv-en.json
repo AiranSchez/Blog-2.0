@@ -1,23 +1,81 @@
 {
   "name": "Airán Sánchez",
   "headline": "Software developer",
-  "location": "Canary Islands ↔ Japan",
+  "location": "Canary Islands ↔ Spain ↔ Japan",
   "email": "airanschez0@gmail.com",
   "summary": "Software developer experienced in data, web product, backend, infrastructure, and internal tools. I focus on turning complex problems into maintainable systems that teams can understand and evolve.",
   "links": [
-    { "label": "GitHub", "url": "https://github.com/AiranSchez" },
-    { "label": "LinkedIn", "url": "https://www.linkedin.com/in/air%C3%A1n-s%C3%A1nchez-brito-415910145/" }
+    {
+      "label": "GitHub",
+      "url": "https://github.com/AiranSchez"
+    },
+    {
+      "label": "LinkedIn",
+      "url": "https://www.linkedin.com/in/air%C3%A1n-s%C3%A1nchez-brito-415910145/"
+    }
   ],
   "skills": [
-    { "name": "Web product", "keywords": ["React", "Next.js", "Astro", "TypeScript", "JavaScript", "CSS"] },
-    { "name": "Backend & systems", "keywords": ["C#", ".NET", "Node.js", "PostgreSQL", "MQTT"] },
-    { "name": "Data & automation", "keywords": ["Python", "Pandas", "Pytest", "ETL", "AWS"] },
-    { "name": "Delivery & platform", "keywords": ["Docker", "Kubernetes", "ArgoCD", "Jenkins", "GitHub Actions"] },
-    { "name": "Practices", "keywords": ["TDD", "Testing", "Pairing", "Clean Architecture", "Mentoring"] }
+    {
+      "name": "Web product",
+      "keywords": [
+        "React",
+        "Next.js",
+        "Astro",
+        "TypeScript",
+        "JavaScript",
+        "CSS"
+      ]
+    },
+    {
+      "name": "Backend & systems",
+      "keywords": [
+        "C#",
+        ".NET",
+        "Node.js",
+        "PostgreSQL",
+        "MQTT"
+      ]
+    },
+    {
+      "name": "Data & automation",
+      "keywords": [
+        "Python",
+        "Pandas",
+        "Pytest",
+        "ETL",
+        "AWS"
+      ]
+    },
+    {
+      "name": "Delivery & platform",
+      "keywords": [
+        "Docker",
+        "Kubernetes",
+        "ArgoCD",
+        "Jenkins",
+        "GitHub Actions"
+      ]
+    },
+    {
+      "name": "Practices",
+      "keywords": [
+        "TDD",
+        "Testing",
+        "Pairing",
+        "Clean Architecture",
+        "Mentoring"
+      ]
+    }
   ],
   "education": [
-    { "title": "Web application development", "description": "Technical training in web development and programming fundamentals." },
-    { "title": "Full Stack Bootcamp", "description": "Intensive end-to-end web product development training." }
+    {
+      "title": "Web application development",
+      "description": "Technical training in web development and programming fundamentals."
+    },
+    {
+      "title": "Full Stack Bootcamp",
+      "description": "Intensive end-to-end web product development training."
+    }
   ],
   "talk": {
     "title": "Fantastic data and where to find it",

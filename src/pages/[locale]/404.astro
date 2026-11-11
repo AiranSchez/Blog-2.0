@@ -1,0 +1,19 @@
+---
+import KineticLayout from '../../layouts/KineticLayout.astro';
+import ErrorBody from '../../components/shared/ErrorBody.astro';
+import { getLangFromUrl } from '../../services/i18n';
+
+export const prerender = true;
+export function getStaticPaths() {
+  return ['en', 'es', 'ja'].map((locale) => ({ params: { locale } }));
+}
+
+const lang = getLangFromUrl(Astro.url);
+const languagePaths = { en: '/en/404/', es: '/es/404/', ja: '/ja/404/' };
+const title = { en: '404 · Airán Sánchez', es: '404 · Airán Sánchez', ja: '404 · Airán Sánchez' }[lang];
+const description = { en: 'Page not found', es: 'Página no encontrada', ja: 'ページが見つかりません' }[lang];
+---
+
+<KineticLayout title={title} description={description} lang={lang} languagePaths={languagePaths}>
+  <ErrorBody lang={lang} />
+</KineticLayout>

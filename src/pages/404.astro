@@ -1,30 +1,21 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Header from '../layouts/Header.astro';
-import Footer from '../layouts/Footer.astro';
+import KineticLayout from '../layouts/KineticLayout.astro';
+import ErrorBody from '../components/shared/ErrorBody.astro';
 
 export const prerender = true;
 ---
 
-<Layout title="404 - Page Not Found" description="Page not found">
-  <Header />
+<KineticLayout title="404 · Airán Sánchez" description="Page not found" lang="en">
+  <ErrorBody lang="en" />
 
-  <!-- Hallmark · genre: atmospheric · macrostructure: Interstitial · design-system: studied-DNA -->
-  <main id="main-content" class="not-found">
-    <div class="not-found__orb" aria-hidden="true"></div>
-    <div class="site-container not-found__inner">
-      <span class="section-kicker">Signal lost</span>
-      <p class="not-found__code" aria-hidden="true">404</p>
-      <h1 class="page-title">There’s nothing at these coordinates.</h1>
-      <p class="page-description">
-        This page is no longer here, or perhaps it never was.
-      </p>
-      <div class="hero-actions">
-        <a class="primary-action" href="/en/">Go home</a>
-        <a class="secondary-action" href="/en/blog/">Read the blog <span aria-hidden="true">↗</span></a>
-      </div>
-    </div>
-  </main>
-
-  <Footer />
-</Layout>
+  <script is:inline>
+    (function () {
+      var candidates = navigator.languages || [navigator.language || 'en'];
+      for (var i = 0; i < candidates.length; i += 1) {
+        var value = String(candidates[i]).toLowerCase();
+        if (value.indexOf('es') === 0) { location.replace('/es/404/'); return; }
+        if (value.indexOf('ja') === 0) { location.replace('/ja/404/'); return; }
+      }
+    })();
+  </script>
+</KineticLayout>

@@ -28,6 +28,11 @@ const copy = {
     tags: 'Topics',
     years: 'Years',
     clear: 'Clear filters',
+    filters: 'Article filters',
+    tagsLabel: 'Topics',
+    pagination: 'Pagination',
+    previous: 'Previous',
+    next: 'Next',
     empty: 'No articles match these filters.',
     latest: 'Latest article',
     read: 'Read article',
@@ -37,6 +42,11 @@ const copy = {
     tags: 'Temas',
     years: 'Años',
     clear: 'Limpiar filtros',
+    filters: 'Filtros de artículos',
+    tagsLabel: 'Temas',
+    pagination: 'Paginación',
+    previous: 'Anterior',
+    next: 'Siguiente',
     empty: 'No hay artículos con estos filtros.',
     latest: 'Último artículo',
     read: 'Leer artículo',
@@ -46,6 +56,11 @@ const copy = {
     tags: 'テーマ',
     years: '年',
     clear: 'フィルターを解除',
+    filters: '記事のフィルター',
+    tagsLabel: 'テーマ',
+    pagination: 'ページ送り',
+    previous: '前へ',
+    next: '次へ',
     empty: '条件に一致する記事がありません。',
     latest: '最新の記事',
     read: '記事を読む',
@@ -60,6 +75,8 @@ export default function BlogGrid({ posts, locale }: BlogGridProps) {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
   const [expandedMenu, setExpandedMenu] = useState<'tags' | 'years' | null>(null);
+  const [page, setPage] = useState(1);
+  const perPage = 6;
 
   const strings = copy[locale as keyof typeof copy] || copy.en;
 
@@ -79,7 +96,10 @@ export default function BlogGrid({ posts, locale }: BlogGridProps) {
       tag.toLocaleLowerCase() === requestedTag.toLocaleLowerCase(),
     )?.[0];
 
-    if (matchingTag) setSelectedTags([matchingTag]);
+    if (matchingTag) {
+      setSelectedTags([matchingTag]);
+      setPage(1);
+    }
   }, [tagItems]);
 
   const yearItems = useMemo(() => {
@@ -106,6 +126,7 @@ export default function BlogGrid({ posts, locale }: BlogGridProps) {
   const clearFilters = useCallback(() => {
     setSelectedTags([]);
     setSelectedYear(null);
+    setPage(1);
   }, []);
 
   const formatDate = (date: Date) =>
@@ -115,12 +136,15 @@ export default function BlogGrid({ posts, locale }: BlogGridProps) {
       day: 'numeric',
     }).format(new Date(date));
 
-  const [leadPost, ...archivePosts] = filteredPosts;
+  const pageCount = Math.max(1, Math.ceil(filteredPosts.length / perPage));
+  const currentPage = Math.min(page, pageCount);
+  const pagePosts = filteredPosts.slice((currentPage - 1) * perPage, currentPage * perPage);
+  const [leadPost, ...archivePosts] = pagePosts;
   const hasFilters = selectedTags.length > 0 || selectedYear !== null;
 
   return (
     <div className="blog-ecosystem">
-      <div className="filter-toolbar" aria-label="Article filters">
+      <div className="filter-toolbar" aria-label={strings.filters}>
         <button
           className={`filter-button ${expandedMenu === 'tags' ? 'is-active' : ''}`}
           type="button"
@@ -154,11 +178,12 @@ export default function BlogGrid({ posts, locale }: BlogGridProps) {
                     className="filter-button"
                     type="button"
                     aria-pressed={selected}
-                    onClick={() =>
+                    onClick={() => {
                       setSelectedTags((current) =>
                         selected ? current.filter((item) => item !== tag) : [...current, tag],
-                      )
-                    }
+                      );
+                      setPage(1);
+                    }}
                   >
                     {tag} ({count})
                   </button>
@@ -171,7 +196,10 @@ export default function BlogGrid({ posts, locale }: BlogGridProps) {
                   className="filter-button"
                   type="button"
                   aria-pressed={selectedYear === year}
-                  onClick={() => setSelectedYear(selectedYear === year ? null : year)}
+                  onClick={() => {
+                    setSelectedYear(selectedYear === year ? null : year);
+                    setPage(1);
+                  }}
                 >
                   {year} ({count})
                 </button>
@@ -207,7 +235,7 @@ export default function BlogGrid({ posts, locale }: BlogGridProps) {
                 <a href={articleHref(locale, leadPost.slug)}>{leadPost.data.title}</a>
               </h2>
               <p className="article-lead__description">{leadPost.data.description}</p>
-              <div className="tag-list" aria-label="Tags">
+              <div className="tag-list" aria-label={strings.tagsLabel}>
                 {leadPost.data.tags.slice(0, 5).map((tag) => (
                   <span className="tag" key={tag}>
                     {tag}
@@ -243,7 +271,7 @@ export default function BlogGrid({ posts, locale }: BlogGridProps) {
                     </div>
                     <h2>{post.data.title}</h2>
                     <p>{post.data.description}</p>
-                    <div className="tag-list" aria-label="Tags">
+                    <div className="tag-list" aria-label={strings.tagsLabel}>
                       {post.data.tags.slice(0, 3).map((tag) => (
                         <span className="tag" key={tag}>{tag}</span>
                       ))}
@@ -253,6 +281,28 @@ export default function BlogGrid({ posts, locale }: BlogGridProps) {
               </li>
             ))}
           </ul>
+
+          {pageCount > 1 && (
+            <nav className="pagination" aria-label={strings.pagination}>
+              <button type="button" onClick={() => setPage(Math.max(1, currentPage - 1))} disabled={currentPage === 1}>
+                ← {strings.previous}
+              </button>
+              {Array.from({ length: pageCount }, (_, index) => index + 1).map((value) => (
+                <button
+                  key={value}
+                  type="button"
+                  className={value === currentPage ? 'is-active' : ''}
+                  aria-current={value === currentPage ? 'page' : undefined}
+                  onClick={() => setPage(value)}
+                >
+                  {value}
+                </button>
+              ))}
+              <button type="button" onClick={() => setPage(Math.min(pageCount, currentPage + 1))} disabled={currentPage === pageCount}>
+                {strings.next} →
+              </button>
+            </nav>
+          )}
         </>
       )}
     </div>

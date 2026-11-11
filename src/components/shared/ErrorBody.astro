@@ -1,0 +1,26 @@
+---
+interface Props {
+  lang: 'en' | 'es' | 'ja';
+}
+
+const { lang } = Astro.props;
+
+const copy = {
+  en: { kicker: 'Error 404 · Signal lost', title: 'NOTHING HERE.', body: 'This page is no longer here, or perhaps it never was. Go back home or keep reading.', home: 'Go home', blog: 'Read the blog' },
+  es: { kicker: 'Error 404 · Señal perdida', title: 'NO HAY NADA AQUÍ.', body: 'La página ya no está, o quizá nunca estuvo. Vuelve al inicio o sigue leyendo.', home: 'Volver al inicio', blog: 'Leer el blog' },
+  ja: { kicker: 'エラー 404 · 信号なし', title: 'ここには何もありません。', body: 'このページはもう存在しないか、最初からなかったのかもしれません。ホームに戻るか、記事を読み続けてください。', home: 'ホームへ戻る', blog: 'ブログを読む' },
+}[lang];
+---
+
+<main id="main-content" class="error-page">
+  <p class="error-page__code" aria-hidden="true">404</p>
+  <div class="error-page__inner">
+    <p class="kicker"><span>{copy.kicker}</span></p>
+    <h1 class="page-hero__display"><span><span>{copy.title}</span></span></h1>
+    <p class="lede">{copy.body}</p>
+    <div class="hero__actions">
+      <a class="btn" href={`/${lang}/`}>{copy.home}</a>
+      <a class="btn btn--ghost" href={`/${lang}/blog/`}>{copy.blog}</a>
+    </div>
+  </div>
+</main>

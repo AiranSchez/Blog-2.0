@@ -7,7 +7,7 @@
     "url": "https://www.airanschez.tech",
     "summary": "データ、Webプロダクト、バックエンド、インフラ、社内ツールの経験を持つソフトウェア開発者です。複雑な課題を、チームが理解し、保守し、発展させられるシステムへ変えることを大切にしています。",
     "location": {
-      "region": "カナリア諸島 ↔ 日本"
+      "region": "カナリア諸島 ↔ スペイン ↔ 日本"
     },
     "profiles": [
       {
@@ -24,19 +24,17 @@
   },
   "work": [
     {
-      "name": "LeanMind - TechnyFarma",
+      "name": "LeanMind - Next Digital",
       "position": "フルスタック開発者",
       "startDate": "2026-05",
       "endDate": "",
-      "summary": "TechnyFarma向けプロジェクトでフルスタック開発者として、薬局ERP連携に関わるC#、PostgreSQL、JavaScript、MQTT、CSSの開発に取り組んでいます。",
+      "summary": "",
       "highlights": [
         "C#",
         ".NET",
         "PostgreSQL",
         "JavaScript",
-        "MQTT",
-        "薬局ERP",
-        "CSS3"
+        "MQTT"
       ]
     },
     {
@@ -237,6 +235,6 @@
   "meta": {
     "canonical": "https://www.airanschez.tech/ja/cv/",
     "version": "v1.0.0",
-    "lastModified": "2026-07-26"
+    "lastModified": "2026-11-11"
   }
 }

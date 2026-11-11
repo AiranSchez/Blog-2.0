@@ -1,0 +1,254 @@
+---
+import '../styles/kinetic.css';
+import '../styles/kinetic-theme.css';
+import { getLangFromUrl, useTranslations } from '../services/i18n';
+
+type Locale = 'en' | 'es' | 'ja';
+
+interface Props {
+  title: string;
+  description?: string;
+  lang?: Locale;
+  image?: string;
+  languagePaths?: Partial<Record<Locale, string>>;
+}
+
+const { title, description = 'Airán Sánchez · Software developer', lang = getLangFromUrl(Astro.url) as Locale, image = '/og-image.jpg', languagePaths } = Astro.props;
+const t = useTranslations(lang);
+const pathWithoutLocale = Astro.url.pathname.replace(/^\/(en|es|ja)/, '') || '/';
+const isHome = pathWithoutLocale === '/';
+const contactHref = isHome ? '#contact' : `/${lang}/#contact`;
+const languageHref = (locale: Locale) => languagePaths?.[locale] ?? `/${locale}${pathWithoutLocale}`;
+
+const copy = {
+  es: {
+    navWork: 'Trabajo', navBlog: 'Blog', navPodcast: 'Podcast', navCv: 'CV', navContact: 'Contacto',
+    menu: 'Abrir menú', close: 'Cerrar menú', theme: 'Cambiar tema', nav: 'Navegación principal', drawerNav: 'Navegación móvil', language: 'Idioma',
+    location: 'Canarias ↔ España ↔ Japón', portfolio: 'Portafolio · 2026',
+    footerKicker: 'Señal / 2026', footerDisplay: ['HABLEMOS.', 'CONSTRUYAMOS', 'ALGO LEGIBLE.'],
+    write: 'Escríbeme', colophon: 'Kinetic Type · prototipo', top: 'Volver arriba',
+  },
+  en: {
+    navWork: 'Work', navBlog: 'Blog', navPodcast: 'Podcast', navCv: 'CV', navContact: 'Contact',
+    menu: 'Open menu', close: 'Close menu', theme: 'Switch theme', nav: 'Main navigation', drawerNav: 'Mobile navigation', language: 'Language',
+    location: 'Canary Islands ↔ Spain ↔ Japan', portfolio: 'Portfolio · 2026',
+    footerKicker: 'Signal / 2026', footerDisplay: ["LET'S TALK.", "LET'S BUILD", 'SOMETHING LEGIBLE.'],
+    write: 'Write to me', colophon: 'Kinetic Type · prototype', top: 'Back to top',
+  },
+  ja: {
+    navWork: '仕事', navBlog: 'ブログ', navPodcast: 'ポッドキャスト', navCv: 'CV', navContact: 'お問い合わせ',
+    menu: 'メニューを開く', close: 'メニューを閉じる', theme: 'テーマを切り替える', nav: 'メインナビゲーション', drawerNav: 'モバイルナビゲーション', language: '言語',
+    location: 'カナリア諸島 ↔ スペイン ↔ 日本', portfolio: 'ポートフォリオ · 2026',
+    footerKicker: 'シグナル / 2026', footerDisplay: ['話そう。', '作ろう。', '読めるものを。'],
+    write: 'メッセージを書く', colophon: 'Kinetic Type · プロトタイプ', top: '上へ戻る',
+  },
+}[lang];
+
+const navItems = [
+  { href: isHome ? '#work' : `/${lang}/#work`, label: copy.navWork },
+  { href: `/${lang}/blog/`, label: copy.navBlog },
+  { href: `/${lang}/podcast/`, label: copy.navPodcast },
+  { href: `/${lang}/cv/`, label: copy.navCv },
+  { href: contactHref, label: copy.navContact },
+];
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const alternatePaths = languagePaths ?? { en: languageHref('en'), es: languageHref('es'), ja: languageHref('ja') };
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalURL} />
+    {Object.entries(alternatePaths).map(([locale, path]) => (
+      <link rel="alternate" hreflang={locale} href={new URL(path, Astro.site)} />
+    ))}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=DM+Serif+Display&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    />
+    <link rel="preconnect" href="https://api.web3forms.com" crossorigin />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f3f0e9" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.url)} />
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={Astro.url} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={new URL(image, Astro.url)} />
+    <script is:inline>
+      (function () {
+        var stored = localStorage.getItem('theme');
+        var dark = stored === 'dark';
+        if (!stored) localStorage.setItem('theme', dark ? 'dark' : 'light');
+        if (dark) document.documentElement.classList.add('dark');
+        document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+        document.documentElement.classList.add('js');
+      })();
+    </script>
+  </head>
+  <body data-page="home" data-pagefind-body>
+    <a class="skip-link" href="#main-content">{t('nav.skipToContent')}</a>
+    <div class="progress" aria-hidden="true"><span></span></div>
+
+    <header class="header" data-header>
+      <div class="header__inner">
+        <a class="wordmark" href={`/${lang}/`} aria-label="Airán Sánchez, ${t('nav.home')}">Airán Sánchez<span>.</span></a>
+
+        <nav class="nav" aria-label={copy.nav}>
+          {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+        </nav>
+
+        <div class="header__tools">
+          <div class="lang-switch lang-switch--header" role="group" aria-label={copy.language}>
+            {(['es', 'en', 'ja'] as Locale[]).map((locale, index) => (
+              <>
+                {index > 0 && <span class="sep" aria-hidden="true">/</span>}
+                <a
+                  class:list={['lang-link', { 'is-active': locale === lang }]}
+                  href={languageHref(locale)}
+                  hreflang={locale}
+                  lang={locale}
+                  aria-current={locale === lang ? 'true' : undefined}
+                >{locale.toUpperCase()}</a>
+              </>
+            ))}
+          </div>
+
+          <button class="icon-btn" type="button" data-theme-toggle aria-label={copy.theme}>
+            <svg class="icon-moon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+            <svg class="icon-sun" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></svg>
+          </button>
+
+          <button class="icon-btn menu-btn" type="button" data-menu-open aria-label={copy.menu}>
+            <span class="menu-lines" aria-hidden="true"><span></span><span></span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <slot />
+
+    <footer class="footer">
+      <div class="shape-divider" data-shape-divider aria-hidden="true"></div>
+      <div class="footer__inner">
+        <p class="footer__kicker">{copy.footerKicker}</p>
+        <p class="footer__display">{copy.footerDisplay.map((line) => <>{line}<br /></>)}</p>
+        <div class="footer__row">
+          <div class="footer__links">
+            <a href="mailto:airanschez0@gmail.com">Email</a>
+            <a href="https://github.com/AiranSchez" target="_blank" rel="noreferrer">GitHub ↗</a>
+            <a href="https://www.linkedin.com/in/air%C3%A1n-s%C3%A1nchez-brito-415910145/" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+            <a href={`/${lang}/cv/`}>CV</a>
+            <a href={`/${lang}/blog/`}>{copy.navBlog}</a>
+            <a href={`/${lang}/podcast/`}>{copy.navPodcast}</a>
+          </div>
+          <a class="link" href={contactHref}>{copy.write}</a>
+        </div>
+        <div class="footer__colophon">
+          <span>© 2026 Airán Sánchez</span>
+          <span>{copy.location}</span>
+          <span>{copy.colophon}</span>
+        </div>
+      </div>
+    </footer>
+
+    <button class="back-top" type="button" data-back-top aria-label={copy.top}>↑</button>
+
+    <dialog class="drawer" aria-label={copy.drawerNav}>
+      <div class="drawer__panel">
+        <div class="drawer__head">
+          <span class="wordmark">Airán Sánchez<span>.</span></span>
+          <button class="icon-btn" type="button" data-menu-close aria-label={copy.close}>
+            <svg aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>
+          </button>
+        </div>
+        <nav class="drawer__nav" aria-label={copy.drawerNav}>
+          {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+        </nav>
+        <div class="drawer__foot">
+          <div class="lang-switch lang-switch--drawer" role="group" aria-label={copy.language}>
+            {(['es', 'en', 'ja'] as Locale[]).map((locale, index) => (
+              <>
+                {index > 0 && <span class="sep" aria-hidden="true">/</span>}
+                <a class:list={['lang-link', { 'is-active': locale === lang }]} href={languageHref(locale)} hreflang={locale} lang={locale}>{locale.toUpperCase()}</a>
+              </>
+            ))}
+          </div>
+          <button class="icon-btn drawer__theme" type="button" data-theme-toggle aria-label={copy.theme}>
+            <svg class="icon-moon" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+            <svg class="icon-sun" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></svg>
+          </button>
+          <span>{copy.location}</span>
+          <span>{copy.portfolio}</span>
+        </div>
+      </div>
+    </dialog>
+
+    <script>
+      const root = document.documentElement;
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const themeButtons = document.querySelectorAll('[data-theme-toggle]');
+
+      const setTheme = (nextDark: boolean) => {
+        root.classList.toggle('dark', nextDark);
+        root.style.colorScheme = nextDark ? 'dark' : 'light';
+        localStorage.setItem('theme', nextDark ? 'dark' : 'light');
+        document.querySelector('meta[name="theme-color"]')?.setAttribute('content', nextDark ? '#0b0b0c' : '#f3f0e9');
+      };
+
+      themeButtons.forEach((button) => {
+        button.addEventListener('click', () => setTheme(!root.classList.contains('dark')));
+      });
+
+      const drawer = document.querySelector<HTMLDialogElement>('.drawer');
+      const menuOpen = document.querySelector<HTMLButtonElement>('[data-menu-open]');
+      const menuClose = document.querySelector<HTMLButtonElement>('[data-menu-close]');
+      menuOpen?.addEventListener('click', () => drawer?.showModal());
+      menuClose?.addEventListener('click', () => drawer?.close());
+      drawer?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => drawer.close()));
+      drawer?.addEventListener('click', (event) => {
+        const panel = drawer.querySelector('.drawer__panel');
+        if (!panel) return;
+        const bounds = panel.getBoundingClientRect();
+        if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) drawer.close();
+      });
+
+      const header = document.querySelector<HTMLElement>('.header');
+      const progress = document.querySelector<HTMLElement>('.progress > span');
+      const backTop = document.querySelector<HTMLButtonElement>('[data-back-top]');
+      let lastY = window.scrollY;
+      let ticking = false;
+
+      const onScroll = () => {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        if (progress) progress.style.width = `${Math.min(100, Math.max(0, (window.scrollY / Math.max(1, max)) * 100))}%`;
+        if (header) {
+          if (window.scrollY > 120 && window.scrollY > lastY) header.classList.add('is-hidden');
+          else if (window.scrollY < lastY - 4 || window.scrollY < 40) header.classList.remove('is-hidden');
+        }
+        backTop?.classList.toggle('is-visible', window.scrollY > 700);
+        lastY = window.scrollY;
+        ticking = false;
+      };
+
+      window.addEventListener('scroll', () => {
+        if (ticking) return;
+        ticking = true;
+        window.requestAnimationFrame(onScroll);
+      }, { passive: true });
+      onScroll();
+      backTop?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: reduce.matches ? 'auto' : 'smooth' }));
+    </script>
+  </body>
+</html>

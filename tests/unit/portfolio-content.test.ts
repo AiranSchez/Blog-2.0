@@ -13,6 +13,7 @@ for (const locale of ['en', 'es', 'ja'] as const) {
     const projects = selectedWorkByLocale[locale].filter(item => item.published);
     assert.equal(projects.length, 1);
     assert.equal(projects[0].title, 'JaponesApp');
-    assert.equal(projects[0].video, '/projects/japonesapp/demo.mp4');
+    assert.equal(projects[0].video, '/kinetic/project-showcase.mp4');
+    assert.equal(projects[0].image?.src, '/kinetic/project-showcase-poster.png');
   });
 }

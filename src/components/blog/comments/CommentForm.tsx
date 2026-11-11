@@ -107,8 +107,7 @@ export default function CommentForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} noValidate>
-      {/* Honeypot field — hidden from real users, bots fill it */}
+    <form className="comment-form" onSubmit={handleSubmit} noValidate>
       <input
         type="text"
         name="website"
@@ -117,98 +116,57 @@ export default function CommentForm({
         tabIndex={-1}
         autoComplete="off"
         aria-hidden="true"
-        className="absolute opacity-0 pointer-events-none h-0 w-0"
+        className="comment-form__honeypot"
       />
 
-      {/* Reply indicator */}
       {parentId && parentAuthor && (
-        <div className="flex items-center justify-between mb-2 text-sm text-stormy dark:text-seaweed">
+        <div className="comment-form__replying">
           <span>↩ {t.replyTo} <strong>{parentAuthor}</strong></span>
           {onCancel && (
-            <button
-              type="button"
-              onClick={onCancel}
-              className="text-carbon/50 dark:text-alabaster/50 hover:text-carbon dark:hover:text-alabaster text-xs"
-            >
+            <button type="button" onClick={onCancel} className="comment-form__cancel">
               {t.cancelReply}
             </button>
           )}
         </div>
       )}
 
-      {/* Author name */}
       <input
         type="text"
         value={authorName}
         onChange={e => setAuthorName(e.target.value)}
         placeholder={t.authorPlaceholder}
         maxLength={50}
-        className="w-full px-4 py-2 mb-3 rounded-lg border border-alabaster-200 dark:border-carbon-600
-                   bg-white dark:bg-carbon-800 text-carbon dark:text-alabaster text-sm
-                   placeholder:text-carbon/40 dark:placeholder:text-alabaster/40
-                   focus:outline-none focus:ring-2 focus:ring-stormy dark:focus:ring-seaweed focus:border-transparent"
+        className="comment-form__input"
+        aria-label={t.authorPlaceholder}
       />
 
-      {/* Content textarea */}
-      <div className="relative">
+      <div className="comment-form__field">
         <textarea
           value={content}
           onChange={e => setContent(e.target.value)}
           placeholder={t.placeholder}
           rows={parentId ? 3 : 4}
-          className={`
-            w-full px-4 py-3 rounded-lg border text-sm resize-none
-            bg-white dark:bg-carbon-800 text-carbon dark:text-alabaster
-            placeholder:text-carbon/40 dark:placeholder:text-alabaster/40
-            focus:outline-none focus:ring-2 focus:ring-stormy dark:focus:ring-seaweed focus:border-transparent
-            transition-colors
-            ${isOverLimit
-              ? 'border-red-400 dark:border-red-500'
-              : 'border-alabaster-200 dark:border-carbon-600'
-            }
-          `}
+          className={`comment-form__textarea${isOverLimit ? ' is-over-limit' : ''}`}
           aria-describedby="char-counter"
         />
-        <span
-          id="char-counter"
-          className={`absolute bottom-2 right-3 text-xs ${
-            isOverLimit
-              ? 'text-red-500 dark:text-red-400 font-semibold'
-              : remaining < 200
-              ? 'text-amber-500 dark:text-amber-400'
-              : 'text-carbon/40 dark:text-alabaster/40'
-          }`}
-        >
+        <span id="char-counter" className={`comment-form__counter${isOverLimit ? ' is-over-limit' : remaining < 200 ? ' is-near-limit' : ''}`}>
           {remaining} {t.charsRemaining}
         </span>
       </div>
 
-      {/* Error message */}
       {error && (
-        <p role="alert" className="mt-2 text-sm text-red-500 dark:text-red-400">
+        <p role="alert" className="comment-form__error">
           {error}
         </p>
       )}
 
-      {/* Actions */}
-      <div className="flex items-center justify-end gap-3 mt-3">
+      <div className="comment-form__actions">
         {onCancel && !parentId && (
-          <button
-            type="button"
-            onClick={onCancel}
-            className="px-4 py-2 text-sm text-carbon/60 dark:text-alabaster/60 hover:text-carbon dark:hover:text-alabaster transition-colors"
-          >
+          <button type="button" onClick={onCancel} className="comment-form__cancel">
             {t.cancel}
           </button>
         )}
-        <button
-          type="submit"
-          disabled={submitting || isOverLimit}
-          className="px-5 py-2 rounded-lg bg-stormy dark:bg-seaweed text-white text-sm font-semibold
-                     hover:bg-stormy/90 dark:hover:bg-seaweed/90 transition-[background-color,box-shadow] shadow-sm hover:shadow-md
-                     disabled:opacity-50 disabled:cursor-not-allowed
-                     focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-stormy dark:focus:ring-seaweed"
-        >
+        <button type="submit" disabled={submitting || isOverLimit} className="btn">
           {submitting ? t.submitting : t.submit}
         </button>
       </div>

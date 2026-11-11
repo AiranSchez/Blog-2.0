@@ -61,16 +61,10 @@ export default function TranslateButton({
 
   return (
     <button
+      type="button"
       onClick={handleClick}
       disabled={state === 'loading'}
-      className={`
-        text-xs transition-colors
-        ${state === 'error'
-          ? 'text-red-500 dark:text-red-400 cursor-default'
-          : 'text-carbon/50 dark:text-alabaster/50 hover:text-stormy dark:hover:text-seaweed'
-        }
-        focus:outline-none focus:underline disabled:opacity-50
-      `}
+      className={`translate-button${state === 'error' ? ' is-error' : ''}`}
     >
       {state === 'loading' && t.translating}
       {state === 'idle' && t.translate}

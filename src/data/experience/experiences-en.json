@@ -116,19 +116,17 @@
     "locale": "en"
   },
   {
-    "company": "LeanMind - TechnyFarma",
+    "company": "LeanMind - Next Digital",
     "role": "Full Stack Developer",
     "startDate": "2026-05",
     "endDate": null,
-    "description": "I collaborate as a full-stack developer on a project for TechnyFarma, working with C#, PostgreSQL, JavaScript, MQTT, and CSS in the context of pharmacy ERP integrations.",
+    "description": "",
     "technologies": [
       "C#",
       ".NET",
       "PostgreSQL",
       "JavaScript",
-      "MQTT",
-      "Pharmacy ERP",
-      "CSS3"
+      "MQTT"
     ],
     "locale": "en"
   }

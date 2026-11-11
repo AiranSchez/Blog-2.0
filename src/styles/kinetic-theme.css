@@ -1,0 +1,182 @@
+/* Cobalto editorial · applied theme for the Kinetic Type prototype
+ * DM Serif Display for large headlines · Archivo for body and small headings
+ * IBM Plex Mono for data · paper #F3F0E9 · ink #070707 · ultramarine #2E4BD8
+ * Light is the default; dark is an ultramarine night variant.
+ */
+
+:root {
+  color-scheme: light;
+  --paper: #f3f0e9;
+  --paper-2: #e9e4da;
+  --ink: #070707;
+  --muted: #6b645a;
+  --rule: #d4cdc0;
+  --rule-strong: #a99f8f;
+  --signal: #2e4bd8;
+  --signal-ink: #f3f0e9;
+  --signal-soft: rgba(46, 75, 216, 0.1);
+  --display: 'DM Serif Display', 'Hiragino Mincho ProN', 'Yu Mincho', 'Noto Serif JP', Georgia, 'Times New Roman', serif;
+  --body: 'Archivo', 'Hiragino Sans', 'Yu Gothic', 'Noto Sans JP', ui-sans-serif, system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', 'Hiragino Kaku Gothic ProN', ui-monospace, monospace;
+}
+
+html.light {
+  color-scheme: light;
+  --paper: #f3f0e9;
+  --paper-2: #e9e4da;
+  --ink: #070707;
+  --muted: #6b645a;
+  --rule: #d4cdc0;
+  --rule-strong: #a99f8f;
+  --signal: #2e4bd8;
+  --signal-ink: #f3f0e9;
+  --signal-soft: rgba(46, 75, 216, 0.1);
+}
+
+html.dark {
+  color-scheme: dark;
+  --paper: #0b0b0c;
+  --paper-2: #141416;
+  --ink: #f2efe6;
+  --muted: #a8a198;
+  --rule: #2a2825;
+  --rule-strong: #4a4640;
+  --signal: #9db1ff;
+  --signal-ink: #0b0b0c;
+  --signal-soft: rgba(157, 177, 255, 0.14);
+}
+
+/* Large headlines: high-contrast serif, roman only. */
+.display,
+.hero__display,
+.page-hero__display,
+.scene__title,
+.pin__statement,
+.article-title,
+.dossier-hero h1,
+.footer__display,
+.article-preview h3,
+.rail-card--intro h2,
+.case-sticky h2,
+.dossier-section h2 {
+  font-family: var(--display);
+  font-style: normal;
+  font-weight: 400;
+  font-variation-settings: normal;
+}
+
+/* Small and medium headings: sturdy sans, not thin serif hairlines. */
+.rail-card h3,
+.timeline h3,
+.stack-card h3,
+.skills h3,
+.episode h3,
+.podcast-card h3,
+.modal h2,
+.article-row h2,
+.article-body h2,
+.article-body h3,
+.article-body blockquote,
+.talk-block h3 {
+  font-family: var(--body);
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* More air and less tight tracking for Bodoni. */
+.hero__display {
+  font-size: clamp(3rem, 10.5vw, 10rem);
+  letter-spacing: -0.03em;
+  line-height: 0.9;
+}
+
+.page-hero__display {
+  font-size: clamp(2.4rem, 7.5vw, 8.5rem);
+  letter-spacing: -0.03em;
+  line-height: 0.9;
+}
+
+.scene__title {
+  font-size: clamp(2rem, 6.2vw, 6.5rem);
+  letter-spacing: -0.03em;
+  line-height: 0.96;
+}
+
+.pin__statement {
+  font-size: clamp(2.2rem, 5.2vw, 5.8rem);
+  letter-spacing: -0.03em;
+  line-height: 0.96;
+}
+
+.footer__display {
+  font-size: clamp(2.2rem, 9vw, 8.5rem);
+  letter-spacing: -0.03em;
+  line-height: 0.9;
+}
+
+.dossier-hero h1 {
+  font-size: clamp(3rem, 9vw, 8.5rem);
+  letter-spacing: -0.03em;
+  line-height: 0.9;
+}
+
+.article-title {
+  font-size: clamp(2.4rem, 5.6vw, 5.2rem);
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+}
+
+.display {
+  letter-spacing: -0.03em;
+  line-height: 0.9;
+}
+
+.rail-card--intro h2 {
+  font-size: clamp(2rem, 3.6vw, 3.2rem);
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+}
+
+.case-sticky h2,
+.dossier-section h2 {
+  line-height: 0.95;
+}
+
+.scroll-text {
+  font-family: var(--display);
+  font-style: normal;
+  font-weight: 700;
+  font-optical-sizing: auto;
+  font-variation-settings: normal;
+  letter-spacing: -0.03em;
+  line-height: 0.96;
+}
+
+.hero__display > span > span {
+  white-space: nowrap;
+}
+
+/* Icons: light is the default. Dark swaps to the moon. */
+.icon-sun {
+  display: block;
+}
+
+.icon-moon {
+  display: none;
+}
+
+html.dark .icon-sun {
+  display: none;
+}
+
+html.dark .icon-moon {
+  display: block;
+}
+
+
+.article-preview h3 {
+  text-transform: none;
+  font-size: clamp(1.8rem, 3.4vw, 3rem);
+  line-height: 1;
+}

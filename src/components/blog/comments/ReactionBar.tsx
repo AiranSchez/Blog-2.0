@@ -65,24 +65,17 @@ export default function ReactionBar({ commentId, reactions }: ReactionBarProps) 
   };
 
   return (
-    <div className="flex items-center gap-1" role="group" aria-label="Reactions">
+    <div className="reactions" role="group" aria-label="Reactions">
       {REACTION_EMOJIS.map(({ type, label }) => {
         const active = userReactions.has(type);
         return (
           <button
             key={type}
+            type="button"
             onClick={() => handleReaction(type)}
             aria-pressed={active}
             aria-label={`${label}: ${counts[type]}`}
-            className={`
-              inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium
-              transition-[background-color,border-color,color,transform] duration-200 border
-              ${active
-                ? 'bg-stormy/10 dark:bg-seaweed/20 border-stormy/30 dark:border-seaweed/30 text-stormy dark:text-seaweed scale-105'
-                : 'bg-alabaster-100 dark:bg-carbon-800 border-transparent text-carbon/60 dark:text-alabaster/60 hover:bg-alabaster-200 dark:hover:bg-carbon-700'
-              }
-              focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-stormy dark:focus:ring-seaweed
-            `}
+            className={`reaction${active ? ' is-active' : ''}`}
           >
             <span aria-hidden="true">{type}</span>
             <span>{counts[type]}</span>

@@ -6,8 +6,8 @@ const locales = [
   { locale: 'ja', projects: 'プロジェクト' },
 ] as const;
 
-for (const { locale, projects } of locales) {
-  test(`${locale} connects the real project from home and footer`, async ({ page }) => {
+for (const { locale } of locales) {
+  test(`${locale} connects the real project from home`, async ({ page }) => {
     await page.goto(`/${locale}/`);
     const card = page.locator('#work article').filter({ hasText: 'JaponesApp' });
     await expect(card).toHaveCount(1);
@@ -16,11 +16,11 @@ for (const { locale, projects } of locales) {
     await expect(page.getByRole('heading', { name: 'JaponesApp', exact: true })).toBeVisible();
     const video = page.locator('video');
     await expect(video).toHaveAttribute('controls', '');
-    await expect(video).toHaveAttribute('preload', 'none');
+    await expect(video).toHaveAttribute('preload', 'metadata');
     await expect(video).not.toHaveAttribute('autoplay');
-    await expect(video.locator('source')).toHaveAttribute('src', '/projects/japonesapp/demo.mp4');
-    await expect(page.locator('footer').getByRole('link', { name: projects, exact: true })).toHaveAttribute('href', `/${locale}/projects/`);
-    await page.locator('footer').getByRole('link', { name: projects, exact: true }).click();
+    await expect(video.locator('source')).toHaveAttribute('src', '/kinetic/project-showcase.mp4');
+    await page.locator('main a[href="/' + locale + '/projects/"]').first().click();
+    await expect(page).toHaveURL(new RegExp(`/${locale}/projects/`));
     await expect(page.locator('main article')).toHaveCount(1);
     await expect(page.locator('main article')).toContainText('JaponesApp');
   });
@@ -46,14 +46,14 @@ test('the project remains readable without JavaScript', async ({ browser }) => {
 test('media is local, has a poster, and plays only on request', async ({ page, request }) => {
   await page.goto('/es/projects/japonesapp/');
   const video = page.locator('video');
-  await expect(video).toHaveAttribute('poster', '/projects/japonesapp/poster.webp');
-  const response = await request.get('/projects/japonesapp/demo.mp4');
+  await expect(video).toHaveAttribute('poster', '/kinetic/project-showcase-poster.png');
+  const response = await request.get('/kinetic/project-showcase.mp4');
   expect(response.status()).toBe(200);
   expect(response.headers()['content-type']).toContain('video/mp4');
-  expect((await response.body()).byteLength).toBeLessThan(200_000);
-  const poster = await request.get('/projects/japonesapp/poster.webp');
+  expect((await response.body()).byteLength).toBeLessThan(1_000_000);
+  const poster = await request.get('/kinetic/project-showcase-poster.png');
   expect(poster.status()).toBe(200);
-  expect(poster.headers()['content-type']).toContain('image/webp');
+  expect(poster.headers()['content-type']).toContain('image/png');
   expect(await video.evaluate((element: HTMLVideoElement) => element.paused)).toBe(true);
   await video.evaluate((element: HTMLVideoElement) => element.play());
   await expect.poll(() => video.evaluate((element: HTMLVideoElement) => element.currentTime)).toBeGreaterThan(0);
@@ -62,8 +62,7 @@ test('media is local, has a poster, and plays only on request', async ({ page, r
 
 test('project routes keep their translation when switching language', async ({ page }) => {
   await page.goto('/es/projects/japonesapp/');
-  await page.locator('.language-menu summary').click();
-  await page.locator('.language-menu').getByRole('link', { name: '日本語' }).click();
+  await page.locator('.lang-switch--header a[href="/ja/projects/japonesapp/"]').click();
   await expect(page).toHaveURL(/\/ja\/projects\/japonesapp\//);
   await expect(page.locator('html')).toHaveAttribute('lang', 'ja');
 });
@@ -75,7 +74,7 @@ for (const width of [320, 375, 414, 768, 1280]) {
     for (const { locale } of locales) {
       for (const path of ['', 'projects/', 'projects/japonesapp/']) {
         await page.goto(`/${locale}/${path}`);
-        const overflowing = await page.locator('.project-feature, .project-story__hero, .project-recording, .project-decisions, .footer-directory, .site-nav').evaluateAll(elements => elements.filter(element => {
+        const overflowing = await page.locator('.page-hero, .project-index, .case-layout, .stack, .timeline, .footer').evaluateAll(elements => elements.filter(element => {
           const bounds = element.getBoundingClientRect();
           return bounds.left < -1 || bounds.right > window.innerWidth + 1 || element.scrollWidth > element.clientWidth + 1;
         }).map(element => element.className));
@@ -85,17 +84,14 @@ for (const width of [320, 375, 414, 768, 1280]) {
   });
 }
 
-test('the featured home recording is real media and plays only on request', async ({ page }) => {
+test('the featured home recording is the real Kyoto-style navigation and autoplays muted', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 });
   await page.goto('/es/');
   const video = page.locator('#work video');
-  await expect(video).toHaveAttribute('poster', '/projects/japonesapp/poster.webp');
-  await expect(video).toHaveAttribute('preload', 'none');
-  await expect(video).toHaveAttribute('controls', '');
-  await expect(video).not.toHaveAttribute('autoplay');
-  await expect(video.locator('source')).toHaveAttribute('src', '/projects/japonesapp/demo.mp4');
-  expect(await video.evaluate((element: HTMLVideoElement) => element.paused)).toBe(true);
-  await video.evaluate((element: HTMLVideoElement) => element.play());
-  await expect.poll(() => video.evaluate((element: HTMLVideoElement) => element.currentTime)).toBeGreaterThan(0);
-  await video.evaluate((element: HTMLVideoElement) => element.pause());
+  await expect(video).toHaveAttribute('poster', '/kinetic/project-showcase-poster.png');
+  await expect(video).toHaveAttribute('autoplay', '');
+  await expect(video).toHaveAttribute('muted', '');
+  await expect(video).toHaveAttribute('loop', '');
+  await expect(video).not.toHaveAttribute('controls');
+  await expect(video.locator('source')).toHaveAttribute('src', '/kinetic/project-showcase.mp4');
 });

@@ -25,7 +25,7 @@ for (const locale of ['en', 'es', 'ja']) {
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://airanschez.tech${article.newPath}`);
     await expect(page.locator('link[rel="alternate"][hreflang]')).toHaveCount(3);
     for (const lang of ['en', 'es', 'ja']) {
-      const link = page.locator(`.language-menu__panel a[hreflang="${lang}"]`);
+      const link = page.locator(`.lang-switch--header a[hreflang="${lang}"]`);
       const href = await link.getAttribute('href');
       expect(legacy.some(route => route.newPath === href)).toBeTruthy();
       await expect(page.locator(`link[rel="alternate"][hreflang="${lang}"]`)).toHaveAttribute('href', `https://airanschez.tech${href}`);

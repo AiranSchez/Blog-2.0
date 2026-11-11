@@ -1,55 +1,40 @@
 ---
-import Layout from '../../../layouts/Layout.astro';
-import Header from '../../../layouts/Header.astro';
-import Footer from '../../../layouts/Footer.astro';
-import BlogSection from '../../../components/blog/BlogSection.astro';
+import KineticLayout from '../../../layouts/KineticLayout.astro';
+import BlogGrid from '../../../components/blog/BlogGrid';
 import { getCollection } from 'astro:content';
-import { getLangFromUrl, useTranslations } from '../../../services/i18n';
+import { getLangFromUrl } from '../../../services/i18n';
 
 export const prerender = true;
-
 export function getStaticPaths() {
-  return [
-    { params: { locale: 'en' } },
-    { params: { locale: 'es' } },
-    { params: { locale: 'ja' } },
-  ];
+  return ['en', 'es', 'ja'].map((locale) => ({ params: { locale } }));
 }
-
-const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
+const lang = getLangFromUrl(Astro.url) as 'en' | 'es' | 'ja';
 
 const allPosts = await getCollection('blog');
 const posts = allPosts
   .filter((post) => !post.data.draft && post.id.startsWith(`${lang}/`))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
-const description = {
-  en: 'A working notebook about software, testing, teams, and the craft behind maintainable systems.',
-  es: 'Un cuaderno de trabajo sobre software, testing, equipos y el oficio que hay detrás de los sistemas mantenibles.',
-  ja: 'ソフトウェア、テスト、チーム、そして保守しやすいシステムを作る技術についてのノートです。',
+const copy = {
+  es: { kicker: 'Blog · Notas de campo', title: 'BLOG.', description: 'Un cuaderno de trabajo sobre software, testing, equipos y el oficio que hay detrás de los sistemas mantenibles.', back: 'Volver al inicio' },
+  en: { kicker: 'Blog · Field notes', title: 'BLOG.', description: 'A working notebook about software, testing, teams and the craft behind maintainable systems.', back: 'Back home' },
+  ja: { kicker: 'ブログ · フィールドノート', title: 'ブログ。', description: 'ソフトウェア、テスト、チーム、そして保守しやすいシステムを作る技術についてのノートです。', back: 'ホームへ戻る' },
 }[lang];
 ---
 
-<Layout title={`${t('nav.blog')} - Airán`} description={description} lang={lang}>
-  <Header />
-
-  <!-- Hallmark · genre: atmospheric · macrostructure: Ecosystem Index · design-system: studied-DNA -->
-  <main id="main-content" class="page-shell">
-    <header class="page-hero page-hero--blog">
-      <div class="site-container page-hero__grid">
-        <div>
-          <span class="section-kicker">Writing · Notes · Fieldwork</span>
-        <h1 class="page-title">{t('nav.blog')}</h1>
-        </div>
-        <p class="page-description">{description}</p>
+<KineticLayout title={`${copy.title} · Airán Sánchez`} description={copy.description} lang={lang}>
+  <main id="main-content">
+    <section class="page-hero" aria-labelledby="blog-title">
+      <p class="kicker"><span>{copy.kicker}</span></p>
+      <h1 id="blog-title" class="page-hero__display"><span><span>{copy.title}</span></span></h1>
+      <p class="lede">{copy.description}</p>
+      <div class="hero__actions">
+        <a class="link" href={`/${lang}/`}>{copy.back}</a>
       </div>
-    </header>
+    </section>
 
-    <div class="site-container archive-shell">
-      <BlogSection posts={posts} locale={lang} />
-    </div>
+    <section class="scene blog-archive" aria-label={copy.title}>
+      <BlogGrid posts={posts} locale={lang} client:load />
+    </section>
   </main>
-
-  <Footer />
-</Layout>
+</KineticLayout>

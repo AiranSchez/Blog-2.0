@@ -24,6 +24,7 @@ const translations = {
     noComments: 'Be the first to comment!',
     loading: 'Loading comments...',
     error: 'Could not load comments. Please try again.',
+    unavailable: 'The conversation is paused. Comments are unavailable in this environment.',
     placeholder: 'Write a comment...',
     authorPlaceholder: 'Your name (optional)',
     submit: 'Post Comment',
@@ -49,6 +50,7 @@ const translations = {
     noComments: '¡Sé el primero en comentar!',
     loading: 'Cargando comentarios...',
     error: 'No se pudieron cargar los comentarios. Inténtalo de nuevo.',
+    unavailable: 'La conversación está en pausa. Los comentarios no están disponibles en este entorno.',
     placeholder: 'Escribe un comentario...',
     authorPlaceholder: 'Tu nombre (opcional)',
     submit: 'Publicar comentario',
@@ -74,6 +76,7 @@ const translations = {
     noComments: '最初にコメントしましょう！',
     loading: 'コメントを読み込み中...',
     error: 'コメントを読み込めませんでした。もう一度お試しください。',
+    unavailable: '会話は一時停止中です。この環境ではコメントを利用できません。',
     placeholder: 'コメントを書く...',
     authorPlaceholder: 'お名前（任意）',
     submit: 'コメントを投稿',
@@ -104,7 +107,7 @@ export default function CommentsSection({
 }: CommentsSectionProps) {
   const [comments, setComments] = useState<CommentWithReplies[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [unavailable, setUnavailable] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const channelRef = useRef<ReturnType<ReturnType<typeof createBrowserSupabaseClient>['channel']> | null>(null);
   const supabaseRef = useRef<ReturnType<typeof createBrowserSupabaseClient> | null>(null);
@@ -120,7 +123,7 @@ export default function CommentsSection({
         const data = await res.json() as { comments: CommentWithReplies[] };
         setComments(data.comments);
       } catch {
-        setError(t.error);
+        setUnavailable(true);
       } finally {
         setLoading(false);
       }
@@ -205,35 +208,21 @@ export default function CommentsSection({
   };
 
   return (
-    <section
-      className="mt-12 pt-8 border-t border-alabaster-200 dark:border-carbon-600"
-      data-pagefind-ignore
-      aria-label={t.title}
-    >
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-stormy dark:text-seaweed">
+    <section className="comments" data-pagefind-ignore aria-label={t.title}>
+      <div className="comments__head">
+        <h2 className="comments__title">
           {t.title}
-          {comments.length > 0 && (
-            <span className="ml-2 text-lg font-normal text-carbon/50 dark:text-alabaster/50">
-              ({comments.length})
-            </span>
-          )}
+          {comments.length > 0 && <span className="comments__count">({comments.length})</span>}
         </h2>
-        {!showForm && (
-          <button
-            onClick={() => setShowForm(true)}
-            className="px-4 py-2 rounded-lg bg-stormy dark:bg-seaweed text-white text-sm font-semibold
-                       hover:bg-stormy/90 dark:hover:bg-seaweed/90 transition-[background-color,box-shadow] shadow-sm
-                       focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-stormy dark:focus:ring-seaweed"
-          >
+        {!showForm && !unavailable && (
+          <button type="button" onClick={() => setShowForm(true)} className="btn">
             + {t.submit}
           </button>
         )}
       </div>
 
-      {/* New comment form */}
       {showForm && (
-        <div className="mb-6 p-5 bg-alabaster-50 dark:bg-carbon-800 rounded-xl border border-alabaster-200 dark:border-carbon-600">
+        <div className="comments__form">
           <CommentForm
             articleSlug={articleSlug}
             locale={locale}
@@ -244,15 +233,10 @@ export default function CommentsSection({
         </div>
       )}
 
-      {/* Comments list */}
       {loading ? (
-        <div className="text-center py-8 text-carbon/50 dark:text-alabaster/50 text-sm">
-          {t.loading}
-        </div>
-      ) : error ? (
-        <div role="alert" className="text-center py-8 text-red-500 dark:text-red-400 text-sm">
-          {error}
-        </div>
+        <p className="comments__status">{t.loading}</p>
+      ) : unavailable ? (
+        <p className="comments__status">{t.unavailable}</p>
       ) : (
         <CommentList
           comments={comments}

@@ -1,50 +1,407 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Header from '../../layouts/Header.astro';
-import Footer from '../../layouts/Footer.astro';
-import HeroSection from '../../components/home/HeroSection.astro';
-import ExperienceSection from '../../components/home/ExperienceSection.astro';
-import ContactSection from '../../components/home/ContactSection.astro';
-import TestimonialsSection from '../../components/home/TestimonialsSection.astro';
-import SelectedWorkSection from '../../components/home/SelectedWorkSection.astro';
-import GithubActivitySection from '../../components/home/GithubActivitySection.astro';
-import { getGithubActivity } from '../../server/github-activity';
+import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import KineticLayout from '../../layouts/KineticLayout.astro';
+import profileImage from '../../assets/images/profile/DSC01235.jpg';
 import { getLangFromUrl, useTranslations } from '../../services/i18n';
+import { articlePath } from '../../features/blog/routes';
+import { loadPodcastEpisodes } from '../../services/podcast';
+import { getGithubActivity } from '../../server/github-activity';
+import KineticTestimonial from '../../components/home/KineticTestimonial.astro';
+import KineticActivity from '../../components/home/KineticActivity.astro';
 import experiencesEn from '../../data/experience/experiences-en.json';
 import experiencesEs from '../../data/experience/experiences-es.json';
 import experiencesJa from '../../data/experience/experiences-ja.json';
-import { selectedWorkByLocale, type PortfolioLocale } from '../../data/portfolio-content';
 
 export const prerender = true;
-export function getStaticPaths() { return ['en', 'es', 'ja'].map(locale => ({ params: { locale } })); }
-const lang = getLangFromUrl(Astro.url) as PortfolioLocale;
+export function getStaticPaths() {
+  return ['en', 'es', 'ja'].map((locale) => ({ params: { locale } }));
+}
+
+type Locale = 'en' | 'es' | 'ja';
+const lang = getLangFromUrl(Astro.url) as Locale;
 const t = useTranslations(lang);
-const experiences = [...{ en: experiencesEn, es: experiencesEs, ja: experiencesJa }[lang]]
-  .sort((a, b) => b.startDate.localeCompare(a.startDate))
-  .map((data, index) => ({ data, id: `experience-${index}` }));
-const projects = selectedWorkByLocale[lang].filter(project => project.published);
-const activity = await getGithubActivity();
+
 const copy = {
-  es: { label: 'Sobre mí', title: 'De los datos\nal producto.', about: 'En LeanMind desde 2020. He trabajado con pipelines de datos, aplicaciones web y sistemas backend. Lo que conecta esos proyectos es la forma de trabajar: entender el contexto, probar las decisiones y colaborar con el equipo.', more: 'Fuera del proyecto, escribo y comparto lo que voy aprendiendo.', blog: 'Leer el blog', cv: 'Ver CV', description: 'Airán Sánchez. Desarrollo de software entre backend, web y datos. Proyectos reales, trayectoria y trabajo en equipo.' },
-  en: { label: 'About me', title: 'From data\nto product.', about: 'At LeanMind since 2020, working on data pipelines, web applications and backend systems. What connects those projects is how I work: understand the context, test decisions and collaborate with the team.', more: 'Outside the project, I write and share what I’m learning.', blog: 'Read the blog', cv: 'View CV', description: 'Airán Sánchez. Software development across backend, web and data. Real projects, experience and teamwork.' },
-  ja: { label: '私について', title: 'データから、\nプロダクトへ。', about: '2020年からLeanMindで、データパイプライン、ウェブアプリ、バックエンドに取り組んでいます。領域が変わっても、背景を理解し、判断をテストし、チームで進める姿勢を大切にしています。', more: '仕事の外でも、学んだことを書き、共有しています。', blog: 'ブログを読む', cv: '経歴を見る', description: 'Airán Sánchez。バックエンド、ウェブ、データをつなぐソフトウェア開発。実際のプロジェクトと経歴を紹介します。' },
+  es: {
+    seoTitle: 'Airán Sánchez · Desarrollador de software',
+    seoDescription: 'Desarrollador de software entre datos, web y sistemas. Perfil, JaponesApp, escritura, podcast y contacto.',
+    heroType: 'Desarrollador de software // Datos · Web · Sistemas',
+    cv: 'Ver CV', work: 'Ver trabajo', company: 'LeanMind · Next Digital', location: 'Canarias ↔ España ↔ Japón', since: 'Desde 2020', years: 'años construyendo', scroll: 'Scroll para transmitir',
+    portraitAlt: 'Airán Sánchez',
+    pinPrefix: 'CONSTRUYO SISTEMAS QUE EL EQUIPO PUEDE ', pinWords: 'ENTENDER.|OPERAR.|EVOLUCIONAR.', pinCaption: 'Datos, web y sistemas. Entiendo el problema, conecto las piezas y construyo con el equipo. Me importa que el sistema se pueda mantener y explicar.', pinIndex: ['Entender', 'Operar', 'Evolucionar'],
+    railTitle: 'JAPONESAPP Y COSAS REALES.', railIntro: 'Un caso con grabación real, decisiones y límites. Sin casos inventados.', railHint: 'Desliza para ver las cuatro tarjetas →',
+    workMeta: ['Prototipo móvil', 'La idea', 'El trabajo', 'Los límites'],
+    workTitles: ['JaponesApp', 'Estudiar con datos locales.', 'Repasar con criterio.', 'Un prototipo, no una promesa.'],
+    workBodies: ['Una app para estudiar kanjis y vocabulario, practicar y ver cómo avanza el aprendizaje. Grabación real del simulador, sin audio.', 'SQLite mantiene las tarjetas y el progreso en el dispositivo. El estudio no necesita una cuenta ni un servidor propio.', 'Un motor nativo en C++ usa FSRS-5 para planificar la repetición espaciada. La interfaz se construye con React Native y TypeScript.', 'La grabación muestra navegación y progreso, no valida toda la aplicación. No hay descarga pública ni métricas de usuarios.'],
+    openCase: 'Abrir caso', videoAlt: 'Grabación real de JaponesApp',
+    imageAlts: ['Pantalla real de JaponesApp con los tres modos de estudio', 'Pantalla real de Kanjis N5 con la cuadrícula de kanjis', 'Pantalla real de Kanjis N5 con el estado de aprendizaje'],
+    writingTitle: 'ESCRIBO SOBRE EL OFICIO. SOFTWARE, TESTING, EQUIPOS.', writingLede: 'Un cuaderno de trabajo, no un blog de anuncios.', highlighter: 'Sin atajos.', reading: 'Leer artículo', archive: 'Ver el archivo',
+    listeningTitle: 'CONVERSACIONES SIN PRISA.', listeningBody: 'Tecnología, trabajo y las historias que aparecen entre ambos. Sin guion y sin prisa.', listen: 'Escuchar', durationTip: 'Duración del episodio', prev: 'Episodio anterior', next: 'Episodio siguiente', allPodcast: 'Ver el podcast',
+    journeyTitle: 'DE LOS DATOS AL PRODUCTO.', journeyBody: 'En LeanMind desde 2020. Datos, backend, producto web y gestión interna. Lo que conecta esos proyectos es la forma de trabajar.', journeyCta: 'Ver el CV completo',
+    contactTitle: '¿HABLAMOS?', contactBody: 'Un proyecto, una oportunidad para trabajar juntos o algo que quieras compartir. Escríbeme y te respondo personalmente.', contactLede: 'Correo directo. Sin formularios que se pierdan.', email: 'Correo', formName: 'Nombre', formEmail: 'Correo', formMessage: 'Mensaje', formSubmit: 'Enviar mensaje', formNote: 'Respuesta personal.',
+    railLabels: ['Perfil', 'Práctica', 'Trabajo', 'Blog', 'Podcast', 'Trayectoria', 'Testimonio', 'Actividad', 'Contacto'],
+    railAria: 'Secciones de la página',
+    episodeWord: 'Episodio',
+    formAria: 'Formulario de contacto',
+    closePlayer: 'Cerrar reproductor',
+  },
+  en: {
+    seoTitle: 'Airán Sánchez · Software developer',
+    seoDescription: 'Software developer across data, web and systems. Profile, JaponesApp, writing, podcast and contact.',
+    heroType: 'Software developer // Data · Web · Systems',
+    cv: 'View CV', work: 'View work', company: 'LeanMind · Next Digital', location: 'Canary Islands ↔ Spain ↔ Japan', since: 'Since 2020', years: 'years building', scroll: 'Scroll to transmit',
+    portraitAlt: 'Airán Sánchez',
+    pinPrefix: 'I BUILD SYSTEMS THE TEAM CAN ', pinWords: 'UNDERSTAND.|OPERATE.|EVOLVE.', pinCaption: 'Data, web and systems. I understand the problem, connect the pieces and build with the team. I care that the system can be maintained and explained.', pinIndex: ['Understand', 'Operate', 'Evolve'],
+    railTitle: 'JAPONESAPP AND REAL THINGS.', railIntro: 'One case with a real recording, decisions and limits. No invented cases.', railHint: 'Swipe to see all four cards →',
+    workMeta: ['Mobile prototype', 'The idea', 'The work', 'The limits'],
+    workTitles: ['JaponesApp', 'Study with local data.', 'Review with criteria.', 'A prototype, not a promise.'],
+    workBodies: ['An app to study kanji and vocabulary, practise and see progress. A real simulator recording, no audio.', 'SQLite keeps cards and progress on the device. Studying needs no account and no server of its own.', 'A native C++ engine uses FSRS-5 to schedule spaced repetition. The interface is built with React Native and TypeScript.', 'The recording shows navigation and progress; it does not validate the whole app. There is no public download and no user metrics.'],
+    openCase: 'Open case', videoAlt: 'Real JaponesApp recording',
+    imageAlts: ['Real JaponesApp screen with the three study modes', 'Real Kanji N5 screen with the kanji grid', 'Real Kanji N5 screen with the learning state'],
+    writingTitle: 'I WRITE ABOUT THE CRAFT. SOFTWARE, TESTING, TEAMS.', writingLede: 'A working notebook, not an announcement blog.', highlighter: 'No shortcuts.', reading: 'Read article', archive: 'View the archive',
+    listeningTitle: 'UNHURRIED CONVERSATIONS.', listeningBody: 'Technology, work and the stories that appear between them. No script and no rush.', listen: 'Listen', durationTip: 'Episode duration', prev: 'Previous episode', next: 'Next episode', allPodcast: 'View the podcast',
+    journeyTitle: 'FROM DATA TO PRODUCT.', journeyBody: 'At LeanMind since 2020. Data, backend, web product and internal management. What connects those projects is the way of working.', journeyCta: 'View the full CV',
+    contactTitle: 'SHALL WE TALK?', contactBody: 'A project, an opportunity to work together or something you want to share. Write to me and I will reply personally.', contactLede: 'Direct email. No forms that get lost.', email: 'Email', formName: 'Name', formEmail: 'Email', formMessage: 'Message', formSubmit: 'Send message', formNote: 'Personal reply.',
+    railLabels: ['Profile', 'Practice', 'Work', 'Blog', 'Podcast', 'Journey', 'Testimonial', 'Activity', 'Contact'],
+    railAria: 'Page sections',
+    episodeWord: 'Episode',
+    formAria: 'Contact form',
+    closePlayer: 'Close player',
+  },
+  ja: {
+    seoTitle: 'Airán Sánchez · ソフトウェア開発者',
+    seoDescription: 'データ、Web、システムをつなぐソフトウェア開発者。プロフィール、JaponesApp、記事、ポッドキャスト、お問い合わせ。',
+    heroType: 'ソフトウェア開発者 // データ・Web・システム',
+    cv: 'CVを見る', work: '仕事を見る', company: 'LeanMind · Next Digital', location: 'カナリア諸島 ↔ スペイン ↔ 日本', since: '2020年から', years: '年の開発経験', scroll: 'スクロールして進む',
+    portraitAlt: 'Airán Sánchez',
+    pinPrefix: 'チームが', pinWords: '理解できる。|運用できる。|進化できる。', pinCaption: 'データ、Web、システム。問題を理解し、要素をつなぎ、チームとともに作ります。保守でき、説明できるシステムであることを大事にしています。', pinIndex: ['理解', '運用', '進化'],
+    railTitle: 'JAPONESAPPと、実際の仕事。', railIntro: '実際の録画、判断、限界のある1つのケース。作られた事例はありません。', railHint: '4枚のカードを見るにはスクロール →',
+    workMeta: ['モバイルプロトタイプ', 'アイデア', '仕事', '限界'],
+    workTitles: ['JaponesApp', 'ローカルデータで学ぶ。', '基準をもって復習する。', '約束ではなく、プロトタイプ。'],
+    workBodies: ['漢字と語彙を学び、練習し、学習の進み具合を見るアプリ。シミュレータでの実際の録画、音声なし。', 'SQLiteがカードと進捗を端末に保存します。アカウントも独自サーバーも不要です。', 'C++のネイティブエンジンがFSRS-5で間隔反復を計画します。UIはReact NativeとTypeScriptで構築しています。', '録画はナビゲーションと進捗を示すもので、アプリ全体を保証するものではありません。公開ダウンロードもユーザー指標もありません。'],
+    openCase: 'ケースを開く', videoAlt: 'JaponesAppの実際の録画',
+    imageAlts: ['3つの学習モードがあるJaponesAppの実際の画面', '漢字グリッドがある漢字N5の実際の画面', '学習状態がある漢字N5の実際の画面'],
+    writingTitle: '仕事について書く。ソフトウェア、テスト、チーム。', writingLede: '告知のブログではなく、仕事のノート。', highlighter: '近道はない。', reading: '記事を読む', archive: 'アーカイブを見る',
+    listeningTitle: '急がない会話。', listeningBody: 'テクノロジー、仕事、その間にある物語。台本も焦りもありません。', listen: '聴く', durationTip: 'エピソードの長さ', prev: '前のエピソード', next: '次のエピソード', allPodcast: 'ポッドキャストを見る',
+    journeyTitle: 'データからプロダクトへ。', journeyBody: '2020年からLeanMindで。データ、バックエンド、Webプロダクト、社内管理。それらをつなぐのは仕事の進め方です。', journeyCta: 'CVをすべて見る',
+    contactTitle: '話しませんか？', contactBody: 'プロジェクト、一緒に働く機会、共有したいこと。書いてくれれば、直接返信します。', contactLede: '直接メールで。送信して消えるフォームはありません。', email: 'メール', formName: '名前', formEmail: 'メール', formMessage: 'メッセージ', formSubmit: 'メッセージを送る', formNote: '直接返信します。',
+    railLabels: ['プロフィール', '仕事の姿勢', '仕事', 'ブログ', 'ポッドキャスト', '経歴', '推薦', '活動', 'お問い合わせ'],
+    railAria: 'ページのセクション',
+    episodeWord: 'エピソード',
+    formAria: 'お問い合わせフォーム',
+    closePlayer: 'プレーヤーを閉じる',
+  },
 }[lang];
+
+const profileExperiences = { en: experiencesEn, es: experiencesEs, ja: experiencesJa }[lang] as Array<{
+  company: string; role: string; startDate: string; endDate: string | null; description: string; technologies: string[];
+}>;
+
+const monthNames: Record<Locale, string[]> = {
+  es: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+  en: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+  ja: [],
+};
+const present = { es: 'Actualidad', en: 'Present', ja: '現在' }[lang];
+
+const formatMonth = (value: string) => {
+  const [year, month] = value.split('-').map(Number);
+  if (lang === 'ja') return `${year}年${month}月`;
+  const name = monthNames[lang][month - 1];
+  return `${name.charAt(0).toUpperCase()}${name.slice(1)} ${year}`;
+};
+const formatRange = (start: string, end: string | null) => `${formatMonth(start)} · ${end ? formatMonth(end) : present}`;
+const durationMonths = (start: string, end: string | null) => {
+  const [startYear, startMonth] = start.split('-').map(Number);
+  const now = new Date();
+  const [endYear, endMonth] = end ? end.split('-').map(Number) : [now.getFullYear(), now.getMonth() + 1];
+  return Math.max(1, (endYear - startYear) * 12 + endMonth - startMonth);
+};
+const formatDuration = (months: number) => {
+  const years = Math.floor(months / 12);
+  const rest = months % 12;
+  if (lang === 'ja') return `${years ? `${years}年` : ''}${rest ? `${rest}か月` : ''}`;
+  const yearLabel = lang === 'es' ? (years === 1 ? 'año' : 'años') : years === 1 ? 'year' : 'years';
+  const monthLabel = lang === 'es' ? (rest === 1 ? 'mes' : 'meses') : rest === 1 ? 'month' : 'months';
+  return [years ? `${years} ${yearLabel}` : '', rest ? `${rest} ${monthLabel}` : ''].filter(Boolean).join(' ');
+};
+
+const techFor = (experience: { company: string; startDate: string }) => {
+  if (experience.company.includes('Next Digital')) return 'C# · .NET · PostgreSQL · JavaScript · MQTT';
+  if (experience.company.includes('ClarityAI')) return 'Python · Pandas · Pytest · AWS · Docker · MongoDB';
+  if (experience.company.includes('Secret Project')) return 'TypeScript · Node.js · MongoDB · Kubernetes · AWS · React';
+  if (experience.company.includes('Voxel')) return '.NET · PostgreSQL · JavaScript · Git · Docker · Bash';
+  if (experience.startDate === '2026-01') return 'Astro · TypeScript · Node.js · React · Docker · Figma';
+  return 'TypeScript · JavaScript · React · Docker · MySQL · Git';
+};
+
+const experiences = [...profileExperiences]
+  .sort((a, b) => b.startDate.localeCompare(a.startDate))
+  .map((experience) => ({
+    ...experience,
+    company: experience.company.replace(/ - /g, ' · '),
+    tech: techFor(experience),
+    duration: formatDuration(durationMonths(experience.startDate, experience.endDate)),
+    range: formatRange(experience.startDate, experience.endDate),
+  }));
+
+const allPosts = await getCollection('blog');
+const posts = allPosts
+  .filter((post) => !post.data.draft && post.id.startsWith(`${lang}/`))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const latestPost = posts[0];
+const latestDate = latestPost ? new Intl.DateTimeFormat(lang, { day: 'numeric', month: 'short', year: 'numeric' }).format(latestPost.data.date) : '';
+const latestHref = latestPost ? articlePath(lang, latestPost.slug) : `/${lang}/blog/`;
+
+const episodes = (await loadPodcastEpisodes(lang))
+  .sort((a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf())
+  .slice(0, 8);
+const formatEpisodeDate = (value: string) =>
+  new Intl.DateTimeFormat(lang, { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(`${value}T00:00:00`));
+
+const activity = await getGithubActivity();
+const years = Math.max(1, new Date().getFullYear() - 2020);
+const portrait = profileImage;
 ---
-<Layout title="Airán Sánchez · Software developer" description={copy.description} lang={lang}>
-  <Header />
-  <main id="main-content" class="portfolio-home">
-    <HeroSection lang={lang} />
-    {projects.length > 0 && <SelectedWorkSection projects={projects} lang={lang} featured />}
-    <section id="about" class="content-section portfolio-about" aria-labelledby="about-heading">
-      <div class="site-container portfolio-about-grid">
-        <div><p class="portfolio-label">{copy.label}</p><h2 id="about-heading">{copy.title}</h2></div>
-        <div class="portfolio-about-copy"><p>{copy.about}</p><p>{copy.more}</p><div class="portfolio-link-row"><a class="portfolio-inline-link" href={`/${lang}/blog/`}>{copy.blog} ↗</a><a class="portfolio-inline-link" href={`/${lang}/cv/`}>{copy.cv} ↗</a></div></div>
+
+<KineticLayout title={copy.seoTitle} description={copy.seoDescription} lang={lang} image="/kinetic/profile.jpg">
+  <nav class="section-rail" aria-label={copy.railAria}>
+    <a href="#perfil">{copy.railLabels[0]}</a>
+    <a href="#practica">{copy.railLabels[1]}</a>
+    <a href="#work">{copy.railLabels[2]}</a>
+    <a href="#escritura">{copy.railLabels[3]}</a>
+    <a href="#escucha">{copy.railLabels[4]}</a>
+    <a href="#trayectoria">{copy.railLabels[5]}</a>
+    <a href="#testimonio">{copy.railLabels[6]}</a>
+    <a href="#actividad">{copy.railLabels[7]}</a>
+    <a href="#contact">{copy.railLabels[8]}</a>
+  </nav>
+
+  <main id="main-content">
+    <section class="hero" id="perfil" aria-labelledby="hero-title">
+      <div class="hero__copy">
+        <h1 id="hero-title" class="hero__display">
+          <span><span>Airán</span></span>
+          <span><span>Sánchez<span class="hero__period">.</span></span></span>
+        </h1>
+        <div class="hero__type" data-typewriter={copy.heroType}>{copy.heroType}</div>
+        <div class="hero__actions">
+          <a class="btn" href={`/${lang}/cv/`}>{copy.cv}</a>
+          <a class="btn btn--ghost" href="#work">{copy.work}</a>
+        </div>
+        <p class="hero__meta meta"><span>{copy.company}</span><span>{copy.location}</span><span>{copy.since}</span></p>
+        <div class="hero__count"><span data-count={years}>0</span><small>{copy.years}</small></div>
+      </div>
+
+      <figure class="hero__portrait">
+        <div class="hero__portrait-inner">
+          <Image src={portrait} alt={copy.portraitAlt} widths={[320, 640]} sizes="(min-width: 1025px) 28rem, 22rem" width={640} height={640} loading="eager" fetchpriority="high" />
+        </div>
+        <figcaption>Airán Sánchez · 2026</figcaption>
+      </figure>
+
+      <div class="hero__burst" aria-hidden="true">
+        {Array.from({ length: 12 }, (_, index) => <span style={`--a:${index * 30}deg`}></span>)}
+      </div>
+      <p class="hero__scroll">{copy.scroll}</p>
+    </section>
+
+    <section class="pin-scene" id="practica" aria-labelledby="practice-title">
+      <div class="pin">
+        <p id="practice-title" class="pin__statement">
+          <span data-pin-prefix>{copy.pinPrefix}</span><span class="pin__word" data-words={copy.pinWords}>{copy.pinWords.split('|')[0]}</span><span data-pin-suffix></span>
+        </p>
+        <p class="pin__caption">{copy.pinCaption}</p>
+        <div class="pin__index">
+          {copy.pinIndex.map((label, index) => <span class:list={{ 'is-active': index === 0 }}>{label}</span>)}
+        </div>
       </div>
     </section>
-    <ExperienceSection experiences={experiences} t={t} lang={lang} />
-    <TestimonialsSection lang={lang} />
-    <GithubActivitySection lang={lang} snapshot={activity.snapshot} status={activity.status} />
-    <ContactSection t={t} lang={lang} />
+
+    <section class="rail-scene" id="work" aria-labelledby="work-title">
+      <div class="rail-head">
+        <div><h2 id="work-title" class="scene__title">{copy.railTitle}</h2></div>
+        <p class="scene__body">{copy.railIntro}<span class="rail-hint">{copy.railHint}</span></p>
+      </div>
+      <div class="rail">
+        <div class="rail__track">
+          <article class="rail-card rail-card--video">
+            <div class="rail-card__media">
+              <video autoplay muted loop playsinline preload="metadata" poster="/kinetic/project-showcase-poster.png" width="604" height="1314" aria-label={copy.videoAlt} data-autoplay>
+                <source src="/kinetic/project-showcase.mp4" type="video/mp4" />
+              </video>
+            </div>
+            <div class="rail-card__body">
+              <p class="rail-card__meta">{copy.workMeta[0]}</p>
+              <h3>{copy.workTitles[0]}</h3>
+              <p>{copy.workBodies[0]}</p>
+              <a class="link" href={`/${lang}/projects/japonesapp/`}>{copy.openCase}</a>
+            </div>
+          </article>
+
+          <article class="rail-card">
+            <div class="rail-card__media"><img src="/kinetic/rail-modes.png" alt={copy.imageAlts[0]} width="604" height="360" loading="lazy" /></div>
+            <div class="rail-card__body"><p class="rail-card__meta">{copy.workMeta[1]}</p><h3>{copy.workTitles[1]}</h3><p>{copy.workBodies[1]}</p></div>
+          </article>
+
+          <article class="rail-card">
+            <div class="rail-card__media"><img src="/kinetic/rail-kanji.png" alt={copy.imageAlts[1]} width="604" height="336" loading="lazy" /></div>
+            <div class="rail-card__body"><p class="rail-card__meta">{copy.workMeta[2]}</p><h3>{copy.workTitles[2]}</h3><p>{copy.workBodies[2]}</p></div>
+          </article>
+
+          <article class="rail-card">
+            <div class="rail-card__media"><img src="/kinetic/rail-status.png" alt={copy.imageAlts[2]} width="604" height="336" loading="lazy" /></div>
+            <div class="rail-card__body"><p class="rail-card__meta">{copy.workMeta[3]}</p><h3>{copy.workTitles[3]}</h3><p>{copy.workBodies[3]}</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="scene scroll-scene" id="escritura" aria-labelledby="writing-title">
+      <h2 id="writing-title" class="scroll-text">{copy.writingTitle}</h2>
+      <p class="lede">{copy.writingLede} <span class="highlighter">{copy.highlighter}</span></p>
+
+      {latestPost && (
+        <div class="article-preview fade">
+          <figure class="article-preview__media">
+            {latestPost.data.featuredImage ? (
+              <img src={latestPost.data.featuredImage} alt="" width="1068" height="552" loading="lazy" decoding="async" />
+            ) : (
+              <div class="article-preview__media-fallback" aria-hidden="true"></div>
+            )}
+          </figure>
+          <div class="article-preview__copy">
+            <p class="meta"><span>{latestDate}</span><span>{latestPost.data.tags.slice(0, 3).join(' · ')}</span></p>
+            <h3>{latestPost.data.title}</h3>
+            <p>{latestPost.data.description}</p>
+            <div class="hero__actions">
+              <a class="btn" href={latestHref}>{copy.reading}</a>
+              <a class="link" href={`/${lang}/blog/`}>{copy.archive}</a>
+            </div>
+          </div>
+        </div>
+      )}
+    </section>
+
+    <section class="scene" id="escucha" aria-labelledby="listening-title">
+      <div class="scene__head">
+        <div><h2 id="listening-title" class="scene__title">{copy.listeningTitle}</h2></div>
+        <p class="scene__body">{copy.listeningBody}</p>
+      </div>
+
+      <div class="carousel" data-carousel data-episode-word={copy.episodeWord}>
+        <div class="carousel__viewport">
+          <div class="carousel__track">
+            {episodes.map((episode, index) => (
+              <article class="episode" data-episode-index={index}>
+                <img src="/images/la-techtulia-cover.webp" alt="La Techtulia" width="640" height="640" loading={index === 0 ? 'eager' : 'lazy'} />
+                <div class="episode__body">
+                  <p class="episode__meta">{formatEpisodeDate(episode.date)} · <span class="tooltip" data-tooltip={copy.durationTip}>{episode.duration}</span></p>
+                  <h3 class="episode__title">{episode.title}</h3>
+                  <p class="episode__desc">{episode.description}</p>
+                  <button class="btn" type="button" data-episode data-episode-index={index} data-episode-title={episode.title} data-episode-meta={`La Techtulia · ${formatEpisodeDate(episode.date)} · ${episode.duration}`} data-episode-description={episode.description} data-episode-url={episode.url}>{copy.listen}</button>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+        <div class="carousel__controls">
+          <button class="carousel__btn" type="button" data-carousel-prev aria-label={copy.prev}>←</button>
+          <button class="carousel__btn" type="button" data-carousel-next aria-label={copy.next}>→</button>
+          <div class="carousel__dots" data-carousel-dots></div>
+        </div>
+      </div>
+      <div class="hero__actions"><a class="link" href={`/${lang}/podcast/`}>{copy.allPodcast}</a></div>
+    </section>
+
+    <section class="scene journey-scene" id="trayectoria" aria-labelledby="timeline-title">
+      <div class="scene__head">
+        <div><h2 id="timeline-title" class="scene__title">{copy.journeyTitle}</h2></div>
+        <p class="scene__body">{copy.journeyBody}</p>
+      </div>
+
+      <ol class="timeline timeline--journey">
+        {experiences.map((experience, index) => (
+          <li style={`--i:${index}`}>
+            <time datetime={experience.startDate}>{experience.range}</time>
+            <h3>{experience.role}</h3>
+            <p>{experience.company}</p>
+            <p class="timeline__duration">{experience.duration}</p>
+            <p class="timeline__tech">{experience.tech}</p>
+          </li>
+        ))}
+      </ol>
+      <a class="btn btn--ghost journey-cta" href={`/${lang}/cv/`}>{copy.journeyCta}</a>
+    </section>
+
+    <KineticTestimonial lang={lang} />
+    <KineticActivity lang={lang} snapshot={activity.snapshot} status={activity.status} />
+
+    <section class="scene contact-scene" id="contact" aria-labelledby="contact-title">
+      <div class="scene__head">
+        <div><h2 id="contact-title" class="scene__title">{copy.contactTitle}</h2></div>
+        <p class="scene__body">{copy.contactBody}</p>
+      </div>
+
+      <div class="contact-grid fade">
+        <div>
+          <p class="lede">{copy.contactLede}</p>
+          <p class="meta"><span>{copy.email}</span><a href="mailto:airanschez0@gmail.com">airanschez0@gmail.com</a></p>
+          <p class="meta"><span>GitHub</span><a href="https://github.com/AiranSchez" target="_blank" rel="noreferrer">AiranSchez ↗</a></p>
+          <p class="meta"><span>LinkedIn</span><a href="https://www.linkedin.com/in/air%C3%A1n-s%C3%A1nchez-brito-415910145/" target="_blank" rel="noreferrer">Airán Sánchez ↗</a></p>
+        </div>
+
+        <form
+          id="contact-form"
+          class="form"
+          aria-label={copy.formAria}
+          data-sending={t('contact.sending')}
+          data-success={t('contact.success')}
+          data-error={t('contact.error')}
+          data-class-success="form-feedback form-feedback--success"
+          data-class-error="form-feedback form-feedback--error"
+        >
+          <input type="hidden" name="access_key" value={import.meta.env.WEB3FORMS_ACCESS_KEY || 'your_key_here'} />
+          <div class="field">
+            <input id="contact-name" name="name" type="text" placeholder=" " required autocomplete="name" />
+            <label for="contact-name">{copy.formName}</label>
+          </div>
+          <div class="field">
+            <input id="contact-email" name="email" type="email" placeholder=" " required autocomplete="email" />
+            <label for="contact-email">{copy.formEmail}</label>
+          </div>
+          <div class="field">
+            <textarea id="contact-message" name="message" placeholder=" " required rows="4" maxlength="1000"></textarea>
+            <label for="contact-message">{copy.formMessage}</label>
+            <small class="field__count"><span id="char-count-contact-message">0</span> / 1000</small>
+          </div>
+          <div id="form-status" class="form-feedback hidden" role="status" aria-live="polite"></div>
+          <div class="form__foot">
+            <button id="submit-button" class="btn" type="submit">{copy.formSubmit}</button>
+            <span class="form__note">{copy.formNote}</span>
+          </div>
+        </form>
+      </div>
+    </section>
   </main>
-  <Footer />
-</Layout>
+
+  <dialog class="modal" data-episode-modal aria-labelledby="episode-modal-title">
+    <div class="modal__panel">
+      <button class="icon-btn modal__close" type="button" data-modal-close aria-label={copy.closePlayer}>✕</button>
+      <p class="kicker"><span>La Techtulia</span><span>{copy.listen}</span></p>
+      <h2 id="episode-modal-title" data-modal-title>La Techtulia</h2>
+      <p class="episode__meta" data-modal-meta></p>
+      <p data-modal-description></p>
+      <div class="modal__player" data-modal-player></div>
+    </div>
+  </dialog>
+
+  <script>
+    import '../../scripts/kinetic-home';
+  </script>
+  <script>
+    import { initContactForm } from '../../components/home/contact-form';
+    initContactForm();
+  </script>
+</KineticLayout>
