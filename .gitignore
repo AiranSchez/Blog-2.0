@@ -43,6 +43,11 @@ playwright-report/*
 test-results/
 test-results/*
 
+# python artifacts
+__pycache__/
+*.pyc
+/tmp/
+
 # local design and document QA artifacts
 .hallmark/*.png
 output/

@@ -15,7 +15,8 @@ concurrency:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    # ubuntu-latest moved to Ubuntu 26, where Playwright 1.58 cannot install Chromium.
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
