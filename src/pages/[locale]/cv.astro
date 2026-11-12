@@ -1,6 +1,7 @@
 ---
 import KineticLayout from '../../layouts/KineticLayout.astro';
 import { getLangFromUrl } from '../../services/i18n';
+import { languagesByLocale } from '../../data/languages';
 
 import experiencesEn from '../../data/experience/experiences-en.json';
 import experiencesEs from '../../data/experience/experiences-es.json';
@@ -17,11 +18,12 @@ export function getStaticPaths() {
 const lang = getLangFromUrl(Astro.url) as 'en' | 'es' | 'ja';
 const cv = { en: cvEn, es: cvEs, ja: cvJa }[lang];
 const experiences = [...{ en: experiencesEn, es: experiencesEs, ja: experiencesJa }[lang]].sort((a, b) => b.startDate.localeCompare(a.startDate));
+const languages = languagesByLocale[lang];
 
 const copy = {
-  es: { kicker: 'Perfil · CV · 2026', location: 'Ubicación', email: 'Correo', experience: 'Experiencia', skills: 'Capacidades', education: 'Formación', talk: 'Charla', contact: 'Contacto', back: 'Volver a la web', downloadPdf: 'Descargar PDF', downloadJson: 'Descargar JSON', speak: 'Hablemos', present: 'Actualidad', years: 'años construyendo', index: 'Índice', roleDuration: 'Duración', youtube: 'YouTube' },
-  en: { kicker: 'Profile · CV · 2026', location: 'Location', email: 'Email', experience: 'Experience', skills: 'Skills', education: 'Education', talk: 'Talk', contact: 'Contact', back: 'Back to the site', downloadPdf: 'Download PDF', downloadJson: 'Download JSON', speak: "Let's talk", present: 'Present', years: 'years building', index: 'Index', roleDuration: 'Duration', youtube: 'YouTube' },
-  ja: { kicker: 'プロフィール · CV · 2026', location: '所在地', email: 'メール', experience: '経験', skills: 'スキル', education: '学歴', talk: '登壇', contact: 'お問い合わせ', back: 'サイトへ戻る', downloadPdf: 'PDFをダウンロード', downloadJson: 'JSONをダウンロード', speak: '話しましょう', present: '現在', years: '年の開発経験', index: '目次', roleDuration: '期間', youtube: 'YouTube' },
+  es: { kicker: 'Perfil · CV · 2026', location: 'Ubicación', email: 'Correo', experience: 'Experiencia', skills: 'Capacidades', languages: 'Idiomas', education: 'Formación', talk: 'Charla', contact: 'Contacto', back: 'Volver a la web', downloadPdf: 'Descargar PDF', downloadJson: 'Descargar JSON', speak: 'Hablemos', present: 'Actualidad', years: 'años construyendo', index: 'Índice', roleDuration: 'Duración', youtube: 'YouTube' },
+  en: { kicker: 'Profile · CV · 2026', location: 'Location', email: 'Email', experience: 'Experience', skills: 'Skills', languages: 'Languages', education: 'Education', talk: 'Talk', contact: 'Contact', back: 'Back to the site', downloadPdf: 'Download PDF', downloadJson: 'Download JSON', speak: "Let's talk", present: 'Present', years: 'years building', index: 'Index', roleDuration: 'Duration', youtube: 'YouTube' },
+  ja: { kicker: 'プロフィール · CV · 2026', location: '所在地', email: 'メール', experience: '経験', skills: 'スキル', languages: '言語', education: '学歴', talk: '登壇', contact: 'お問い合わせ', back: 'サイトへ戻る', downloadPdf: 'PDFをダウンロード', downloadJson: 'JSONをダウンロード', speak: '話しましょう', present: '現在', years: '年の開発経験', index: '目次', roleDuration: '期間', youtube: 'YouTube' },
 }[lang];
 
 const months = {
@@ -91,6 +93,7 @@ const years = Math.max(1, new Date().getFullYear() - 2020);
         <a href="#experiencia">{copy.experience}</a>
         <a href="#capacidades">{copy.skills}</a>
         <a href="#formacion">{copy.education}</a>
+        <a href="#idiomas">{copy.languages}</a>
         <a href="#charla">{copy.talk}</a>
         <a href="#contacto-cv">{copy.contact}</a>
       </aside>
@@ -130,6 +133,15 @@ const years = Math.max(1, new Date().getFullYear() - 2020);
               <li><span>{String(index + 1).padStart(2, '0')}</span><div><h3>{education.title}</h3><p>{education.description}</p></div></li>
             ))}
           </ol>
+        </section>
+
+        <section class="dossier-section" id="idiomas" aria-labelledby="idiomas-title">
+          <h2 id="idiomas-title">{copy.languages}.</h2>
+          <ul class="language-list">
+            {languages.map((language) => (
+              <li><span>{language.name}</span><span>{language.level}</span></li>
+            ))}
+          </ul>
         </section>
 
         <section class="dossier-section" id="charla" aria-labelledby="charla-title">

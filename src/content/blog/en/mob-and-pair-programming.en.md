@@ -7,6 +7,7 @@ description: Thoughts on pair and mob programming as work methodologies
 featuredImage: /assets/images/posts/751331-637471889771844499-16x9.jpg
 tags: ['Community', 'Learning', 'Mob/Pair', 'Testing', 'Blog']
 
+category: craft
 ---
 
 ## Mob Programming

@@ -7,6 +7,7 @@ const blog = defineCollection({
     description: z.string(),
     date: z.coerce.date(),
     tags: z.array(z.string()).default([]),
+    category: z.enum(['web', 'data', 'craft']).default('web'),
     featuredImage: z.string().optional(),
     draft: z.boolean().default(false),
   }),

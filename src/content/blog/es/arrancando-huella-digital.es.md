@@ -8,6 +8,7 @@ featuredImage: /assets/images/posts/teamwork-2499638_1920.jpg
 draft: false
 tags: ['Comunidad', 'Aprendizaje', 'LeanMind', 'Guía', 'Blog', 'Docker', 'IntelliJ', 'OpenSource']
 
+category: craft
 ---
 ## Introducción 
 

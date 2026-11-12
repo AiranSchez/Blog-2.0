@@ -23,6 +23,18 @@ const pageCopy = {
       { time: 'Fase 02', title: 'El prototipo.', text: 'Interfaz móvil, datos locales y un motor de repetición espaciada.' },
       { time: 'Fase 03', title: 'La grabación.', text: 'Una muestra real del simulador, sin audio y sin métricas inventadas.' },
     ],
+    whatTitle: 'QUÉ HACE.', whatBody: 'Funciones reales del prototipo, sin promesas de producto.',
+    what: [
+      'Estudia kanjis y vocabulario con tarjetas guardadas en el dispositivo.',
+      'Planifica los repasos con FSRS-5, un algoritmo de repetición espaciada.',
+      'Practica con modos de estudio y un quiz por niveles.',
+      'Consulta el progreso sin cuenta y sin un servidor propio.',
+    ],
+    galleryAlts: ['Pantalla real con los tres modos de estudio', 'Pantalla real de Kanjis N5 con la cuadrícula', 'Pantalla real de Kanjis N5 con el estado de aprendizaje'],
+    galleryTitle: 'PANTALLAS REALES.', galleryBody: 'Capturas del simulador, sin montajes ni datos de ejemplo.',
+    galleryAction: 'Ampliar', closeImage: 'Cerrar imagen',
+    shareTitle: 'COMPARTIR.', shareBody: 'Si te sirve o te interesa, pásalo.', copyLink: 'Copiar enlace', copied: 'Enlace copiado',
+    shareX: 'Compartir en X', shareLinkedin: 'Compartir en LinkedIn', shareEmail: 'Compartir por correo',
     back: 'Volver a proyectos', contact: 'Hablemos del proyecto', heroAlt: 'Pantalla real de Kanjis N5 de JaponesApp',
   },
   en: {
@@ -36,6 +48,18 @@ const pageCopy = {
       { time: 'Phase 02', title: 'The prototype.', text: 'Mobile interface, local data and a spaced-repetition engine.' },
       { time: 'Phase 03', title: 'The recording.', text: 'A real simulator sample, no audio and no invented metrics.' },
     ],
+    whatTitle: 'WHAT IT DOES.', whatBody: 'Real prototype features, without product promises.',
+    what: [
+      'Study kanji and vocabulary with cards stored on the device.',
+      'Schedule reviews with FSRS-5, a spaced-repetition algorithm.',
+      'Practise with study modes and a quiz by level.',
+      'Check progress with no account and no server of its own.',
+    ],
+    galleryAlts: ['Real screen with the three study modes', 'Real Kanji N5 screen with the kanji grid', 'Real Kanji N5 screen with the learning state'],
+    galleryTitle: 'REAL SCREENS.', galleryBody: 'Simulator captures, with no mockups or sample data.',
+    galleryAction: 'Enlarge', closeImage: 'Close image',
+    shareTitle: 'SHARE.', shareBody: 'If it helps or interests you, pass it on.', copyLink: 'Copy link', copied: 'Link copied',
+    shareX: 'Share on X', shareLinkedin: 'Share on LinkedIn', shareEmail: 'Share by email',
     back: 'Back to projects', contact: 'Talk about the project', heroAlt: 'Real JaponesApp Kanji N5 screen',
   },
   ja: {
@@ -49,12 +73,38 @@ const pageCopy = {
       { time: 'フェーズ 02', title: 'プロトタイプ。', text: 'モバイル画面、ローカルデータ、間隔反復エンジン。' },
       { time: 'フェーズ 03', title: '録画。', text: 'シミュレーターの実際の映像。音声も作られた指標もありません。' },
     ],
+    whatTitle: 'できること。', whatBody: '試作の実際の機能。製品の約束はありません。',
+    what: [
+      '端末に保存したカードで漢字と語彙を学ぶ。',
+      '間隔反復アルゴリズム FSRS-5 で復習を計画する。',
+      '学習モードとレベル別クイズで練習する。',
+      'アカウントも独自サーバーもなしで進捗を確認する。',
+    ],
+    galleryAlts: ['3つの学習モードがある実際の画面', '漢字グリッドがある漢字N5の実際の画面', '学習状態がある漢字N5の実際の画面'],
+    galleryTitle: '実際の画面。', galleryBody: 'シミュレーターのキャプチャ。合成やサンプルデータはありません。',
+    galleryAction: '拡大', closeImage: '画像を閉じる',
+    shareTitle: '共有。', shareBody: '役に立つと思ったら、共有してください。', copyLink: 'リンクをコピー', copied: 'コピーしました',
+    shareX: 'Xで共有', shareLinkedin: 'LinkedInで共有', shareEmail: 'メールで共有',
     back: 'プロジェクト一覧へ', contact: 'このプロジェクトについて', heroAlt: 'JaponesAppの漢字N5の実際の画面',
   },
 }[lang];
+
+const shareUrl = new URL(Astro.url.pathname, Astro.site).toString();
+const shareText = 'JaponesApp · Airán Sánchez';
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: 'JaponesApp',
+  description: copy.summary,
+  dateCreated: '2026',
+  inLanguage: lang,
+  author: { '@type': 'Person', name: 'Airán Sánchez', url: new URL(`/${lang}/`, Astro.site).toString() },
+  url: shareUrl,
+  image: new URL('/kinetic/project-showcase-poster.png', Astro.site).toString(),
+};
 ---
 
-<KineticLayout title="JaponesApp · Airán Sánchez" description={copy.summary} image="/kinetic/project-showcase-poster.png" lang={lang}>
+<KineticLayout title="JaponesApp · Airán Sánchez" description={copy.summary} image="/kinetic/project-showcase-poster.png" lang={lang} jsonLd={jsonLd}>
   <main id="main-content">
     <section class="page-hero" aria-labelledby="case-title">
       <div class="case-hero">
@@ -95,6 +145,37 @@ const pageCopy = {
       </div>
     </section>
 
+    <section class="scene" aria-labelledby="what-title">
+      <div class="scene__head">
+        <div><h2 id="what-title" class="scene__title">{pageCopy.whatTitle}</h2></div>
+        <p class="scene__body">{pageCopy.whatBody}</p>
+      </div>
+      <ul class="case-list">
+        {pageCopy.what.map((item) => <li>{item}</li>)}
+      </ul>
+    </section>
+
+    <section class="scene" aria-labelledby="gallery-title">
+      <div class="scene__head">
+        <div><h2 id="gallery-title" class="scene__title">{pageCopy.galleryTitle}</h2></div>
+        <p class="scene__body">{pageCopy.galleryBody}</p>
+      </div>
+      <ul class="case-gallery">
+        {[
+          { src: '/kinetic/rail-modes.png', alt: pageCopy.galleryAlts[0], width: 604, height: 360 },
+          { src: '/kinetic/rail-kanji.png', alt: pageCopy.galleryAlts[1], width: 604, height: 336 },
+          { src: '/kinetic/rail-status.png', alt: pageCopy.galleryAlts[2], width: 604, height: 336 },
+        ].map((image) => (
+          <li>
+            <button type="button" data-lightbox-src={image.src} data-lightbox-alt={image.alt} aria-label={`${pageCopy.galleryAction}: ${image.alt}`}>
+              <img src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" />
+              <span aria-hidden="true">{pageCopy.galleryAction} ↗</span>
+            </button>
+          </li>
+        ))}
+      </ul>
+    </section>
+
     <section class="scene" aria-labelledby="idea-title">
       <div class="scene__head">
         <div><h2 id="idea-title" class="scene__title">{copy.whyTitle}</h2></div>
@@ -126,6 +207,20 @@ const pageCopy = {
       </ol>
     </section>
 
+    <section class="scene case-share" aria-labelledby="share-title">
+      <div class="scene__head">
+        <div><h2 id="share-title" class="scene__title">{pageCopy.shareTitle}</h2></div>
+        <p class="scene__body">{pageCopy.shareBody}</p>
+      </div>
+      <div class="hero__actions">
+        <button class="btn btn--ghost" type="button" data-share-copy data-share-url={shareUrl}>{pageCopy.copyLink}</button>
+        <a class="link" href={`https://x.com/intent/post?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`} target="_blank" rel="noreferrer">{pageCopy.shareX} ↗</a>
+        <a class="link" href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`} target="_blank" rel="noreferrer">{pageCopy.shareLinkedin} ↗</a>
+        <a class="link" href={`mailto:?subject=${encodeURIComponent(shareText)}&body=${encodeURIComponent(shareUrl)}`}>{pageCopy.shareEmail} ↗</a>
+        <span class="share-status" data-share-status data-share-copied={pageCopy.copied} role="status" aria-live="polite"></span>
+      </div>
+    </section>
+
     <section class="scene" aria-labelledby="limits-title">
       <div class="scene__head">
         <div><h2 id="limits-title" class="scene__title">{copy.limitsTitle}</h2></div>
@@ -137,6 +232,11 @@ const pageCopy = {
       </div>
     </section>
   </main>
+
+  <dialog class="lightbox" data-lightbox aria-label={pageCopy.closeImage}>
+    <button class="icon-btn lightbox__close" type="button" data-lightbox-close aria-label={pageCopy.closeImage}>✕</button>
+    <img data-lightbox-image alt="" />
+  </dialog>
 
   <script>
     import '../../../scripts/kinetic-home';

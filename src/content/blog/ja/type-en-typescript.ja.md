@@ -7,6 +7,7 @@ description: TypeScriptにおけるtypeの説明
 featuredImage: /assets/images/posts/ts-1.png
 tags: ['React', 'TypeScript', '学習', 'ガイド', 'ブログ']
 
+category: web
 ---
 
 ## はじめに

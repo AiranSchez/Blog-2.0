@@ -7,6 +7,7 @@ description: Experiencias en un bootcamp fullstack
 featuredImage: /assets/images/posts/1_pkijwopgflnqogwe9lzttw-1-.jpeg
 tags: ['Bootcamp', 'Aprendizaje', 'Proyectos', 'Blog']
 
+category: craft
 ---
 ## Introducción
 

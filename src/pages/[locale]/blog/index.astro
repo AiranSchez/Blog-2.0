@@ -3,6 +3,7 @@ import KineticLayout from '../../../layouts/KineticLayout.astro';
 import BlogGrid from '../../../components/blog/BlogGrid';
 import { getCollection } from 'astro:content';
 import { getLangFromUrl } from '../../../services/i18n';
+import { readingMinutes } from '../../../services/reading-time';
 
 export const prerender = true;
 export function getStaticPaths() {
@@ -13,16 +14,30 @@ const lang = getLangFromUrl(Astro.url) as 'en' | 'es' | 'ja';
 const allPosts = await getCollection('blog');
 const posts = allPosts
   .filter((post) => !post.data.draft && post.id.startsWith(`${lang}/`))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .map((post) => ({
+    id: post.id,
+    slug: post.slug,
+    readingMinutes: readingMinutes(post.body ?? ''),
+    data: {
+      title: post.data.title,
+      description: post.data.description,
+      date: post.data.date,
+      tags: post.data.tags,
+      category: post.data.category,
+      draft: post.data.draft,
+      featuredImage: post.data.featuredImage,
+    },
+  }));
 
 const copy = {
-  es: { kicker: 'Blog · Notas de campo', title: 'BLOG.', description: 'Un cuaderno de trabajo sobre software, testing, equipos y el oficio que hay detrás de los sistemas mantenibles.', back: 'Volver al inicio' },
-  en: { kicker: 'Blog · Field notes', title: 'BLOG.', description: 'A working notebook about software, testing, teams and the craft behind maintainable systems.', back: 'Back home' },
-  ja: { kicker: 'ブログ · フィールドノート', title: 'ブログ。', description: 'ソフトウェア、テスト、チーム、そして保守しやすいシステムを作る技術についてのノートです。', back: 'ホームへ戻る' },
+  es: { kicker: 'Blog · Notas de campo', title: 'BLOG.', description: 'Un cuaderno de trabajo sobre software, testing, equipos y el oficio que hay detrás de los sistemas mantenibles.', back: 'Volver al inicio', rss: 'Suscribirse por RSS' },
+  en: { kicker: 'Blog · Field notes', title: 'BLOG.', description: 'A working notebook about software, testing, teams and the craft behind maintainable systems.', back: 'Back home', rss: 'Subscribe via RSS' },
+  ja: { kicker: 'ブログ · フィールドノート', title: 'ブログ。', description: 'ソフトウェア、テスト、チーム、そして保守しやすいシステムを作る技術についてのノートです。', back: 'ホームへ戻る', rss: 'RSSで購読する' },
 }[lang];
 ---
 
-<KineticLayout title={`${copy.title} · Airán Sánchez`} description={copy.description} lang={lang}>
+<KineticLayout title={`${copy.title} · Airán Sánchez`} description={copy.description} lang={lang} rssHref={`/${lang}/blog/feed.xml`}>
   <main id="main-content">
     <section class="page-hero" aria-labelledby="blog-title">
       <p class="kicker"><span>{copy.kicker}</span></p>
@@ -30,6 +45,7 @@ const copy = {
       <p class="lede">{copy.description}</p>
       <div class="hero__actions">
         <a class="link" href={`/${lang}/`}>{copy.back}</a>
+        <a class="link" href={`/${lang}/blog/feed.xml`} type="application/rss+xml">{copy.rss} ↗</a>
       </div>
     </section>
 

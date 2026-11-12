@@ -180,3 +180,47 @@ html.dark .icon-moon {
   font-size: clamp(1.8rem, 3.4vw, 3rem);
   line-height: 1;
 }
+
+/* High contrast: same type system, stronger ink and signal. */
+html.contrast {
+  --paper: #ffffff;
+  --paper-2: #ffffff;
+  --ink: #000000;
+  --muted: #1a1a1a;
+  --rule: #000000;
+  --rule-strong: #000000;
+  --signal: #0033cc;
+  --signal-ink: #ffffff;
+  --signal-soft: #dbe4ff;
+}
+
+html.dark.contrast {
+  --paper: #000000;
+  --paper-2: #000000;
+  --ink: #ffffff;
+  --muted: #ffffff;
+  --rule: #ffffff;
+  --rule-strong: #ffffff;
+  --signal: #ffd400;
+  --signal-ink: #000000;
+  --signal-soft: #3a3200;
+}
+
+html.contrast a {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+html.contrast .hero__burst,
+html.contrast .shape-divider,
+html.contrast .scroll-progress {
+  display: none;
+}
+
+html.contrast .header,
+html.contrast .rail-card,
+html.contrast .episode,
+html.contrast .comment,
+html.contrast .dossier-section {
+  border-color: var(--rule-strong);
+}

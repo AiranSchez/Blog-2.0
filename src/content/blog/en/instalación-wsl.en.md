@@ -7,6 +7,7 @@ description: Description for WSL2 installation
 featuredImage: /assets/images/posts/1_hv7hbkxposnyzt5-pv8fjq.png
 tags: ['Learning', 'WSL', 'Ubuntu', 'Windows', 'Guide', 'Blog']
 
+category: web
 ---
 ## Introduction
 

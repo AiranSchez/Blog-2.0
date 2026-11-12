@@ -11,6 +11,7 @@ tags:
   - Blog
   - Aprendizaje
 draft: true
+category: data
 ---
 
 ## Introducción

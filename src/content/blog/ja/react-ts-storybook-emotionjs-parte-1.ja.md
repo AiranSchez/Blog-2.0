@@ -7,6 +7,7 @@ description: "ReactでTSに関する共同演習の説明"
 featuredImage: /assets/images/posts/1_nnoyq9qfitsvnlh7rcrpfq.png
 tags: ['コミュニティ', '学習', 'Kata', 'Coding-dojo', 'ブログ']
 
+category: web
 ---
 ## はじめに
 

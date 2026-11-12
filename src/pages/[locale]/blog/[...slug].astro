@@ -5,6 +5,7 @@ import type { GetStaticPaths } from 'astro';
 import { articleAlternates, articleLocale, articlePath, commentKey, normalizeArticleSlug } from '../../../features/blog/routes';
 import { getLangFromUrl } from '../../../services/i18n';
 import CommentsSection from '../../../components/blog/comments/CommentsSection';
+import { readingMinutes } from '../../../services/reading-time';
 
 export const prerender = true;
 
@@ -28,14 +29,50 @@ const lang = getLangFromUrl(Astro.url) as 'en' | 'es' | 'ja';
 const canonicalSlug = commentKey(entry.id);
 
 const copy = {
-  es: { back: 'Volver al archivo', published: 'Publicado', tags: 'Temas', article: 'Artículo', comments: 'Comentarios' },
-  en: { back: 'Back to the archive', published: 'Published', tags: 'Topics', article: 'Article', comments: 'Comments' },
-  ja: { back: '記事一覧に戻る', published: '公開日', tags: 'テーマ', article: '記事', comments: 'コメント' },
+  es: { back: 'Volver al archivo', published: 'Publicado', tags: 'Temas', article: 'Artículo', comments: 'Comentarios', related: 'Seguir leyendo', minutes: 'min de lectura', categories: { web: 'Web', data: 'Datos', craft: 'Oficio' } },
+  en: { back: 'Back to the archive', published: 'Published', tags: 'Topics', article: 'Article', comments: 'Comments', related: 'Keep reading', minutes: 'min read', categories: { web: 'Web', data: 'Data', craft: 'Craft' } },
+  ja: { back: '記事一覧に戻る', published: '公開日', tags: 'テーマ', article: '記事', comments: 'コメント', related: '続きを読む', minutes: '分で読めます', categories: { web: 'Web', data: 'データ', craft: '仕事' } },
 }[lang];
 
 const supabaseUrl = import.meta.env.SUPABASE_URL ?? '';
 const supabaseAnonKey = import.meta.env.SUPABASE_ANON_KEY ?? '';
 const publishedDate = new Intl.DateTimeFormat(lang, { year: 'numeric', month: 'long', day: 'numeric' }).format(entry.data.date);
+const minutes = readingMinutes(entry.body ?? '');
+const related = (await getCollection('blog'))
+  .filter((candidate) => !candidate.data.draft && articleLocale(candidate) === lang && candidate.id !== entry.id)
+  .map((candidate) => ({
+    entry: candidate,
+    score: candidate.data.tags.filter((tag) => entry.data.tags.includes(tag)).length,
+  }))
+  .filter(({ score }) => score > 0)
+  .sort((a, b) => b.score - a.score || b.entry.data.date.valueOf() - a.entry.data.date.valueOf())
+  .slice(0, 3)
+  .map(({ entry: candidate }) => candidate);
+
+const absolute = (path: string) => new URL(path, Astro.site).toString();
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: entry.data.title,
+    description: entry.data.description,
+    datePublished: entry.data.date.toISOString(),
+    inLanguage: lang,
+    image: entry.data.featuredImage ? absolute(entry.data.featuredImage) : undefined,
+    author: { '@type': 'Person', name: 'Airán Sánchez', url: absolute(`/${lang}/`) },
+    mainEntityOfPage: absolute(articlePath(lang, entry.slug)),
+    keywords: entry.data.tags.join(', '),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Airán Sánchez', item: absolute(`/${lang}/`) },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: absolute(`/${lang}/blog/`) },
+      { '@type': 'ListItem', position: 3, name: entry.data.title, item: absolute(articlePath(lang, entry.slug)) },
+    ],
+  },
+];
 ---
 
 <KineticLayout
@@ -44,6 +81,7 @@ const publishedDate = new Intl.DateTimeFormat(lang, { year: 'numeric', month: 'l
   image={entry.data.featuredImage}
   lang={lang}
   languagePaths={languagePaths}
+  jsonLd={jsonLd}
 >
   <main id="main-content">
     <article class="article-shell">
@@ -54,7 +92,7 @@ const publishedDate = new Intl.DateTimeFormat(lang, { year: 'numeric', month: 'l
       </nav>
 
       <header class="article-hero">
-        <p class="kicker"><span>{copy.article}</span><span>{publishedDate}</span><span>{entry.data.tags.slice(0, 3).join(' · ')}</span></p>
+        <p class="kicker"><span>{copy.article}</span><span>{copy.categories[entry.data.category]}</span><span>{publishedDate}</span><span>{minutes} {copy.minutes}</span></p>
         <h1 class="article-title">{entry.data.title}<span class="hero__period">.</span></h1>
         <p class="article-deck">{entry.data.description}</p>
         <div class="article-tags tag-list" aria-label={copy.tags}>
@@ -71,6 +109,22 @@ const publishedDate = new Intl.DateTimeFormat(lang, { year: 'numeric', month: 'l
       <div class="article-body">
         <Content />
       </div>
+
+      {related.length > 0 && (
+        <aside class="related" aria-labelledby="related-title">
+          <h2 id="related-title">{copy.related}</h2>
+          <ul>
+            {related.map((candidate) => (
+              <li>
+                <a href={articlePath(lang, candidate.slug)}>
+                  <span class="meta">{new Intl.DateTimeFormat(lang, { year: 'numeric', month: 'short' }).format(candidate.data.date)}</span>
+                  <span>{candidate.data.title}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </aside>
+      )}
 
       <div class="article-footer">
         <a class="link" href={`/${lang}/blog/`}>← {copy.back}</a>

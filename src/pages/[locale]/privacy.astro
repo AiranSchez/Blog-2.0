@@ -1,0 +1,29 @@
+---
+import KineticLayout from '../../layouts/KineticLayout.astro';
+import LegalBody from '../../components/shared/LegalBody.astro';
+import { getLangFromUrl } from '../../services/i18n';
+
+export const prerender = true;
+export function getStaticPaths() {
+  return ['en', 'es', 'ja'].map((locale) => ({ params: { locale } }));
+}
+
+const lang = getLangFromUrl(Astro.url);
+const languagePaths = {
+  en: '/en/privacy/',
+  es: '/es/privacy/',
+  ja: '/ja/privacy/',
+};
+const titles = { en: 'Legal · Airán Sánchez', es: 'Legal · Airán Sánchez', ja: '法的情報 · Airán Sánchez' };
+const descriptions = {
+  en: 'Privacy, legal notice and accessibility of airanschez.tech.',
+  es: 'Privacidad, aviso legal y accesibilidad de airanschez.tech.',
+  ja: 'airanschez.tech のプライバシー、法的情報、アクセシビリティ。',
+};
+---
+
+<KineticLayout title={titles[lang]} description={descriptions[lang]} lang={lang} languagePaths={languagePaths}>
+  <main id="main-content">
+    <LegalBody lang={lang} page="privacy" />
+  </main>
+</KineticLayout>

@@ -7,6 +7,7 @@ description: Learning Python with Numpy and Pandas
 featuredImage: /assets/images/posts/1_vumfscsppzmna48uu0cina.png
 tags: ['Python', 'Learning', 'Pandas', 'Numpy', 'Blog']
 
+category: data
 ---
 ## Introduction
 I recently became interested in learning Python and following a tutorial I ended up with a few resources that I consider important to have for the future:

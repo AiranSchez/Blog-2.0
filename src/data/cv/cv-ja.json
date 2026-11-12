@@ -94,6 +94,21 @@
     "web": "サイトへ戻る",
     "pdf": "PDFをダウンロード",
     "json": "JSONをダウンロード",
-    "contact": "連絡先"
-  }
+    "contact": "連絡先",
+    "languages": "言語"
+  },
+  "languages": [
+    {
+      "language": "スペイン語",
+      "fluency": "ネイティブ"
+    },
+    {
+      "language": "英語",
+      "fluency": "B2・中上級"
+    },
+    {
+      "language": "日本語",
+      "fluency": "JLPT N4 認定・N3 会話"
+    }
+  ]
 }

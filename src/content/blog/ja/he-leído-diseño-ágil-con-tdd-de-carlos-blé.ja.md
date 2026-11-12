@@ -7,6 +7,7 @@ description: Carlos Blé Juradoの書籍「Agile Design with TDD」の要約と�
 featuredImage: /assets/images/posts/books-in-black-wooden-book-shelf-159711.jpg
 tags: ['コミュニティ', '学習', 'LeanMind', 'TDD', '書籍', 'ブログ']
 
+category: craft
 ---
 ## はじめに
 

@@ -11,6 +11,7 @@ tags:
   - Blog
   - Learning
 draft: true
+category: data
 ---
 
 ## Introduction

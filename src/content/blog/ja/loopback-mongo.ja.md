@@ -7,6 +7,7 @@ description: loopback4とdockerized mongodbで作成されたAPI
 featuredImage: /assets/images/posts/loopback-4-logo-sample.png
 tags: ['Loopback', 'MongoDB', '学習', 'ガイド', 'JavaScript', 'TypeScript', 'Docker', 'Backend','ブログ']
 
+category: web
 ---
 ## はじめに 
 

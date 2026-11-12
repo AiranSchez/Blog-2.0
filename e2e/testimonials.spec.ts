@@ -13,8 +13,11 @@ for (const { locale, ending } of locales) {
     await expect(card).toHaveCount(1);
     await expect(card).toContainText('Michael Reyes');
     await expect(page.locator('main')).not.toContainText('Añade una recomendación');
-    await card.locator('summary').click();
-    await expect(card.locator('.testimonial__full blockquote')).toContainText(ending);
-    await expect(card.locator('.testimonial__full')).toBeVisible();
+    await card.locator('button').click();
+    const dialog = page.locator('.testimonial-modal[open]');
+    await expect(dialog).toBeVisible();
+    await expect(dialog).toContainText(ending);
+    await dialog.locator('[data-testimonial-close]').click();
+    await expect(dialog).toBeHidden();
   });
 }

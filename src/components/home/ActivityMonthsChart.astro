@@ -1,0 +1,70 @@
+---
+interface MonthPoint {
+  label: string;
+  count: number;
+}
+
+interface Props {
+  data: MonthPoint[];
+  ariaLabel: string;
+  valueLabel: string;
+}
+
+const { data, ariaLabel, valueLabel } = Astro.props;
+---
+
+<div
+  class="activity-chart"
+  data-activity-chart
+  data-points={JSON.stringify(data)}
+  data-aria-label={ariaLabel}
+  data-value-label={valueLabel}
+></div>
+
+<script>
+  import { barY, defineChart, mountChart } from '@tanstack/charts';
+  import { scaleBand } from '@tanstack/charts/scales/band';
+  import { scaleLinear } from '@tanstack/charts/scales/linear';
+  import { tooltip } from '@tanstack/charts/tooltip';
+
+  document.querySelectorAll<HTMLElement>('[data-activity-chart]').forEach((node) => {
+    const points = JSON.parse(node.dataset.points || '[]') as Array<{ label: string; count: number }>;
+    if (!points.length) return;
+
+    const definition = defineChart({
+      marks: [
+        barY(points, {
+          x: 'label',
+          y: 'count',
+          fill: 'var(--signal)',
+          inset: 2,
+        }),
+      ],
+      scales: {
+        x: {
+          scale: () => scaleBand<string>().paddingInner(0.24).paddingOuter(0.12),
+        },
+        y: {
+          scale: scaleLinear,
+          nice: true,
+          grid: true,
+          axis: {
+            ticks: { count: 3 },
+          },
+        },
+      },
+    }, {
+      tooltip: {
+        use: tooltip,
+        format: (point) => `${point.datum.label}: ${point.datum.count} ${node.dataset.valueLabel || ''}`.trim(),
+      },
+    });
+
+    mountChart(node, {
+      definition,
+      height: 190,
+      initialWidth: 640,
+      ariaLabel: node.dataset.ariaLabel || 'Activity by month',
+    });
+  });
+</script>

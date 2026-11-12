@@ -61,6 +61,22 @@ export function summarizeActivity(days: ActivityDay[]) {
     months.set(key, month);
     weekdays[new Date(timestamp(day.date)).getUTCDay()].total += day.count;
   }
-  return { total, activeDays, longestStreak, average: days.length ? total / days.length : 0,
-    bestDay, months: [...months.values()], weekdays };
+  const monthList = [...months.values()];
+  const bestMonth = monthList.reduce<typeof monthList[number] | null>(
+    (best, month) => (!best || month.total > best.total ? month : best),
+    null,
+  );
+  const bestWeekday = weekdays.reduce((best, day) => (day.total > best.total ? day : best), weekdays[0]);
+  return {
+    total,
+    activeDays,
+    longestStreak,
+    currentStreak: streak,
+    average: days.length ? total / days.length : 0,
+    bestDay,
+    bestMonth,
+    bestWeekday,
+    months: monthList,
+    weekdays,
+  };
 }

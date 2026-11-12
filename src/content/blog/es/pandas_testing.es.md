@@ -11,6 +11,7 @@ tags:
   - testing
   - pandas
 draft: false
+category: data
 ---
 
 ## Introducción

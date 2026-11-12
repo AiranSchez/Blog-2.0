@@ -34,7 +34,9 @@ for (const locale of ['en', 'es', 'ja']) {
 
   test(`${locale} archive links only to canonical articles`, async ({ page }) => {
     await page.goto(`/${locale}/blog/`);
-    const links = await page.locator('main a[href*="/blog/"]').evaluateAll(anchors => anchors.map(a => a.getAttribute('href')));
+    const links = (await page.locator('main a[href*="/blog/"]').evaluateAll(anchors =>
+      anchors.map(a => a.getAttribute('href')).filter((href): href is string => typeof href === 'string' && /\/blog\/[^/]+\/$/.test(href)),
+    )) as string[];
     expect(links.length).toBeGreaterThan(0);
     for (const href of links) expect(legacy.some(route => route.newPath === href), String(href)).toBeTruthy();
   });

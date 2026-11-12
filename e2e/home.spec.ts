@@ -8,7 +8,7 @@ for (const locale of locales) {
     await expect(page.locator('main h1')).toHaveCount(1);
     await expect(page.locator('main h1')).toContainText('Airán Sánchez');
     const sections = await page.locator('main section').evaluateAll(elements => elements.map(element => element.id));
-    expect(sections).toEqual(['perfil', 'practica', 'work', 'escritura', 'escucha', 'trayectoria', 'testimonio', 'actividad', 'contact']);
+    expect(sections).toEqual(['perfil', 'practica', 'sobre-mi', 'work', 'escritura', 'escucha', 'trayectoria', 'testimonio', 'actividad', 'contact']);
     await expect(page.locator('footer a[href="/' + locale + '/podcast/"]')).toBeVisible();
     await expect(page.locator('footer a[href="/' + locale + '/blog/"]')).toBeVisible();
   });
@@ -17,8 +17,8 @@ for (const locale of locales) {
     await page.goto(`/${locale}/`);
     await expect(page.locator('.article-preview h3')).not.toBeEmpty();
     await expect(page.locator('.episode')).toHaveCount(8);
-    await expect(page.locator('.timeline--journey li')).toHaveCount(6);
-    await expect(page.locator('.timeline__duration').first()).not.toBeEmpty();
+    await expect(page.locator('.career li')).toHaveCount(6);
+    await expect(page.locator('.career__when span').first()).not.toBeEmpty();
     await expect(page.locator('[data-testimonial]')).toHaveCount(1);
     await expect(page.locator('main')).not.toContainText('Añade una recomendación');
   });
@@ -87,7 +87,8 @@ test('mobile navigation keeps theme, language and destinations available', async
   await expect(page.locator('.drawer')).toBeVisible();
   await expect(page.locator('.drawer__nav a[href="#work"]')).toBeVisible();
   await expect(page.locator('.drawer__nav a[href="/es/cv/"]')).toBeVisible();
-  await page.locator('.drawer [data-theme-toggle]').click();
+  await page.locator('.drawer .theme-menu summary').click();
+  await page.locator('.drawer [data-theme-set="dark"]').click();
   await expect(page.locator('html')).toHaveClass(/dark/);
 });
 

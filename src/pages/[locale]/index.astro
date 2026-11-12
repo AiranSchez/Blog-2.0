@@ -6,12 +6,17 @@ import profileImage from '../../assets/images/profile/DSC01235.jpg';
 import { getLangFromUrl, useTranslations } from '../../services/i18n';
 import { articlePath } from '../../features/blog/routes';
 import { loadPodcastEpisodes } from '../../services/podcast';
+import { readingMinutes } from '../../services/reading-time';
 import { getGithubActivity } from '../../server/github-activity';
 import KineticTestimonial from '../../components/home/KineticTestimonial.astro';
 import KineticActivity from '../../components/home/KineticActivity.astro';
+import { languagesByLocale } from '../../data/languages';
 import experiencesEn from '../../data/experience/experiences-en.json';
 import experiencesEs from '../../data/experience/experiences-es.json';
 import experiencesJa from '../../data/experience/experiences-ja.json';
+import cvEn from '../../data/cv/cv-en.json';
+import cvEs from '../../data/cv/cv-es.json';
+import cvJa from '../../data/cv/cv-ja.json';
 
 export const prerender = true;
 export function getStaticPaths() {
@@ -30,6 +35,19 @@ const copy = {
     cv: 'Ver CV', work: 'Ver trabajo', company: 'LeanMind · Next Digital', location: 'Canarias ↔ España ↔ Japón', since: 'Desde 2020', years: 'años construyendo', scroll: 'Scroll para transmitir',
     portraitAlt: 'Airán Sánchez',
     pinPrefix: 'CONSTRUYO SISTEMAS QUE EL EQUIPO PUEDE ', pinWords: 'ENTENDER.|OPERAR.|EVOLUCIONAR.', pinCaption: 'Datos, web y sistemas. Entiendo el problema, conecto las piezas y construyo con el equipo. Me importa que el sistema se pueda mantener y explicar.', pinIndex: ['Entender', 'Operar', 'Evolucionar'],
+    aboutKicker: 'Perfil · Sobre mí',
+    aboutTitle: 'SOBRE MÍ.',
+    aboutBody: 'Desarrollador de software entre datos, web y sistemas. Me importa que el trabajo se entienda y se pueda mantener.',
+    aboutLead: 'Me muevo entre disciplinas cuando el problema lo necesita. El stack es un medio, no una identidad.',
+    aboutOne: 'Soy desarrollador de software y disfruto <strong>moviéndome entre disciplinas</strong> cuando el problema lo necesita. He trabajado con datos, producto web, backend, infraestructura y herramientas internas.',
+    aboutTwo: 'Desde 2020 trabajo en LeanMind, donde he aprendido en contextos muy distintos: <strong>procesamiento de datos</strong> en Clarity.ai, una plataforma tecnológica confidencial, <strong>modernización de facturación</strong> en Voxel, iniciativas internas y, actualmente, desarrollo full stack para Next Digital.',
+    aboutThree: 'Me interesa convertir sistemas complejos en software que un equipo pueda <strong>entender, mantener y mejorar</strong>. Fuera del código, escribo, comparto lo que aprendo y participo en conversaciones sobre cómo construir mejor.',
+    aboutCta: 'Leer el CV completo',
+    aboutCopy: 'Copiar',
+    aboutCopied: 'Copiado',
+    aboutRole: 'Desarrollador de software',
+    aboutFocus: ['datos', 'producto web', 'sistemas'],
+    interests: ['Datos', 'Producto web', 'Backend', 'Infraestructura', 'Herramientas internas', 'Testing', 'Mentoría', 'Escritura', 'Podcast'],
     railTitle: 'JAPONESAPP Y COSAS REALES.', railIntro: 'Un caso con grabación real, decisiones y límites. Sin casos inventados.', railHint: 'Desliza para ver las cuatro tarjetas →',
     workMeta: ['Prototipo móvil', 'La idea', 'El trabajo', 'Los límites'],
     workTitles: ['JaponesApp', 'Estudiar con datos locales.', 'Repasar con criterio.', 'Un prototipo, no una promesa.'],
@@ -40,7 +58,8 @@ const copy = {
     listeningTitle: 'CONVERSACIONES SIN PRISA.', listeningBody: 'Tecnología, trabajo y las historias que aparecen entre ambos. Sin guion y sin prisa.', listen: 'Escuchar', durationTip: 'Duración del episodio', prev: 'Episodio anterior', next: 'Episodio siguiente', allPodcast: 'Ver el podcast',
     journeyTitle: 'DE LOS DATOS AL PRODUCTO.', journeyBody: 'En LeanMind desde 2020. Datos, backend, producto web y gestión interna. Lo que conecta esos proyectos es la forma de trabajar.', journeyCta: 'Ver el CV completo',
     contactTitle: '¿HABLAMOS?', contactBody: 'Un proyecto, una oportunidad para trabajar juntos o algo que quieras compartir. Escríbeme y te respondo personalmente.', contactLede: 'Correo directo. Sin formularios que se pierdan.', email: 'Correo', formName: 'Nombre', formEmail: 'Correo', formMessage: 'Mensaje', formSubmit: 'Enviar mensaje', formNote: 'Respuesta personal.',
-    railLabels: ['Perfil', 'Práctica', 'Trabajo', 'Blog', 'Podcast', 'Trayectoria', 'Testimonio', 'Actividad', 'Contacto'],
+    railLabels: ['Perfil', 'Práctica', 'Sobre mí', 'Trabajo', 'Blog', 'Podcast', 'Trayectoria', 'Testimonio', 'Actividad', 'Contacto'],
+    allProjects: 'Ver todos los proyectos', languages: 'Idiomas', capabilitiesKicker: 'Capacidades', capabilitiesTitle: 'CINCO ÁREAS, UN MISMO OFICIO.', capabilitiesBody: 'No es una lista de logos: es dónde he trabajado y qué sé hacer con ello.',
     railAria: 'Secciones de la página',
     episodeWord: 'Episodio',
     formAria: 'Formulario de contacto',
@@ -53,6 +72,19 @@ const copy = {
     cv: 'View CV', work: 'View work', company: 'LeanMind · Next Digital', location: 'Canary Islands ↔ Spain ↔ Japan', since: 'Since 2020', years: 'years building', scroll: 'Scroll to transmit',
     portraitAlt: 'Airán Sánchez',
     pinPrefix: 'I BUILD SYSTEMS THE TEAM CAN ', pinWords: 'UNDERSTAND.|OPERATE.|EVOLVE.', pinCaption: 'Data, web and systems. I understand the problem, connect the pieces and build with the team. I care that the system can be maintained and explained.', pinIndex: ['Understand', 'Operate', 'Evolve'],
+    aboutKicker: 'Profile · About',
+    aboutTitle: 'ABOUT ME.',
+    aboutBody: 'Software developer across data, web and systems. I care that the work can be understood and maintained.',
+    aboutLead: 'I move between disciplines when the problem needs it. The stack is a means, not an identity.',
+    aboutOne: 'I am a software developer and I enjoy <strong>moving between disciplines</strong> when the problem calls for it. I have worked with data, web product, backend, infrastructure and internal tools.',
+    aboutTwo: 'I have worked at LeanMind since 2020, learning in very different contexts: <strong>data processing</strong> at Clarity.ai, a confidential technology platform, <strong>billing modernisation</strong> at Voxel, internal initiatives and, currently, full-stack development for Next Digital.',
+    aboutThree: 'I care about turning complex systems into software a team can <strong>understand, maintain and improve</strong>. Outside code, I write, share what I learn and take part in conversations about building better.',
+    aboutCta: 'Read the full CV',
+    aboutCopy: 'Copy',
+    aboutCopied: 'Copied',
+    aboutRole: 'Software developer',
+    aboutFocus: ['data', 'web product', 'systems'],
+    interests: ['Data', 'Web product', 'Backend', 'Infrastructure', 'Internal tools', 'Testing', 'Mentoring', 'Writing', 'Podcast'],
     railTitle: 'JAPONESAPP AND REAL THINGS.', railIntro: 'One case with a real recording, decisions and limits. No invented cases.', railHint: 'Swipe to see all four cards →',
     workMeta: ['Mobile prototype', 'The idea', 'The work', 'The limits'],
     workTitles: ['JaponesApp', 'Study with local data.', 'Review with criteria.', 'A prototype, not a promise.'],
@@ -63,7 +95,8 @@ const copy = {
     listeningTitle: 'UNHURRIED CONVERSATIONS.', listeningBody: 'Technology, work and the stories that appear between them. No script and no rush.', listen: 'Listen', durationTip: 'Episode duration', prev: 'Previous episode', next: 'Next episode', allPodcast: 'View the podcast',
     journeyTitle: 'FROM DATA TO PRODUCT.', journeyBody: 'At LeanMind since 2020. Data, backend, web product and internal management. What connects those projects is the way of working.', journeyCta: 'View the full CV',
     contactTitle: 'SHALL WE TALK?', contactBody: 'A project, an opportunity to work together or something you want to share. Write to me and I will reply personally.', contactLede: 'Direct email. No forms that get lost.', email: 'Email', formName: 'Name', formEmail: 'Email', formMessage: 'Message', formSubmit: 'Send message', formNote: 'Personal reply.',
-    railLabels: ['Profile', 'Practice', 'Work', 'Blog', 'Podcast', 'Journey', 'Testimonial', 'Activity', 'Contact'],
+    railLabels: ['Profile', 'Practice', 'About', 'Work', 'Blog', 'Podcast', 'Journey', 'Testimonial', 'Activity', 'Contact'],
+    allProjects: 'View all projects', languages: 'Languages', capabilitiesKicker: 'Capabilities', capabilitiesTitle: 'FIVE AREAS, ONE CRAFT.', capabilitiesBody: 'Not a wall of logos: where I have worked and what I can do with it.',
     railAria: 'Page sections',
     episodeWord: 'Episode',
     formAria: 'Contact form',
@@ -76,6 +109,19 @@ const copy = {
     cv: 'CVを見る', work: '仕事を見る', company: 'LeanMind · Next Digital', location: 'カナリア諸島 ↔ スペイン ↔ 日本', since: '2020年から', years: '年の開発経験', scroll: 'スクロールして進む',
     portraitAlt: 'Airán Sánchez',
     pinPrefix: 'チームが', pinWords: '理解できる。|運用できる。|進化できる。', pinCaption: 'データ、Web、システム。問題を理解し、要素をつなぎ、チームとともに作ります。保守でき、説明できるシステムであることを大事にしています。', pinIndex: ['理解', '運用', '進化'],
+    aboutKicker: 'プロフィール · 自己紹介',
+    aboutTitle: '自己紹介。',
+    aboutBody: 'データ、Web、システムをつなぐソフトウェア開発者。理解でき、保守できる仕事を大切にしています。',
+    aboutLead: '必要なら分野を越えて動きます。スタックは手段であり、アイデンティティではありません。',
+    aboutOne: 'ソフトウェア開発者として、必要に応じて<strong>分野を越えて</strong>仕事をしています。データ、Webプロダクト、バックエンド、インフラ、社内ツールに携わってきました。',
+    aboutTwo: '2020年からLeanMindで、<strong>データ処理</strong>（Clarity.ai）、機密性の高いプラットフォーム、<strong>請求システムの刷新</strong>（Voxel）、社内施策、現在はNext Digitalのフルスタック開発など、異なる現場を経験しています。',
+    aboutThree: '複雑なシステムを、チームが<strong>理解し、保守し、改善できる</strong>ソフトウェアに変えることを大切にしています。コードの外では、書いたり、学んだことを共有したり、より良く作るための対話に参加しています。',
+    aboutCta: 'CVをすべて見る',
+    aboutCopy: 'コピー',
+    aboutCopied: 'コピーしました',
+    aboutRole: 'ソフトウェア開発者',
+    aboutFocus: ['データ', 'Webプロダクト', 'システム'],
+    interests: ['データ', 'Webプロダクト', 'バックエンド', 'インフラ', '社内ツール', 'テスト', 'メンタリング', '執筆', 'ポッドキャスト'],
     railTitle: 'JAPONESAPPと、実際の仕事。', railIntro: '実際の録画、判断、限界のある1つのケース。作られた事例はありません。', railHint: '4枚のカードを見るにはスクロール →',
     workMeta: ['モバイルプロトタイプ', 'アイデア', '仕事', '限界'],
     workTitles: ['JaponesApp', 'ローカルデータで学ぶ。', '基準をもって復習する。', '約束ではなく、プロトタイプ。'],
@@ -86,7 +132,8 @@ const copy = {
     listeningTitle: '急がない会話。', listeningBody: 'テクノロジー、仕事、その間にある物語。台本も焦りもありません。', listen: '聴く', durationTip: 'エピソードの長さ', prev: '前のエピソード', next: '次のエピソード', allPodcast: 'ポッドキャストを見る',
     journeyTitle: 'データからプロダクトへ。', journeyBody: '2020年からLeanMindで。データ、バックエンド、Webプロダクト、社内管理。それらをつなぐのは仕事の進め方です。', journeyCta: 'CVをすべて見る',
     contactTitle: '話しませんか？', contactBody: 'プロジェクト、一緒に働く機会、共有したいこと。書いてくれれば、直接返信します。', contactLede: '直接メールで。送信して消えるフォームはありません。', email: 'メール', formName: '名前', formEmail: 'メール', formMessage: 'メッセージ', formSubmit: 'メッセージを送る', formNote: '直接返信します。',
-    railLabels: ['プロフィール', '仕事の姿勢', '仕事', 'ブログ', 'ポッドキャスト', '経歴', '推薦', '活動', 'お問い合わせ'],
+    railLabels: ['プロフィール', '仕事の姿勢', '自己紹介', '仕事', 'ブログ', 'ポッドキャスト', '経歴', '推薦', '活動', 'お問い合わせ'],
+    allProjects: 'すべてのプロジェクトを見る', languages: '言語', capabilitiesKicker: '能力', capabilitiesTitle: '5つの領域、ひとつの仕事。', capabilitiesBody: 'ロゴの壁ではなく、これまで働いてきた場所と、そこでできることです。',
     railAria: 'ページのセクション',
     episodeWord: 'エピソード',
     formAria: 'お問い合わせフォーム',
@@ -153,6 +200,7 @@ const posts = allPosts
 const latestPost = posts[0];
 const latestDate = latestPost ? new Intl.DateTimeFormat(lang, { day: 'numeric', month: 'short', year: 'numeric' }).format(latestPost.data.date) : '';
 const latestHref = latestPost ? articlePath(lang, latestPost.slug) : `/${lang}/blog/`;
+const latestMinutes = latestPost ? readingMinutes(latestPost.body ?? '') : 0;
 
 const episodes = (await loadPodcastEpisodes(lang))
   .sort((a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf())
@@ -161,21 +209,46 @@ const formatEpisodeDate = (value: string) =>
   new Intl.DateTimeFormat(lang, { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(`${value}T00:00:00`));
 
 const activity = await getGithubActivity();
+const languages = languagesByLocale[lang];
+const capabilities = { en: cvEn, es: cvEs, ja: cvJa }[lang].skills;
+const profileCode = `const profile = {
+  name: 'Airán Sánchez',
+  role: '${copy.aboutRole}',
+  company: 'LeanMind · Next Digital',
+  base: '${copy.location}',
+  focus: [${copy.aboutFocus.map((item) => `'${item}'`).join(', ')}],
+  languages: ['es', 'en B2', 'ja N4/N3'],
+};`;
 const years = Math.max(1, new Date().getFullYear() - 2020);
 const portrait = profileImage;
+const absolute = (path: string) => new URL(path, Astro.site).toString();
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Airán Sánchez',
+  url: absolute(`/${lang}/`),
+  jobTitle: copy.heroType.split(' // ')[0],
+  worksFor: { '@type': 'Organization', name: 'LeanMind' },
+  knowsAbout: ['TypeScript', 'React', 'Astro', 'C#', '.NET', 'PostgreSQL', 'Python', 'TDD'],
+  sameAs: [
+    'https://github.com/AiranSchez',
+    'https://www.linkedin.com/in/air%C3%A1n-s%C3%A1nchez-brito-415910145/',
+  ],
+};
 ---
 
-<KineticLayout title={copy.seoTitle} description={copy.seoDescription} lang={lang} image="/kinetic/profile.jpg">
+<KineticLayout title={copy.seoTitle} description={copy.seoDescription} lang={lang} image="/kinetic/profile.jpg" jsonLd={jsonLd}>
   <nav class="section-rail" aria-label={copy.railAria}>
     <a href="#perfil">{copy.railLabels[0]}</a>
     <a href="#practica">{copy.railLabels[1]}</a>
-    <a href="#work">{copy.railLabels[2]}</a>
-    <a href="#escritura">{copy.railLabels[3]}</a>
-    <a href="#escucha">{copy.railLabels[4]}</a>
-    <a href="#trayectoria">{copy.railLabels[5]}</a>
-    <a href="#testimonio">{copy.railLabels[6]}</a>
-    <a href="#actividad">{copy.railLabels[7]}</a>
-    <a href="#contact">{copy.railLabels[8]}</a>
+    <a href="#sobre-mi">{copy.railLabels[2]}</a>
+    <a href="#work">{copy.railLabels[3]}</a>
+    <a href="#escritura">{copy.railLabels[4]}</a>
+    <a href="#escucha">{copy.railLabels[5]}</a>
+    <a href="#trayectoria">{copy.railLabels[6]}</a>
+    <a href="#testimonio">{copy.railLabels[7]}</a>
+    <a href="#actividad">{copy.railLabels[8]}</a>
+    <a href="#contact">{copy.railLabels[9]}</a>
   </nav>
 
   <main id="main-content">
@@ -219,10 +292,58 @@ const portrait = profileImage;
       </div>
     </section>
 
+    <section class="scene about-scene" id="sobre-mi" aria-labelledby="about-title">
+      <div class="scene__head">
+        <div>
+          <p class="kicker"><span>{copy.aboutKicker}</span></p>
+          <h2 id="about-title" class="scene__title">{copy.aboutTitle}</h2>
+        </div>
+        <p class="scene__body">{copy.aboutBody}</p>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-story">
+          <p class="about-story__lead">{copy.aboutLead}</p>
+          <p set:html={copy.aboutOne}></p>
+          <p set:html={copy.aboutTwo}></p>
+          <p set:html={copy.aboutThree}></p>
+          <a class="link" href={`/${lang}/cv/`}>{copy.aboutCta}</a>
+        </div>
+
+        <aside class="profile-card" aria-label={copy.aboutKicker}>
+          <div class="profile-card__bar">
+            <span>profile.ts</span>
+            <button type="button" data-profile-copy={profileCode} data-profile-label={copy.aboutCopy} data-profile-copied={copy.aboutCopied}>
+              {copy.aboutCopy}
+            </button>
+          </div>
+          <pre><code>{profileCode}</code></pre>
+          <div class="profile-card__langs">
+            <p>{copy.languages}</p>
+            <ul>
+              {languages.map((language) => (
+                <li><span>{language.name}</span><span>{language.level}</span></li>
+              ))}
+            </ul>
+          </div>
+        </aside>
+      </div>
+
+      <ul class="about-index" aria-label={copy.aboutKicker}>
+        {copy.interests.map((interest, index) => (
+          <li><span>{String(index + 1).padStart(2, '0')}</span>{interest}</li>
+        ))}
+      </ul>
+    </section>
+
     <section class="rail-scene" id="work" aria-labelledby="work-title">
       <div class="rail-head">
         <div><h2 id="work-title" class="scene__title">{copy.railTitle}</h2></div>
-        <p class="scene__body">{copy.railIntro}<span class="rail-hint">{copy.railHint}</span></p>
+        <div>
+          <p class="scene__body">{copy.railIntro}</p>
+          <a class="link rail-projects" href={`/${lang}/projects/`}>{copy.allProjects} ↗</a>
+          <span class="rail-hint">{copy.railHint}</span>
+        </div>
       </div>
       <div class="rail">
         <div class="rail__track">
@@ -272,7 +393,7 @@ const portrait = profileImage;
             )}
           </figure>
           <div class="article-preview__copy">
-            <p class="meta"><span>{latestDate}</span><span>{latestPost.data.tags.slice(0, 3).join(' · ')}</span></p>
+            <p class="meta"><span>{latestDate}</span><span>{latestMinutes} min</span><span>{latestPost.data.tags.slice(0, 3).join(' · ')}</span></p>
             <h3>{latestPost.data.title}</h3>
             <p>{latestPost.data.description}</p>
             <div class="hero__actions">
@@ -321,17 +442,40 @@ const portrait = profileImage;
         <p class="scene__body">{copy.journeyBody}</p>
       </div>
 
-      <ol class="timeline timeline--journey">
+      <ol class="career">
         {experiences.map((experience, index) => (
           <li style={`--i:${index}`}>
-            <time datetime={experience.startDate}>{experience.range}</time>
-            <h3>{experience.role}</h3>
-            <p>{experience.company}</p>
-            <p class="timeline__duration">{experience.duration}</p>
-            <p class="timeline__tech">{experience.tech}</p>
+            <div class="career__when">
+              <time datetime={experience.startDate}>{experience.range}</time>
+              <span>{experience.duration}</span>
+            </div>
+            <div class="career__body">
+              <p class="career__company">{experience.company}</p>
+              <h3>{experience.role}</h3>
+              {experience.description && <p class="career__context">{experience.description}</p>}
+              <p class="career__tech">{experience.tech}</p>
+            </div>
           </li>
         ))}
       </ol>
+      <div class="capabilities">
+        <div class="capabilities__head">
+          <p class="kicker"><span>{copy.capabilitiesKicker}</span></p>
+          <h3>{copy.capabilitiesTitle}</h3>
+          <p>{copy.capabilitiesBody}</p>
+        </div>
+        <ol class="capability-list">
+          {capabilities.map((group, index) => (
+            <li>
+              <span class="capability-list__index">{String(index + 1).padStart(2, '0')}</span>
+              <div>
+                <h4>{group.name}</h4>
+                <p>{group.keywords.join(' · ')}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
       <a class="btn btn--ghost journey-cta" href={`/${lang}/cv/`}>{copy.journeyCta}</a>
     </section>
 

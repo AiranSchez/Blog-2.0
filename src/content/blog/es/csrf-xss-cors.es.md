@@ -7,6 +7,7 @@ description: Descripción de cada uno de los términos CSRF, XSS y CORS
 featuredImage: /assets/images/posts/website-security.jpg
 tags: ['CSRF', 'CORS', 'XSS', 'Aprendizaje', 'Seguridad', 'Blog']
 
+category: web
 ---
 ## Introducción
 

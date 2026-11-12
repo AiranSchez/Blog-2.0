@@ -7,6 +7,7 @@ description: "Descripción de ejercicio conjunto sobre TS con React "
 featuredImage: /assets/images/posts/1_nnoyq9qfitsvnlh7rcrpfq.png
 tags: ['Comunidad', 'Aprendizaje', 'Kata', 'Coding-dojo', 'Blog']
 
+category: web
 ---
 ## Introducción
 

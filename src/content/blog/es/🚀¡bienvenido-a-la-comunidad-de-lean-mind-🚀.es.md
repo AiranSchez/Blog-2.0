@@ -6,6 +6,7 @@ date: 2020-07-06 13:38:00+00:00
 description: Bienvenida a la comunidad de LeanMind
 featuredImage: /assets/images/posts/como-montar-una-academia.jpg
 tags: ['Comunidad', 'Aprendizaje', 'LeanMind', 'Kata', 'Coding-dojo', 'Guía', 'Blog']
+category: craft
 ---
 ## Introducción
 

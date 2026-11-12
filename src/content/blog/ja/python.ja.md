@@ -7,6 +7,7 @@ description: NumpyとPandasでPythonを学ぶ
 featuredImage: /assets/images/posts/1_vumfscsppzmna48uu0cina.png
 tags: ['Python', '学習', 'Pandas', 'Numpy', 'ブログ']
 
+category: data
 ---
 ## はじめに
 最近Pythonを学ぶことに興味を持ち、チュートリアルに従って、将来のために重要だと思ういくつかのリソースを得ました：

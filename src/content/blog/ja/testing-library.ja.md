@@ -7,6 +7,7 @@ description: React Testing Libraryの使用例
 featuredImage: /assets/images/posts/cover-3.png
 tags: ['コミュニティ', '学習', 'ガイド', 'ブログ', 'Testing', 'Library', 'React']
 
+category: web
 ---
 
 ## Testing Libraryとは何か？

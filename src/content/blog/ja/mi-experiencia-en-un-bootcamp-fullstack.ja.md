@@ -7,6 +7,7 @@ description: フルスタックブートキャンプでの経験
 featuredImage: /assets/images/posts/1_pkijwopgflnqogwe9lzttw-1-.jpeg
 tags: ['ブートキャンプ', '学習', 'プロジェクト', 'ブログ']
 
+category: craft
 ---
 ## はじめに
 

@@ -7,6 +7,7 @@ description: Experiences in a fullstack bootcamp
 featuredImage: /assets/images/posts/1_pkijwopgflnqogwe9lzttw-1-.jpeg
 tags: ['Bootcamp', 'Learning', 'Projects', 'Blog']
 
+category: craft
 ---
 ## Introduction
 

@@ -94,6 +94,21 @@
     "web": "Back to website",
     "pdf": "Download PDF",
     "json": "Download JSON",
-    "contact": "Contact"
-  }
+    "contact": "Contact",
+    "languages": "Languages"
+  },
+  "languages": [
+    {
+      "language": "Spanish",
+      "fluency": "Native"
+    },
+    {
+      "language": "English",
+      "fluency": "B2 · Upper intermediate"
+    },
+    {
+      "language": "Japanese",
+      "fluency": "JLPT N4 certified · N3 conversational"
+    }
+  ]
 }

@@ -7,6 +7,7 @@ description: ペアプログラミングとモブプログラミングの働き�
 featuredImage: /assets/images/posts/751331-637471889771844499-16x9.jpg
 tags: ['コミュニティ', '学習', 'モブ/ペア', 'テスト', 'ブログ']
 
+category: craft
 ---
 
 ## モブプログラミング

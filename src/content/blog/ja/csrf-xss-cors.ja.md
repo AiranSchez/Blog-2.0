@@ -7,6 +7,7 @@ description: CSRF、XSS、CORS のセキュリティ用語の説明
 featuredImage: /assets/images/posts/website-security.jpg
 tags: ['CSRF', 'CORS', 'XSS', '学習', 'セキュリティ', 'ブログ']
 
+category: web
 ---
 
 ## はじめに

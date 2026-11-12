@@ -7,6 +7,7 @@ description: "Descripcción de la Kata realizada "
 featuredImage: /assets/images/posts/architecture-3362794_1920.jpg
 tags: ['Comunidad', 'Aprendizaje', 'Kata', 'Coding-dojo', 'TDD', 'Java', 'Blog']
 
+category: craft
 ---
 ## Introducción
 

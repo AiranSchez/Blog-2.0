@@ -50,10 +50,15 @@ describe('verified public GitHub data', () => {
     assert.equal(result.months.reduce((n, m) => n + m.total, 0), 6);
     assert.equal(result.weekdays.reduce((n, d) => n + d.total, 0), 6);
     assert.deepEqual(result.bestDay, days[2]);
+    assert.equal(result.currentStreak, 1);
+    assert.equal(result.bestMonth?.total, 6);
+    assert.equal(result.bestWeekday.index, new Date('2026-01-03T00:00:00Z').getUTCDay());
   });
   test('counts consecutive days and distinguishes empty from inactive data', () => {
     assert.equal(summarizeActivity([days[0], { ...days[1], count: 3 }]).longestStreak, 2);
     assert.equal(summarizeActivity([]).bestDay, null);
+    assert.equal(summarizeActivity([]).bestMonth, null);
+    assert.equal(summarizeActivity([{ ...days[0], count: 0 }]).currentStreak, 0);
     assert.equal(summarizeActivity([{ ...days[0], count: 0 }]).bestDay, null);
   });
   test('returns fresh verified data from the fixed public source', async () => {

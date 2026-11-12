@@ -11,6 +11,7 @@ tags:
   - LeanMind
   - DataEngineering
   - Blog
+category: data
 ---
 
 ## Introducción

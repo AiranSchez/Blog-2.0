@@ -223,6 +223,20 @@
       ]
     }
   ],
+  "languages": [
+    {
+      "language": "Español",
+      "fluency": "Nativo"
+    },
+    {
+      "language": "Inglés",
+      "fluency": "B2 · Intermedio avanzado"
+    },
+    {
+      "language": "Japonés",
+      "fluency": "N4 certificado · N3 conversacional"
+    }
+  ],
   "publications": [
     {
       "name": "Datos fantásticos y dónde encontrarlos",
@@ -235,6 +249,6 @@
   "meta": {
     "canonical": "https://www.airanschez.tech/es/cv/",
     "version": "v1.0.0",
-    "lastModified": "2026-11-11"
+    "lastModified": "2026-11-13"
   }
 }

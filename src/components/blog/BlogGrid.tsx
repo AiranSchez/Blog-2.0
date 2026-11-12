@@ -13,9 +13,11 @@ interface BlogPost {
     description: string;
     date: Date;
     tags: string[];
+    category: 'web' | 'data' | 'craft';
     draft: boolean;
     featuredImage?: string;
   };
+  readingMinutes?: number;
 }
 
 interface BlogGridProps {
@@ -26,10 +28,15 @@ interface BlogGridProps {
 const copy = {
   en: {
     tags: 'Topics',
-    years: 'Years',
+    years: 'Year',
+    allYears: 'All years',
     clear: 'Clear filters',
     filters: 'Article filters',
     tagsLabel: 'Topics',
+    categoriesLabel: 'Categories',
+    allCategories: 'All',
+    categories: { web: 'Web', data: 'Data', craft: 'Craft' },
+    minutes: 'min read',
     pagination: 'Pagination',
     previous: 'Previous',
     next: 'Next',
@@ -40,10 +47,15 @@ const copy = {
   },
   es: {
     tags: 'Temas',
-    years: 'Años',
+    years: 'Año',
+    allYears: 'Todos los años',
     clear: 'Limpiar filtros',
     filters: 'Filtros de artículos',
     tagsLabel: 'Temas',
+    categoriesLabel: 'Categorías',
+    allCategories: 'Todas',
+    categories: { web: 'Web', data: 'Datos', craft: 'Oficio' },
+    minutes: 'min de lectura',
     pagination: 'Paginación',
     previous: 'Anterior',
     next: 'Siguiente',
@@ -55,9 +67,14 @@ const copy = {
   ja: {
     tags: 'テーマ',
     years: '年',
+    allYears: 'すべての年',
     clear: 'フィルターを解除',
     filters: '記事のフィルター',
     tagsLabel: 'テーマ',
+    categoriesLabel: 'カテゴリー',
+    allCategories: 'すべて',
+    categories: { web: 'Web', data: 'データ', craft: '仕事' },
+    minutes: '分で読めます',
     pagination: 'ページ送り',
     previous: '前へ',
     next: '次へ',
@@ -74,7 +91,7 @@ const articleHref = (locale: string, slug: string) =>
 export default function BlogGrid({ posts, locale }: BlogGridProps) {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
-  const [expandedMenu, setExpandedMenu] = useState<'tags' | 'years' | null>(null);
+  const [category, setCategory] = useState<'all' | 'web' | 'data' | 'craft'>('all');
   const [page, setPage] = useState(1);
   const perPage = 6;
 
@@ -102,6 +119,12 @@ export default function BlogGrid({ posts, locale }: BlogGridProps) {
     }
   }, [tagItems]);
 
+  const categoryItems = useMemo(() => {
+    const counts = new Map<string, number>();
+    posts.forEach((post) => counts.set(post.data.category, (counts.get(post.data.category) || 0) + 1));
+    return (['web', 'data', 'craft'] as const).map((id) => ({ id, count: counts.get(id) || 0 }));
+  }, [posts]);
+
   const yearItems = useMemo(() => {
     const counts = new Map<number, number>();
     posts.forEach((post) => {
@@ -118,14 +141,19 @@ export default function BlogGrid({ posts, locale }: BlogGridProps) {
           selectedTags.length === 0 ||
           selectedTags.some((tag) => post.data.tags.includes(tag));
         const year = new Date(post.data.date).getFullYear();
-        return hasTag && (selectedYear === null || selectedYear === year);
+        return (
+          (category === 'all' || post.data.category === category) &&
+          hasTag &&
+          (selectedYear === null || selectedYear === year)
+        );
       }),
-    [posts, selectedTags, selectedYear],
+    [posts, selectedTags, selectedYear, category],
   );
 
   const clearFilters = useCallback(() => {
     setSelectedTags([]);
     setSelectedYear(null);
+    setCategory('all');
     setPage(1);
   }, []);
 
@@ -140,76 +168,77 @@ export default function BlogGrid({ posts, locale }: BlogGridProps) {
   const currentPage = Math.min(page, pageCount);
   const pagePosts = filteredPosts.slice((currentPage - 1) * perPage, currentPage * perPage);
   const [leadPost, ...archivePosts] = pagePosts;
-  const hasFilters = selectedTags.length > 0 || selectedYear !== null;
+  const hasFilters = selectedTags.length > 0 || selectedYear !== null || category !== 'all';
 
   return (
     <div className="blog-ecosystem">
-      <div className="filter-toolbar" aria-label={strings.filters}>
-        <button
-          className={`filter-button ${expandedMenu === 'tags' ? 'is-active' : ''}`}
-          type="button"
-          aria-expanded={expandedMenu === 'tags'}
-          onClick={() => setExpandedMenu(expandedMenu === 'tags' ? null : 'tags')}
-        >
-          {strings.tags} ({tagItems.length})
-        </button>
-        <button
-          className={`filter-button ${expandedMenu === 'years' ? 'is-active' : ''}`}
-          type="button"
-          aria-expanded={expandedMenu === 'years'}
-          onClick={() => setExpandedMenu(expandedMenu === 'years' ? null : 'years')}
-        >
-          {strings.years} ({yearItems.length})
-        </button>
-        {hasFilters && (
-          <button className="filter-button" type="button" onClick={clearFilters}>
-            {strings.clear}
+      <div className="index-filter">
+        <div className="index-filter__tabs" role="group" aria-label={strings.categoriesLabel}>
+          <button
+            className={`index-filter__tab ${category === 'all' ? 'is-active' : ''}`}
+            type="button"
+            aria-pressed={category === 'all'}
+            onClick={() => {
+              setCategory('all');
+              setPage(1);
+            }}
+          >
+            {strings.allCategories} <span>{posts.length}</span>
           </button>
-        )}
+          {categoryItems.map(({ id, count }) => (
+            <button
+              key={id}
+              className={`index-filter__tab ${category === id ? 'is-active' : ''}`}
+              type="button"
+              aria-pressed={category === id}
+              onClick={() => {
+                setCategory(category === id ? 'all' : id);
+                setPage(1);
+              }}
+            >
+              {strings.categories[id]} <span>{count}</span>
+            </button>
+          ))}
+        </div>
 
-        {expandedMenu && (
-          <div className="filter-options">
-            {expandedMenu === 'tags' &&
-              tagItems.map(([tag, count]) => {
-                const selected = selectedTags.includes(tag);
-                return (
-                  <button
-                    key={tag}
-                    className="filter-button"
-                    type="button"
-                    aria-pressed={selected}
-                    onClick={() => {
-                      setSelectedTags((current) =>
-                        selected ? current.filter((item) => item !== tag) : [...current, tag],
-                      );
-                      setPage(1);
-                    }}
-                  >
-                    {tag} ({count})
-                  </button>
-                );
-              })}
-            {expandedMenu === 'years' &&
-              yearItems.map(([year, count]) => (
-                <button
-                  key={year}
-                  className="filter-button"
-                  type="button"
-                  aria-pressed={selectedYear === year}
-                  onClick={() => {
-                    setSelectedYear(selectedYear === year ? null : year);
-                    setPage(1);
-                  }}
-                >
-                  {year} ({count})
-                </button>
-              ))}
-          </div>
-        )}
+        <div className="index-filter__tools">
+          {selectedTags.length > 0 && (
+            <button
+              className="tag-active"
+              type="button"
+              onClick={() => {
+                setSelectedTags([]);
+                setPage(1);
+              }}
+            >
+              #{selectedTags[0]} ×
+            </button>
+          )}
 
-        <p className="filter-count" aria-live="polite">
-          {strings.count(filteredPosts.length)}
-        </p>
+          <label className="year-filter">
+            <span>{strings.years}</span>
+            <select
+              value={selectedYear ?? ''}
+              onChange={(event) => {
+                setSelectedYear(event.target.value ? Number(event.target.value) : null);
+                setPage(1);
+              }}
+            >
+              <option value="">{strings.allYears}</option>
+              {yearItems.map(([year]) => <option key={year} value={year}>{year}</option>)}
+            </select>
+          </label>
+
+          {hasFilters && (
+            <button className="text-filter" type="button" onClick={clearFilters}>
+              {strings.clear}
+            </button>
+          )}
+
+          <p className="filter-count" aria-live="polite">
+            {strings.count(filteredPosts.length)}
+          </p>
+        </div>
       </div>
 
       {!leadPost ? (
@@ -229,7 +258,7 @@ export default function BlogGrid({ posts, locale }: BlogGridProps) {
             )}
             <div className="article-lead__copy">
               <span className="meta">
-                {strings.latest} · {formatDate(leadPost.data.date)}
+                {strings.latest} · {formatDate(leadPost.data.date)} · {leadPost.readingMinutes} {strings.minutes}
               </span>
               <h2 className="article-lead__title">
                 <a href={articleHref(locale, leadPost.slug)}>{leadPost.data.title}</a>
@@ -267,7 +296,7 @@ export default function BlogGrid({ posts, locale }: BlogGridProps) {
                       <time dateTime={new Date(post.data.date).toISOString()}>
                         {formatDate(post.data.date)}
                       </time>
-                      <span aria-hidden="true">↗</span>
+                      <span>{post.readingMinutes} {strings.minutes}</span>
                     </div>
                     <h2>{post.data.title}</h2>
                     <p>{post.data.description}</p>

@@ -3,16 +3,17 @@ import { testimonialsByLocale, type PortfolioLocale } from '../../data/portfolio
 
 interface Props { lang: PortfolioLocale }
 const { lang } = Astro.props;
-const testimonial = testimonialsByLocale[lang].find(({ placeholder }) => !placeholder);
+const testimonials = testimonialsByLocale[lang].filter(({ placeholder }) => !placeholder);
+const initials = (name: string) => name.split(/\s+/).map((part) => part[0]).join('').slice(0, 2).toUpperCase();
 
 const copy = {
-  es: { kicker: 'Recomendación', title: 'LO QUE DICEN.', intro: 'Una voz real de alguien con quien he compartido equipo y proyecto.', full: 'Leer la recomendación completa', role: 'Recomendación profesional', close: 'Cerrar' },
-  en: { kicker: 'Recommendation', title: 'WHAT PEOPLE SAY.', intro: 'A real voice from someone I have shared a team and a project with.', full: 'Read the full recommendation', role: 'Professional recommendation', close: 'Close' },
-  ja: { kicker: '推薦', title: '一緒に働いた人。', intro: '同じチームとプロジェクトを共にした方からの、実際の推薦文です。', full: '推薦文の全文を読む', role: '推薦文', close: '閉じる' },
+  es: { kicker: 'Recomendación', title: 'LO QUE DICEN.', intro: 'Una voz real de alguien con quien he compartido equipo y proyecto.', full: 'Leer la recomendación completa', close: 'Cerrar', translated: 'Original en español · traducido' },
+  en: { kicker: 'Recommendation', title: 'WHAT PEOPLE SAY.', intro: 'A real voice from someone I have shared a team and a project with.', full: 'Read the full recommendation', close: 'Close', translated: 'Originally in Spanish · translated' },
+  ja: { kicker: '推薦', title: '一緒に働いた人。', intro: '同じチームとプロジェクトを共にした方からの、実際の推薦文です。', full: '推薦文の全文を読む', close: '閉じる', translated: '原文：スペイン語 · 翻訳' },
 }[lang];
 ---
 
-{testimonial && (
+{testimonials.length > 0 && (
   <section class="scene testimonial-scene" id="testimonio" aria-labelledby="testimonial-title">
     <div class="scene__head">
       <div>
@@ -22,22 +23,46 @@ const copy = {
       <p class="scene__body">{copy.intro}</p>
     </div>
 
-    <figure class="testimonial" data-testimonial>
-      <blockquote>“{testimonial.excerpt ?? testimonial.quote}”</blockquote>
-      <figcaption>
-        <span class="testimonial__author">
-          {testimonial.url ? (
-            <a href={testimonial.url} target="_blank" rel="noreferrer">{testimonial.author}<span aria-hidden="true"> ↗</span></a>
-          ) : testimonial.author}
-        </span>
-        <span class="testimonial__role">{testimonial.role}</span>
-      </figcaption>
-      {testimonial.quote && testimonial.quote !== testimonial.excerpt && (
-        <details class="testimonial__full">
-          <summary>{copy.full}</summary>
-          <blockquote>“{testimonial.quote}”</blockquote>
-        </details>
-      )}
-    </figure>
+    <div class="testimonial-list">
+      {testimonials.map((testimonial, index) => (
+        <article class="testimonial-feature" data-testimonial>
+          <div class="testimonial-feature__meta">
+            <span class="testimonial__avatar" aria-hidden="true">{initials(testimonial.author)}</span>
+            <div>
+              <p class="testimonial__name">
+                {testimonial.url ? (
+                  <a href={testimonial.url} target="_blank" rel="noreferrer">{testimonial.author} ↗</a>
+                ) : testimonial.author}
+              </p>
+              <p class="testimonial__role">{testimonial.role}</p>
+              {testimonial.relationship && <p class="testimonial__context">{testimonial.relationship}</p>}
+              {testimonial.originalLanguage && testimonial.originalLanguage !== lang && (
+                <p class="testimonial__translated">{copy.translated}</p>
+              )}
+            </div>
+          </div>
+
+          <figure class="testimonial-feature__quote">
+            <blockquote>“{testimonial.excerpt ?? testimonial.quote}”</blockquote>
+            <button class="btn btn--ghost" type="button" data-testimonial-open={`testimonial-${index}`}>
+              {copy.full}
+            </button>
+          </figure>
+        </article>
+      ))}
+    </div>
+
+    {testimonials.map((testimonial, index) => (
+      <dialog class="testimonial-modal" id={`testimonial-${index}`} aria-labelledby={`testimonial-${index}-title`}>
+        <div class="testimonial-modal__panel">
+          <button class="icon-btn testimonial-modal__close" type="button" data-testimonial-close aria-label={copy.close}>✕</button>
+          <p class="kicker"><span>{copy.kicker}</span></p>
+          <h2 id={`testimonial-${index}-title`}>{testimonial.author}</h2>
+          <p class="testimonial__role">{testimonial.role}</p>
+          <blockquote>{testimonial.quote}</blockquote>
+          {testimonial.relationship && <p class="testimonial__context">{testimonial.relationship}</p>}
+        </div>
+      </dialog>
+    ))}
   </section>
 )}

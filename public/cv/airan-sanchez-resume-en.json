@@ -223,6 +223,20 @@
       ]
     }
   ],
+  "languages": [
+    {
+      "language": "Spanish",
+      "fluency": "Native"
+    },
+    {
+      "language": "English",
+      "fluency": "B2 · Upper intermediate"
+    },
+    {
+      "language": "Japanese",
+      "fluency": "JLPT N4 certified · N3 conversational"
+    }
+  ],
   "publications": [
     {
       "name": "Fantastic data and where to find it",
@@ -235,6 +249,6 @@
   "meta": {
     "canonical": "https://www.airanschez.tech/en/cv/",
     "version": "v1.0.0",
-    "lastModified": "2026-11-11"
+    "lastModified": "2026-11-13"
   }
 }

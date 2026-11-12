@@ -7,6 +7,7 @@ description: Refactoring of a project based on making a pokedex
 featuredImage: /assets/images/posts/1_wil81xxe3a5aubujdlmapw.png
 tags: ['Refactor', 'React', 'TypeScript', 'Project', 'Learning', 'Blog']
 
+category: web
 ---
 ## Introduction 
 

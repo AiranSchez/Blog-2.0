@@ -7,6 +7,7 @@ description: "Description of collaborative exercise about TS with React "
 featuredImage: /assets/images/posts/1_nnoyq9qfitsvnlh7rcrpfq.png
 tags: ['Community', 'Learning', 'Kata', 'Coding-dojo', 'Blog']
 
+category: web
 ---
 ## Introduction
 

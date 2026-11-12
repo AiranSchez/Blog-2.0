@@ -7,6 +7,7 @@ description: Resumen y opiniones acerca del libro de Carlos Blé Jurado, Diseño
 featuredImage: /assets/images/posts/books-in-black-wooden-book-shelf-159711.jpg
 tags: ['Comunidad', 'Aprendizaje', 'LeanMind', 'TDD', 'Libros', 'Blog']
 
+category: craft
 ---
 ## Introducción
 

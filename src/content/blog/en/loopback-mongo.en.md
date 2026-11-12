@@ -7,6 +7,7 @@ description: API made with loopback4 and dockerized mongodb
 featuredImage: /assets/images/posts/loopback-4-logo-sample.png
 tags: ['Loopback', 'MongoDB', 'Learning', 'Guide', 'JavaScript', 'TypeScript', 'Docker', 'Backend','Blog']
 
+category: web
 ---
 ## Introduction 
 

@@ -327,6 +327,67 @@ if (podcastMore) {
   updateMore();
 }
 
+/* Testimonial modal */
+$$<HTMLButtonElement>('[data-testimonial-open]').forEach((button) => {
+  button.addEventListener('click', () => {
+    const dialog = document.getElementById(button.dataset.testimonialOpen || '');
+    if (dialog instanceof HTMLDialogElement) dialog.showModal();
+  });
+});
+$$<HTMLDialogElement>('.testimonial-modal').forEach((dialog) => {
+  dialog.querySelector('[data-testimonial-close]')?.addEventListener('click', () => dialog.close());
+  dialog.addEventListener('click', (event) => {
+    if (event.target === dialog) dialog.close();
+  });
+});
+
+/* Copy the profile snippet */
+const profileCopy = $<HTMLButtonElement>('[data-profile-copy]');
+profileCopy?.addEventListener('click', async () => {
+  const value = profileCopy.dataset.profileCopy || '';
+  try {
+    await navigator.clipboard.writeText(value);
+    profileCopy.textContent = profileCopy.dataset.profileCopied || 'Copied';
+    window.setTimeout(() => {
+      profileCopy.textContent = profileCopy.dataset.profileLabel || 'Copy';
+    }, 2000);
+  } catch {
+    profileCopy.textContent = profileCopy.dataset.profileLabel || 'Copy';
+  }
+});
+
+/* Case gallery lightbox */
+const lightbox = $<HTMLDialogElement>('[data-lightbox]');
+const lightboxImage = lightbox ? $<HTMLImageElement>('[data-lightbox-image]', lightbox) : null;
+$$<HTMLButtonElement>('[data-lightbox-src]').forEach((button) => {
+  button.addEventListener('click', () => {
+    if (!lightbox || !lightboxImage) return;
+    lightboxImage.src = button.dataset.lightboxSrc || '';
+    lightboxImage.alt = button.dataset.lightboxAlt || '';
+    lightbox.showModal();
+  });
+});
+lightbox?.querySelector('[data-lightbox-close]')?.addEventListener('click', () => lightbox.close());
+lightbox?.addEventListener('click', (event) => {
+  if (event.target === lightbox) lightbox.close();
+});
+
+/* Share link */
+const shareCopy = $<HTMLButtonElement>('[data-share-copy]');
+const shareStatus = $<HTMLElement>('[data-share-status]');
+shareCopy?.addEventListener('click', async () => {
+  const url = shareCopy.dataset.shareUrl || window.location.href;
+  try {
+    await navigator.clipboard.writeText(url);
+    if (shareStatus) {
+      shareStatus.textContent = shareStatus.dataset.shareCopied || 'Copied';
+      window.setTimeout(() => { shareStatus.textContent = ''; }, 2400);
+    }
+  } catch {
+    if (shareStatus) shareStatus.textContent = url;
+  }
+});
+
 /* Episode modal */
 const episodeModal = $<HTMLDialogElement>('[data-episode-modal]');
 $$<HTMLButtonElement>('[data-episode]').forEach((button) => {

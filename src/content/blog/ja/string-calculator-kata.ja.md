@@ -7,6 +7,7 @@ description: "実施したKataの説明"
 featuredImage: /assets/images/posts/architecture-3362794_1920.jpg
 tags: ['コミュニティ', '学習', 'Kata', 'Coding-dojo', 'TDD', 'Java', 'ブログ']
 
+category: craft
 ---
 ## はじめに
 

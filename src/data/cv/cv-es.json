@@ -94,6 +94,21 @@
     "web": "Volver a la web",
     "pdf": "Descargar PDF",
     "json": "Descargar JSON",
-    "contact": "Contacto"
-  }
+    "contact": "Contacto",
+    "languages": "Idiomas"
+  },
+  "languages": [
+    {
+      "language": "Español",
+      "fluency": "Nativo"
+    },
+    {
+      "language": "Inglés",
+      "fluency": "B2 · Intermedio avanzado"
+    },
+    {
+      "language": "Japonés",
+      "fluency": "N4 certificado · N3 conversacional"
+    }
+  ]
 }

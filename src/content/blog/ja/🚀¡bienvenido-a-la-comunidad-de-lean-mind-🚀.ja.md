@@ -6,6 +6,7 @@ date: 2020-07-06 13:38:00+00:00
 description: LeanMindコミュニティへようこそ
 featuredImage: /assets/images/posts/como-montar-una-academia.jpg
 tags: ['コミュニティ', '学習', 'LeanMind', 'Kata', 'Coding-dojo', 'ガイド', 'ブログ']
+category: craft
 ---
 ## はじめに
 

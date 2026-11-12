@@ -7,6 +7,8 @@ export interface Testimonial {
   excerpt?: string;
   author: string;
   role: string;
+  relationship?: string;
+  originalLanguage?: PortfolioLocale;
   url?: string;
   placeholder: boolean;
 }
@@ -32,6 +34,8 @@ export const testimonialsByLocale: Record<PortfolioLocale, Testimonial[]> = {
       author: 'Michael Reyes',
       role: 'Lead Frontend Specialist & Consultant · Lean Mind',
       url: 'https://www.mreysei.dev',
+      relationship: 'We worked together at LeanMind.',
+      originalLanguage: 'es',
       placeholder: false,
     },
     {
@@ -54,6 +58,8 @@ export const testimonialsByLocale: Record<PortfolioLocale, Testimonial[]> = {
       author: 'Michael Reyes',
       role: 'Lead Frontend Specialist & Consultant · Lean Mind',
       url: 'https://www.mreysei.dev',
+      relationship: 'Trabajamos juntos en LeanMind.',
+      originalLanguage: 'es',
       placeholder: false,
     },
     {
@@ -76,6 +82,8 @@ export const testimonialsByLocale: Record<PortfolioLocale, Testimonial[]> = {
       author: 'Michael Reyes',
       role: 'リード・フロントエンド・スペシャリスト兼コンサルタント · Lean Mind',
       url: 'https://www.mreysei.dev',
+      relationship: 'LeanMindで一緒に働きました。',
+      originalLanguage: 'es',
       placeholder: false,
     },
     {

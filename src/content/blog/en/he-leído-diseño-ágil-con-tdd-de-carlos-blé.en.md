@@ -7,6 +7,7 @@ description: Summary and opinions about Carlos Blé Jurado's book "Agile Design 
 featuredImage: /assets/images/posts/books-in-black-wooden-book-shelf-159711.jpg
 tags: ['Community', 'Learning', 'LeanMind', 'TDD', 'Books', 'Blog']
 
+category: craft
 ---
 ## Introduction
 

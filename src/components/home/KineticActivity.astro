@@ -1,5 +1,6 @@
 ---
 import { summarizeActivity, type ActivitySnapshot } from '../../features/github-activity';
+import ActivityMonthsChart from './ActivityMonthsChart.astro';
 
 interface Props {
   lang: 'en' | 'es' | 'ja';
@@ -8,9 +9,9 @@ interface Props {
 }
 const { lang, snapshot, status } = Astro.props;
 const copy = {
-  es: { kicker: 'En abierto', title: 'EN GITHUB.', intro: 'Contribuciones públicas, no horas de trabajo ni productividad.', total: 'Contribuciones', active: 'Días activos', streak: 'Racha máxima', average: 'Media diaria', days: 'días', daily: 'Actividad de este año', profile: 'Ver perfil', capture: 'Datos hasta', cached: 'Última captura verificada.', unavailable: 'No hay datos verificados disponibles.', source: 'Fuente' },
-  en: { kicker: 'In the open', title: 'ON GITHUB.', intro: 'Public contributions, not hours worked or productivity.', total: 'Contributions', active: 'Active days', streak: 'Longest streak', average: 'Daily average', days: 'days', daily: "This year's activity", profile: 'View profile', capture: 'Data through', cached: 'Last verified snapshot.', unavailable: 'Verified data is unavailable.', source: 'Source' },
-  ja: { kicker: '公開している活動', title: 'GITHUBの活動。', intro: '公開のコントリビューションです。作業時間や生産性ではありません。', total: 'コントリビューション', active: '活動した日', streak: '最長の連続日数', average: '1日あたりの平均', days: '日', daily: '今年の活動', profile: 'プロフィール', capture: '集計日', cached: '最後に確認できたデータです。', unavailable: '確認済みのデータがありません。', source: '出典' },
+  es: { kicker: 'En abierto', title: 'EN GITHUB.', intro: 'Contribuciones públicas, no horas de trabajo ni productividad.', total: 'Contribuciones', active: 'Días activos', streak: 'Racha máxima', current: 'Racha actual', average: 'Media diaria', days: 'días', daily: 'Actividad de este año', profile: 'Ver perfil', capture: 'Datos hasta', cached: 'Última captura verificada.', unavailable: 'No hay datos verificados disponibles.', source: 'Fuente', bestDay: 'Mejor día', bestMonth: 'Mejor mes', busiest: 'Día más activo', records: 'Récords del año', months: 'Por mes' },
+  en: { kicker: 'In the open', title: 'ON GITHUB.', intro: 'Public contributions, not hours worked or productivity.', total: 'Contributions', active: 'Active days', streak: 'Longest streak', current: 'Current streak', average: 'Daily average', days: 'days', daily: "This year's activity", profile: 'View profile', capture: 'Data through', cached: 'Last verified snapshot.', unavailable: 'Verified data is unavailable.', source: 'Source', bestDay: 'Best day', bestMonth: 'Best month', busiest: 'Busiest weekday', records: 'Records this year', months: 'By month' },
+  ja: { kicker: '公開している活動', title: 'GITHUBの活動。', intro: '公開のコントリビューションです。作業時間や生産性ではありません。', total: 'コントリビューション', active: '活動した日', streak: '最長の連続日数', current: '現在の連続日数', average: '1日あたりの平均', days: '日', daily: '今年の活動', profile: 'プロフィール', capture: '集計日', cached: '最後に確認できたデータです。', unavailable: '確認済みのデータがありません。', source: '出典', bestDay: '最多の日', bestMonth: '最多の月', busiest: '最も活動した曜日', records: '今年の記録', months: '月別' },
 }[lang];
 
 const days = snapshot?.days ?? [];
@@ -19,6 +20,11 @@ const number = new Intl.NumberFormat(lang);
 const formatDate = (value: string) =>
   new Intl.DateTimeFormat(lang, { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${value}T00:00:00Z`));
 const offset = days.length ? new Date(`${days[0].date}T00:00:00Z`).getUTCDay() : 0;
+const capitalize = (value: string) => value.charAt(0).toUpperCase() + value.slice(1);
+const monthLabel = (key: string) =>
+  capitalize(new Intl.DateTimeFormat(lang, { month: 'short', timeZone: 'UTC' }).format(new Date(`${key}-01T00:00:00Z`)));
+const weekdayLabel = (index: number) =>
+  capitalize(new Intl.DateTimeFormat(lang, { weekday: 'short', timeZone: 'UTC' }).format(new Date(Date.UTC(2024, 0, 7 + index))));
 ---
 
 <section class="scene activity-scene" id="actividad" aria-labelledby="activity-title">
@@ -35,9 +41,18 @@ const offset = days.length ? new Date(`${days[0].date}T00:00:00Z`).getUTCDay() :
       <dl class="activity-stats">
         <div><dt>{copy.total}</dt><dd>{number.format(summary.total)}</dd></div>
         <div><dt>{copy.active}</dt><dd>{number.format(summary.activeDays)}</dd></div>
-        <div><dt>{copy.streak}</dt><dd>{summary.longestStreak} <small>{copy.days}</small></dd></div>
+        <div><dt>{copy.current}</dt><dd>{summary.currentStreak} <small>{copy.days}</small></dd></div>
         <div><dt>{copy.average}</dt><dd>{number.format(Number(summary.average.toFixed(1)))}</dd></div>
       </dl>
+
+      <div class="activity-months-wrap">
+        <p class="activity-months-title">{copy.months}</p>
+        <ActivityMonthsChart
+          data={summary.months.map((month) => ({ label: monthLabel(month.key), count: month.total }))}
+          ariaLabel={`${copy.months}: ${copy.total} ${number.format(summary.total)}`}
+          valueLabel={copy.total}
+        />
+      </div>
 
       <div class="activity-calendar-scroll">
         <div class="activity-calendar" role="img" aria-label={`${copy.daily}: ${copy.total} ${number.format(summary.total)}`}>

@@ -1,0 +1,29 @@
+---
+import { legalCopy, type LegalPageId } from '../../data/legal';
+
+interface Props {
+  lang: 'en' | 'es' | 'ja';
+  page: LegalPageId;
+}
+
+const { lang, page } = Astro.props;
+const copy = legalCopy[lang][page];
+const back = { es: 'Volver al inicio', en: 'Back home', ja: 'ホームへ戻る' }[lang];
+---
+
+<section class="page-hero legal-hero" aria-labelledby="legal-title">
+  <p class="kicker"><span>{copy.kicker}</span></p>
+  <h1 id="legal-title" class="page-hero__display"><span><span>{copy.title}</span></span></h1>
+  <p class="lede">{copy.intro}</p>
+  <p class="legal-updated meta">{copy.updated}</p>
+</section>
+
+<article class="legal-body">
+  {copy.sections.map((section) => (
+    <section>
+      <h2>{section.title}</h2>
+      {section.body.map((paragraph) => <p set:html={paragraph} />)}
+    </section>
+  ))}
+  <p class="legal-back"><a class="link" href={`/${lang}/`}>{back}</a></p>
+</article>

@@ -7,6 +7,7 @@ description: Examples of React Testing Library use cases
 featuredImage: /assets/images/posts/cover-3.png
 tags: ['Community', 'Learning', 'Guide', 'Blog', 'Testing', 'Library', 'React']
 
+category: web
 ---
 
 ## What is Testing library?

@@ -11,6 +11,7 @@ tags:
   - ブログ
   - 学習
 draft: true
+category: data
 ---
 
 ## はじめに

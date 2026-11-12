@@ -106,6 +106,10 @@ def make_json_resume(lang: str, cv: dict[str, Any], experience: list[dict[str, A
             {"name": item["name"], "level": "", "keywords": item["keywords"]}
             for item in cv["skills"]
         ],
+        "languages": [
+            {"language": item["language"], "fluency": item["fluency"]}
+            for item in cv.get("languages", [])
+        ],
         "publications": [
             {
                 "name": cv["talk"]["title"],
@@ -262,8 +266,16 @@ def generate_pdf(lang: str, cv: dict[str, Any], experience: list[dict[str, Any]]
             Spacer(1, 9),
         ])
 
+    language_blocks = []
+    if cv.get("languages"):
+        language_blocks.append(Spacer(1, 4))
+        language_blocks.append(Paragraph(esc(cv["labels"]["languages"]), s["section"]))
+        for item in cv["languages"]:
+            language_blocks.append(Paragraph(esc(f"{item['language']} · {item['fluency']}"), s["keywords"]))
+            language_blocks.append(Spacer(1, 3))
+
     first_body = Table([
-        [[Paragraph(esc(cv["labels"]["capabilities"]), s["section"]), *skill_blocks],
+        [[Paragraph(esc(cv["labels"]["capabilities"]), s["section"]), *skill_blocks, *language_blocks],
          [Paragraph(esc(cv["labels"]["experience"]), s["section"]), *first_experience]],
     ], colWidths=[52*mm, 107*mm], style=TableStyle([
         ("VALIGN", (0,0), (-1,-1), "TOP"),

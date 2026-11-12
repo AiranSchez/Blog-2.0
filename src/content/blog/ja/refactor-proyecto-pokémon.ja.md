@@ -7,6 +7,7 @@ description: ポケデックスを作成することに基づいたプロジェ�
 featuredImage: /assets/images/posts/1_wil81xxe3a5aubujdlmapw.png
 tags: ['リファクタリング', 'React', 'TypeScript', 'プロジェクト', '学習', 'ブログ']
 
+category: web
 ---
 ## はじめに 
 

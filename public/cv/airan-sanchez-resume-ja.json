@@ -223,6 +223,20 @@
       ]
     }
   ],
+  "languages": [
+    {
+      "language": "スペイン語",
+      "fluency": "ネイティブ"
+    },
+    {
+      "language": "英語",
+      "fluency": "B2・中上級"
+    },
+    {
+      "language": "日本語",
+      "fluency": "JLPT N4 認定・N3 会話"
+    }
+  ],
   "publications": [
     {
       "name": "素晴らしいデータとその見つけ方",
@@ -235,6 +249,6 @@
   "meta": {
     "canonical": "https://www.airanschez.tech/ja/cv/",
     "version": "v1.0.0",
-    "lastModified": "2026-11-11"
+    "lastModified": "2026-11-13"
   }
 }

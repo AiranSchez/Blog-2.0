@@ -7,6 +7,7 @@ description: Opinión de pair y mob programming como metodologías de trabajo
 featuredImage: /assets/images/posts/751331-637471889771844499-16x9.jpg
 tags: ['Comunidad', 'Aprendizaje', 'Mob/Pair', 'Testing', 'Blog']
 
+category: craft
 ---
 ## Mob Programming
 

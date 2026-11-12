@@ -7,6 +7,7 @@ description: Explanation of type in TypeScript
 featuredImage: /assets/images/posts/ts-1.png
 tags: ['React', 'TypeScript', 'Learning', 'Guide', 'Blog']
 
+category: web
 ---
 
 ## Introduction

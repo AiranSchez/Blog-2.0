@@ -7,6 +7,7 @@ description: WSL2インストールの説明
 featuredImage: /assets/images/posts/1_hv7hbkxposnyzt5-pv8fjq.png
 tags: ['学習', 'WSL', 'Ubuntu', 'Windows', 'ガイド', 'ブログ']
 
+category: web
 ---
 ## はじめに
 

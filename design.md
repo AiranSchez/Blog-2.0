@@ -22,8 +22,8 @@ métricas o casos inventados.
 
 - Género: editorial.
 - Estructura: narrativa cinética, no una landing de secciones apiladas.
-- Home: perfil → práctica → trabajo → escritura → escucha → trayectoria →
-  recomendación → actividad → contacto.
+- Home: perfil → práctica → sobre mí → trabajo → escritura → escucha →
+  trayectoria → recomendación → actividad → contacto.
 - Shell: header fijo que se oculta al bajar, rail vertical de secciones, drawer
   móvil, footer de cierre y progreso de lectura.
 - Voz: directa, cálida, específica. Sin superlativos de marketing.
@@ -55,7 +55,10 @@ Tokens en `src/styles/kinetic-theme.css`:
 | Señal | `#2E4BD8` | `#9DB1FF` |
 | Señal sobre papel | `#F3F0E9` | `#0B0B0C` |
 
-- Claro es el tema por defecto. El botón alterna y guarda `theme`.
+- El tema por defecto es **automático** y sigue `prefers-color-scheme`. El menú de
+  tema ofrece automático, claro, oscuro y alto contraste; guarda `theme`.
+- Alto contraste refuerza tinta, bordes y señal (`#0033cc` / `#ffd400`) y elimina
+  decoración de bajo contraste.
 - `#2E4BD8` sobre papel: 5.93:1. `#9DB1FF` sobre noche: 9.52:1.
 - No se usan gradientes decorativos, cristal, sombras difusas ni paletas
   improvisadas dentro de componentes.
@@ -73,6 +76,8 @@ Tokens en `src/styles/kinetic-theme.css`:
 
 ## Home
 
+0. **Sobre mí**: relato editorial a dos columnas, ficha `profile.ts` copiable,
+   idiomas, intereses y enlace al CV.
 1. **Hero**: nombre en DM Serif, typewriter de rol, CV/trabajo, ubicación
    `Canarias ↔ España ↔ Japón`, años, retrato real y burst.
 2. **Práctica**: escena pinneada; la palabra cambia entre entender, operar y
@@ -81,11 +86,15 @@ Tokens en `src/styles/kinetic-theme.css`:
    vídeo real, modos, kanjis y estado. Sin números de sección.
 4. **Escritura**: texto revelado, highlighter y último artículo real con portada.
 5. **Escucha**: carrusel de ocho episodios reales, modal con reproductor.
-6. **Trayectoria**: seis etapas con duración calculada, stack y CTA al CV.
-7. **Recomendación**: solo la recomendación real; extracto + texto completo
-   accesible. Nunca placeholders.
-8. **Actividad**: snapshot verificado de GitHub, cuatro cifras y calendario del
-   año en curso; enlace al perfil y fecha de captura.
+6. **Trayectoria**: seis etapas en una lista editorial con fechas, duración,
+   empresa, rol, contexto visible y tecnologías. Sin acordeones. Debajo, cinco
+   áreas de capacidad con sus tecnologías, sin años inventados ni listas de 40
+   logos.
+7. **Recomendación**: solo la real; cita grande, autor con contexto y modal
+   accesible para el texto completo. Nunca placeholders.
+8. **Actividad**: snapshot verificado de GitHub, cuatro cifras (totales, días
+   activos, racha actual y media), gráfico mensual con **TanStack Charts** y
+   calendario del año en curso; enlace al perfil y fecha de captura.
 9. **Contacto**: correo directo y formulario real Web3Forms.
 10. **Footer**: cierre de carta, enlaces y colofón.
 
@@ -93,6 +102,7 @@ Tokens en `src/styles/kinetic-theme.css`:
 
 - Hero con nombre, resumen y póster real.
 - Ficha de estado, stack, rol y grabación.
+- Qué hace, capturas reales con lightbox, compartir y copiar enlace.
 - Grabación real del simulador con controles y caption honesta.
 - Decisiones en tarjetas apiladas.
 - Proceso en timeline de tres fases.
@@ -101,14 +111,22 @@ Tokens en `src/styles/kinetic-theme.css`:
 
 ## Blog, CV y podcast
 
-- Blog: archivo con filtros por tema y año, paginación de 6, recuento y tarjetas; artículo con comentarios rediseñados y rutas traducidas.
-- CV: una página densa y legible, con índice sticky, timeline, capacidades, formación y descargas ES/EN/JA.
+- Blog: archivo con pestañas de categoría, selector de año, paginación de 6,
+  tiempo de lectura y RSS por idioma; artículo con comentarios rediseñados,
+  relacionados y rutas traducidas.
+- CV: una página densa y legible, con índice sticky, timeline, cinco áreas de
+  capacidad, formación, idiomas (ES nativo, EN B2, JA N4/N3) y descargas
+  ES/EN/JA.
 - Podcast: carrusel de 8, archivo con «Ver más», modal y enlaces a iVoox.
+- Legal: privacidad, aviso legal y accesibilidad en ES/EN/JA, enlazadas desde
+  el pie.
 - Conservan rutas, contenido, i18n y proveedores reales.
 
 ## Movimiento
 
 - GSAP + ScrollTrigger local, no CDN.
+- TanStack Charts 1.5 para el gráfico mensual de contribuciones (`mountChart`,
+  host DOM, SVG accesible y tooltip).
 - Muestras clave: mask reveal, typewriter, pop-in, burst, count-up, parallax
   puntual, pinning, scroll horizontal, texto revelado, highlighter, timeline,
   stacking, carrusel, modal, drawer, progreso y transición.
@@ -121,7 +139,8 @@ Tokens en `src/styles/kinetic-theme.css`:
 
 ## Componentes y estados
 
-- Header, drawer, language switch, theme toggle, progress, back-to-top.
+- Header, drawer, language switch, theme menu, command palette (⌘/Ctrl+K),
+  progress, back-to-top.
 - Rail de secciones con estado activo.
 - Tarjetas de trabajo, tarjetas de episodio, timeline, ficha, formulario.
 - Modal de episodio, tooltip de duración, toast/estado de formulario.

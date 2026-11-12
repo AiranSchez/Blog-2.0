@@ -8,6 +8,7 @@ featuredImage: /assets/images/posts/teamwork-2499638_1920.jpg
 draft: false
 tags: ['コミュニティ', '学習', 'LeanMind', 'ガイド', 'ブログ', 'Docker', 'IntelliJ', 'OpenSource']
 
+category: craft
 ---
 ## はじめに 
 
